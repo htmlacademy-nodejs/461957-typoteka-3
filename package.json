@@ -4,7 +4,9 @@
   "description": "Типотека",
   "main": "./src/service/service.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node src/service/service.ts",
+    "test": "npm run eslint",
+    "eslint": "eslint --ext .js,.ts src/"
   },
   "repository": {
     "type": "git",
