@@ -5,6 +5,7 @@ const fs = require(`fs`);
 const {promisify} = require(`util`);
 const writeFileAsync = promisify(fs.writeFile);
 const {getRandomInt, shuffle} = require(`../../utils`);
+const {ExitCode} = require(`../../constants`);
 
 const DEFAULT_COUNT: number = 1;
 const FILE_NAME = `mocks.json`;
@@ -76,10 +77,10 @@ function getDate(currentDate: number): number {
 
 function generateMocks(count: number): Article[] {
   return Array(count).fill(undefined).map(() => ({
-    announce: shuffle(SENTENCES).slice(AnnounceRestrict.min, getRandomInt(AnnounceRestrict.min, AnnounceRestrict.max)),
+    announce: shuffle(SENTENCES).slice(AnnounceRestrict.min, getRandomInt(AnnounceRestrict.min, AnnounceRestrict.max)).join(` `),
     category: shuffle(CATEGORIES).slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min, CategoriesRestrict.max)),
     createdDate: new Date(getDate(Date.now())),
-    fullText: shuffle(SENTENCES).slice(0, SENTENCES.length - 1),
+    fullText: shuffle(SENTENCES).slice(0, SENTENCES.length - 1).join(` `),
     title: TITLES[getRandomInt(0, TITLES.length - 1)],
   }));
 }
@@ -89,6 +90,10 @@ const cliAction: CliAction = {
   async run(args?) {
     const [mockCountInput] = args;
     const mockCount = parseInt(mockCountInput, 10) || DEFAULT_COUNT;
+    if (mockCount > 1000) {
+      console.error(`Не больше 1000 публикаций, введенное значение: ${mockCount}`);
+      process.exit(ExitCode.error);
+    }
     await writeFileAsync(FILE_NAME, JSON.stringify(generateMocks(mockCount), undefined, 2));
   }
 };
