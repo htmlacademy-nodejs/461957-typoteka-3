@@ -1,4 +1,4 @@
-import {CliAction} from "../../types/cli-action";
+import type {CliAction} from "../../types/cli-action";
 
 const cliAction: CliAction = {
   name: `--help`,
@@ -11,7 +11,7 @@ const cliAction: CliAction = {
     --version:            выводит номер версии
     --help:               печатает этот текст
     --generate &lt;count&gt;    формирует файл mocks.json
-    `)
+    `);
   }
 };
 
