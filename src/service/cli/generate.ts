@@ -1,12 +1,14 @@
 import {CliAction} from "../../types/cli-action";
 import {Article} from "../../types/article";
+const {MS_IN_DAY, DAYS_IN_MONTH} = require(`../../utils/time`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
 const writeFileAsync = promisify(fs.writeFile);
-const {getRandomInt, shuffle} = require(`../utils`);
+const {getRandomInt, shuffle} = require(`../../utils`);
 
 const DEFAULT_COUNT: number = 1;
 const FILE_NAME = `mocks.json`;
+const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
 
 const CategoriesRestrict = {
   min: 1,
@@ -68,12 +70,15 @@ const SENTENCES = [
   `Альбом стал настоящим открытием года. Мощные гитарные рифы и скоростные соло-партии не дадут заскучать.`,
 ];
 
+function getDate(currentDate: number): number {
+  return currentDate - 1 - getRandomInt(0, THREE_MONTHS_DURATION);
+}
+
 function generateMocks(count: number): Article[] {
   return Array(count).fill(undefined).map(() => ({
     announce: shuffle(SENTENCES).slice(AnnounceRestrict.min, getRandomInt(AnnounceRestrict.min, AnnounceRestrict.max)),
     category: shuffle(CATEGORIES).slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min, CategoriesRestrict.max)),
-    // TODO generate date
-    createdDate: ``,
+    createdDate: new Date(getDate(Date.now())),
     fullText: shuffle(SENTENCES).slice(0, SENTENCES.length - 1),
     title: TITLES[getRandomInt(0, TITLES.length - 1)],
   }));
