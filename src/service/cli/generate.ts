@@ -6,6 +6,7 @@ const {promisify} = require(`util`);
 const writeFileAsync = promisify(fs.writeFile);
 const {getRandomInt, shuffle} = require(`../../utils`);
 const {ExitCode} = require(`../../constants`);
+const chalk = require(`chalk`);
 
 const DEFAULT_COUNT: number = 1;
 const FILE_NAME = `mocks.json`;
@@ -91,10 +92,11 @@ const cliAction: CliAction = {
     const [mockCountInput] = args;
     const mockCount = parseInt(mockCountInput, 10) || DEFAULT_COUNT;
     if (mockCount > 1000) {
-      console.error(`Не больше 1000 публикаций, введенное значение: ${mockCount}`);
-      process.exit(ExitCode.error);
+      console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${mockCount}`));
+      process.exit(ExitCode.success);
     }
     await writeFileAsync(FILE_NAME, JSON.stringify(generateMocks(mockCount), undefined, 2));
+    console.log(chalk.green(`${mockCount} article(s) saved to ${FILE_NAME}`));
   }
 };
 
