@@ -95,8 +95,14 @@ const cliAction: CliAction = {
       console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${mockCount}`));
       process.exit(ExitCode.success);
     }
-    await writeFileAsync(FILE_NAME, JSON.stringify(generateMocks(mockCount), undefined, 2));
-    console.log(chalk.green(`${mockCount} article(s) saved to ${FILE_NAME}`));
+    const content = JSON.stringify(generateMocks(mockCount), undefined, 2);
+    try {
+      await writeFileAsync(FILE_NAME, content);
+      console.log(chalk.green(`${mockCount} article(s) saved to ${FILE_NAME}`));
+    } catch (e) {
+      console.error(chalk.red(`Fail to write file ${FILE_NAME}`));
+      console.error(chalk.red(e));
+    }
   }
 };
 

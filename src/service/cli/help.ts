@@ -1,4 +1,4 @@
-import type {CliAction} from "../../types/cli-action";
+import {CliAction} from "../../types/cli-action";
 const chalk = require(`chalk`);
 
 const cliAction: CliAction = {
