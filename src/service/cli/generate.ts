@@ -1,9 +1,7 @@
 import {CliAction} from "../../types/cli-action";
 import {Article} from "../../types/article";
 const {MS_IN_DAY, DAYS_IN_MONTH} = require(`../../utils/time`);
-const fs = require(`fs`);
-const {promisify} = require(`util`);
-const writeFileAsync = promisify(fs.writeFile);
+const fs = require(`fs`).promises;
 const {getRandomInt, shuffle} = require(`../../utils`);
 const {ExitCode} = require(`../../constants`);
 const chalk = require(`chalk`);
@@ -97,7 +95,7 @@ const cliAction: CliAction = {
     }
     const content = JSON.stringify(generateMocks(mockCount), undefined, 2);
     try {
-      await writeFileAsync(FILE_NAME, content);
+      await fs.writeFile(FILE_NAME, content);
       console.log(chalk.green(`${mockCount} article(s) saved to ${FILE_NAME}`));
     } catch (e) {
       console.error(chalk.red(`Fail to write file ${FILE_NAME}`));
