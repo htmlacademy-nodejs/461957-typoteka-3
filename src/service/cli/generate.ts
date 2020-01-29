@@ -77,7 +77,7 @@ const cliAction: CliAction = {
       console.error(chalk.red(`Fail to write file ${FILE_NAME}`));
       console.error(chalk.red(e));
     }
-  }
+  },
 };
 
 export = cliAction;

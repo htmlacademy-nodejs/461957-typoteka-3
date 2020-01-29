@@ -9,7 +9,7 @@ const cliAction: CliAction = {
   name: `--version`,
   run() {
     console.info(chalk.blue(version));
-  }
+  },
 };
 
 export = cliAction;

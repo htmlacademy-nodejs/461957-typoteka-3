@@ -13,7 +13,7 @@ const cliAction: CliAction = {
     --help:               печатает этот текст
     --generate &lt;count&gt;    формирует файл mocks.json
     `));
-  }
+  },
 };
 
-export = cliAction
+export = cliAction;
