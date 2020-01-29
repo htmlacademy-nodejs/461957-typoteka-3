@@ -66,7 +66,7 @@ const cliAction: CliAction = {
     const mockCount = parseInt(mockCountInput, 10) || DEFAULT_COUNT;
     if (mockCount > 1000) {
       console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${mockCount}`));
-      process.exit(ExitCode.success);
+      process.exit(ExitCode.SUCCESS);
     }
     const mocks = await generateMocks(mockCount, MockFilePath.sentences, MockFilePath.categories, MockFilePath.titles);
     const content = JSON.stringify(mocks, undefined, 2);
