@@ -5,6 +5,7 @@
   "main": "./src/service/service.ts",
   "scripts": {
     "start": "ts-node src/service/service.ts",
+    "server": "nodemon",
     "test": "npm run eslint",
     "eslint": "eslint --ext .js,.ts src/"
   },
@@ -24,8 +25,12 @@
     "@typescript-eslint/parser": "2.17.0",
     "eslint": "6.8.0",
     "eslint-config-htmlacademy": "0.5.2",
+    "nodemon": "2.0.2",
+    "package-json-type": "1.0.3",
     "ts-node": "8.6.2",
-    "typescript": "3.8.0-beta",
-    "package-json-type": "1.0.3"
+    "typescript": "3.8.0-beta"
+  },
+  "dependencies": {
+    "chalk": "3.0.0"
   }
 }

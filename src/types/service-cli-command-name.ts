@@ -1,1 +1,1 @@
-export type ServiceCliCommandName = `--help` | `--version` | `--generate`;
+export type ServiceCliCommandName = `--help` | `--version` | `--generate` | `--server`;
