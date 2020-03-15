@@ -5,8 +5,12 @@
   "main": "./src/service/service.ts",
   "scripts": {
     "start": "ts-node src/service/service.ts",
+    "start-front-server": "ts-node src/express/index.ts",
     "test": "npm run eslint",
-    "eslint": "eslint --ext .js,.ts src/"
+    "eslint": "eslint --ext .js,.ts src/",
+    "nodemon": "npm run nodemon:data & npm run nodemon:front",
+    "nodemon:data": "nodemon --config nodemon.data.json",
+    "nodemon:front": "nodemon --config nodemon.front.json"
   },
   "repository": {
     "type": "git",
