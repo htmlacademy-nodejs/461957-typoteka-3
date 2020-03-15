@@ -3,11 +3,12 @@ const chalk = require(`chalk`);
 
 const express = require(`express`);
 const mainPageRouter = require(`./routes/main-page`);
+const registerRouter = require(`./routes/register`);
 
 const app = express();
 
 app.use(`/`, mainPageRouter);
-// app.use(`/register`, registerRouter);
+app.use(`/register`, registerRouter);
 // app.use(`/login`, loginRouter);
 // app.use(`/my`, myRouter);
 // app.use(`/search`, searchRouter);
