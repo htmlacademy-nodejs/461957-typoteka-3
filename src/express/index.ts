@@ -8,6 +8,7 @@ const loginRouter = require(`./routes/login`);
 const searchRouter = require(`./routes/search`);
 const myRouter = require(`./routes/my`);
 const categoriesRouter = require(`./routes/categories`);
+const articlesRouter = require(`./routes/articles`);
 
 const app = express();
 
@@ -17,8 +18,8 @@ app.use(`/login`, loginRouter);
 app.use(`/search`, searchRouter);
 app.use(`/my`, myRouter);
 app.use(`/categories`, categoriesRouter);
+app.use(`/articles`, articlesRouter);
 // app.use(`/500`, error500Router);
-// app.use(`/sign-up`, signUpRouter);
 // app.use(`*`, error404Router);
 
 
