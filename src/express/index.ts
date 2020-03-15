@@ -7,6 +7,7 @@ const registerRouter = require(`./routes/register`);
 const loginRouter = require(`./routes/login`);
 const searchRouter = require(`./routes/search`);
 const myRouter = require(`./routes/my`);
+const categoriesRouter = require(`./routes/categories`);
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.use(`/register`, registerRouter);
 app.use(`/login`, loginRouter);
 app.use(`/search`, searchRouter);
 app.use(`/my`, myRouter);
-// app.use(`/articles`, offersRouter);
+app.use(`/categories`, categoriesRouter);
 // app.use(`/500`, error500Router);
 // app.use(`/sign-up`, signUpRouter);
 // app.use(`*`, error404Router);
