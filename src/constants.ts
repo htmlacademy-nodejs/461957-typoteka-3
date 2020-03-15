@@ -1,12 +1,12 @@
-const DEFAULT_COMMAND = `--help`;
 const USER_ARGV_INDEX = 2;
 const ExitCode = {
   error: 1,
-  success: 0,
+  success: 0
 };
+const SSR_PORT = 8080;
 
 export = {
-  DEFAULT_COMMAND,
   USER_ARGV_INDEX,
-  ExitCode
+  ExitCode,
+  SSR_PORT
 };
