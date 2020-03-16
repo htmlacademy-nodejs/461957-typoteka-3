@@ -12,3 +12,7 @@ extends: 'htmlacademy/node'
 parser: '@typescript-eslint/parser'
 plugins:
   - '@typescript-eslint'
+rules:
+  comma-dangle:
+    - warn
+    - always-multiline

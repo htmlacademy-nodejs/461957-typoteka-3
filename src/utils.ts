@@ -16,4 +16,4 @@ function shuffle<T>(someArray: T[]): T[] {
 export = {
   getRandomInt,
   shuffle,
-}
+};
