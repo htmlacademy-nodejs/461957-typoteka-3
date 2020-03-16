@@ -11,6 +11,8 @@ const categoriesRouter = require(`./routes/categories`);
 const articlesRouter = require(`./routes/articles`);
 
 const app = express();
+app.set(`views`, `src/express/templates/pages`);
+app.set(`view engine`, `pug`);
 
 app.use(`/`, mainPageRouter);
 app.use(`/register`, registerRouter);
