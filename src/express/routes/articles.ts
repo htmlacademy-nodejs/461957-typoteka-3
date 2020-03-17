@@ -2,7 +2,7 @@ const {Router} = require(`express`);
 
 const articlesRouter = new Router();
 
-articlesRouter.get(`/add`, (req, res) => res.send(`/articles/add`));
+articlesRouter.get(`/add`, (req, res) => res.render(`new-post`));
 
 articlesRouter.get(`/category/:id`, (req, res, next) => {
   const id = Number.parseInt(req.params.id, 10);
