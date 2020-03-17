@@ -23,7 +23,7 @@ articlesRouter.get(`/edit/:id`, (req, res, next) => {
 articlesRouter.get(`/:id`, (req, res, next) => {
   const id = Number.parseInt(req.params.id, 10);
   if (!isNaN(id)) {
-    res.send(`/articles/${id}`);
+    res.render(`post`);
   }
   next();
 });
