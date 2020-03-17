@@ -1,0 +1,10 @@
+extends ../components/layout-header-footer
+
+block main
+  main.articles-category
+    h1 Бизнес
+    section.articles-category__theme-list
+      include ../components/themes
+    section.articles-category__list.preview
+      h2.visually-hidden Список превью статей
+      include ../components/preview-list
