@@ -2,6 +2,6 @@ const {Router} = require(`express`);
 
 const categoriesRouter = new Router();
 
-categoriesRouter.get(`/`, (req, res) => res.send(`/categories`));
+categoriesRouter.get(`/`, (req, res) => res.render(`all-categories`));
 
 export = categoriesRouter;

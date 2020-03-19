@@ -2,12 +2,12 @@ const {Router} = require(`express`);
 
 const articlesRouter = new Router();
 
-articlesRouter.get(`/add`, (req, res) => res.send(`/articles/add`));
+articlesRouter.get(`/add`, (req, res) => res.render(`new-post`));
 
 articlesRouter.get(`/category/:id`, (req, res, next) => {
   const id = Number.parseInt(req.params.id, 10);
   if (!isNaN(id)) {
-    res.send(`/articles/category/${id}`);
+    res.render(`articles-by-category`);
   }
   next();
 });
@@ -23,7 +23,7 @@ articlesRouter.get(`/edit/:id`, (req, res, next) => {
 articlesRouter.get(`/:id`, (req, res, next) => {
   const id = Number.parseInt(req.params.id, 10);
   if (!isNaN(id)) {
-    res.send(`/articles/${id}`);
+    res.render(`post`);
   }
   next();
 });

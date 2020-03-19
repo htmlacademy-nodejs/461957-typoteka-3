@@ -1,4 +1,4 @@
-const {SSR_PORT} = require(`../constants`);
+const {SSR_PORT, STATIC_DIR} = require(`../constants`);
 const chalk = require(`chalk`);
 
 const express = require(`express`);
@@ -11,6 +11,9 @@ const categoriesRouter = require(`./routes/categories`);
 const articlesRouter = require(`./routes/articles`);
 
 const app = express();
+app.set(`views`, `src/express/templates/pages`);
+app.set(`view engine`, `pug`);
+app.use(express.static(STATIC_DIR));
 
 app.use(`/`, mainPageRouter);
 app.use(`/register`, registerRouter);
@@ -21,7 +24,6 @@ app.use(`/categories`, categoriesRouter);
 app.use(`/articles`, articlesRouter);
 // app.use(`/500`, error500Router);
 // app.use(`*`, error404Router);
-
 
 app.listen(SSR_PORT, () =>
   console.info(chalk.green(`Listen on port ${SSR_PORT}`)),
