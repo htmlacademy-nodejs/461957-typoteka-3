@@ -8,21 +8,8 @@ section.post
         time.post__date(datetime='2019-03-21T20:33') 21.03.2019, 20:33
         h2.post__title.title.title--main AirPods в один клик
         ul.post__themes.themes
-          li.themes__item
-            a.themes__item-link(href='#')
-              | Автомобили
-              sup 88
-            button.themes__remove-btn(type='button') Удалить категорию
-          li.themes__item
-            a.themes__item-link(href='#')
-              | Удаленная работа
-              sup 13
-            button.themes__remove-btn(type='button') Удалить категорию
-          li.themes__item
-            a.themes__item-link(href='#')
-              | Бизнес
-              sup 13
-            button.themes__remove-btn(type='button') Удалить категорию
+          each theme in [1, 2, 3]
+            include ./theme
       .post__picture
         img(src='img/sea-fullsize@1x.jpg', alt='пейзаж море, скалы, пляж')
       .post__text
