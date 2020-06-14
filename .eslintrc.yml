@@ -1,18 +1,23 @@
 parserOptions:
   ecmaVersion: 2018
-  project: 'tsconfig.json'
-  tsconfigRootDir: '.'
+  project: "tsconfig.json"
+  tsconfigRootDir: "."
   sourceType: module
 
 env:
   es6: true
   node: true
 
-extends: 'htmlacademy/node'
-parser: '@typescript-eslint/parser'
+extends:
+  - "htmlacademy/node"
+  - "plugin:@typescript-eslint/recommended"
+  - "plugin:@typescript-eslint/recommended-requiring-type-checking"
+parser: "@typescript-eslint/parser"
 plugins:
-  - '@typescript-eslint'
+  - "@typescript-eslint"
 rules:
   comma-dangle:
     - warn
     - always-multiline
+  indent:
+    - off
