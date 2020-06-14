@@ -12,6 +12,9 @@ function runServer(args?: [string]) {
 
   app.use(bodyParser.json());
   app.use(`/posts`, postsRouter);
+  app.use((req, res) => {
+    res.status(404).send(`Page not found`);
+  });
 
   app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
 }
