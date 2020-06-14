@@ -5,6 +5,7 @@ const fs = require(`fs`).promises;
 const {getRandomInt, shuffle} = require(`../../utils`);
 const {ExitCode} = require(`../../constants`);
 const chalk = require(`chalk`);
+const {nanoid} = require(`nanoid`);
 
 const DEFAULT_COUNT: number = 1;
 const FILE_NAME = `mocks.json`;
@@ -51,6 +52,7 @@ async function generateMocks(count: number, sentencesFilePath: string, categorie
     readFile(titlesFilePath),
   ]);
   return Array(count).fill(undefined).map(() => ({
+    id: nanoid(),
     announce: shuffle(sentences).slice(AnnounceRestrict.min, getRandomInt(AnnounceRestrict.min + 1, AnnounceRestrict.max)).join(` `),
     category: shuffle(categories).slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max)),
     createdDate: new Date(getDate(Date.now())),
