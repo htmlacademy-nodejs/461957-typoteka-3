@@ -21,3 +21,8 @@ rules:
     - always-multiline
   indent:
     - off
+  arrow-parens:
+    - error
+    - as-needed
+  new-cap:
+    - warn
