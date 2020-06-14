@@ -18,10 +18,13 @@ export class App {
     return this.app;
   }
 
-  public listen(): void {
-    const port = process.env.PORT || DEFAULT_PORT;
-    this.app.listen(port, () => {
-      console.log(`App listening on the port ${port}`);
+  public listen(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const port = process.env.PORT || DEFAULT_PORT;
+      this.app.listen(port, () => {
+        console.log(`App listening on the port ${port}`);
+        resolve();
+      });
     });
   }
 
