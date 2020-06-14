@@ -1,5 +1,6 @@
 import {CliAction} from "../../types/cli-action";
 import {Article} from "../../types/article";
+import {ArticleComment} from "../../types/article-comment";
 const {MS_IN_DAY, DAYS_IN_MONTH} = require(`../../utils/time`);
 const fs = require(`fs`).promises;
 const {getRandomInt, shuffle} = require(`../../utils`);
@@ -14,6 +15,7 @@ const MockFilePath = {
   sentences: `./data/sentences.txt`,
   categories: `./data/categories.txt`,
   titles: `./data/titles.txt`,
+  comments: `./data/comments.txt`,
 };
 
 const CategoriesRestrict = {
@@ -23,6 +25,16 @@ const CategoriesRestrict = {
 
 const AnnounceRestrict = {
   min: 0,
+  max: 5,
+};
+
+const CommentRestrict = {
+  min: 0,
+  max: 10,
+};
+
+const CommentTextRestrict = {
+  min: 1,
   max: 5,
 };
 
@@ -45,11 +57,12 @@ async function readFile(filePath: string): Promise<string[]> {
   }
 }
 
-async function generateMocks(count: number, sentencesFilePath: string, categoriesFilePath: string, titlesFilePath: string): Promise<Article[]> {
-  const [sentences, categories, titles] = await Promise.all([
+async function generateMocks(count: number, sentencesFilePath: string, categoriesFilePath: string, titlesFilePath: string, commentsFilePath: string): Promise<Article[]> {
+  const [sentences, categories, titles, comments] = await Promise.all([
     readFile(sentencesFilePath),
     readFile(categoriesFilePath),
     readFile(titlesFilePath),
+    readFile(commentsFilePath),
   ]);
   return Array(count).fill(undefined).map(() => ({
     id: nanoid(),
@@ -58,6 +71,7 @@ async function generateMocks(count: number, sentencesFilePath: string, categorie
     createdDate: new Date(getDate(Date.now())),
     fullText: shuffle(sentences).slice(0, sentences.length - 1).join(` `),
     title: titles[getRandomInt(0, titles.length - 1)],
+    comments: getComments(comments, CommentRestrict.max).slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, AnnounceRestrict.max)),
   }));
 }
 
@@ -70,7 +84,7 @@ const cliAction: CliAction = {
       console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${mockCount}`));
       process.exit(ExitCode.SUCCESS);
     }
-    const mocks = await generateMocks(mockCount, MockFilePath.sentences, MockFilePath.categories, MockFilePath.titles);
+    const mocks = await generateMocks(mockCount, MockFilePath.sentences, MockFilePath.categories, MockFilePath.titles, MockFilePath.comments);
     const content = JSON.stringify(mocks, undefined, 2);
     try {
       await fs.writeFile(FILE_NAME, content);
@@ -83,3 +97,10 @@ const cliAction: CliAction = {
 };
 
 export = cliAction;
+
+function getComments(commentsSentences: string[], length: number): ArticleComment[] {
+  return Array(length).fill(undefined).map<ArticleComment>(() => ({
+    id: nanoid(),
+    text: shuffle(commentsSentences).slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max)).join(` `),
+  }));
+}
