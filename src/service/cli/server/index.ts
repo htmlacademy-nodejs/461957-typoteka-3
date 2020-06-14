@@ -1,6 +1,7 @@
 import express from "express";
 import {DEFAULT_PORT} from "../../../constants-es6";
 import bodyParser from "body-parser";
+import {apiRouter} from "./routes/api";
 
 const chalk = require(`chalk`);
 const postsRouter = require(`./routes/posts`);
@@ -12,6 +13,7 @@ function runServer(args?: [string]) {
 
   app.use(bodyParser.json());
   app.use(`/posts`, postsRouter);
+  app.use(`/api`, apiRouter);
   app.use((req, res) => {
     res.status(404).send(`Page not found`);
   });
