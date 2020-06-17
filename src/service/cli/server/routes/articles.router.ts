@@ -9,3 +9,7 @@ articlesRouter.get(`/:id`, async (req, res) => {
   const id = req.params.id;
   await articlesController.getArticleById(req, res, id);
 });
+articlesRouter.get(`/:id/comments/`, async (req, res) => {
+  const id = req.params.id;
+  await articlesController.getCommentsByArticleId(req, res, id);
+});

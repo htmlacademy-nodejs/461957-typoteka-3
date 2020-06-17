@@ -1,6 +1,7 @@
 import {Article} from "../../../../types/article";
 import {promises} from "fs";
 import {MOCK_FILE_PATH} from "../../../../constants-es6";
+import {ArticleComment} from "../../../../types/article-comment";
 
 export class DataProviderService {
   public async getCategories(): Promise<string[] | null> {
@@ -34,5 +35,13 @@ export class DataProviderService {
       return null;
     }
     return articles.find(article => article.id === id) ?? null;
+  }
+
+  public async getCommentsByArticleId(id: string): Promise<ArticleComment[] | null> {
+    const article = await this.getArticleById(id);
+    if (article === null) {
+      return null;
+    }
+    return article.comments;
   }
 }
