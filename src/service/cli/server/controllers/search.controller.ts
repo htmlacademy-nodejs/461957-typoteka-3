@@ -11,9 +11,11 @@ export class SearchController {
   public async getArticlesByTitle(req: Request, res: Response): Promise<void> {
     if (!req.query.hasOwnProperty("query")) {
       res.status(HttpCode.BAD_REQUEST).send();
+      return;
     }
     if (req.query.query === `` || req.query.query === ` `) {
       res.json([]);
+      return;
     }
     try {
       res.json(await this.dataProvider.searchByArticlesTitle(req.query.query));
