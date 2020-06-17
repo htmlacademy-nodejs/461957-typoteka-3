@@ -27,5 +27,3 @@ export class SearchController {
     res.json(titles);
   }
 }
-
-export const searchController = new SearchController(dataProviderService);

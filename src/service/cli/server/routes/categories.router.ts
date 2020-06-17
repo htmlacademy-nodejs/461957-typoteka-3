@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {categoriesController} from "../controllers/categories.controller";
+import {categoriesController} from "../controllers";
 
 // eslint-disable-next-line new-cap
 export const categoriesRouter = Router();
