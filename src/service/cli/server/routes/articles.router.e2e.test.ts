@@ -19,7 +19,7 @@ describe(`Articles router`, () => {
     httpServer.close();
   });
 
-  describe(`get()`, () => {
+  describe(`get articles`, () => {
     test(`Should return code 200 when request articles`, async () => {
       const res = await request(server).get(`/api/articles/`);
       expect(res.status).toBe(200);
@@ -30,7 +30,7 @@ describe(`Articles router`, () => {
     });
   });
 
-  describe(`get() by id`, () => {
+  describe(`get article by id`, () => {
     test(`Should return code 404 when request invalid id`, async () => {
       const res = await request(server).get(`/api/articles/${invalidArticleId}`);
       expect(res.status).toBe(404);
@@ -51,4 +51,19 @@ describe(`Articles router`, () => {
       expect(responseKeys).toContain(`comments`);
     });
   });
+
+  describe(`get comments by article id`, () => {
+    test(`Should return code 404 when request invalid id`, async () => {
+      const res = await request(server).get(`/api/articles/${invalidArticleId}/comments/`);
+      expect(res.status).toBe(404);
+    });
+    test(`Should return code 200 when request valid id`, async () => {
+      const res = await request(server).get(`/api/articles/${validArticleId}/comments/`);
+      expect(res.status).toBe(200);
+    });
+    test(`Should return an array`, async () => {
+      const res = await request(server).get(`/api/articles/${validArticleId}/comments/`);
+      expect(Array.isArray(res.body)).toBe(true);
+    })
+  })
 });
