@@ -2,6 +2,7 @@ import express, {Application} from "express";
 import * as bodyParser from "body-parser";
 import {DEFAULT_PORT} from "../../../constants-es6";
 import {apiRouter} from "./routes/api";
+import * as http from "http";
 
 export class App {
   public app: Application;
@@ -16,13 +17,10 @@ export class App {
     return this.app;
   }
 
-  public listen(): Promise<void> {
-    return new Promise<void>((resolve) => {
-      const port = process.env.PORT || DEFAULT_PORT;
-      this.app.listen(port, () => {
-        console.log(`App listening on the port ${port}`);
-        resolve();
-      });
+  public listen(): http.Server {
+    const port = process.env.PORT || DEFAULT_PORT;
+    return this.app.listen(port, () => {
+      console.log(`App listening on the port ${port}`);
     });
   }
 

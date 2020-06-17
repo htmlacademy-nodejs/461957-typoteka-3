@@ -7,7 +7,7 @@
     "start": "ts-node src/service/service.ts",
     "start-front-server": "ts-node src/express/index.ts",
     "test": "npm run eslint",
-    "test:rest": "jest src/service/cli/server",
+    "test:rest": "jest --maxWorkers=1 src/service/cli/server",
     "eslint": "eslint --ext .js,.ts src/",
     "nodemon": "npm run nodemon:data & npm run nodemon:front",
     "nodemon:data": "nodemon --config nodemon.data.json",

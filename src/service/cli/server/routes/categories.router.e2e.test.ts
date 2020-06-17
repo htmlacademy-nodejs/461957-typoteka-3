@@ -1,13 +1,19 @@
 import {App} from "../app";
 import {agent as request} from "supertest";
+import {Application} from "express";
+import http from "http";
 
 describe(`Categories router`, () => {
-  let server;
+  let server: Application;
+  let httpServer: http.Server
   beforeAll(async () => {
     const app = new App();
-    await app.listen();
+    httpServer = app.listen();
     server = app.getServer();
   });
+  afterAll(async () => {
+    httpServer.close();
+  })
 
   describe(`get()`, () => {
     test(`Should return code 200 when request categories`, async () => {
