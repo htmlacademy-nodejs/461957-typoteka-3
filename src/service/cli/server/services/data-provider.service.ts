@@ -4,19 +4,16 @@ import {MOCK_FILE_PATH} from "../../../../constants-es6";
 
 export class DataProviderService {
   public async getCategories(): Promise<string[] | null> {
-    try {
-      return Array.from(
-        new Set(
-          (await this.getArticles()).map(article => article.category).flat(1),
-        ),
-      );
-    } catch (e) {
-      console.error(`Failed to get categories`);
+    const articles = await this.getArticles();
+    if (articles === null) {
       return null;
     }
+    return Array.from(
+      new Set(articles.map(article => article.category).flat(1)),
+    );
   }
 
-  public async getArticles(): Promise<Article[]> {
+  public async getArticles(): Promise<Article[] | null> {
     try {
       return JSON.parse(
         await promises.readFile(MOCK_FILE_PATH, `utf-8`),
