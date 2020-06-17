@@ -14,5 +14,9 @@ describe(`Categories router`, () => {
       const res = await request(server).get(`/api/categories/`);
       expect(res.status).toBe(200);
     });
+    test(`Should return array`, async () => {
+      const res = await request(server).get(`/api/categories/`);
+      expect(Array.isArray(res.body)).toBe(true);
+    })
   });
 });
