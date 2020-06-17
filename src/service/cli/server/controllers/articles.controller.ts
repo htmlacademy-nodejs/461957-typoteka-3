@@ -13,4 +13,13 @@ export class ArticlesController {
     }
     res.send(articles);
   }
+
+  public async getArticleById(req: Request, res: Response, id: string): Promise<void> {
+    const article = await this.dataProvider.getArticleById(id);
+    if (article === null) {
+      res.status(HttpCode.NOT_FOUND).send();
+      return;
+    }
+    res.send(article);
+  }
 }

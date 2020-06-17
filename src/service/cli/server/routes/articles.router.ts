@@ -4,4 +4,8 @@ import {articlesController} from "../controllers";
 // eslint-disable-next-line new-cap
 export const articlesRouter = Router();
 
-articlesRouter.get(`/`, (req, res) => articlesController.getArticles(req, res));
+articlesRouter.get(`/`, async (req, res) => articlesController.getArticles(req, res));
+articlesRouter.get(`/:id`, async (req, res) => {
+  const id = req.params.id;
+  await articlesController.getArticleById(req, res, id);
+});
