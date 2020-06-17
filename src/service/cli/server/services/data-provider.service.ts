@@ -36,5 +36,3 @@ export class DataProviderService {
     return articles.find(article => article.id === id) ?? null;
   }
 }
-
-export const dataProviderService = new DataProviderService();

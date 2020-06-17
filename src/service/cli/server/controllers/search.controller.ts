@@ -1,9 +1,7 @@
-import {
-  dataProviderService,
-  DataProviderService,
-} from "../services/data-provider.service";
+import {DataProviderService} from "../services/data-provider.service";
 import {Request, Response} from "express";
 import {HttpCode} from "../../../../constants-es6";
+import {dataProviderService} from "../services";
 
 export class SearchController {
   constructor(private dataProvider: DataProviderService) {}
@@ -17,9 +15,7 @@ export class SearchController {
       res.json([]);
       return;
     }
-    const titles = await this.dataProvider.searchByArticlesTitle(
-      req.query.query,
-    );
+    const titles = await this.dataProvider.searchByArticlesTitle(req.query.query);
     if (titles === null) {
       res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
       return;
