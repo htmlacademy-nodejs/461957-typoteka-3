@@ -9,7 +9,6 @@ export class SearchController {
   public async getArticlesByTitle(req: Request, res: Response): Promise<void> {
     {
       try {
-        console.log(req.query.query)
         res.json(await this.dataProvider.searchByArticlesTitle(req.query.query));
       } catch (e) {
         console.error(e);
