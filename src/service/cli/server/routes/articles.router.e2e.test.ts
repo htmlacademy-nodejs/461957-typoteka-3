@@ -4,8 +4,10 @@ import {Application} from "express";
 import * as http from "http";
 import {Article} from "../../../../types/article";
 
-const invalidArticleId = `invalid-article-id`;
 const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
+const invalidArticleId = `invalid-article-id`;
+const validCommentId = `-ZyTZtrsZjjBq8k5Bskzjb`;
+const invalidCommentId = `invalid-comment-id`;
 
 describe(`Articles router`, () => {
   let server: Application;
@@ -64,6 +66,23 @@ describe(`Articles router`, () => {
     test(`Should return an array`, async () => {
       const res = await request(server).get(`/api/articles/${validArticleId}/comments/`);
       expect(Array.isArray(res.body)).toBe(true);
-    })
-  })
+    });
+  });
+
+  describe(`get comment by id`, () => {
+    test(`Should return code 404 when request invalid id`, async () => {
+      const res = await request(server).get(`/api/articles/${validArticleId}/comments/${invalidCommentId}`);
+      expect(res.status).toBe(404);
+    });
+    test(`Should return code 200 when request valid id`, async () => {
+      const res = await request(server).get(`/api/articles/${validArticleId}/comments/${validCommentId}`);
+      expect(res.status).toBe(200);
+    });
+    test(`Should return an array`, async () => {
+      const res = await request(server).get(`/api/articles/${validArticleId}/comments/${validCommentId}`);
+      const responseKeys = Object.keys(res.body as Article) as string[];
+      expect(responseKeys).toContain(`id`);
+      expect(responseKeys).toContain(`text`);
+    });
+  });
 });
