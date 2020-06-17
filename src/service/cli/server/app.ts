@@ -1,9 +1,7 @@
-import express from "express";
-import {Application} from "express";
+import express, {Application} from "express";
 import * as bodyParser from "body-parser";
 import {DEFAULT_PORT} from "../../../constants-es6";
 import {apiRouter} from "./routes/api";
-import postsRouter from "./routes/posts";
 
 export class App {
   public app: Application;
@@ -19,7 +17,7 @@ export class App {
   }
 
   public listen(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
       const port = process.env.PORT || DEFAULT_PORT;
       this.app.listen(port, () => {
         console.log(`App listening on the port ${port}`);
@@ -34,7 +32,6 @@ export class App {
   }
 
   private configureRoutes(): void {
-    this.app.use(`/posts`, postsRouter);
     this.app.use(`/api`, apiRouter);
     this.app.use((req, res) => {
       res.status(404).send(`Page not found`);
