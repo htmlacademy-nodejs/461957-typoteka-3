@@ -1,19 +1,25 @@
-import {dataProviderService, DataProviderService} from "../services/data-provider.service";
+import {
+  dataProviderService,
+  DataProviderService,
+} from "../services/data-provider.service";
 import {Request, Response} from "express";
-import {HttpCode} from "../../../../constants-es6"
+import {HttpCode} from "../../../../constants-es6";
 
 export class SearchController {
-  constructor(private dataProvider: DataProviderService) {
-  }
+  constructor(private dataProvider: DataProviderService) {}
 
   public async getArticlesByTitle(req: Request, res: Response): Promise<void> {
-    {
-      try {
-        res.json(await this.dataProvider.searchByArticlesTitle(req.query.query));
-      } catch (e) {
-        console.error(e);
-        res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
-      }
+    if (!req.query.hasOwnProperty("query")) {
+      res.status(HttpCode.BAD_REQUEST).send();
+    }
+    if (req.query.query === `` || req.query.query === ` `) {
+      res.json([]);
+    }
+    try {
+      res.json(await this.dataProvider.searchByArticlesTitle(req.query.query));
+    } catch (e) {
+      console.error(e);
+      res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
     }
   }
 }
