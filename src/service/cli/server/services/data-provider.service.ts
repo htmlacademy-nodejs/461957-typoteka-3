@@ -44,4 +44,12 @@ export class DataProviderService {
     }
     return article.comments;
   }
+
+  public async getArticleCommentById(articleId: string, commentId: string): Promise<ArticleComment | null> {
+    const comments = await this.getCommentsByArticleId(articleId);
+    if (comments === null) {
+      return null;
+    }
+    return comments.find(comment => comment.id === commentId) ?? null;
+  }
 }

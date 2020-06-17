@@ -33,4 +33,13 @@ export class ArticlesController {
     }
     res.send(articleComments as ArticleComment[]);
   }
+
+  public async getArticleCommentById(req: Request, res: Response, articleId: string, commentId: string): Promise<void> {
+    const comment = await this.dataProvider.getArticleCommentById(articleId, commentId);
+    if (comment === null) {
+      res.status(HttpCode.NOT_FOUND).send();
+      return;
+    }
+    res.send(comment as ArticleComment);
+  }
 }

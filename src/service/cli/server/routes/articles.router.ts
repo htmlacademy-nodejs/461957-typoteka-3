@@ -13,3 +13,8 @@ articlesRouter.get(`/:id/comments/`, async (req, res) => {
   const id = req.params.id;
   await articlesController.getCommentsByArticleId(req, res, id);
 });
+articlesRouter.get(`/:id/comments/:commentId`, async (req, res) => {
+  const id = req.params.id;
+  const commentId = req.params.commentId;
+  await articlesController.getArticleCommentById(req, res, id, commentId);
+});
