@@ -17,12 +17,14 @@ export class SearchController {
       res.json([]);
       return;
     }
-    try {
-      res.json(await this.dataProvider.searchByArticlesTitle(req.query.query));
-    } catch (e) {
-      console.error(e);
+    const titles = await this.dataProvider.searchByArticlesTitle(
+      req.query.query,
+    );
+    if (titles === null) {
       res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
+      return;
     }
+    res.json(titles);
   }
 }
 

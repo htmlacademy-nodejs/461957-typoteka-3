@@ -25,12 +25,11 @@ export class DataProviderService {
   }
 
   public async searchByArticlesTitle(query: string): Promise<Article[]> {
-    try {
-      return (await this.getArticles()).filter(article => article.title.includes(query));
-    } catch (e) {
-      console.error(`Failed to get articles`);
+    const articles = await this.getArticles();
+    if (articles === null) {
       return null;
     }
+    return articles.filter(article => article.title.includes(query));
   }
 }
 
