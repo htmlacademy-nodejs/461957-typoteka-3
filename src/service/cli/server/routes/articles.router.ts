@@ -1,10 +1,14 @@
 import {Router} from "express";
 import {articlesController} from "../controllers";
+import {HttpCode} from "../../../../constants-es6";
 
 // eslint-disable-next-line new-cap
 export const articlesRouter = Router();
 
-articlesRouter.get(`/`, async (req, res) => articlesController.getArticles(req, res));
+articlesRouter.get(`/`, async (req, res) => {
+  const {status = HttpCode.OK, payload} = await articlesController.getArticles();
+  res.status(status).send(payload);
+});
 articlesRouter.get(`/:id`, async (req, res) => {
   const id = req.params.id;
   await articlesController.getArticleById(req, res, id);

@@ -3,17 +3,17 @@ import {Request, Response} from "express";
 import {HttpCode} from "../../../../constants-es6";
 import {ArticleComment} from "../../../../types/article-comment";
 import {Article} from "../../../../types/article";
+import {ControllerResponse} from "../../../../types/controller-response";
 
 export class ArticlesController {
   constructor(private dataProvider: DataProviderService) {}
 
-  public async getArticles(req: Request, res: Response): Promise<void> {
+  public async getArticles(): Promise<ControllerResponse<Article[]>> {
     const articles = await this.dataProvider.getArticles();
     if (articles === null) {
-      res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
-      return;
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    res.send(articles as Article[]);
+    return {payload: articles as Article[]};
   }
 
   public async getArticleById(req: Request, res: Response, id: string): Promise<void> {
