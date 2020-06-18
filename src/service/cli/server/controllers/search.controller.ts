@@ -2,24 +2,23 @@ import {DataProviderService} from "../services/data-provider.service";
 import {Request, Response} from "express";
 import {HttpCode} from "../../../../constants-es6";
 import {dataProviderService} from "../services";
+import {ControllerResponse} from "../../../../types/controller-response";
+import {Article} from "../../../../types/article";
 
 export class SearchController {
   constructor(private dataProvider: DataProviderService) {}
 
-  public async getArticlesByTitle(req: Request, res: Response): Promise<void> {
-    if (!req.query.hasOwnProperty("query")) {
-      res.status(HttpCode.BAD_REQUEST).send();
-      return;
+  public async getArticlesByTitle(query: string): Promise<ControllerResponse<Article[]>> {
+    if (query === undefined) {
+      return {status: HttpCode.BAD_REQUEST};
     }
-    if (req.query.query === `` || req.query.query === ` `) {
-      res.json([]);
-      return;
+    if (query === `` || query === ` `) {
+      return {payload: []}
     }
-    const titles = await this.dataProvider.searchByArticlesTitle(req.query.query);
+    const titles = await this.dataProvider.searchByArticlesTitle(query);
     if (titles === null) {
-      res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
-      return;
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    res.json(titles);
+    return {payload: titles}
   }
 }
