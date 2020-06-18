@@ -11,14 +11,17 @@ articlesRouter.get(`/`, async (req, res) => {
 });
 articlesRouter.get(`/:id`, async (req, res) => {
   const id = req.params.id;
-  await articlesController.getArticleById(req, res, id);
+  const {status = HttpCode.OK, payload} = await articlesController.getArticleById(id);
+  res.status(status).send(payload);
 });
 articlesRouter.get(`/:id/comments/`, async (req, res) => {
   const id = req.params.id;
-  await articlesController.getCommentsByArticleId(req, res, id);
+  const {status = HttpCode.OK, payload} = await articlesController.getCommentsByArticleId(id);
+  res.status(status).send(payload);
 });
 articlesRouter.get(`/:id/comments/:commentId`, async (req, res) => {
-  const id = req.params.id;
+  const articleId = req.params.id;
   const commentId = req.params.commentId;
-  await articlesController.getArticleCommentById(req, res, id, commentId);
+  const {status = HttpCode.OK, payload} = await articlesController.getArticleCommentById(articleId, commentId);
+  res.status(status).send(payload);
 });

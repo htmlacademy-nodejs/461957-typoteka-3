@@ -13,33 +13,30 @@ export class ArticlesController {
     if (articles === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    return {payload: articles as Article[]};
+    return {payload: articles};
   }
 
-  public async getArticleById(req: Request, res: Response, id: string): Promise<void> {
+  public async getArticleById(id: string): Promise<ControllerResponse<Article>> {
     const article = await this.dataProvider.getArticleById(id);
     if (article === null) {
-      res.status(HttpCode.NOT_FOUND).send();
-      return;
+      return {status: HttpCode.NOT_FOUND};
     }
-    res.send(article as Article);
+    return {payload: article};
   }
 
-  public async getCommentsByArticleId(req: Request, res: Response, id: string): Promise<void> {
+  public async getCommentsByArticleId(id: string): Promise<ControllerResponse<ArticleComment[]>> {
     const articleComments = await this.dataProvider.getCommentsByArticleId(id);
     if (articleComments === null) {
-      res.status(HttpCode.NOT_FOUND).send();
-      return;
+      return {status: HttpCode.NOT_FOUND};
     }
-    res.send(articleComments as ArticleComment[]);
+    return {payload: articleComments};
   }
 
-  public async getArticleCommentById(req: Request, res: Response, articleId: string, commentId: string): Promise<void> {
+  public async getArticleCommentById(articleId: string, commentId: string): Promise<ControllerResponse<ArticleComment>> {
     const comment = await this.dataProvider.getArticleCommentById(articleId, commentId);
     if (comment === null) {
-      res.status(HttpCode.NOT_FOUND).send();
-      return;
+      return {status: HttpCode.NOT_FOUND}
     }
-    res.send(comment as ArticleComment);
+    return {payload: comment}
   }
 }
