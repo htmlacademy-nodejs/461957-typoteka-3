@@ -1,17 +1,16 @@
 import {DataProviderService} from "../services/data-provider.service";
-import {Request, Response} from "express";
 import {HttpCode} from "../../../../constants-es6";
-import {dataProviderService} from "../services";
+import {ControllerResponse} from "../../../../types/controller-response";
+import {Category} from "../../../../types/category";
 
 export class CategoriesController {
   constructor(private dataProvider: DataProviderService) {}
 
-  public async getCategories(req: Request, res: Response): Promise<void> {
+  public async getCategories(): Promise<ControllerResponse<Category[]>> {
     const categories = await this.dataProvider.getCategories();
     if (categories === null) {
-      res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
-      return;
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    res.send(categories);
+    return {payload: categories};
   }
 }

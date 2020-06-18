@@ -2,9 +2,10 @@ import {Article} from "../../../../types/article";
 import {promises} from "fs";
 import {MOCK_FILE_PATH} from "../../../../constants-es6";
 import {ArticleComment} from "../../../../types/article-comment";
+import {Category} from "../../../../types/category";
 
 export class DataProviderService {
-  public async getCategories(): Promise<string[] | null> {
+  public async getCategories(): Promise<Category[] | null> {
     const articles = await this.getArticles();
     if (articles === null) {
       return null;
