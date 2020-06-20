@@ -18,3 +18,9 @@ export const MS_IN_MINUTE = 60000;
 export const MINUTES_IN_HOUR = 60;
 export const DAYS_IN_WEEK = 7;
 export const DAYS_IN_MONTH = 30;
+export const MockTextsFilePath = {
+  SENTENCES: `./data/sentences.txt`,
+  CATEGORIES: `./data/categories.txt`,
+  TITLES: `./data/titles.txt`,
+  COMMENTS: `./data/comments.txt`,
+};

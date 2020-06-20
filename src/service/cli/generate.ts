@@ -1,20 +1,14 @@
 import {CliAction} from "../../types/cli-action";
 import {Article} from "../../types/article";
 import {ArticleComment} from "../../types/article-comment";
-import {DAYS_IN_MONTH, ExitCode, MOCK_FILE_PATH, MS_IN_DAY} from "../../constants-es6";
+import {DAYS_IN_MONTH, ExitCode, MOCK_FILE_PATH, MockTextsFilePath, MS_IN_DAY} from "../../constants-es6";
 import chalk from "chalk";
 import {nanoid} from "nanoid";
-import {promises} from "fs"
+import {promises} from "fs";
 import {getRandomInt, shuffle} from "../../utils";
 
 const DEFAULT_COUNT: number = 1;
 const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
-const MockFilePath = {
-  sentences: `./data/sentences.txt`,
-  categories: `./data/categories.txt`,
-  titles: `./data/titles.txt`,
-  comments: `./data/comments.txt`,
-};
 const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
 const validCommentId = `-ZyTZtrsZjjBq8k5Bskzjb`;
 
@@ -84,7 +78,7 @@ export const cliAction: CliAction = {
       console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${mockCount}`));
       process.exit(ExitCode.SUCCESS);
     }
-    const mocks = await generateMocks(mockCount, MockFilePath.sentences, MockFilePath.categories, MockFilePath.titles, MockFilePath.comments);
+    const mocks = await generateMocks(mockCount, MockTextsFilePath.SENTENCES, MockTextsFilePath.CATEGORIES, MockTextsFilePath.TITLES, MockTextsFilePath.COMMENTS);
     const content = JSON.stringify(mocks, undefined, 2);
     try {
       await promises.writeFile(MOCK_FILE_PATH, content);
