@@ -1,4 +1,5 @@
 trailingComma: all
 tabWidth: 2
 bracketSpacing: false
+printWidth: 120
 

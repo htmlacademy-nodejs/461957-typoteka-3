@@ -17,6 +17,8 @@ const MockFilePath = {
   titles: `./data/titles.txt`,
   comments: `./data/comments.txt`,
 };
+const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
+const validCommentId = `-ZyTZtrsZjjBq8k5Bskzjb`;
 
 const CategoriesRestrict = {
   min: 0,
@@ -64,14 +66,14 @@ async function generateMocks(count: number, sentencesFilePath: string, categorie
     readFile(titlesFilePath),
     readFile(commentsFilePath),
   ]);
-  return Array(count).fill(undefined).map(() => ({
-    id: nanoid(),
+  return Array(count).fill(undefined).map((value, index) => ({
+    id: index ? nanoid() : validArticleId,
     announce: shuffle(sentences).slice(AnnounceRestrict.min, getRandomInt(AnnounceRestrict.min + 1, AnnounceRestrict.max)).join(` `),
     category: shuffle(categories).slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max)),
     createdDate: new Date(getDate(Date.now())),
     fullText: shuffle(sentences).slice(0, sentences.length - 1).join(` `),
     title: titles[getRandomInt(0, titles.length - 1)],
-    comments: getComments(comments, CommentRestrict.max).slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, AnnounceRestrict.max)),
+    comments: getComments(comments, CommentRestrict.max, !index).slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, AnnounceRestrict.max)),
   }));
 }
 
@@ -98,9 +100,9 @@ const cliAction: CliAction = {
 
 export = cliAction;
 
-function getComments(commentsSentences: string[], length: number): ArticleComment[] {
-  return Array(length).fill(undefined).map<ArticleComment>(() => ({
-    id: nanoid(),
+function getComments(commentsSentences: string[], length: number, forceCreateComments: boolean): ArticleComment[] {
+  return Array(forceCreateComments ? length + 1 : length).fill(undefined).map<ArticleComment>((value, index) => ({
+    id: index ? nanoid() : validCommentId,
     text: shuffle(commentsSentences).slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max)).join(` `),
   }));
 }
