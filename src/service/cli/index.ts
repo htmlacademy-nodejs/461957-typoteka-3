@@ -1,6 +1,6 @@
+import {cliAction as generate} from "./generate";
 const help = require(`./help`);
 const version = require(`./version`);
-const generate = require(`./generate`);
 const server = require(`./server`);
 
 const Cli = {

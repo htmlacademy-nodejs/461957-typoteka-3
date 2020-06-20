@@ -1,15 +1,13 @@
 import {CliAction} from "../../types/cli-action";
 import {Article} from "../../types/article";
 import {ArticleComment} from "../../types/article-comment";
-const {MS_IN_DAY, DAYS_IN_MONTH} = require(`../../utils/time`);
-const fs = require(`fs`).promises;
-const {getRandomInt, shuffle} = require(`../../utils`);
-const {ExitCode} = require(`../../constants`);
-const chalk = require(`chalk`);
-const {nanoid} = require(`nanoid`);
+import {DAYS_IN_MONTH, ExitCode, MOCK_FILE_PATH, MS_IN_DAY} from "../../constants-es6";
+import chalk from "chalk";
+import {nanoid} from "nanoid";
+import {promises} from "fs"
+import {getRandomInt, shuffle} from "../../utils";
 
 const DEFAULT_COUNT: number = 1;
-const FILE_NAME = `mocks.json`;
 const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
 const MockFilePath = {
   sentences: `./data/sentences.txt`,
@@ -46,7 +44,7 @@ function getDate(currentDate: number): number {
 
 async function readFile(filePath: string): Promise<string[]> {
   try {
-    const rawContent: string = await fs.readFile(filePath, `utf8`);
+    const rawContent: string = await promises.readFile(filePath, `utf8`);
     return rawContent
       .replace(/(\r\n)/gm, `\n`)
       .replace(/(\r)/gm, `\n`)
@@ -77,7 +75,7 @@ async function generateMocks(count: number, sentencesFilePath: string, categorie
   }));
 }
 
-const cliAction: CliAction = {
+export const cliAction: CliAction = {
   name: `--generate`,
   async run(args?) {
     const [mockCountInput] = args;
@@ -89,16 +87,14 @@ const cliAction: CliAction = {
     const mocks = await generateMocks(mockCount, MockFilePath.sentences, MockFilePath.categories, MockFilePath.titles, MockFilePath.comments);
     const content = JSON.stringify(mocks, undefined, 2);
     try {
-      await fs.writeFile(FILE_NAME, content);
-      console.log(chalk.green(`${mockCount} article(s) saved to ${FILE_NAME}`));
+      await promises.writeFile(MOCK_FILE_PATH, content);
+      console.log(chalk.green(`${mockCount} article(s) saved to ${MOCK_FILE_PATH}`));
     } catch (e) {
-      console.error(chalk.red(`Fail to write file ${FILE_NAME}`));
+      console.error(chalk.red(`Fail to write file ${MOCK_FILE_PATH}`));
       console.error(chalk.red(e));
     }
   },
 };
-
-export = cliAction;
 
 function getComments(commentsSentences: string[], length: number, forceCreateComments: boolean): ArticleComment[] {
   return Array(forceCreateComments ? length + 1 : length).fill(undefined).map<ArticleComment>((value, index) => ({

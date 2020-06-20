@@ -8,3 +8,13 @@ export const HttpCode = {
   NOT_FOUND: 404,
   INTERNAL_SERVER_ERROR: 500,
 };
+export const ExitCode = {
+  ERROR: 1,
+  SUCCESS: 0,
+};
+export const MS_IN_DAY = 86400000;
+export const MS_IN_HOUR = 3600000;
+export const MS_IN_MINUTE = 60000;
+export const MINUTES_IN_HOUR = 60;
+export const DAYS_IN_WEEK = 7;
+export const DAYS_IN_MONTH = 30;
