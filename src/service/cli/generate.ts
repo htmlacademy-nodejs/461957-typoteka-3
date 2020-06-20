@@ -32,8 +32,8 @@ const CommentTextRestrict = {
   max: 5,
 };
 
-function getDate(currentDate: number): number {
-  return currentDate - 1 - getRandomInt(0, THREE_MONTHS_DURATION);
+function getDate(currentDate: number): Date {
+  return new Date(currentDate - 1 - getRandomInt(0, THREE_MONTHS_DURATION));
 }
 
 async function readFile(filePath: string): Promise<string[]> {
@@ -43,7 +43,7 @@ async function readFile(filePath: string): Promise<string[]> {
       .replace(/(\r\n)/gm, `\n`)
       .replace(/(\r)/gm, `\n`)
       .split(`\n`)
-      .filter((item) => !!item.length);
+      .filter(item => !!item.length);
   } catch (e) {
     console.error(chalk.red(`Fail to read file ${filePath}`));
     console.error(chalk.red(e));
@@ -51,38 +51,71 @@ async function readFile(filePath: string): Promise<string[]> {
   }
 }
 
-async function generateMocks(count: number, sentencesFilePath: string, categoriesFilePath: string, titlesFilePath: string, commentsFilePath: string): Promise<Article[]> {
-  const [sentences, categories, titles, comments] = await Promise.all([
-    readFile(sentencesFilePath),
-    readFile(categoriesFilePath),
-    readFile(titlesFilePath),
-    readFile(commentsFilePath),
-  ]);
-  return Array(count).fill(undefined).map((value, index) => ({
-    id: index ? nanoid() : validArticleId,
-    announce: shuffle(sentences).slice(AnnounceRestrict.min, getRandomInt(AnnounceRestrict.min + 1, AnnounceRestrict.max)).join(` `),
-    category: shuffle(categories).slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max)),
-    createdDate: new Date(getDate(Date.now())),
-    fullText: shuffle(sentences).slice(0, sentences.length - 1).join(` `),
-    title: titles[getRandomInt(0, titles.length - 1)],
-    comments: getComments(comments, CommentRestrict.max, !index).slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, AnnounceRestrict.max)),
-  }));
+async function generateMocks(
+  count: number,
+  sentences: string[],
+  categories: string[],
+  titles: string[],
+  comments: string[],
+): Promise<Article[]> {
+  return Array(count)
+    .fill(undefined)
+    .map((value, index) => ({
+      id: getId(index),
+      announce: getAnnounce(sentences),
+      category: getCategories(categories),
+      createdDate: getDate(Date.now()),
+      fullText: getFullText(sentences),
+      title: getTitle(titles),
+      comments: getComments(comments),
+    }));
+}
+
+async function generateMocksForTests(
+  count: number,
+  sentences: string[],
+  categories: string[],
+  titles: string[],
+  comments: string[],
+): Promise<Article[]> {
+  return Array(count)
+    .fill(undefined)
+    .map((value, index) => ({
+      id: getIdForTests(index),
+      announce: getAnnounce(sentences),
+      category: getCategories(categories),
+      createdDate: getDate(Date.now()),
+      fullText: getFullText(sentences),
+      title: getTitle(titles),
+      comments: getCommentsForTests(comments, !index),
+    }));
 }
 
 export const cliAction: CliAction = {
   name: `--generate`,
   async run(args?) {
-    const [mockCountInput] = args;
+    const [mockCountInput, test] = args;
     const mockCount = parseInt(mockCountInput, 10) || DEFAULT_COUNT;
     if (mockCount > 1000) {
       console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${mockCount}`));
       process.exit(ExitCode.SUCCESS);
     }
-    const mocks = await generateMocks(mockCount, MockTextsFilePath.SENTENCES, MockTextsFilePath.CATEGORIES, MockTextsFilePath.TITLES, MockTextsFilePath.COMMENTS);
+    const isMocksForTests = test === `--test`;
+    const [sentences, categories, titles, comments] = await getTextsForMocks(
+      MockTextsFilePath.SENTENCES,
+      MockTextsFilePath.CATEGORIES,
+      MockTextsFilePath.TITLES,
+      MockTextsFilePath.COMMENTS,
+    );
+    const mocks = isMocksForTests
+      ? await generateMocksForTests(mockCount, sentences, categories, titles, comments)
+      : await generateMocks(mockCount, sentences, categories, titles, comments);
     const content = JSON.stringify(mocks, undefined, 2);
     try {
       await promises.writeFile(MOCK_FILE_PATH, content);
-      console.log(chalk.green(`${mockCount} article(s) saved to ${MOCK_FILE_PATH}`));
+      console.log(
+        chalk.green(`${mockCount} article(s) ${isMocksForTests ? `for tests ` : ``}saved to ${MOCK_FILE_PATH}`),
+      );
     } catch (e) {
       console.error(chalk.red(`Fail to write file ${MOCK_FILE_PATH}`));
       console.error(chalk.red(e));
@@ -90,9 +123,71 @@ export const cliAction: CliAction = {
   },
 };
 
-function getComments(commentsSentences: string[], length: number, forceCreateComments: boolean): ArticleComment[] {
-  return Array(forceCreateComments ? length + 1 : length).fill(undefined).map<ArticleComment>((value, index) => ({
-    id: index ? nanoid() : validCommentId,
-    text: shuffle(commentsSentences).slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max)).join(` `),
-  }));
+async function getTextsForMocks(
+  sentencesFilePath: string,
+  categoriesFilePath: string,
+  titlesFilePath: string,
+  commentsFilePath: string,
+): Promise<[string[], string[], string[], string[]]> {
+  return Promise.all([
+    readFile(sentencesFilePath),
+    readFile(categoriesFilePath),
+    readFile(titlesFilePath),
+    readFile(commentsFilePath),
+  ]);
+}
+
+function getId(index: number): string {
+  return nanoid();
+}
+
+function getIdForTests(index: number): string {
+  return index ? nanoid() : validArticleId;
+}
+
+function getComments(commentsSentences: string[]): ArticleComment[] {
+  return Array(CommentRestrict.max)
+    .fill(undefined)
+    .map<ArticleComment>((value, index) => ({
+      id: nanoid(),
+      text: shuffle(commentsSentences)
+        .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
+        .join(` `),
+    }))
+    .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, AnnounceRestrict.max));
+}
+
+function getCommentsForTests(commentsSentences: string[], forceCreateComments: boolean) {
+  return Array(forceCreateComments ? CommentRestrict.max + 1 : CommentRestrict.max)
+    .fill(undefined)
+    .map<ArticleComment>((value, index) => ({
+      id: index ? nanoid() : validCommentId,
+      text: shuffle(commentsSentences)
+        .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
+        .join(` `),
+    }))
+    .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, AnnounceRestrict.max));
+}
+
+function getAnnounce(sentences: string[]): string {
+  return shuffle(sentences)
+    .slice(AnnounceRestrict.min, getRandomInt(AnnounceRestrict.min + 1, AnnounceRestrict.max))
+    .join(` `);
+}
+
+function getCategories(categories: string[]): string[] {
+  return shuffle(categories).slice(
+    CategoriesRestrict.min,
+    getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max),
+  );
+}
+
+function getFullText(sentences: string[]): string {
+  return shuffle(sentences)
+    .slice(0, sentences.length - 1)
+    .join(` `);
+}
+
+function getTitle(titles: string[]): string {
+  return titles[getRandomInt(0, titles.length - 1)];
 }
