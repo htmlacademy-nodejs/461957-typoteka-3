@@ -1,9 +1,10 @@
 import {DataProviderService} from "../services/data-provider.service";
-import {Request, Response} from "express";
 import {HttpCode} from "../../../../constants-es6";
 import {ArticleComment} from "../../../../types/article-comment";
 import {Article} from "../../../../types/article";
 import {ControllerResponse} from "../../../../types/controller-response";
+import {nanoid} from "nanoid";
+import {NewArticle} from "../../../../types/new-article";
 
 export class ArticlesController {
   constructor(private dataProvider: DataProviderService) {}
@@ -32,11 +33,23 @@ export class ArticlesController {
     return {payload: articleComments};
   }
 
-  public async getArticleCommentById(articleId: string, commentId: string): Promise<ControllerResponse<ArticleComment>> {
+  public async getArticleCommentById(
+    articleId: string,
+    commentId: string,
+  ): Promise<ControllerResponse<ArticleComment>> {
     const comment = await this.dataProvider.getArticleCommentById(articleId, commentId);
     if (comment === null) {
-      return {status: HttpCode.NOT_FOUND}
+      return {status: HttpCode.NOT_FOUND};
     }
-    return {payload: comment}
+    return {payload: comment};
+  }
+
+  public async createNewArticle(newArticle: NewArticle): Promise<ControllerResponse<Article>> {
+    const article: Article = {...newArticle, id: nanoid(), comments: []};
+    const savedArticle = await this.dataProvider.createNewArticle(article);
+    if (savedArticle === null) {
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
+    }
+    return {status: HttpCode.CREATED, payload: savedArticle};
   }
 }
