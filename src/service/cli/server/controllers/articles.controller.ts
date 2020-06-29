@@ -52,4 +52,12 @@ export class ArticlesController {
     }
     return {status: HttpCode.CREATED, payload: savedArticle};
   }
+
+  public async updateArticle(id: string, article: Article): Promise<ControllerResponse<Article>> {
+    const updatedArticle = await this.dataProvider.updateArticle(id, article);
+    if (updatedArticle === null) {
+      return {status: HttpCode.NOT_FOUND};
+    }
+    return {payload: updatedArticle};
+  }
 }

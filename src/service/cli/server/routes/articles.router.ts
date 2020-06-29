@@ -31,3 +31,9 @@ articlesRouter.post(`/`, newArticleValidator, async (req, res) => {
   const {status = HttpCode.OK, payload} = await articlesController.createNewArticle(newArticle);
   res.status(status).send(payload);
 });
+articlesRouter.put(`/:id`, newArticleValidator, async (req, res) => {
+  const articleId = req.params.id;
+  const articleContent = req.body;
+  const {status = HttpCode.OK, payload} = await articlesController.updateArticle(articleId, articleContent);
+  res.status(status).send(payload);
+});

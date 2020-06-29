@@ -66,4 +66,12 @@ export class DataProviderService {
     this.articlesCash.push(article);
     return article;
   }
+
+  public async updateArticle(id: string, article: Article): Promise<Article | null> {
+    const existingArticle = await this.getArticleById(id);
+    if (existingArticle === null) {
+      return null;
+    }
+    return Object.assign(existingArticle, article);
+  }
 }
