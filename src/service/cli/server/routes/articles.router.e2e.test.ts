@@ -21,12 +21,12 @@ const invalidNewArticle = {...validNewArticle, category: undefined};
 describe(`Articles router`, () => {
   let server: Application;
   let httpServer: http.Server;
-  beforeAll(async () => {
+  beforeAll(() => {
     const app = new App();
     httpServer = app.listen();
     server = app.getServer();
   });
-  afterAll(async () => {
+  afterAll(() => {
     httpServer.close();
   });
 
