@@ -41,7 +41,10 @@ function getArticleValidationResponse(article: Partial<Article>, skipFields: (ke
   if (!article.createdDate) {
     validationResponse.createdDate = ValidationError.REQUIRED;
   }
-  if (!article.category.length) {
+  if (!article.category) {
+    validationResponse.category = ValidationError.REQUIRED;
+  }
+  if (article.category && !article.category.length) {
     validationResponse.category = ValidationError.INVALID;
   }
   if (!article.announce) {
