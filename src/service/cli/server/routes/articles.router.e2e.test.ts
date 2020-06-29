@@ -110,4 +110,16 @@ describe(`Articles router`, () => {
       expect(res.status).toBe(201);
     });
   });
+
+  describe(`PUT Update existing article`, () => {
+    test(`Should return code 404 when pass invalid id`, async () => {
+      const res = await request(server).put(`/api/articles/${invalidArticleId}`).send(validNewArticle);
+      expect(res.status).toBe(404);
+    });
+
+    test(`Should return code 200 when pass valid id`, async () => {
+      const res = await request(server).put(`/api/articles/${validArticleId}`).send(validNewArticle);
+      expect(res.status).toBe(200);
+    });
+  });
 });
