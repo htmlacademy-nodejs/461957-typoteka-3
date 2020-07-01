@@ -34,4 +34,8 @@ rules:
   "@typescript-eslint/no-use-before-define":
     - error
     - functions: false
-
+overrides:
+  - files: "*.jsx"
+    rules:
+      "@typescript-eslint/explicit-function-return-type":
+        - off
