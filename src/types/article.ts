@@ -1,11 +1,7 @@
 import {ArticleComment} from "./article-comment";
+import {NewArticle} from "./new-article";
 
-export interface Article {
-  id: string,
-  title: string,
-  createdDate: Date,
-  announce: string,
-  fullText: string,
-  category: string[],
+export interface Article extends NewArticle {
+  id: string;
   comments: ArticleComment[];
 }

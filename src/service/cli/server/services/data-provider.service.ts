@@ -5,6 +5,8 @@ import {ArticleComment} from "../../../../types/article-comment";
 import {Category} from "../../../../types/category";
 
 export class DataProviderService {
+  public articlesCash: Article[];
+
   public async getCategories(): Promise<Category[] | null> {
     const articles = await this.getArticles();
     if (articles === null) {
@@ -14,12 +16,15 @@ export class DataProviderService {
   }
 
   public async getArticles(): Promise<Article[] | null> {
-    try {
-      return JSON.parse(await promises.readFile(MOCK_FILE_PATH, `utf-8`)) as Article[];
-    } catch (e) {
-      console.error(`Failed to get articles`);
-      return null;
+    if (!this.articlesCash) {
+      try {
+        this.articlesCash = JSON.parse(await promises.readFile(MOCK_FILE_PATH, `utf-8`)) as Article[];
+      } catch (e) {
+        console.error(`Failed to get articles`);
+        this.articlesCash = null;
+      }
     }
+    return this.articlesCash;
   }
 
   public async searchByArticlesTitle(query: string): Promise<Article[] | null> {
@@ -46,11 +51,58 @@ export class DataProviderService {
     return article.comments;
   }
 
+  public async deleteCommentById(articleId: string, commentId: string): Promise<ArticleComment | null> {
+    const article = await this.getArticleById(articleId);
+    if (article === null) {
+      return null;
+    }
+    const commentToDelete = article.comments.find(comment => comment.id === commentId);
+    if (!commentToDelete) {
+      return null;
+    }
+    article.comments = article.comments.filter(comment => comment.id !== commentId);
+    return commentToDelete;
+  }
+
   public async getArticleCommentById(articleId: string, commentId: string): Promise<ArticleComment | null> {
     const comments = await this.getCommentsByArticleId(articleId);
     if (comments === null) {
       return null;
     }
     return comments.find(comment => comment.id === commentId) ?? null;
+  }
+
+  public async createNewArticle(article: Article): Promise<Article | null> {
+    if (!this.articlesCash) {
+      await this.getArticles();
+    }
+    this.articlesCash.push(article);
+    return article;
+  }
+
+  public async updateArticle(id: string, article: Article): Promise<Article | null> {
+    const existingArticle = await this.getArticleById(id);
+    if (existingArticle === null) {
+      return null;
+    }
+    return Object.assign(existingArticle, article);
+  }
+
+  public async deleteArticle(id: string): Promise<Article | null> {
+    const existingArticle = await this.getArticleById(id);
+    if (existingArticle === null) {
+      return null;
+    }
+    this.articlesCash = this.articlesCash.filter(article => article.id !== id);
+    return existingArticle;
+  }
+
+  public async createComment(articleId: string, newComment: ArticleComment): Promise<ArticleComment | null> {
+    const existingArticle = await this.getArticleById(articleId);
+    if (existingArticle === null) {
+      return null;
+    }
+    existingArticle.comments.push(newComment);
+    return newComment;
   }
 }

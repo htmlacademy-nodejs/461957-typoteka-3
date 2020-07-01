@@ -7,5 +7,5 @@ export const categoriesRouter = Router();
 
 categoriesRouter.get(`/`, async (req, res) => {
   const {status = HttpCode.OK, payload} = await categoriesController.getCategories();
-  res.status(status).send(payload);
+  return res.status(status).send(payload);
 });
