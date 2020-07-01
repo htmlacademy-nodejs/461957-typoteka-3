@@ -37,3 +37,6 @@ export const ClientRoutes = {};
 export const TemplateNames = {
   MAIN_PAGE: `main-page`,
 };
+export const JSXPages = {
+  MAIN_PAGE: `MainPage`,
+};

@@ -1,10 +1,10 @@
-import {DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
+import {DEFAULT_SSR_PORT, JSXPages, STATIC_DIR} from "../constants-es6";
 // import {mainPageRouter} from "./routes/main-page";
 import {createEngine} from "express-react-views";
+import express from "express";
+import chalk from "chalk";
+import * as path from "path";
 
-const chalk = require(`chalk`);
-
-const express = require(`express`);
 // const registerRouter = require(`./routes/register`);
 // const loginRouter = require(`./routes/login`);
 // const searchRouter = require(`./routes/search`);
@@ -16,12 +16,12 @@ const app = express();
 // app.set(`views`, `src/express/templates/pages`);
 // app.set(`view engine`, `pug`);
 // app.use(express.static(STATIC_DIR));
-app.set(`views`, __dirname + `/views`);
+app.set(`views`, path.join(__dirname, `views`));
 app.set(`view engine`, `jsx`);
 app.engine(`jsx`, createEngine());
 app.use(express.static(STATIC_DIR));
 
-app.get(`/`, (req, res) => res.render(`index`, {name: `Name`}));
+app.get(`/`, (req, res) => res.render(JSXPages.MAIN_PAGE, {name: `Name`}));
 
 // app.use(`/`, mainPageRouter);
 // app.use(`/register`, registerRouter);
