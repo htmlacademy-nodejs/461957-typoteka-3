@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Header() {
+export function Header() {
   return (
     <header className="header">
       <a className="header__logo logo" href="#">
