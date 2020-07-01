@@ -63,7 +63,7 @@ describe(`Articles router`, () => {
     });
   });
 
-  describe(`get comments by article id`, () => {
+  describe(`GET Get comments by article id`, () => {
     test(`Should return code 404 when request invalid id`, async () => {
       const res = await request(server).get(`/api/articles/${invalidArticleId}/comments/`);
       expect(res.status).toBe(404);
@@ -78,16 +78,28 @@ describe(`Articles router`, () => {
     });
   });
 
+  describe(`DELETE Delete comment by id`, () => {
+    test(`Should return code 404 when pass invalid id`, async () => {
+      const res = await request(server).delete(`/api/articles/${validArticleId}/comments/${invalidCommentId}`);
+      expect(res.status).toBe(404);
+    });
+    test(`Should return code 200 when pass valid id`, async () => {
+      const res = await request(server).delete(`/api/articles/${validArticleId}/comments/${validCommentId}`);
+      expect(res.status).toBe(200);
+    });
+  });
+
   describe(`get comment by id`, () => {
     test(`Should return code 404 when request invalid id`, async () => {
       const res = await request(server).get(`/api/articles/${validArticleId}/comments/${invalidCommentId}`);
       expect(res.status).toBe(404);
     });
     test(`Should return code 200 when request valid id`, async () => {
+      console.log((await request(server).get(`/api/articles/${validArticleId}/comments/`)).body);
       const res = await request(server).get(`/api/articles/${validArticleId}/comments/${validCommentId}`);
       expect(res.status).toBe(200);
     });
-    test(`Should return an array`, async () => {
+    test(`Should return valid structure`, async () => {
       const res = await request(server).get(`/api/articles/${validArticleId}/comments/${validCommentId}`);
       const responseKeys = Object.keys(res.body as Article);
       expect(responseKeys).toContain(`id`);
