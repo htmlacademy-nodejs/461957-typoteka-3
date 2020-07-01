@@ -46,6 +46,9 @@
   "dependencies": {
     "cross-env": "7.0.2",
     "express": "4.17.1",
-    "pug": "2.0.4"
+    "express-react-views": "0.11.0",
+    "pug": "2.0.4",
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
   }
 }
