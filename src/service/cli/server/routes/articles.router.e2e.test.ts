@@ -4,6 +4,7 @@ import {Application} from "express";
 import * as http from "http";
 import {Article} from "../../../../types/article";
 import {NewArticle} from "../../../../types/new-article";
+import {ArticleComment} from "../../../../types/article-comment";
 
 const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
 const invalidArticleId = `invalid-article-id`;
@@ -17,6 +18,10 @@ const validNewArticle: NewArticle = {
   title: `Как собрать камни бесконечности`,
 };
 const invalidNewArticle = {...validNewArticle, category: undefined};
+const validNewComment: Partial<ArticleComment> = {
+  text: `Comment`,
+};
+const invalidNewComment = {};
 
 describe(`Articles router`, () => {
   let server: Application;
@@ -84,7 +89,6 @@ describe(`Articles router`, () => {
       expect(res.status).toBe(404);
     });
     test(`Should return code 200 when request valid id`, async () => {
-      console.log((await request(server).get(`/api/articles/${validArticleId}/comments/`)).body);
       const res = await request(server).get(`/api/articles/${validArticleId}/comments/${validCommentId}`);
       expect(res.status).toBe(200);
     });
@@ -93,6 +97,17 @@ describe(`Articles router`, () => {
       const responseKeys = Object.keys(res.body as Article);
       expect(responseKeys).toContain(`id`);
       expect(responseKeys).toContain(`text`);
+    });
+  });
+
+  describe(`POST Create comment`, () => {
+    test(`Should return code 400 when pass invalid content`, async () => {
+      const res = await request(server).post(`/api/articles/${validArticleId}/comments/`).send(invalidNewComment);
+      expect(res.status).toBe(400);
+    });
+    test(`Should return code 201 when pass valid params`, async () => {
+      const res = await request(server).post(`/api/articles/${validArticleId}/comments/`).send(validNewComment);
+      expect(res.status).toBe(201);
     });
   });
 
