@@ -2,6 +2,7 @@ import {Router} from "express";
 import {articlesController} from "../controllers";
 import {HttpCode} from "../../../../constants-es6";
 import {newArticleValidator} from "../../../middlewares/article-validator";
+import {newCommentValidator} from "../../../middlewares/comment-validator";
 
 // eslint-disable-next-line new-cap
 export const articlesRouter = Router();
@@ -25,6 +26,12 @@ articlesRouter.delete(`/:articleId/comments/:commentId`, async (req, res) => {
   const commentId = req.params.commentId;
   const {status = HttpCode.OK, payload} = await articlesController.deleteCommentById(articleId, commentId);
   res.status(status).send(payload);
+});
+articlesRouter.post(`/:id/comments/`, newCommentValidator,async (req, res) => {
+  const articleId = req.params.id;
+  const commentText = req.body?.text;
+  const {status = HttpCode.OK, payload} = await articlesController.createComment(articleId, commentText);
+  return res.status(status).send(payload);
 });
 articlesRouter.get(`/:id/comments/:commentId`, async (req, res) => {
   const articleId = req.params.id;

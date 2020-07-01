@@ -7,6 +7,14 @@ GET http://localhost:3000/api/articles/-H91UO1mzYQSeSGK2rxWC/comments
 ### Get comments
 DELETE http://localhost:3000/api/articles/-H91UO1mzYQSeSGK2rxWC/comments/-ZyTZtrsZjjBq8k5Bskzjb
 
+### Post comments
+POST http://localhost:3000/api/articles/-H91UO1mzYQSeSGK2rxWC/comments
+Content-Type: application/json
+
+{
+  "text": "Comment"
+}
+
 ### Create new article
 POST http://localhost:3000/api/articles/
 Content-Type: application/json

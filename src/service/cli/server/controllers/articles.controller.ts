@@ -76,4 +76,13 @@ export class ArticlesController {
     }
     return {status: HttpCode.OK};
   }
+
+  public async createComment(articleId: string, commentText: string): Promise<ControllerResponse<ArticleComment>> {
+    const newComment: ArticleComment = {id: nanoid(), text: commentText};
+    const savedComment = await this.dataProvider.createComment(articleId, newComment);
+    if (savedComment === null) {
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
+    }
+    return {status: HttpCode.CREATED, payload: savedComment};
+  }
 }

@@ -96,4 +96,13 @@ export class DataProviderService {
     this.articlesCash = this.articlesCash.filter(article => article.id !== id);
     return existingArticle;
   }
+
+  public async createComment(articleId: string, newComment: ArticleComment): Promise<ArticleComment | null> {
+    const existingArticle = await this.getArticleById(articleId);
+    if (existingArticle === null) {
+      return null;
+    }
+    existingArticle.comments.push(newComment);
+    return newComment;
+  }
 }
