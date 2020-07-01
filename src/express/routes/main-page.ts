@@ -1,7 +1,8 @@
-const {Router} = require(`express`);
+import {Router} from "express";
+import {TemplateNames} from "../../constants-es6";
 
-const mainPageRouter = new Router();
+export const mainPageRouter = Router();
 
-mainPageRouter.get(`/`, (req, res) => res.render(`main-page`));
+const mainPageContent = {};
 
-export = mainPageRouter;
+mainPageRouter.get(`/`, (req, res) => res.render(TemplateNames.MAIN_PAGE, mainPageContent));

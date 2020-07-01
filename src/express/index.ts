@@ -1,8 +1,9 @@
-const {SSR_PORT, STATIC_DIR} = require(`../constants`);
+import {DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
+import {mainPageRouter} from "./routes/main-page";
+
 const chalk = require(`chalk`);
 
 const express = require(`express`);
-const mainPageRouter = require(`./routes/main-page`);
 const registerRouter = require(`./routes/register`);
 const loginRouter = require(`./routes/login`);
 const searchRouter = require(`./routes/search`);
@@ -25,6 +26,6 @@ app.use(`/articles`, articlesRouter);
 // app.use(`/500`, error500Router);
 // app.use(`*`, error404Router);
 
-app.listen(SSR_PORT, () =>
-  console.info(chalk.green(`Listen on port ${SSR_PORT}`)),
+app.listen(DEFAULT_SSR_PORT, () =>
+  console.info(chalk.green(`Listen on port ${DEFAULT_SSR_PORT}`)),
 );

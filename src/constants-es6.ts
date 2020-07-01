@@ -1,5 +1,7 @@
 export const DEFAULT_PORT = 3000;
 export const MOCK_FILE_PATH = `mocks.json`;
+export const DEFAULT_SSR_PORT = 8080;
+export const STATIC_DIR = `src/express/static`;
 export const HttpCode = {
   OK: 200,
   CREATED: 201,
@@ -30,4 +32,8 @@ export const Routes = {
   ARTICLES: `/articles`,
   CATEGORIES: `/categories`,
   SEARCH: `/search`,
+};
+export const ClientRoutes = {};
+export const TemplateNames = {
+  MAIN_PAGE: `main-page`,
 };
