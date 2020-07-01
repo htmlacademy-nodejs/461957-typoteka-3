@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "express": "4.17.1",
+    "pino": "6.3.2",
     "pug": "2.0.4"
   }
 }
