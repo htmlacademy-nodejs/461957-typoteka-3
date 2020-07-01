@@ -33,6 +33,14 @@ export class ArticlesController {
     return {payload: articleComments};
   }
 
+  public async deleteCommentById(articleId: string, commentId: string): Promise<ControllerResponse<ArticleComment>> {
+    const articleComments = await this.dataProvider.deleteCommentById(articleId, commentId);
+    if (articleComments === null) {
+      return {status: HttpCode.NOT_FOUND};
+    }
+    return {status: HttpCode.OK};
+  }
+
   public async getArticleCommentById(
     articleId: string,
     commentId: string,

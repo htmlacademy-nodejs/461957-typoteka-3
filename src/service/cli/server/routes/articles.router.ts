@@ -20,6 +20,12 @@ articlesRouter.get(`/:id/comments/`, async (req, res) => {
   const {status = HttpCode.OK, payload} = await articlesController.getCommentsByArticleId(id);
   return res.status(status).send(payload);
 });
+articlesRouter.delete(`/:articleId/comments/:commentId`, async (req, res) => {
+  const articleId = req.params.articleId;
+  const commentId = req.params.commentId;
+  const {status = HttpCode.OK, payload} = await articlesController.deleteCommentById(articleId, commentId);
+  res.status(status).send(payload);
+});
 articlesRouter.get(`/:id/comments/:commentId`, async (req, res) => {
   const articleId = req.params.id;
   const commentId = req.params.commentId;

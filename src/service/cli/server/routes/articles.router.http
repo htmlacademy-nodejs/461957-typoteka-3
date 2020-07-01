@@ -1,6 +1,12 @@
 ### Get article by id
 GET http://localhost:3000/api/articles/-H91UO1mzYQSeSGK2rxWC
 
+### Get comments
+GET http://localhost:3000/api/articles/-H91UO1mzYQSeSGK2rxWC/comments
+
+### Get comments
+DELETE http://localhost:3000/api/articles/-H91UO1mzYQSeSGK2rxWC/comments/-ZyTZtrsZjjBq8k5Bskzjb
+
 ### Create new article
 POST http://localhost:3000/api/articles/
 Content-Type: application/json

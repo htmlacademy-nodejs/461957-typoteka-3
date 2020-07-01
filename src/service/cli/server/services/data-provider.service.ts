@@ -51,6 +51,19 @@ export class DataProviderService {
     return article.comments;
   }
 
+  public async deleteCommentById(articleId: string, commentId: string): Promise<ArticleComment | null> {
+    const article = await this.getArticleById(articleId);
+    if (article === null) {
+      return null;
+    }
+    const commentToDelete = article.comments.find(comment => comment.id === commentId);
+    if (!commentToDelete) {
+      return null;
+    }
+    article.comments = article.comments.filter(comment => comment.id !== commentId);
+    return commentToDelete;
+  }
+
   public async getArticleCommentById(articleId: string, commentId: string): Promise<ArticleComment | null> {
     const comments = await this.getCommentsByArticleId(articleId);
     if (comments === null) {
