@@ -122,4 +122,16 @@ describe(`Articles router`, () => {
       expect(res.status).toBe(200);
     });
   });
+
+  describe(`DELETE Delete existing article`, () => {
+    test(`Should return code 404 when pass invalid id`, async () => {
+      const res = await request(server).delete(`/api/articles/${invalidArticleId}`);
+      expect(res.status).toBe(404);
+    });
+
+    test(`Should return code 200 when pass valid id`, async () => {
+      const res = await request(server).delete(`/api/articles/${validArticleId}`);
+      expect(res.status).toBe(200);
+    });
+  });
 });
