@@ -60,4 +60,12 @@ export class ArticlesController {
     }
     return {payload: updatedArticle};
   }
+
+  public async deleteArticle(id: string): Promise<ControllerResponse<Article>> {
+    const deletedArticle = await this.dataProvider.deleteArticle(id);
+    if (deletedArticle === null) {
+      return {status: HttpCode.NOT_FOUND};
+    }
+    return {status: HttpCode.OK};
+  }
 }

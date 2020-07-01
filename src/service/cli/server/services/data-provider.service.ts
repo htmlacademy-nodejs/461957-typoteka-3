@@ -74,4 +74,13 @@ export class DataProviderService {
     }
     return Object.assign(existingArticle, article);
   }
+
+  public async deleteArticle(id: string): Promise<Article | null> {
+    const existingArticle = await this.getArticleById(id);
+    if (existingArticle === null) {
+      return null;
+    }
+    this.articlesCash = this.articlesCash.filter(article => article.id !== id);
+    return existingArticle;
+  }
 }

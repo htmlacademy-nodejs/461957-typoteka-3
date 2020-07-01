@@ -30,3 +30,7 @@ Content-Type: application/json
   "fullText": "Освоить вёрстку несложно.",
   "title": "Как собрать камни бесконечности"
 }
+
+### Delete Article
+DELETE http://localhost:3000/api/articles/-H91UO1mzYQSeSGK2rxWC
+Content-Type: application/json

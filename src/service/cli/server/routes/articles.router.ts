@@ -37,3 +37,8 @@ articlesRouter.put(`/:id`, newArticleValidator, async (req, res) => {
   const {status = HttpCode.OK, payload} = await articlesController.updateArticle(articleId, articleContent);
   res.status(status).send(payload);
 });
+articlesRouter.delete(`/:id`, async (req, res) => {
+  const articleId = req.params.id;
+  const {status = HttpCode.OK, payload} = await articlesController.deleteArticle(articleId);
+  res.status(status).send(payload);
+});
