@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export function Layout(props) {
   return (
@@ -18,10 +19,16 @@ export function Layout(props) {
       <body>
         <div className="wrapper">
           {props.header}
-          {props.main}
+          {props.children}
           {props.footer}
         </div>
       </body>
     </html>
   );
 }
+
+Layout.propTypes = {
+  header: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
+  footer: PropTypes.node.isRequired,
+};

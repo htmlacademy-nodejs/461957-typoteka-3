@@ -3,6 +3,6 @@ import {LayoutFilled} from "./components/Layout/LayoutFilled";
 
 export default function MainPage(props) {
   return (
-    <LayoutFilled main='text'/>
+    <LayoutFilled>Children component</LayoutFilled>
   );
 }
