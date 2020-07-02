@@ -4,6 +4,7 @@ import {Greeting} from "./components/Greeting/Greeting";
 import {ThemeList} from "./components/ThemeList/ThemeList";
 import {HotList} from "./components/HotList/HotList";
 import {LastList} from "./components/LastList/LastList";
+import {PreviewList} from "./components/PreviewList/PreviewList";
 
 export default function MainPage(props) {
   const themes = [
@@ -75,6 +76,25 @@ export default function MainPage(props) {
       authorAvatar: `img/avatar-small-3.png`,
     },
   ];
+  const previews = [
+    {
+      categories: [
+        {
+          title: "Дизайн",
+          link: "#",
+        },
+      ],
+      date: new Date(),
+      title: "Я ничего не понял",
+      text:
+        "Если вы сами пишете такие письма — почитайте Ильяхова. А в этой заметке я расскажу про заклинание, которое от таких писем помогает.",
+      link: "#",
+      commentsCount: "12",
+      commentsLink: "#",
+      imageFileName: "skyscraper",
+      imageAlt: "Фотография небоскреба",
+    },
+  ];
 
   return (
     <LayoutFilled>
@@ -85,6 +105,7 @@ export default function MainPage(props) {
           <HotList hotList={hotList} />
           <LastList lastList={lastList} />
         </div>
+        <PreviewList previews={previews} />
       </main>
     </LayoutFilled>
   );
