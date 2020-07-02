@@ -12,7 +12,7 @@ export function HotList(props) {
   return (
     <section className="main-page__hot hot">
       <h2 className="hot__name">
-        Самое обсуждаемое<span className="hot__icon hot__icon--fire"></span>
+        Самое обсуждаемое <span className="hot__icon hot__icon--fire"></span>
       </h2>
       <ul className="hot__list">{hotList}</ul>
     </section>
