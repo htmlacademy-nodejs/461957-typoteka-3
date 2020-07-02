@@ -3,7 +3,7 @@ parserOptions:
   project: "tsconfig.json"
   tsconfigRootDir: "."
   sourceType: module
-
+  createDefaultProgram: true
 env:
   es6: true
   node: true
