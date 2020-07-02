@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 export function Preview(props) {
   const categories = props.categories.map(category => (
-    <li className="preview__breadcrumbs-item" key={category.link}>
+    <li className="preview__breadcrumbs-item" key={category.title}>
       <a className="preview__breadcrumbs-link" href={category.link}>
         {category.title}
       </a>
@@ -25,15 +25,15 @@ export function Preview(props) {
           />
         </div>
       )}
-      <time className="preview__time" dateTime={props.date.toISOString()}>
-        {props.date.toLocaleString()}
+      <time className="preview__time" dateTime={new Date(Date.parse(props.createdDate)).toISOString()}>
+        {new Date(Date.parse(props.createdDate)).toLocaleString()}
       </time>
       <h3 className="preview__name">
         <a className="preview__name-link" href={props.commentsLink}>
           {props.title}
         </a>
       </h3>
-      <p className="preview__text">{props.text}</p>
+      <p className="preview__text">{props.announce}</p>
       <a className="preview__comment" href={props.commentsLink}>
         Комментарии <span className="preview__cloud"></span>
         <b className="preview__comment-count">{props.commentsCount}</b>
@@ -46,12 +46,12 @@ Preview.propTypes = {
   categories: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired,
+      link: PropTypes.string,
     }),
   ),
-  date: PropTypes.instanceOf(Date).isRequired,
+  createdDate: PropTypes.instanceOf(Date).isRequired,
   title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  announce: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
   commentsCount: PropTypes.number.isRequired,
   commentsLink: PropTypes.string.isRequired,

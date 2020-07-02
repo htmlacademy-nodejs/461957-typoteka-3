@@ -6,10 +6,10 @@ export function PreviewList(props) {
   const previews = props.previews.map(preview => (
     <li className="preview__item" key={preview.text}>
       <Preview
-        categories={preview.categories}
-        date={preview.date}
+        categories={preview.category}
+        createdDate={preview.createdDate}
         title={preview.title}
-        text={preview.text}
+        announce={preview.announce}
         link={preview.link}
         commentsCount={preview.commentsCount}
         commentsLink={preview.commentsLink}
@@ -30,15 +30,15 @@ export function PreviewList(props) {
 PreviewList.propTypes = {
   previews: PropTypes.arrayOf(
     PropTypes.shape({
-      categories: PropTypes.arrayOf(
+      category: PropTypes.arrayOf(
         PropTypes.shape({
           title: PropTypes.string.isRequired,
           link: PropTypes.string.isRequired,
         }),
       ),
-      date: PropTypes.instanceOf(Date).isRequired,
+      createdDate: PropTypes.instanceOf(Date).isRequired,
       title: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
+      announce: PropTypes.string.isRequired,
       link: PropTypes.string.isRequired,
       commentsCount: PropTypes.number.isRequired,
       commentsLink: PropTypes.string.isRequired,

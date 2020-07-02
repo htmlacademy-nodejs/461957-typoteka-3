@@ -105,7 +105,7 @@ export default function MainPage(props) {
           <HotList hotList={hotList} />
           <LastList lastList={lastList} />
         </div>
-        <PreviewList previews={previews} />
+        <PreviewList previews={props.articles} />
       </main>
     </LayoutFilled>
   );
