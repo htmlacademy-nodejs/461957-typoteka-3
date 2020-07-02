@@ -4,7 +4,7 @@ import {Preview} from "../Preview/Preview";
 
 export function PreviewList(props) {
   const previews = props.previews.map(preview => (
-    <li className="preview__item">
+    <li className="preview__item" key={preview.text}>
       <Preview
         categories={preview.categories}
         date={preview.date}
@@ -27,7 +27,7 @@ export function PreviewList(props) {
   );
 }
 
-PreviewList.PropTypes = {
+PreviewList.propTypes = {
   previews: PropTypes.arrayOf(
     PropTypes.shape({
       categories: PropTypes.arrayOf(

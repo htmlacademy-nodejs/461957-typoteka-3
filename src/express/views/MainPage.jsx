@@ -89,7 +89,7 @@ export default function MainPage(props) {
       text:
         "Если вы сами пишете такие письма — почитайте Ильяхова. А в этой заметке я расскажу про заклинание, которое от таких писем помогает.",
       link: "#",
-      commentsCount: "12",
+      commentsCount: 12,
       commentsLink: "#",
       imageFileName: "skyscraper",
       imageAlt: "Фотография небоскреба",

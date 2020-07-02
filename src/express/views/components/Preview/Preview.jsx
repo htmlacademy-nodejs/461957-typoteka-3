@@ -42,7 +42,7 @@ export function Preview(props) {
   );
 }
 
-Preview.PropTypes = {
+Preview.propTypes = {
   categories: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
