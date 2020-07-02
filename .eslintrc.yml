@@ -3,7 +3,6 @@ parserOptions:
   project: "tsconfig.json"
   tsconfigRootDir: "."
   sourceType: module
-  createDefaultProgram: true
 env:
   es6: true
   node: true
@@ -16,6 +15,9 @@ extends:
 parser: "@typescript-eslint/parser"
 plugins:
   - "@typescript-eslint"
+  - "react"
+ignorePatterns:
+  - "*.jsx"
 rules:
   comma-dangle:
     - warn
@@ -36,6 +38,7 @@ rules:
     - functions: false
 overrides:
   - files: "*.jsx"
+    parser: "babel-eslint"
     rules:
       "@typescript-eslint/explicit-function-return-type":
         - off
