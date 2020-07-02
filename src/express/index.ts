@@ -4,6 +4,7 @@ import {createEngine} from "express-react-views";
 import express from "express";
 import chalk from "chalk";
 import * as path from "path";
+import {ENV} from "../shared/env/env";
 
 // const registerRouter = require(`./routes/register`);
 // const loginRouter = require(`./routes/login`);
@@ -12,6 +13,7 @@ import * as path from "path";
 // const categoriesRouter = require(`./routes/categories`);
 // const articlesRouter = require(`./routes/articles`);
 
+const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;
 const app = express();
 // app.set(`views`, `src/express/templates/pages`);
 // app.set(`view engine`, `pug`);
@@ -33,6 +35,4 @@ app.get(`/`, (req, res) => res.render(JSXPages.MAIN_PAGE, {name: `Name`}));
 // app.use(`/500`, error500Router);
 // app.use(`*`, error404Router);
 
-app.listen(DEFAULT_SSR_PORT, () =>
-  console.info(chalk.green(`Listen on port ${DEFAULT_SSR_PORT}`)),
-);
+app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
