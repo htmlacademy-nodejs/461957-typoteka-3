@@ -1,8 +1,16 @@
 import {Router} from "express";
-import {TemplateNames} from "../../constants-es6";
+import {HttpCode, JSXPages, TemplateNames} from "../../constants-es6";
+import {MainPageController} from "../controllers/main-page.controller";
 
 export const mainPageRouter = Router();
 
-const mainPageContent = {};
+const mainPageController = new MainPageController();
 
-mainPageRouter.get(`/`, (req, res) => res.render(TemplateNames.MAIN_PAGE, mainPageContent));
+mainPageRouter.get(`/`, async (req, res) => {
+  const articles = await mainPageController.getArticles();
+  if (articles !== null) {
+    res.render(JSXPages.MAIN_PAGE, {articles});
+  } else {
+    res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
+  }
+});
