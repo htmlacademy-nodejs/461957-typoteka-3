@@ -39,4 +39,5 @@ export const TemplateNames = {
 };
 export const JSXPages = {
   MAIN_PAGE: `MainPage`,
+  ADMIN_PUBLICATIONS_PAGE: `AdminPublicationsPage`,
 };
