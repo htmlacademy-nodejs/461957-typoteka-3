@@ -5,8 +5,13 @@ import {ThemeList} from "./components/ThemeList/ThemeList";
 import {HotList} from "./components/HotList/HotList";
 import {LastList} from "./components/LastList/LastList";
 import {PreviewList} from "./components/PreviewList/PreviewList";
+import {Article} from "../../types/article";
 
-export default function MainPage(props) {
+interface Props {
+  articles: Article[];
+}
+
+export default function MainPage(props: Props) {
   const themes = [
     {
       title: `Title`,
@@ -74,25 +79,6 @@ export default function MainPage(props) {
       link: `#`,
       authorName: `Игорь Шманский`,
       authorAvatar: `img/avatar-small-3.png`,
-    },
-  ];
-  const previews = [
-    {
-      categories: [
-        {
-          title: "Дизайн",
-          link: "#",
-        },
-      ],
-      date: new Date(),
-      title: "Я ничего не понял",
-      text:
-        "Если вы сами пишете такие письма — почитайте Ильяхова. А в этой заметке я расскажу про заклинание, которое от таких писем помогает.",
-      link: "#",
-      commentsCount: 12,
-      commentsLink: "#",
-      imageFileName: "skyscraper",
-      imageAlt: "Фотография небоскреба",
     },
   ];
 
