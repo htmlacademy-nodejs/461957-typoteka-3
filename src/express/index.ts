@@ -12,12 +12,12 @@ import {ENV} from "../shared/env/env";
 // const myRouter = require(`./routes/my`);
 // const categoriesRouter = require(`./routes/categories`);
 // const articlesRouter = require(`./routes/articles`);
-
+const templateExtension = ENV.NODE_ENV === `development` ? `tsx` : `js`;
 const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;
 const app = express();
 app.set(`views`, path.join(__dirname, `views`));
-app.set(`view engine`, `jsx`);
-app.engine(`jsx`, createEngine());
+app.set(`view engine`, templateExtension);
+app.engine(templateExtension, createEngine());
 app.use(express.static(path.join(__dirname, STATIC_DIR)));
 
 app.use(`/`, mainPageRouter);
