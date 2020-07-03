@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node -r dotenv/config src/service/service.ts",
     "start-front-server": "ts-node -r dotenv/config src/express/index.ts",
+    "build": "tsc",
     "test": "npm run eslint",
     "test:rest": "cross-env PORT=7777 jest --maxWorkers=1 src/service/cli/server",
     "eslint": "eslint --ext .js,.ts src/",
