@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {HttpCode, JSXPages, TemplateNames} from "../../constants-es6";
+import {HttpCode, JSXPages} from "../../constants-es6";
 import {MainPageController} from "../controllers/main-page.controller";
 
 export const mainPageRouter = Router();
