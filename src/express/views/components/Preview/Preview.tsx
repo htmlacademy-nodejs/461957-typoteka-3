@@ -1,11 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
+import {Article} from "../../../../types/article";
 
-export function Preview(props) {
-  const categories = props.categories.map(category => (
-    <li className="preview__breadcrumbs-item" key={category.title}>
-      <a className="preview__breadcrumbs-link" href={category.link}>
-        {category.title}
+interface Props extends Partial<Article> {}
+
+export function Preview(props: Props): JSX.Element {
+  const categories = props.category.map(categoryItem => (
+    <li className="preview__breadcrumbs-item" key={categoryItem}>
+      <a className="preview__breadcrumbs-link" href="#">
+        {categoryItem}
       </a>
     </li>
   ));
@@ -13,48 +15,31 @@ export function Preview(props) {
   return (
     <>
       <ul className="preview__breadcrumbs">{categories}</ul>
-      {props.imageFileName && (
+      {false && (
         <div className="preview__background">
           <img
             className="preview__background-image"
-            src={`img/${props.imageFileName}@1x.jpg`}
+            src={`img/@1x.jpg`}
             width="460"
             height="240"
-            srcSet={`img/${props.imageFileName}@1x.jpg 1x, img/${props.imageFileName}@2x.jpg 2x`}
-            alt={props.imageAlt}
+            srcSet={`img/@1x.jpg 1x, img/@2x.jpg 2x`}
+            alt=""
           />
         </div>
       )}
-      <time className="preview__time" dateTime={new Date(Date.parse(props.createdDate)).toISOString()}>
-        {new Date(Date.parse(props.createdDate)).toLocaleString()}
+      <time className="preview__time" dateTime={props.createdDate.toISOString()}>
+        {props.createdDate.toLocaleString()}
       </time>
       <h3 className="preview__name">
-        <a className="preview__name-link" href={props.commentsLink}>
+        <a className="preview__name-link" href="#">
           {props.title}
         </a>
       </h3>
       <p className="preview__text">{props.announce}</p>
-      <a className="preview__comment" href={props.commentsLink}>
+      <a className="preview__comment" href="#">
         Комментарии <span className="preview__cloud"></span>
-        <b className="preview__comment-count">{props.commentsCount}</b>
+        <b className="preview__comment-count">{props.comments.length}</b>
       </a>
     </>
   );
 }
-
-Preview.propTypes = {
-  categories: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      link: PropTypes.string,
-    }),
-  ),
-  createdDate: PropTypes.instanceOf(Date).isRequired,
-  title: PropTypes.string.isRequired,
-  announce: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
-  commentsCount: PropTypes.number.isRequired,
-  commentsLink: PropTypes.string.isRequired,
-  imageFileName: PropTypes.string,
-  imageAlt: PropTypes.string,
-};
