@@ -6,7 +6,9 @@
   "scripts": {
     "start": "ts-node -r dotenv/config src/service/service.ts",
     "start-front-server": "ts-node -r dotenv/config src/express/index.ts",
-    "build": "tsc",
+    "build": "npm run build:ts && npm run copy-static-assets",
+    "build:ts": "tsc",
+    "copy-static-assets": "node copy-static-assets.js",
     "test": "npm run eslint",
     "test:rest": "cross-env PORT=7777 jest --maxWorkers=1 src/service/cli/server",
     "eslint": "eslint --ext .js,.ts src/",
@@ -42,6 +44,7 @@
     "nodemon": "2.0.2",
     "package-json-type": "1.0.3",
     "prettier": "1.19.1",
+    "shelljs": "0.8.4",
     "supertest": "4.0.2",
     "ts-jest": "26.1.0",
     "ts-node": "8.6.2",

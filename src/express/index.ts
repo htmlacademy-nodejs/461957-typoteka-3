@@ -1,4 +1,4 @@
-import {DEFAULT_SSR_PORT, JSXPages, STATIC_DIR} from "../constants-es6";
+import {DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
 import {mainPageRouter} from "./routes/main-page";
 import {createEngine} from "express-react-views";
 import express from "express";
@@ -18,7 +18,7 @@ const app = express();
 app.set(`views`, path.join(__dirname, `views`));
 app.set(`view engine`, `jsx`);
 app.engine(`jsx`, createEngine());
-app.use(express.static(STATIC_DIR));
+app.use(express.static(path.join(__dirname, STATIC_DIR)));
 
 app.use(`/`, mainPageRouter);
 // app.use(`/register`, registerRouter);
