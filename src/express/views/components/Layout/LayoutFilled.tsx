@@ -6,7 +6,7 @@ import {Footer} from "../Footer/Footer";
 
 export function LayoutFilled(props) {
   return (
-    <Layout header={<Header />} main={props.main} footer={<Footer />}>
+    <Layout header={<Header />} footer={<Footer />}>
       {props.children}
     </Layout>
   );
