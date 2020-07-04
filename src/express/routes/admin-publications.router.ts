@@ -1,13 +1,13 @@
 import {Router} from "express";
 import {HttpCode, JSXPages} from "../../constants-es6";
-import {MainPageController} from "../controllers/main-page.controller";
+import {DataProviderService} from "../controllers/data-provider.service";
 
 export const adminPublicationsRouter = Router();
 
-const mainPageController = new MainPageController();
+const dataProviderService = new DataProviderService();
 
 adminPublicationsRouter.get(`/`, async (req, res) => {
-  const articles = await mainPageController.getArticles();
+  const articles = await dataProviderService.getArticles();
   if (articles !== null) {
     res.render(JSXPages.ADMIN_PUBLICATIONS_PAGE, {articles});
   } else {
@@ -16,7 +16,7 @@ adminPublicationsRouter.get(`/`, async (req, res) => {
 });
 
 adminPublicationsRouter.get(`/comments`, async (req, res) => {
-  const listOfComments = await mainPageController.getComments(3);
+  const listOfComments = await dataProviderService.getComments(3);
   if (listOfComments !== null) {
     res.render(JSXPages.ADMIN_COMMENTS_PAGE, {listOfComments});
   } else {

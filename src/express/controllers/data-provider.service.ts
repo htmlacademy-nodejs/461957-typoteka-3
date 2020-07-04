@@ -4,7 +4,7 @@ import {ENV} from "../../shared/env/env";
 import {HttpCode, Routes} from "../../constants-es6";
 import {ArticleComment} from "../../types/article-comment";
 
-export class MainPageController {
+export class DataProviderService {
   private requestService: AxiosStatic;
   private apiEndPoint = ENV.API_HOST + `:` + ENV.PORT + Routes.API;
 

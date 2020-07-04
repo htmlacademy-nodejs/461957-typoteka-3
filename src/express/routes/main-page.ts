@@ -1,13 +1,13 @@
 import {Router} from "express";
 import {HttpCode, JSXPages} from "../../constants-es6";
-import {MainPageController} from "../controllers/main-page.controller";
+import {DataProviderService} from "../controllers/data-provider.service";
 
 export const mainPageRouter = Router();
 
-const mainPageController = new MainPageController();
+const dataProviderService = new DataProviderService();
 
 mainPageRouter.get(`/`, async (req, res) => {
-  const articles = await mainPageController.getArticles();
+  const articles = await dataProviderService.getArticles();
   if (articles !== null) {
     res.render(JSXPages.MAIN_PAGE, {articles});
   } else {
