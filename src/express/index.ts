@@ -6,6 +6,7 @@ import chalk from "chalk";
 import * as path from "path";
 import {ENV} from "../shared/env/env";
 import {adminPublicationsRouter} from "./routes/admin-publications.router";
+import {articlesRouter} from "./routes/articles.router";
 
 // const registerRouter = require(`./routes/register`);
 // const loginRouter = require(`./routes/login`);
@@ -26,7 +27,7 @@ app.use(`/`, mainPageRouter);
 // app.use(`/search`, searchRouter);
 app.use(`/my`, adminPublicationsRouter);
 // app.use(`/categories`, categoriesRouter);
-// app.use(`/articles`, articlesRouter);
+app.use(`/articles`, articlesRouter);
 // app.use(`/500`, error500Router);
 // app.use(`*`, error404Router);
 
