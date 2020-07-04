@@ -30,6 +30,7 @@ export const MockTextsFilePath = {
 export const Routes = {
   API: `/api`,
   ARTICLES: `/articles`,
+  COMMENTS: `/comments`,
   CATEGORIES: `/categories`,
   SEARCH: `/search`,
 };
@@ -40,4 +41,5 @@ export const TemplateNames = {
 export const JSXPages = {
   MAIN_PAGE: `MainPage`,
   ADMIN_PUBLICATIONS_PAGE: `AdminPublicationsPage`,
+  ADMIN_COMMENTS_PAGE: `AdminCommentsPage`,
 };

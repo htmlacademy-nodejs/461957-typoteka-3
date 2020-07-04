@@ -15,4 +15,11 @@ adminPublicationsRouter.get(`/`, async (req, res) => {
   }
 });
 
-adminPublicationsRouter.get(`/comments`, (req, res) => res.send(`comments`));
+adminPublicationsRouter.get(`/comments`, async (req, res) => {
+  const listOfComments = await mainPageController.getComments(3);
+  if (listOfComments !== null) {
+    res.render(JSXPages.ADMIN_COMMENTS_PAGE, {listOfComments});
+  } else {
+    res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
+  }
+});
