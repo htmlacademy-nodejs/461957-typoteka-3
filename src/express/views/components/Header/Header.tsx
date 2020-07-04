@@ -1,12 +1,10 @@
 import React from "react";
+import {Logo} from "../Logo/Logo";
 
 export function Header() {
   return (
     <header className="header">
-      <a className="header__logo logo" href="#">
-        <img className="logo__image" src="img/icons/logo-image-only.svg" alt="логотип Тайпотеки" />
-        <span className="logo__name">Типотека</span>
-      </a>
+      <Logo />
       <nav className="header__nav">
         <ul className="header__nav-list">
           <li className="header__list-item">
