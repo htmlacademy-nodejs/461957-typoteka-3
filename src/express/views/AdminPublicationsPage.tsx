@@ -1,7 +1,7 @@
 import React from "react";
-import {LayoutFilled} from "./components/Layout/LayoutFilled";
 import {Article} from "../../types/article";
 import {Note} from "./components/Note/Note";
+import {LayoutAdmin} from "./components/Layout/LayoutAdmin";
 
 interface Props {
   articles: Article[];
@@ -18,13 +18,13 @@ export default function AdminPublicationsPage(props: Props) {
   });
 
   return (
-    <LayoutFilled>
+    <LayoutAdmin>
       <main className="main-page main-page--padding">
         <section className="main-page__notes notes">
           <h1 className="notes__title">Мои записи</h1>
           <ul className="notes__list">{notesList}</ul>
         </section>
       </main>
-    </LayoutFilled>
+    </LayoutAdmin>
   );
 }
