@@ -1,10 +1,8 @@
 import {Router} from "express";
 import {HttpCode, JSXPages} from "../../constants-es6";
-import {DataProviderService} from "../controllers/data-provider.service";
+import {dataProviderService} from "../services/data-provider.service";
 
 export const mainPageRouter = Router();
-
-const dataProviderService = new DataProviderService();
 
 mainPageRouter.get(`/`, async (req, res) => {
   const articles = await dataProviderService.getArticles();

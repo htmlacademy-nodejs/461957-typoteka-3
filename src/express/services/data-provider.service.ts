@@ -62,3 +62,5 @@ export class DataProviderService {
     }
   }
 }
+
+export const dataProviderService = new DataProviderService();
