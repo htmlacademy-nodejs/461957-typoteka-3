@@ -1,17 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, {FunctionComponent} from "react";
 import {Layout} from "./Layout";
 import {Header} from "../Header/Header";
 import {Footer} from "../Footer/Footer";
 
-export function LayoutFilled(props) {
-  return (
-    <Layout header={<Header />} footer={<Footer />}>
-      {props.children}
-    </Layout>
-  );
-}
+interface LayoutFilledProps {}
 
-LayoutFilled.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+export const LayoutFilled: FunctionComponent<LayoutFilledProps> = ({children}) => (
+  <Layout header={<Header />} footer={<Footer />}>
+    {children}
+  </Layout>
+);
