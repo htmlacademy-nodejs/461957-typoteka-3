@@ -6,7 +6,7 @@ import {Footer} from "../Footer/Footer";
 interface LayoutAdminProps {}
 
 export const LayoutAdmin: FunctionComponent<LayoutAdminProps> = ({children}) => (
-  <Layout isBackgroundHidden={true} header={<Header />} footer={<Footer isLargeIndent={true} />}>
+  <Layout wrapperMode={"admin"} header={<Header />} footer={<Footer isLargeIndent={true} />}>
     {children}
   </Layout>
 );

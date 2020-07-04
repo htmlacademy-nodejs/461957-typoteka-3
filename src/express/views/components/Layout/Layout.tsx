@@ -1,13 +1,20 @@
 import React, {FunctionComponent, ReactNode} from "react";
-import PropTypes from "prop-types";
+
+type WrapperMode = "default" | "admin" | "error";
 
 export interface LayoutProps {
-  isBackgroundHidden?: boolean;
+  wrapperMode?: WrapperMode;
   header: ReactNode;
   footer: ReactNode;
 }
 
-export const Layout: FunctionComponent<LayoutProps> = ({isBackgroundHidden, header, children, footer}) => (
+const wrapperCssClasses: {[key in WrapperMode]: string} = {
+  default: "wrapper",
+  admin: "wrapper wrapper--nobackground",
+  error: "wrapper-color",
+};
+
+export const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, children, footer}) => (
   <html lang="ru">
     <head>
       <meta charSet="utf-8" />
@@ -22,7 +29,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({isBackgroundHidden, head
     </head>
 
     <body>
-      <div className={"wrapper" + (isBackgroundHidden ? " wrapper--nobackground" : "")}>
+      <div className={wrapperCssClasses[wrapperMode ?? "default"]}>
         {header}
         {children}
         {footer}
