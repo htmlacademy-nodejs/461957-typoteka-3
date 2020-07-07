@@ -1,4 +1,4 @@
-import {DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
+import {DEFAULT_SSR_PORT, JSXPages, STATIC_DIR} from "../constants-es6";
 import {mainPageRouter} from "./routes/main-page";
 import {createEngine} from "express-react-views";
 import express from "express";
@@ -28,7 +28,7 @@ app.use(`/`, mainPageRouter);
 app.use(`/my`, adminPublicationsRouter);
 // app.use(`/categories`, categoriesRouter);
 app.use(`/articles`, articlesRouter);
-// app.use(`/500`, error500Router);
-// app.use(`*`, error404Router);
+app.use(`/500`, (req, res) => res.render(JSXPages.ERROR_PAGE_500));
+app.use(`*`, (req, res) => res.render(JSXPages.ERROR_PAGE_404));
 
 app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
