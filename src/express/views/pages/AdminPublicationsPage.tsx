@@ -1,13 +1,15 @@
-import React from "react";
-import {Article} from "../../types/article";
-import {Note} from "./components/Note/Note";
-import {LayoutAdmin} from "./components/Layout/LayoutAdmin";
+import React, {FunctionComponent} from "react";
+import {Article} from "../../../types/article";
+import {Note} from "../components/Note/Note";
+import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
 
-interface Props {
+interface AdminPublicationsPageProps {
   articles: Article[];
 }
 
-export default function AdminPublicationsPage(props: Props) {
+export const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps> = (
+  props: AdminPublicationsPageProps,
+) => {
   const notesList = props.articles.map((article, index, articlesList) => {
     const isLastElement = index === articlesList.length - 1;
     return (
@@ -27,4 +29,4 @@ export default function AdminPublicationsPage(props: Props) {
       </main>
     </LayoutAdmin>
   );
-}
+};
