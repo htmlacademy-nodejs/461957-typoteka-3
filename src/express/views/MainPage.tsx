@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FunctionComponent} from "react";
 import {LayoutFilled} from "./components/Layout/LayoutFilled";
 import {Greeting} from "./components/Greeting/Greeting";
 import {ThemeList} from "./components/ThemeList/ThemeList";
@@ -7,11 +7,11 @@ import {LastList} from "./components/LastList/LastList";
 import {PreviewList} from "./components/PreviewList/PreviewList";
 import {Article} from "../../types/article";
 
-interface Props {
-  articles: Article[];
+interface MainPageProps {
+  articles?: Article[];
 }
 
-export default function MainPage(props: Props) {
+export const MainPage: FunctionComponent<MainPageProps> = ({articles}: MainPageProps) => {
   const themes = [
     {
       title: `Title`,
@@ -91,8 +91,8 @@ export default function MainPage(props: Props) {
           <HotList hotList={hotList} />
           <LastList lastList={lastList} />
         </div>
-        <PreviewList previews={props.articles} />
+        <PreviewList previews={articles} />
       </main>
     </LayoutFilled>
   );
-}
+};
