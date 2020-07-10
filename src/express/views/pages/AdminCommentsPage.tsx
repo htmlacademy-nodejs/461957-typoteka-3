@@ -1,13 +1,13 @@
-import React from "react";
-import {LayoutAdmin} from "./components/Layout/LayoutAdmin";
-import {ArticleComment} from "../../types/article-comment";
-import {PublicationComment} from "./components/PublicationComment/PublicationComment";
+import React, {FunctionComponent} from "react";
+import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
+import {ArticleComment} from "../../../types/article-comment";
+import {PublicationComment} from "../components/PublicationComment/PublicationComment";
 
-interface Props {
+interface AdminCommentsPageProps {
   listOfComments: ArticleComment[];
 }
 
-export default function AdminCommentsPage(props: Props) {
+export const AdminCommentsPage: FunctionComponent<AdminCommentsPageProps> = (props: AdminCommentsPageProps) => {
   const listOfComments = props.listOfComments.map((comment, index, listOfComments) => {
     const isLastElement = index === listOfComments.length - 1;
     return (
@@ -30,4 +30,4 @@ export default function AdminCommentsPage(props: Props) {
       </main>
     </LayoutAdmin>
   );
-}
+};

@@ -2,8 +2,8 @@ import {Router} from "express";
 import {HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services/data-provider.service";
 import {streamPage} from "../utils/stream-page";
-import AdminCommentsPage from "../views/AdminCommentsPage";
 import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
+import {AdminCommentsPage} from "../views/pages/AdminCommentsPage";
 
 export const adminPublicationsRouter = Router();
 
