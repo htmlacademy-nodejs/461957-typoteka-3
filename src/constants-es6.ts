@@ -35,13 +35,3 @@ export const Routes = {
   SEARCH: `/search`,
 };
 export const ClientRoutes = {};
-export const TemplateNames = {
-  MAIN_PAGE: `main-page`,
-};
-export const JSXPages = {
-  MAIN_PAGE: `MainPage`,
-  ADMIN_PUBLICATIONS_PAGE: `AdminPublicationsPage`,
-  ADMIN_COMMENTS_PAGE: `AdminCommentsPage`,
-  ERROR_PAGE_404: `ErrorPage404`,
-  ERROR_PAGE_500: `ErrorPage500`,
-};
