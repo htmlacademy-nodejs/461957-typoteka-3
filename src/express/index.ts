@@ -1,4 +1,4 @@
-import {DEFAULT_SSR_PORT, JSXPages, STATIC_DIR} from "../constants-es6";
+import {DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
 import {mainPageRouter} from "./routes/main-page";
 import {createEngine} from "express-react-views";
 import express from "express";
@@ -9,6 +9,7 @@ import {adminPublicationsRouter} from "./routes/admin-publications.router";
 import {articlesRouter} from "./routes/articles.router";
 import {streamPage} from "./utils/stream-page";
 import {ErrorPage500} from "./views/pages/ErrorPage500";
+import {ErrorPage404} from "./views/pages/ErrorPage404";
 
 // const registerRouter = require(`./routes/register`);
 // const loginRouter = require(`./routes/login`);
@@ -31,6 +32,6 @@ app.use(`/my`, adminPublicationsRouter);
 // app.use(`/categories`, categoriesRouter);
 app.use(`/articles`, articlesRouter);
 app.use(`/500`, (req, res) => streamPage(res, ErrorPage500));
-app.use(`*`, (req, res) => res.render(JSXPages.ERROR_PAGE_404));
+app.use(`*`, (req, res) => streamPage(res, ErrorPage404));
 
 app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
