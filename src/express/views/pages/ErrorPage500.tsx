@@ -1,12 +1,12 @@
 import React, {FunctionComponent} from "react";
-import {Layout} from "./components/Layout/Layout";
-import {Header404} from "./components/Header/Header404";
-import {Footer} from "./components/Footer/Footer";
-import {Header500} from "./components/Header/Header500";
+import {Layout} from "../components/Layout/Layout";
+import {Header404} from "../components/Header/Header404";
+import {Footer} from "../components/Footer/Footer";
+import {Header500} from "../components/Header/Header500";
 
 interface ErrorPageProps {}
 
-const ErrorPage500: FunctionComponent<ErrorPageProps> = ({}) => (
+export const ErrorPage500: FunctionComponent<ErrorPageProps> = ({}) => (
   <Layout header={<Header500 />} wrapperMode={"error"} footer={<Footer />}>
     <h1 className="visually-hidden">Ошибка 500</h1>
     <section className="error error--500">
@@ -20,4 +20,3 @@ const ErrorPage500: FunctionComponent<ErrorPageProps> = ({}) => (
     </section>
   </Layout>
 );
-export default ErrorPage500;

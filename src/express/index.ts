@@ -7,6 +7,8 @@ import * as path from "path";
 import {ENV} from "../shared/env/env";
 import {adminPublicationsRouter} from "./routes/admin-publications.router";
 import {articlesRouter} from "./routes/articles.router";
+import {streamPage} from "./utils/stream-page";
+import {ErrorPage500} from "./views/pages/ErrorPage500";
 
 // const registerRouter = require(`./routes/register`);
 // const loginRouter = require(`./routes/login`);
@@ -28,7 +30,7 @@ app.use(`/`, mainPageRouter);
 app.use(`/my`, adminPublicationsRouter);
 // app.use(`/categories`, categoriesRouter);
 app.use(`/articles`, articlesRouter);
-app.use(`/500`, (req, res) => res.render(JSXPages.ERROR_PAGE_500));
+app.use(`/500`, (req, res) => streamPage(res, ErrorPage500));
 app.use(`*`, (req, res) => res.render(JSXPages.ERROR_PAGE_404));
 
 app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
