@@ -1,11 +1,11 @@
 import React, {FunctionComponent} from "react";
-import {LayoutFilled} from "./components/Layout/LayoutFilled";
-import {Greeting} from "./components/Greeting/Greeting";
-import {ThemeList} from "./components/ThemeList/ThemeList";
-import {HotList} from "./components/HotList/HotList";
-import {LastList} from "./components/LastList/LastList";
-import {PreviewList} from "./components/PreviewList/PreviewList";
-import {Article} from "../../types/article";
+import {LayoutFilled} from "../components/Layout/LayoutFilled";
+import {Greeting} from "../components/Greeting/Greeting";
+import {ThemeList} from "../components/ThemeList/ThemeList";
+import {HotList} from "../components/HotList/HotList";
+import {LastList} from "../components/LastList/LastList";
+import {PreviewList} from "../components/PreviewList/PreviewList";
+import {Article} from "../../../types/article";
 
 interface MainPageProps {
   articles?: Article[];

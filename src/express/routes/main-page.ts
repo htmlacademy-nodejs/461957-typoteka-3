@@ -2,7 +2,7 @@ import {Router} from "express";
 import {HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services/data-provider.service";
 import {streamPage} from "../utils/stream-page";
-import {MainPage} from "../views/MainPage";
+import {MainPage} from "../views/pages/MainPage";
 
 export const mainPageRouter = Router();
 
