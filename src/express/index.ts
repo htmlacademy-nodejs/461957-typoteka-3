@@ -8,8 +8,8 @@ import {adminPublicationsRouter} from "./routes/admin-publications.router";
 import {articlesRouter} from "./routes/articles.router";
 import {streamPage} from "./utils/stream-page";
 import {ErrorPage500} from "./views/pages/ErrorPage500";
-import {ErrorPage404} from "./views/pages/ErrorPage404";
-import {SSRError} from "./errors/ssr-error";
+import {notFoundMiddleware} from "./middlewares/not-found.middleware";
+import {errorHandlerMiddleware} from "./middlewares/error-handler.middleware";
 
 // const registerRouter = require(`./routes/register`);
 // const loginRouter = require(`./routes/login`);
@@ -28,21 +28,8 @@ app.use(`/my`, adminPublicationsRouter);
 // app.use(`/categories`, categoriesRouter);
 app.use(`/articles`, articlesRouter);
 app.use(`/500`, (req, res) => streamPage(res, ErrorPage500));
-app.get(`/forbidden`, (req, res, next) => next(new SSRError({message: `${req.ip} tried to access /Forbidden`})));
-app.get(`*`, (req, res, next) =>
-  next(new SSRError({message: `${req.ip} tried to reach ${req.originalUrl}`, statusCode: 404, shouldRedirect: true})),
-);
+app.use(`*`, notFoundMiddleware);
 
-app.use((err: SSRError, req, res, next) => {
-  console.error(err.message);
-  if (!err.statusCode) {
-    err.statusCode = 500;
-  }
-  if (err.shouldRedirect) {
-    streamPage(res, ErrorPage404);
-  } else {
-    streamPage(res, ErrorPage500);
-  }
-});
+app.use(errorHandlerMiddleware);
 
 app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
