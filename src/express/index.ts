@@ -6,8 +6,6 @@ import * as path from "path";
 import {ENV} from "../shared/env/env";
 import {adminPublicationsRouter} from "./routes/admin-publications.router";
 import {articlesRouter} from "./routes/articles.router";
-import {streamPage} from "./utils/stream-page";
-import {ErrorPage500} from "./views/pages/ErrorPage500";
 import {notFoundMiddleware} from "./middlewares/not-found.middleware";
 import {errorHandlerMiddleware} from "./middlewares/error-handler.middleware";
 
@@ -27,7 +25,6 @@ app.use(`/`, mainPageRouter);
 app.use(`/my`, adminPublicationsRouter);
 // app.use(`/categories`, categoriesRouter);
 app.use(`/articles`, articlesRouter);
-app.use(`/500`, (req, res) => streamPage(res, ErrorPage500));
 app.use(`*`, notFoundMiddleware);
 
 app.use(errorHandlerMiddleware);
