@@ -14,7 +14,7 @@ export const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps
     const isLastElement = index === articlesList.length - 1;
     return (
       <li className={"notes__list-item" + (isLastElement ? "  notes__list-item--last" : "")} key={article.id}>
-        <Note title={article.title} createdDate={article.createdDate} />
+        <Note title={article.title} createdDate={article.createdDate} link={`/articles/${article.id}`} />
       </li>
     );
   });

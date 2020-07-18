@@ -3,6 +3,7 @@ import React from "react";
 interface Props {
   createdDate: Date;
   title: string;
+  link: string;
 }
 
 export function Note(props: Props): JSX.Element {
@@ -11,7 +12,7 @@ export function Note(props: Props): JSX.Element {
       <time className="notes__item-time" dateTime={props.createdDate.toISOString()}>
         {props.createdDate.toLocaleString()}
       </time>
-      <a className="notes__item-text" href="#">
+      <a className="notes__item-text" href={props.link}>
         {props.title}
       </a>
       <button className="notes__button button button--close-item" type="button">
