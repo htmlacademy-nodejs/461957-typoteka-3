@@ -1,4 +1,4 @@
-import axios, {AxiosStatic, AxiosResponse} from "axios";
+import axios, {AxiosResponse, AxiosStatic} from "axios";
 import {Article} from "../../types/article";
 import {ENV} from "../../shared/env/env";
 import {HttpCode, Routes} from "../../constants-es6";
@@ -24,6 +24,21 @@ export class DataProviderService {
         ...article,
         createdDate: new Date(Date.parse((article.createdDate as unknown) as string)),
       }));
+    } else {
+      console.error(response.data);
+      return null;
+    }
+  }
+
+  public async getArticleById(id: string): Promise<Article> {
+    let response: AxiosResponse<Article>;
+    try {
+      response = await this.requestService.get<Article>(this.apiEndPoint + Routes.ARTICLES + `/` + id, {});
+    } catch (e) {
+      console.error(`Failed to load article by id "${id}"`, e);
+    }
+    if (response && response.status === 200) {
+      return {...response.data, createdDate: new Date(Date.parse((response.data.createdDate as unknown) as string))};
     } else {
       console.error(response.data);
       return null;
