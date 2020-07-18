@@ -35,11 +35,22 @@ articlesRouter.get(`/:id`, async (req, res, next) => {
   }
 });
 
-articlesRouter.get(`/edit/:id`, (req, res, next) => {
+articlesRouter.get(`/edit/:id`, async (req, res, next) => {
   const articleId = req.params.id;
-  // TODO: Get article;
-  if (articleId !== null) {
-    return res.send(`Edit article ${articleId}`);
+  try {
+    const article = await dataProviderService.getArticleById(articleId);
+    if (article !== null) {
+      streamPage(res, NewArticlePage, {article});
+    } else {
+      next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    }
+  } catch (e) {
+    next(
+      new SSRError({
+        message: `Failed to get article`,
+        statusCode: HttpCode.NOT_FOUND,
+        errorPayload: e,
+      }),
+    );
   }
-  next();
 });
