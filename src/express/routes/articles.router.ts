@@ -1,8 +1,10 @@
 import {Router} from "express";
+import {streamPage} from "../utils/stream-page";
+import {NewArticlePage} from "../views/pages/NewArticlePage";
 
 export const articlesRouter = Router();
 
-articlesRouter.get(`/add`, (req, res) => res.send(`New post`));
+articlesRouter.get(`/add`, (req, res) => streamPage(res, NewArticlePage));
 
 articlesRouter.get(`/category/:id`, (req, res, next) => {
   const categoryId = req.params.id;
