@@ -1,5 +1,12 @@
 import {SSRError} from "../errors/ssr-error";
+import {Request} from "express";
 
-export function notFoundMiddleware(req, res, next): void {
-  next(new SSRError({message: `${req.ip} tried to reach ${req.originalUrl}`, statusCode: 404, shouldRedirect: true}));
+export function notFoundMiddleware(req: Request, res, next): void {
+  next(
+    new SSRError({
+      message: `${req.ip} tried to ${req.method} ${req.originalUrl}`,
+      statusCode: 404,
+      shouldRedirect: true,
+    }),
+  );
 }
