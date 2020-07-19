@@ -2,15 +2,13 @@ import {Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {NewArticlePage} from "../views/pages/NewArticlePage";
 import {SSRError} from "../errors/ssr-error";
-import {ClientRoutes, HttpCode, HttpMethod} from "../../constants-es6";
+import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services/data-provider.service";
 import {ArticlePage} from "../views/pages/ArticlePage";
 
 export const articlesRouter = Router();
 
-articlesRouter.get(`/add`, (req, res) =>
-  streamPage(res, NewArticlePage, {method: HttpMethod.POST, endPoint: ClientRoutes.ARTICLES.ADD}),
-);
+articlesRouter.get(`/add`, (req, res) => streamPage(res, NewArticlePage, {endPoint: ClientRoutes.ARTICLES.ADD}));
 
 articlesRouter.get(`/category/:id`, (req, res, next) => {
   const categoryId = req.params.id;
@@ -48,7 +46,6 @@ articlesRouter.get(`/edit/:id`, async (req, res, next) => {
     if (article !== null) {
       streamPage(res, NewArticlePage, {
         article,
-        method: HttpMethod.PUT,
         endPoint: ClientRoutes.ARTICLES.INDEX + `/` + articleId,
       });
     } else {
