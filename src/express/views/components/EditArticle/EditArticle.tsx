@@ -1,11 +1,14 @@
 import React, {FunctionComponent} from "react";
 import {Article} from "../../../../types/article";
+import {HttpMethod} from "../../../../constants-es6";
 
 interface EditArticleProps {
   article?: Article;
+  endPoint: string;
+  method: keyof typeof HttpMethod;
 }
 
-export const EditArticle: FunctionComponent<EditArticleProps> = ({article}) => {
+export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPoint, method}) => {
   const articleProps =
     article === undefined
       ? {
@@ -21,7 +24,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article}) => {
 
   return (
     <div className="new-publication">
-      <form>
+      <form action={endPoint} method={method} encType="multipart/form-data">
         <div className="new-publication__header">
           <h1>Новая публикация</h1>
           <div className="new-publication__date-form">
