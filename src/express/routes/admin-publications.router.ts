@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {HttpCode} from "../../constants-es6";
+import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services/data-provider.service";
 import {streamPage} from "../utils/stream-page";
 import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
@@ -27,7 +27,7 @@ adminPublicationsRouter.get(`/`, async (req, res, next) => {
   }
 });
 
-adminPublicationsRouter.get(`/comments`, async (req, res, next) => {
+adminPublicationsRouter.get(ClientRoutes.ADMIN.COMMENTS, async (req, res, next) => {
   try {
     const listOfComments = await dataProviderService.getComments(3);
     if (listOfComments !== null) {

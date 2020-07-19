@@ -34,7 +34,16 @@ export const Routes = {
   CATEGORIES: `/categories`,
   SEARCH: `/search`,
 };
-export const ClientRoutes = {};
+export const ClientRoutes = {
+  ADMIN: {
+    INDEX: `/my`,
+    COMMENTS: `/my/comments`,
+  },
+  ARTICLES: {
+    INDEX: `/articles`,
+    ADD: `/articles/add`,
+  },
+};
 export const HttpMethod = {
   GET: `GET`,
   POST: `POST`,

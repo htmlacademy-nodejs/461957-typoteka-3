@@ -1,4 +1,4 @@
-import {DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
+import {ClientRoutes, DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
 import {mainPageRouter} from "./routes/main-page";
 import express from "express";
 import chalk from "chalk";
@@ -22,9 +22,9 @@ app.use(`/`, mainPageRouter);
 // app.use(`/register`, registerRouter);
 // app.use(`/login`, loginRouter);
 // app.use(`/search`, searchRouter);
-app.use(`/my`, adminPublicationsRouter);
+app.use(ClientRoutes.ADMIN.INDEX, adminPublicationsRouter);
 // app.use(`/categories`, categoriesRouter);
-app.use(`/articles`, articlesRouter);
+app.use(ClientRoutes.ARTICLES.INDEX, articlesRouter);
 app.use(`*`, notFoundMiddleware);
 
 app.use(errorHandlerMiddleware);
