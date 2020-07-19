@@ -26,7 +26,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article}) => {
           <h1>Новая публикация</h1>
           <div className="new-publication__date-form">
             <h3>Дата публикации</h3>
-            <div className="new-publication__date-block">
+            <div className="new-publication__date-block" style={{position: "relative"}}>
               <label htmlFor="new-publication-date" aria-label="Календарь" />
               <input type="text" name="login" id="new-publication-date" placeholder="21.03.2019" />
             </div>
