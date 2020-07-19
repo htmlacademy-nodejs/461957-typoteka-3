@@ -35,3 +35,9 @@ export const Routes = {
   SEARCH: `/search`,
 };
 export const ClientRoutes = {};
+export const HttpMethod = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`,
+};
