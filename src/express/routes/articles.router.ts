@@ -5,7 +5,9 @@ import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services/data-provider.service";
 import {ArticlePage} from "../views/pages/ArticlePage";
+import multer from "multer";
 
+const multerMiddleware = multer();
 export const articlesRouter = Router();
 
 articlesRouter.get(`/add`, (req, res) => streamPage(res, NewArticlePage, {endPoint: ClientRoutes.ARTICLES.ADD}));
