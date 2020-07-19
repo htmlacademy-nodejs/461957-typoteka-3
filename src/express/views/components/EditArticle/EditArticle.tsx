@@ -21,30 +21,28 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article}) => {
 
   return (
     <div className="new-publication">
-      <div className="new-publication__header">
-        <h1>Новая публикация</h1>
-        <div className="new-publication__date-form">
-          <h3>Дата публикации</h3>
-          <form action="#" method="POST">
+      <form>
+        <div className="new-publication__header">
+          <h1>Новая публикация</h1>
+          <div className="new-publication__date-form">
+            <h3>Дата публикации</h3>
             <div className="new-publication__date-block">
               <label htmlFor="new-publication-date" aria-label="Календарь" />
               <input type="text" name="login" id="new-publication-date" placeholder="21.03.2019" />
             </div>
-          </form>
+          </div>
+          <button type="submit" className="new-publication__button button button--colored">
+            Опубликовать
+          </button>
         </div>
-        <button type="submit" className="new-publication__button button button--colored">
-          Опубликовать
+        <button type="button" className="popup__button button button--popup-close" aria-label="Закрыть окно">
+          Закрыть окно
         </button>
-      </div>
-      <button type="button" className="popup__button button button--popup-close" aria-label="Закрыть окно">
-        Закрыть окно
-      </button>
-      <div className="new-publication__form form">
-        <form action="#" method="get">
+        <div className="new-publication__form form">
           <div className="form__wrapper form__wrapper--intro">
             <div className="form__field">
               <label>
-                <input type="text" placeholder="Заголовок" defaultValue={articleProps.title} required />
+                <input type="text" name="title" placeholder="Заголовок" defaultValue={articleProps.title} required />
               </label>
             </div>
             <div className="form__field form__field--post-image">
@@ -53,7 +51,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article}) => {
               </label>
               <div className="form__image-loader form__image-loader--publication">
                 <label>
-                  <input className="visually-hidden" type="file" />
+                  <input className="visually-hidden" name="image" type="file" />
                   Обзор
                 </label>
               </div>
@@ -65,17 +63,29 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article}) => {
           <div className="form__wrapper form__wrapper--text">
             <div className="form__field form__field--publication-text">
               <label>
-                <textarea rows={1} placeholder="Анонс публикации" value={articleProps.announce} />
+                <textarea
+                  rows={1}
+                  placeholder="Анонс публикации"
+                  name="announce"
+                  value={articleProps.announce}
+                  onChange={() => {}}
+                />
               </label>
             </div>
             <div className="form__field form__field--publication-text">
               <label>
-                <textarea rows={1} placeholder="Полный текст публикации" value={articleProps.fullText} />
+                <textarea
+                  name="fullText"
+                  rows={1}
+                  placeholder="Полный текст публикации"
+                  value={articleProps.fullText}
+                  onChange={() => {}}
+                />
               </label>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 };
