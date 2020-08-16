@@ -11,12 +11,12 @@ export class SearchController {
       return {status: HttpCode.BAD_REQUEST};
     }
     if (query === `` || query === ` `) {
-      return {payload: []}
+      return {payload: []};
     }
     const titles = await this.dataProvider.searchByArticlesTitle(query);
     if (titles === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    return {payload: titles}
+    return {payload: titles};
   }
 }
