@@ -9,7 +9,7 @@ interface NewArticlePageProps {
 }
 
 export const NewArticlePage: FunctionComponent<NewArticlePageProps> = ({article, endPoint}) => (
-  <LayoutFilled fixScroll={true}>
+  <LayoutFilled fixScroll={true} addScripts={true}>
     <main>
       <section className="modal modal--flex">
         <div className="popup popup--new-publication popup--flex">

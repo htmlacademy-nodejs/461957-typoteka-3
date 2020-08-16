@@ -6,6 +6,7 @@ export interface LayoutProps {
   wrapperMode?: WrapperMode;
   header: ReactNode;
   footer: ReactNode;
+  addScripts?: boolean;
   fixScroll?: boolean;
 }
 
@@ -15,7 +16,14 @@ const wrapperCssClasses: {[key in WrapperMode]: string} = {
   error: "wrapper-color",
 };
 
-export const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, children, footer, fixScroll}) => (
+export const Layout: FunctionComponent<LayoutProps> = ({
+  wrapperMode,
+  header,
+  children,
+  footer,
+  fixScroll,
+  addScripts,
+}) => (
   <html lang="ru">
     <head>
       <meta charSet="utf-8" />
@@ -40,7 +48,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, chi
         {footer}
       </div>
       {fixScroll ? <script src="js/vendor.js" /> : null}
-      <script src="js/main.js" />
+      {addScripts ? <script src="js/main.js" /> : null}
     </body>
   </html>
 );

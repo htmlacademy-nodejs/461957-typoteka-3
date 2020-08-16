@@ -5,10 +5,11 @@ import {Footer} from "../Footer/Footer";
 
 interface LayoutFilledProps {
   fixScroll?: boolean;
+  addScripts?: boolean;
 }
 
-export const LayoutFilled: FunctionComponent<LayoutFilledProps> = ({children, fixScroll}) => (
-  <Layout header={<Header />} footer={<Footer />} fixScroll={fixScroll}>
+export const LayoutFilled: FunctionComponent<LayoutFilledProps> = ({children, fixScroll, addScripts}) => (
+  <Layout header={<Header />} footer={<Footer />} addScripts={addScripts} fixScroll={fixScroll}>
     {children}
   </Layout>
 );
