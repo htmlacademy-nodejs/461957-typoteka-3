@@ -1,7 +1,5 @@
 {
   "watch": ["src/express/"],
-  "options": {
-    "extensions": ["ts", "tsx"]
-  },
+    "ext": "ts,tsx",
   "exec": "npm run start-front-server"
 }
