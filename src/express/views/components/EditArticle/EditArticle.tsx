@@ -27,9 +27,11 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
           <h1>Новая публикация</h1>
           <div className="new-publication__date-form">
             <h3>Дата публикации</h3>
-            <div className="new-publication__date-block" style={{position: "relative"}}>
-              <label htmlFor="new-publication-date" aria-label="Календарь" />
-              <input type="text" name="login" id="new-publication-date" placeholder="21.03.2019" />
+            <div className="new-publication__date-form-division">
+              <div className="new-publication__date-block" style={{position: "relative"}}>
+                <label htmlFor="new-publication-date" aria-label="Календарь"/>
+                <input type="text" name="login" id="new-publication-date" placeholder="21.03.2019"/>
+              </div>
             </div>
           </div>
           <button type="submit" className="new-publication__button button button--colored">
@@ -48,15 +50,24 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
             </div>
             <div className="form__field form__field--post-image">
               <label>
-                <input id="image-name-field" type="text" placeholder="Фотография" readOnly />
+                <input id="image-name-field" type="text" placeholder="Фотография" readOnly/>
               </label>
               <div className="form__image-loader form__image-loader--publication">
                 <label>
-                  <input className="visually-hidden" name="image" type="file" />
+                  <input className="visually-hidden" name="image" type="file"/>
                   Обзор
                 </label>
               </div>
+              {/* TODO: remove image button
+               <button className="button button--transparent">Удалить</button>
+               */}
             </div>
+            {/* TODO: Categories checkboxes
+            <div className="new-publication__checkbox new-publication__checkbox--auto">
+              <input type="checkbox" name="checkbox-auto" id="checkbox-auto" />
+              <label htmlFor="checkbox-auto">Автомобили</label>
+            </div>
+            */}
             <a className="new-publication__form-link button button--transparent" href="#">
               Добавить категорию
             </a>
@@ -65,7 +76,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
             <div className="form__field form__field--publication-text">
               <label>
                 <textarea
-                  rows={1}
+                  rows={2}
                   placeholder="Анонс публикации"
                   name="announce"
                   value={articleProps.announce}
@@ -77,7 +88,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
               <label>
                 <textarea
                   name="fullText"
-                  rows={1}
+                  rows={5}
                   placeholder="Полный текст публикации"
                   value={articleProps.fullText}
                   onChange={() => {}}
