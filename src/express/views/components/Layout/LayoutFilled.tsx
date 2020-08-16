@@ -3,10 +3,12 @@ import {Layout} from "./Layout";
 import {Header} from "../Header/Header";
 import {Footer} from "../Footer/Footer";
 
-interface LayoutFilledProps {}
+interface LayoutFilledProps {
+  fixScroll?: boolean;
+}
 
-export const LayoutFilled: FunctionComponent<LayoutFilledProps> = ({children}) => (
-  <Layout header={<Header />} footer={<Footer />}>
+export const LayoutFilled: FunctionComponent<LayoutFilledProps> = ({children, fixScroll}) => (
+  <Layout header={<Header />} footer={<Footer />} fixScroll={fixScroll}>
     {children}
   </Layout>
 );
