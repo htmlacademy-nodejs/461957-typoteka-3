@@ -29,8 +29,8 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
             <h3>Дата публикации</h3>
             <div className="new-publication__date-form-division">
               <div className="new-publication__date-block" style={{position: "relative"}}>
-                <label htmlFor="new-publication-date" aria-label="Календарь"/>
-                <input type="text" name="login" id="new-publication-date" placeholder="21.03.2019"/>
+                <label htmlFor="new-publication-date" aria-label="Календарь" />
+                <input type="text" name="login" id="new-publication-date" placeholder="21.03.2019" />
               </div>
             </div>
           </div>
@@ -50,11 +50,11 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
             </div>
             <div className="form__field form__field--post-image">
               <label>
-                <input id="image-name-field" type="text" placeholder="Фотография" readOnly/>
+                <input id="image-name-field" type="text" placeholder="Фотография" readOnly />
               </label>
               <div className="form__image-loader form__image-loader--publication">
                 <label>
-                  <input className="visually-hidden" name="image" type="file"/>
+                  <input className="visually-hidden" name="image" type="file" />
                   Обзор
                 </label>
               </div>
