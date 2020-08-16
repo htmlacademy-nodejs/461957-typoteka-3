@@ -38,7 +38,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, chi
         {children}
         {footer}
       </div>
-      <script src="js/vendor.js" />
+      {/*<script src="js/vendor.js" />*/}
       <script src="js/main.js" />
     </body>
   </html>
