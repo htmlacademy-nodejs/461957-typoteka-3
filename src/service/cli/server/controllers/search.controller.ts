@@ -1,7 +1,5 @@
 import {DataProviderService} from "../services/data-provider.service";
-import {Request, Response} from "express";
 import {HttpCode} from "../../../../constants-es6";
-import {dataProviderService} from "../services";
 import {ControllerResponse} from "../../../../types/controller-response";
 import {Article} from "../../../../types/article";
 
