@@ -12,6 +12,12 @@ export const articlesRouter = Router();
 
 articlesRouter.get(`/add`, (req, res) => streamPage(res, NewArticlePage, {endPoint: ClientRoutes.ARTICLES.ADD}));
 
+articlesRouter.post(`/add`, multerMiddleware.none(), async (req, res, next) => {
+  const articleParams = req.body;
+  console.log(`articleParams`, articleParams);
+  res.send(articleParams);
+});
+
 articlesRouter.get(`/category/:id`, (req, res, next) => {
   const categoryId = req.params.id;
   // TODO: Get categories
