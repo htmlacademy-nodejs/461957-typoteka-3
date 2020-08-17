@@ -50,3 +50,10 @@ export const HttpMethod = {
   PUT: `PUT`,
   DELETE: `DELETE`,
 } as const;
+export const ARTICLE_FORM_FIELDS = {
+  Login: `login`,
+  Title: `title`,
+  Announce: `announce`,
+  FullText: `fullText`,
+  Image: `image`,
+} as const;
