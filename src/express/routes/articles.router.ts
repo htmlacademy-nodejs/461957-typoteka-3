@@ -35,7 +35,7 @@ articlesRouter.get(`/:id`, async (req, res, next) => {
       new SSRError({
         message: `Failed to get article`,
         statusCode: HttpCode.NOT_FOUND,
-        errorPayload: e,
+        errorPayload: e as Error,
       }),
     );
   }
@@ -58,7 +58,7 @@ articlesRouter.get(`/edit/:id`, async (req, res, next) => {
       new SSRError({
         message: `Failed to get article`,
         statusCode: HttpCode.NOT_FOUND,
-        errorPayload: e,
+        errorPayload: e as Error,
       }),
     );
   }
