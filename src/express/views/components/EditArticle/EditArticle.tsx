@@ -66,7 +66,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
               </label>
               <div className="form__image-loader form__image-loader--publication">
                 <label>
-                  <input className="visually-hidden" name={ARTICLE_FORM_FIELDS.Image} type="file" />
+                  <input className="visually-hidden" name={ARTICLE_FORM_FIELDS.Image} type="file" disabled />
                   Обзор
                 </label>
               </div>
