@@ -3,6 +3,8 @@ import {Article} from "../../types/article";
 import {ENV} from "../../shared/env/env";
 import {HttpCode, Routes} from "../../constants-es6";
 import {ArticleComment} from "../../types/article-comment";
+import {NewArticle} from "../../types/new-article";
+import {ArticleValidationResponse} from "../../types/article-validation-response";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -26,6 +28,29 @@ export class DataProviderService {
       }));
     } else {
       console.error(response.data);
+      return null;
+    }
+  }
+
+  public async createArticle(newArticle: NewArticle): Promise<true | ArticleValidationResponse> {
+    let response: AxiosResponse<Article | ArticleValidationResponse>;
+    try {
+      response = await this.requestService.post<ArticleValidationResponse>(
+        this.apiEndPoint + Routes.ARTICLES,
+        newArticle,
+      );
+    } catch (e) {
+      console.error(`error \n`, e);
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+        return e?.response?.data as ArticleValidationResponse;
+      }
+      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+    }
+    if (response && response?.status === HttpCode.CREATED) {
+      return true;
+    } else {
+      console.error(response);
       return null;
     }
   }
