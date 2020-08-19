@@ -2,10 +2,12 @@ import {Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {NewArticlePage} from "../views/pages/NewArticlePage";
 import {SSRError} from "../errors/ssr-error";
-import {ARTICLE_FORM_FIELDS, ClientRoutes, HttpCode} from "../../constants-es6";
+import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services/data-provider.service";
 import {ArticlePage} from "../views/pages/ArticlePage";
 import multer from "multer";
+import {NewArticle} from "../../types/new-article";
+import {ArticleValidationResponse} from "../../types/article-validation-response";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -13,9 +15,25 @@ export const articlesRouter = Router();
 articlesRouter.get(`/add`, (req, res) => streamPage(res, NewArticlePage, {endPoint: ClientRoutes.ARTICLES.ADD}));
 
 articlesRouter.post(`/add`, multerMiddleware.none(), async (req, res, next) => {
-  const articleParams = req.body as typeof ARTICLE_FORM_FIELDS;
-  console.log(`articleParams`, articleParams);
-  res.send(articleParams);
+  const newArticle = req.body as NewArticle;
+  try {
+    const response: true | ArticleValidationResponse = await dataProviderService.createArticle(newArticle);
+    if (response === true) {
+      res.redirect(ClientRoutes.ADMIN.INDEX);
+    } else {
+      // TODO: Show validation message
+      res.send(JSON.stringify(response));
+    }
+  } catch (e) {
+    console.log(e);
+    next(
+      new SSRError({
+        message: `Failed to create an article`,
+        statusCode: HttpCode.BAD_REQUEST,
+        errorPayload: e as Error,
+      }),
+    );
+  }
 });
 
 articlesRouter.get(`/category/:id`, (req, res, next) => {
