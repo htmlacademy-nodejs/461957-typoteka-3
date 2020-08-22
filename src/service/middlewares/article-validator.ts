@@ -8,14 +8,13 @@ const TITLE_RESTRICTIONS = [30, 250];
 const ANNOUNCE_RESTRICTIONS = [30, 250];
 const MAX_FULLTEXT_LENGTH = 1000;
 
-
 export function newArticleValidator(req: Request, res: Response, next: NextFunction): void {
-    const articleValidationResponse = getArticleValidationResponse(req.body, [`id`]);
-    if (!articleValidationResponse) {
-      next();
-    } else {
-      res.status(HttpCode.BAD_REQUEST).send(articleValidationResponse);
-    }
+  const articleValidationResponse = getArticleValidationResponse(req.body, [`id`]);
+  if (!articleValidationResponse) {
+    next();
+  } else {
+    res.status(HttpCode.BAD_REQUEST).send(articleValidationResponse);
+  }
 }
 
 export function existingArticleValidator(req: Request, res: Response, next: NextFunction): void {
@@ -27,7 +26,10 @@ export function existingArticleValidator(req: Request, res: Response, next: Next
   }
 }
 
-function getArticleValidationResponse(article: Partial<Article>, skipFields: (keyof Article)[] = []): ArticleValidationResponse {
+function getArticleValidationResponse(
+  article: Partial<Article>,
+  skipFields: (keyof Article)[] = [],
+): ArticleValidationResponse {
   const validationResponse: ArticleValidationResponse = {};
 
   if (!article.id && !skipFields.includes(`id`)) {
