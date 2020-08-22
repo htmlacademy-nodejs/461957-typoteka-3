@@ -17,7 +17,7 @@ function getCommentValidationResponse(comment: Partial<ArticleComment>): Comment
   const validationResponse: CommentValidationResponse = {};
 
   if (!comment.text) {
-    validationResponse.text = ValidationError.REQUIRED;
+    validationResponse.text = {state: ValidationError.REQUIRED};
   }
 
   if (Object.keys(validationResponse).length) {
