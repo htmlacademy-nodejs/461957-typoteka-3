@@ -1,6 +1,5 @@
 import {Router} from "express";
 import {streamPage} from "../utils/stream-page";
-import {NewArticlePage} from "../views/pages/NewArticlePage";
 import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services/data-provider.service";
@@ -8,11 +7,12 @@ import {ArticlePage} from "../views/pages/ArticlePage";
 import multer from "multer";
 import {NewArticle} from "../../types/new-article";
 import {ArticleValidationResponse} from "../../types/article-validation-response";
+import {EditArticle} from "../views/components/EditArticle/EditArticle";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
 
-articlesRouter.get(`/add`, (req, res) => streamPage(res, NewArticlePage, {endPoint: ClientRoutes.ARTICLES.ADD}));
+articlesRouter.get(`/add`, (req, res) => streamPage(res, EditArticle, {endPoint: ClientRoutes.ARTICLES.ADD}));
 
 articlesRouter.post(`/add`, multerMiddleware.none(), async (req, res, next) => {
   const newArticle = req.body as NewArticle;
@@ -21,8 +21,11 @@ articlesRouter.post(`/add`, multerMiddleware.none(), async (req, res, next) => {
     if (response === true) {
       res.redirect(ClientRoutes.ADMIN.INDEX);
     } else {
-      // TODO: Show validation message
-      res.send(JSON.stringify(response));
+      streamPage(res, EditArticle, {
+        article: newArticle,
+        endPoint: ClientRoutes.ARTICLES.ADD,
+        articleValidationResponse: response,
+      });
     }
   } catch (e) {
     console.log(e);
@@ -70,7 +73,7 @@ articlesRouter.get(`/edit/:id`, async (req, res, next) => {
   try {
     const article = await dataProviderService.getArticleById(articleId);
     if (article !== null) {
-      streamPage(res, NewArticlePage, {
+      streamPage(res, EditArticle, {
         article,
         endPoint: ClientRoutes.ARTICLES.INDEX + `/` + articleId,
       });
