@@ -1,13 +1,19 @@
 import React, {FunctionComponent} from "react";
 import {Article} from "../../../../types/article";
 import {ARTICLE_FORM_FIELDS} from "../../../../constants-es6";
+import {ArticleValidationResponse} from "../../../../types/article-validation-response";
+import {FormValidationBlock} from "../Form/FormValidationBlock";
+import {FormValidationMessage} from "../Form/FormValidationMessage";
+import {ValidationError} from "../../../../service/errors/validation-error";
+import {ValidationMessage} from "../../../../types/validation-message";
 
 interface EditArticleProps {
-  article?: Article;
+  article?: Partial<Article>;
   endPoint: string;
+  articleValidationResponse?: ArticleValidationResponse;
 }
 
-export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPoint}) => {
+export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPoint, articleValidationResponse}) => {
   const articleProps =
     article === undefined
       ? {
@@ -48,6 +54,13 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
           Закрыть окно
         </button>
         <div className="new-publication__form form">
+          {articleValidationResponse ? (
+            <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
+              {Object.entries(articleValidationResponse).map(([key, validation]) => (
+                <FormValidationMessage key={key}>{getValidationMessageText(key, validation)}</FormValidationMessage>
+              ))}
+            </FormValidationBlock>
+          ) : null}
           <div className="form__wrapper form__wrapper--intro">
             <div className="form__field">
               <label>
@@ -113,3 +126,10 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
     </div>
   );
 };
+
+function getValidationMessageText(key: string, validation: ValidationMessage): string {
+  if (validation.state === ValidationError.INVALID) {
+    return validation.message;
+  }
+  return `Обязательное поле` + (validation.message ? `. ${validation.message}` : ``);
+}
