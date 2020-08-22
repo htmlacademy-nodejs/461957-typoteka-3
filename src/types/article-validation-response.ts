@@ -1,4 +1,4 @@
 import {Article} from "./article";
-import {ValidationError} from "../service/errors/validation-error";
+import {ValidationMessage} from "./validation-message";
 
-export type ArticleValidationResponse = Partial<Record<keyof Article, {state: ValidationError; message?: string}>>;
+export type ArticleValidationResponse = Partial<Record<keyof Article, ValidationMessage>>;
