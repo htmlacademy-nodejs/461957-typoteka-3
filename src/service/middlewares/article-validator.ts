@@ -36,7 +36,10 @@ function getArticleValidationResponse(
     validationResponse.id = {state: ValidationError.REQUIRED};
   }
   if (!article.title) {
-    validationResponse.title = {state: ValidationError.REQUIRED};
+    validationResponse.title = {
+      state: ValidationError.REQUIRED,
+      message: `Текст длиной от ${TITLE_RESTRICTIONS[0]} до ${TITLE_RESTRICTIONS[1]} символов`,
+    };
   } else if (article.title.length < TITLE_RESTRICTIONS[0] || article.title.length > TITLE_RESTRICTIONS[1]) {
     validationResponse.title = {
       state: ValidationError.INVALID,
@@ -53,7 +56,10 @@ function getArticleValidationResponse(
     validationResponse.category = {state: ValidationError.REQUIRED};
   }
   if (!article.announce) {
-    validationResponse.announce = {state: ValidationError.REQUIRED};
+    validationResponse.announce = {
+      state: ValidationError.REQUIRED,
+      message: `Текст длиной от ${ANNOUNCE_RESTRICTIONS[0]} до ${ANNOUNCE_RESTRICTIONS[1]} символов`,
+    };
   } else if (article.announce.length < ANNOUNCE_RESTRICTIONS[0] || article.announce.length > ANNOUNCE_RESTRICTIONS[1]) {
     validationResponse.announce = {
       state: ValidationError.INVALID,
