@@ -51,9 +51,24 @@ export const HttpMethod = {
   DELETE: `DELETE`,
 } as const;
 export const ARTICLE_FORM_FIELDS = {
-  Login: `login`,
-  Title: `title`,
-  Announce: `announce`,
-  FullText: `fullText`,
-  Image: `image`,
+  Date: {
+    name: `date`,
+    label: `Дата`,
+  },
+  Title: {
+    name: `title`,
+    label: `Заголовок`,
+  },
+  Announce: {
+    name: `announce`,
+    label: `Анонс публикации`,
+  },
+  FullText: {
+    name: `fullText`,
+    label: `Полный текст публикации`,
+  },
+  Image: {
+    name: `image`,
+    label: ``,
+  },
 } as const;

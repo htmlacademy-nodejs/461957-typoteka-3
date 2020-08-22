@@ -41,10 +41,10 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                     <h3>Дата публикации</h3>
                     <div className="new-publication__date-form-division">
                       <div className="new-publication__date-block" style={{position: "relative"}}>
-                        <label htmlFor="new-publication-date" aria-label="Календарь" />
+                        <label htmlFor="new-publication-date" aria-label={ARTICLE_FORM_FIELDS.Date.label} />
                         <input
                           type="text"
-                          name={ARTICLE_FORM_FIELDS.Login}
+                          name={ARTICLE_FORM_FIELDS.Date.name}
                           id="new-publication-date"
                           placeholder="21.03.2019"
                         />
@@ -73,7 +73,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                       <label>
                         <input
                           type="text"
-                          name={ARTICLE_FORM_FIELDS.Title}
+                          name={ARTICLE_FORM_FIELDS.Title.name}
                           placeholder="Заголовок"
                           defaultValue={articleProps.title}
                           required
@@ -82,11 +82,11 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                     </div>
                     <div className="form__field form__field--post-image">
                       <label>
-                        <input id="image-name-field" type="text" placeholder="Фотография" readOnly />
+                        <input id="image-name-field" type="text" placeholder={ARTICLE_FORM_FIELDS.Image.label} readOnly />
                       </label>
                       <div className="form__image-loader form__image-loader--publication">
                         <label>
-                          <input className="visually-hidden" name={ARTICLE_FORM_FIELDS.Image} type="file" disabled />
+                          <input className="visually-hidden" name={ARTICLE_FORM_FIELDS.Image.name} type="file" disabled />
                           Обзор
                         </label>
                       </div>
@@ -109,8 +109,8 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                       <label>
                         <textarea
                           rows={2}
-                          placeholder="Анонс публикации"
-                          name={ARTICLE_FORM_FIELDS.Announce}
+                          placeholder={ARTICLE_FORM_FIELDS.Image.label}
+                          name={ARTICLE_FORM_FIELDS.Announce.name}
                           value={articleProps.announce}
                           onChange={() => {}}
                         />
@@ -119,9 +119,9 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                     <div className="form__field form__field--publication-text">
                       <label>
                         <textarea
-                          name={ARTICLE_FORM_FIELDS.FullText}
+                          name={ARTICLE_FORM_FIELDS.FullText.name}
                           rows={5}
-                          placeholder="Полный текст публикации"
+                          placeholder={ARTICLE_FORM_FIELDS.FullText.label}
                           value={articleProps.fullText}
                           onChange={() => {}}
                         />
