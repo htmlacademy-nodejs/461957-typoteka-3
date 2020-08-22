@@ -33,29 +33,38 @@ function getArticleValidationResponse(
   const validationResponse: ArticleValidationResponse = {};
 
   if (!article.id && !skipFields.includes(`id`)) {
-    validationResponse.id = ValidationError.REQUIRED;
+    validationResponse.id = {state: ValidationError.REQUIRED};
   }
   if (!article.title) {
-    validationResponse.title = ValidationError.REQUIRED;
+    validationResponse.title = {state: ValidationError.REQUIRED};
   } else if (article.title.length < TITLE_RESTRICTIONS[0] || article.title.length > TITLE_RESTRICTIONS[1]) {
-    validationResponse.title = ValidationError.INVALID;
+    validationResponse.title = {
+      state: ValidationError.INVALID,
+      message: `Текст длиной от ${TITLE_RESTRICTIONS[0]} до ${TITLE_RESTRICTIONS[1]} символов`,
+    };
   }
   if (!article.createdDate) {
-    validationResponse.createdDate = ValidationError.REQUIRED;
+    validationResponse.createdDate = {state: ValidationError.REQUIRED};
   }
   if (!article.category) {
-    validationResponse.category = ValidationError.REQUIRED;
+    validationResponse.category = {state: ValidationError.REQUIRED};
   }
   if (article.category && !article.category.length) {
-    validationResponse.category = ValidationError.INVALID;
+    validationResponse.category = {state: ValidationError.REQUIRED};
   }
   if (!article.announce) {
-    validationResponse.announce = ValidationError.INVALID;
+    validationResponse.announce = {state: ValidationError.REQUIRED};
   } else if (article.announce.length < ANNOUNCE_RESTRICTIONS[0] || article.announce.length > ANNOUNCE_RESTRICTIONS[1]) {
-    validationResponse.announce = ValidationError.INVALID;
+    validationResponse.announce = {
+      state: ValidationError.INVALID,
+      message: `Текст длиной от ${ANNOUNCE_RESTRICTIONS[0]} до ${ANNOUNCE_RESTRICTIONS[1]} символов`,
+    };
   }
   if (article.fullText && article.fullText.length > MAX_FULLTEXT_LENGTH) {
-    validationResponse.fullText = ValidationError.INVALID;
+    validationResponse.fullText = {
+      state: ValidationError.INVALID,
+      message: `Максимальная длина ${MAX_FULLTEXT_LENGTH} символов`,
+    };
   }
 
   if (Object.keys(validationResponse).length) {
