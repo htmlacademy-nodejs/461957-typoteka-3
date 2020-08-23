@@ -1,1 +1,4 @@
-export type Category = string;
+export interface Category {
+  label: string;
+  id: string;
+}

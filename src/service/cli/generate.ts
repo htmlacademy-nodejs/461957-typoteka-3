@@ -6,6 +6,8 @@ import chalk from "chalk";
 import {nanoid} from "nanoid";
 import {promises} from "fs";
 import {getRandomInt, shuffle} from "../../utils";
+import {Category} from "../../types/category";
+import {transliterate} from "../../shared/transliterate";
 
 const DEFAULT_COUNT: number = 1;
 const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
@@ -157,7 +159,7 @@ function getComments(commentsSentences: string[]): ArticleComment[] {
     .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, AnnounceRestrict.max));
 }
 
-function getCommentsForTests(commentsSentences: string[], forceCreateComments: boolean) {
+function getCommentsForTests(commentsSentences: string[], forceCreateComments: boolean): ArticleComment[] {
   return Array(forceCreateComments ? CommentRestrict.max + 1 : CommentRestrict.max)
     .fill(undefined)
     .map<ArticleComment>((value, index) => ({
@@ -175,11 +177,10 @@ function getAnnounce(sentences: string[]): string {
     .join(` `);
 }
 
-function getCategories(categories: string[]): string[] {
-  return shuffle(categories).slice(
-    CategoriesRestrict.min,
-    getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max),
-  );
+function getCategories(categories: string[]): Category[] {
+  return shuffle(categories)
+    .slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max))
+    .map(categoryName => ({id: transliterate(categoryName), label: categoryName}));
 }
 
 function getFullText(sentences: string[]): string {

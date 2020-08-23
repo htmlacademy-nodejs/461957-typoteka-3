@@ -5,9 +5,9 @@ interface Props extends Partial<Article> {}
 
 export function Preview(props: Props): JSX.Element {
   const categories = props.category.map(categoryItem => (
-    <li className="preview__breadcrumbs-item" key={categoryItem}>
+    <li className="preview__breadcrumbs-item" key={categoryItem.id}>
       <a className="preview__breadcrumbs-link" href="#">
-        {categoryItem}
+        {categoryItem.label}
       </a>
     </li>
   ));
