@@ -73,6 +73,6 @@ export const ARTICLE_FORM_FIELDS = {
   },
   Image: {
     name: `image`,
-    label: ``,
+    label: `Фотография`,
   },
 } as const;

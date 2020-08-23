@@ -59,11 +59,12 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                   Закрыть окно
                 </button>
                 <div className="new-publication__form form">
-                  {articleValidationResponse ? (
+                  {Object.keys(articleValidationResponse).length ? (
                     <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
                       {Object.entries(articleValidationResponse).map(([key, validation]) => (
                         <FormValidationMessage key={key}>
-                          <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong> {getValidationMessageText(key, validation)}
+                          <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong>{" "}
+                          {getValidationMessageText(key, validation)}
                         </FormValidationMessage>
                       ))}
                     </FormValidationBlock>
@@ -74,7 +75,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                         <input
                           type="text"
                           name={ARTICLE_FORM_FIELDS.title.name}
-                          placeholder="Заголовок"
+                          placeholder={ARTICLE_FORM_FIELDS.title.label}
                           defaultValue={articleProps.title}
                           required
                         />
@@ -82,11 +83,21 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                     </div>
                     <div className="form__field form__field--post-image">
                       <label>
-                        <input id="image-name-field" type="text" placeholder={ARTICLE_FORM_FIELDS.Image.label} readOnly />
+                        <input
+                          id="image-name-field"
+                          type="text"
+                          placeholder={ARTICLE_FORM_FIELDS.Image.label}
+                          readOnly
+                        />
                       </label>
                       <div className="form__image-loader form__image-loader--publication">
                         <label>
-                          <input className="visually-hidden" name={ARTICLE_FORM_FIELDS.Image.name} type="file" disabled />
+                          <input
+                            className="visually-hidden"
+                            name={ARTICLE_FORM_FIELDS.Image.name}
+                            type="file"
+                            disabled
+                          />
                           Обзор
                         </label>
                       </div>
@@ -109,7 +120,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                       <label>
                         <textarea
                           rows={2}
-                          placeholder={ARTICLE_FORM_FIELDS.Image.label}
+                          placeholder={ARTICLE_FORM_FIELDS.announce.label}
                           name={ARTICLE_FORM_FIELDS.announce.name}
                           value={articleProps.announce}
                           onChange={() => {}}
