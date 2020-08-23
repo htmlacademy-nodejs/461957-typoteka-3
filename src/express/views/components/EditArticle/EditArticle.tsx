@@ -41,10 +41,10 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                     <h3>Дата публикации</h3>
                     <div className="new-publication__date-form-division">
                       <div className="new-publication__date-block" style={{position: "relative"}}>
-                        <label htmlFor="new-publication-date" aria-label={ARTICLE_FORM_FIELDS.Date.label} />
+                        <label htmlFor="new-publication-date" aria-label={ARTICLE_FORM_FIELDS.createdDate.label} />
                         <input
                           type="text"
-                          name={ARTICLE_FORM_FIELDS.Date.name}
+                          name={ARTICLE_FORM_FIELDS.createdDate.name}
                           id="new-publication-date"
                           placeholder="21.03.2019"
                         />
@@ -63,7 +63,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                     <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
                       {Object.entries(articleValidationResponse).map(([key, validation]) => (
                         <FormValidationMessage key={key}>
-                          {getValidationMessageText(key, validation)}
+                          <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong> {getValidationMessageText(key, validation)}
                         </FormValidationMessage>
                       ))}
                     </FormValidationBlock>
@@ -73,7 +73,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                       <label>
                         <input
                           type="text"
-                          name={ARTICLE_FORM_FIELDS.Title.name}
+                          name={ARTICLE_FORM_FIELDS.title.name}
                           placeholder="Заголовок"
                           defaultValue={articleProps.title}
                           required
@@ -110,7 +110,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                         <textarea
                           rows={2}
                           placeholder={ARTICLE_FORM_FIELDS.Image.label}
-                          name={ARTICLE_FORM_FIELDS.Announce.name}
+                          name={ARTICLE_FORM_FIELDS.announce.name}
                           value={articleProps.announce}
                           onChange={() => {}}
                         />
@@ -119,9 +119,9 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                     <div className="form__field form__field--publication-text">
                       <label>
                         <textarea
-                          name={ARTICLE_FORM_FIELDS.FullText.name}
+                          name={ARTICLE_FORM_FIELDS.fullText.name}
                           rows={5}
-                          placeholder={ARTICLE_FORM_FIELDS.FullText.label}
+                          placeholder={ARTICLE_FORM_FIELDS.fullText.label}
                           value={articleProps.fullText}
                           onChange={() => {}}
                         />
