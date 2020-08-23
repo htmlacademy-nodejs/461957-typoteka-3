@@ -49,6 +49,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                         <label htmlFor="new-publication-date" aria-label={ARTICLE_FORM_FIELDS.createdDate.label} />
                         <input
                           type="text"
+                          defaultValue={getInitialDate()}
                           name={ARTICLE_FORM_FIELDS.createdDate.name}
                           id="new-publication-date"
                           placeholder="21.03.2019"
@@ -189,4 +190,8 @@ function getValidationMessageText(key: string, validation: ValidationMessage): s
     return validation.message;
   }
   return `Обязательное поле` + (validation.message ? `. ${validation.message}` : ``);
+}
+
+function getInitialDate(): string {
+  return new Date().toISOString().substr(0, 10);
 }
