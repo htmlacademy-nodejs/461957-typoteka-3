@@ -14,9 +14,9 @@
     "test": "npm run eslint",
     "test:rest": "cross-env PORT=7777 jest --maxWorkers=1 src/service/cli/server",
     "eslint": "eslint --ext .js,.ts src/",
-    "nodemon": "npm run nodemon:data & npm run nodemon:front",
-    "nodemon:data": "nodemon --config nodemon.data.json",
-    "nodemon:front": "nodemon --config nodemon.front.json",
+    "nodemon": "./node_modules/.bin/nodemon",
+    "nodemon:data": "npm run nodemon -- --config nodemon.data.json",
+    "nodemon:front": "npm run nodemon -- --config nodemon.front.json",
     "npm-check-updates": "./node_modules/.bin/ncu"
   },
   "repository": {
