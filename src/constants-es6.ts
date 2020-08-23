@@ -52,7 +52,7 @@ export const HttpMethod = {
 } as const;
 export const ARTICLE_FORM_FIELDS = {
   createdDate: {
-    name: `date`,
+    name: `createdDate`,
     label: `Дата`,
   },
   category: {
