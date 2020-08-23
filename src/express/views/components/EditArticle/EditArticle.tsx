@@ -7,6 +7,7 @@ import {FormValidationMessage} from "../Form/FormValidationMessage";
 import {ValidationError} from "../../../../service/errors/validation-error";
 import {ValidationMessage} from "../../../../types/validation-message";
 import {LayoutFilled} from "../Layout/LayoutFilled";
+import {FieldValidationBlock} from "../Form/FieldVlidationBlock";
 
 interface EditArticleProps {
   article?: Partial<Article>;
@@ -14,7 +15,11 @@ interface EditArticleProps {
   articleValidationResponse?: ArticleValidationResponse;
 }
 
-export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPoint, articleValidationResponse}) => {
+export const EditArticle: FunctionComponent<EditArticleProps> = ({
+  article,
+  endPoint,
+  articleValidationResponse = {},
+}) => {
   const articleProps =
     article === undefined
       ? {
@@ -80,6 +85,16 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                           required
                         />
                       </label>
+                      {articleValidationResponse[ARTICLE_FORM_FIELDS.title.name] ? (
+                        <FieldValidationBlock>
+                          <FormValidationMessage>
+                            {getValidationMessageText(
+                              ARTICLE_FORM_FIELDS.title.label,
+                              articleValidationResponse[ARTICLE_FORM_FIELDS.title.name],
+                            )}
+                          </FormValidationMessage>
+                        </FieldValidationBlock>
+                      ) : null}
                     </div>
                     <div className="form__field form__field--post-image">
                       <label>
@@ -126,6 +141,16 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                           onChange={() => {}}
                         />
                       </label>
+                      {articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name] ? (
+                        <FieldValidationBlock>
+                          <FormValidationMessage>
+                            {getValidationMessageText(
+                              ARTICLE_FORM_FIELDS.announce.label,
+                              articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name],
+                            )}
+                          </FormValidationMessage>
+                        </FieldValidationBlock>
+                      ) : null}
                     </div>
                     <div className="form__field form__field--publication-text">
                       <label>
@@ -137,6 +162,16 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({article, endPo
                           onChange={() => {}}
                         />
                       </label>
+                      {articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name] ? (
+                        <FieldValidationBlock>
+                          <FormValidationMessage>
+                            {getValidationMessageText(
+                              ARTICLE_FORM_FIELDS.fullText.label,
+                              articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name],
+                            )}
+                          </FormValidationMessage>
+                        </FieldValidationBlock>
+                      ) : null}
                     </div>
                   </div>
                 </div>
