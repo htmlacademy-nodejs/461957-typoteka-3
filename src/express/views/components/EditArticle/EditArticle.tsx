@@ -8,16 +8,20 @@ import {ValidationError} from "../../../../service/errors/validation-error";
 import {ValidationMessage} from "../../../../types/validation-message";
 import {LayoutFilled} from "../Layout/LayoutFilled";
 import {FieldValidationBlock} from "../Form/FieldVlidationBlock";
+import {CategoriesSelect} from "./CategoriesSelect";
+import {Category} from "../../../../types/category";
 
 interface EditArticleProps {
   article?: Partial<Article>;
   endPoint: string;
+  availableCategories: Category[];
   articleValidationResponse?: ArticleValidationResponse;
 }
 
 export const EditArticle: FunctionComponent<EditArticleProps> = ({
   article,
   endPoint,
+  availableCategories,
   articleValidationResponse = {},
 }) => {
   const articleProps =
@@ -26,11 +30,13 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
           title: "",
           announce: "",
           fullText: "",
+          category: [],
         }
       : {
           title: article.title,
           announce: article.announce,
           fullText: article.fullText,
+          category: article.category,
         };
 
   return (
@@ -121,15 +127,11 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                <button className="button button--transparent">Удалить</button>
                */}
                     </div>
-                    {/* TODO: Categories checkboxes
-            <div className="new-publication__checkbox new-publication__checkbox--auto">
-              <input type="checkbox" name="checkbox-auto" id="checkbox-auto" />
-              <label htmlFor="checkbox-auto">Автомобили</label>
-            </div>
-            */}
-                    <a className="new-publication__form-link button button--transparent" href="#">
-                      Добавить категорию
-                    </a>
+                    <CategoriesSelect
+                      availableCategories={availableCategories}
+                      selectedCategories={articleProps.category}
+                      inputName={ARTICLE_FORM_FIELDS.category.name}
+                    />
                   </div>
                   <div className="form__wrapper form__wrapper--text">
                     <div className="form__field form__field--publication-text">

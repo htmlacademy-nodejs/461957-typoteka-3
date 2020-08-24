@@ -12,7 +12,19 @@ import {EditArticle} from "../views/components/EditArticle/EditArticle";
 const multerMiddleware = multer();
 export const articlesRouter = Router();
 
-articlesRouter.get(`/add`, (req, res) => streamPage(res, EditArticle, {endPoint: ClientRoutes.ARTICLES.ADD}));
+articlesRouter.get(`/add`, async (req, res, next) => {
+  const categories = await dataProviderService.getCategories();
+  if (categories !== null) {
+    streamPage(res, EditArticle, {endPoint: ClientRoutes.ARTICLES.ADD, availableCategories: categories});
+  } else {
+    next(
+      new SSRError({
+        message: `Failed to request categories`,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+      }),
+    );
+  }
+});
 
 articlesRouter.post(`/add`, multerMiddleware.none(), async (req, res, next) => {
   const newArticle = req.body as NewArticle;
@@ -21,11 +33,22 @@ articlesRouter.post(`/add`, multerMiddleware.none(), async (req, res, next) => {
     if (response === true) {
       res.redirect(ClientRoutes.ADMIN.INDEX);
     } else {
-      streamPage(res, EditArticle, {
-        article: newArticle,
-        endPoint: ClientRoutes.ARTICLES.ADD,
-        articleValidationResponse: response,
-      });
+      const categories = await dataProviderService.getCategories();
+      if (categories !== null) {
+        streamPage(res, EditArticle, {
+          article: newArticle,
+          endPoint: ClientRoutes.ARTICLES.ADD,
+          articleValidationResponse: response,
+          availableCategories: categories,
+        });
+      } else {
+        next(
+          new SSRError({
+            message: `Failed to create an article`,
+            statusCode: HttpCode.BAD_REQUEST,
+          }),
+        );
+      }
     }
   } catch (e) {
     console.log(e);
@@ -71,11 +94,15 @@ articlesRouter.get(`/:id`, async (req, res, next) => {
 articlesRouter.get(`/edit/:id`, async (req, res, next) => {
   const articleId = req.params.id;
   try {
-    const article = await dataProviderService.getArticleById(articleId);
-    if (article !== null) {
+    const [article, categories] = await Promise.all([
+      dataProviderService.getArticleById(articleId),
+      dataProviderService.getCategories(),
+    ]);
+    if (article !== null && categories !== null) {
       streamPage(res, EditArticle, {
         article,
         endPoint: ClientRoutes.ARTICLES.INDEX + `/` + articleId,
+        availableCategories: categories,
       });
     } else {
       next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
