@@ -12,7 +12,17 @@ export class DataProviderService {
     if (articles === null) {
       return null;
     }
-    return Array.from(new Set(articles.map(article => article.category).flat(1)));
+    return articles
+      .map(article => article.category)
+      .flat(1)
+      .reduce((accumulator, currentValue) => {
+        if (accumulator.find(category => category.id === currentValue.id)) {
+          return accumulator;
+        } else {
+          accumulator.push(currentValue);
+          return accumulator;
+        }
+      }, [] as Category[]);
   }
 
   public async getArticles(): Promise<Article[] | null> {
