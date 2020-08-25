@@ -9,8 +9,8 @@ import {NewArticle} from "../../../../types/new-article";
 export class ArticlesController {
   constructor(private dataProvider: DataProviderService) {}
 
-  public async getArticles(): Promise<ControllerResponse<Article[]>> {
-    const articles = await this.dataProvider.getArticles();
+  public async getArticles(count?: number): Promise<ControllerResponse<Article[]>> {
+    const articles = await this.dataProvider.getArticles(count);
     if (articles === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }

@@ -20,7 +20,7 @@ export class DataProviderService {
     return this.categoriesCash;
   }
 
-  public async getArticles(): Promise<Article[] | null> {
+  public async getArticles(count?: number): Promise<Article[] | null> {
     if (!this.articlesCash) {
       try {
         this.articlesCash = JSON.parse(await promises.readFile(MockFilePath.ARTICLES, `utf-8`)) as Article[];
@@ -29,7 +29,7 @@ export class DataProviderService {
         this.articlesCash = null;
       }
     }
-    return this.articlesCash;
+    return this.articlesCash?.slice(0, count);
   }
 
   public async searchByArticlesTitle(query: string): Promise<Article[] | null> {
