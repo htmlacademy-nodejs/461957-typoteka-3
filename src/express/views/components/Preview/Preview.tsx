@@ -1,10 +1,23 @@
-import React from "react";
-import {Article} from "../../../../types/article";
+import React, {FunctionComponent} from "react";
+import {ArticleComment} from "../../../../types/article-comment";
+import {Category} from "../../../../types/category";
 
-interface Props extends Partial<Article> {}
+interface PreviewProps {
+  comments: ArticleComment[];
+  title: string;
+  announce: string;
+  createdDate: Date;
+  selectedCategories: Category[];
+}
 
-export function Preview(props: Props): JSX.Element {
-  const categories = props.category.map(categoryItem => (
+export const Preview: FunctionComponent<PreviewProps> = ({
+  selectedCategories,
+  createdDate,
+  title,
+  announce,
+  comments,
+}) => {
+  const categories = selectedCategories.map(categoryItem => (
     <li className="preview__breadcrumbs-item" key={categoryItem.id}>
       <a className="preview__breadcrumbs-link" href="#">
         {categoryItem.label}
@@ -14,7 +27,9 @@ export function Preview(props: Props): JSX.Element {
 
   return (
     <>
-      <ul className="preview__breadcrumbs">{categories}</ul>
+      <ul className="preview__breadcrumbs" style={{flexWrap: "wrap"}}>
+        {categories}
+      </ul>
       {false && (
         <div className="preview__background">
           <img
@@ -27,19 +42,19 @@ export function Preview(props: Props): JSX.Element {
           />
         </div>
       )}
-      <time className="preview__time" dateTime={props.createdDate.toISOString()}>
-        {props.createdDate.toLocaleString()}
+      <time className="preview__time" dateTime={createdDate.toISOString()}>
+        {createdDate.toLocaleString()}
       </time>
       <h3 className="preview__name">
         <a className="preview__name-link" href="#">
-          {props.title}
+          {title}
         </a>
       </h3>
-      <p className="preview__text">{props.announce}</p>
+      <p className="preview__text">{announce}</p>
       <a className="preview__comment" href="#">
         Комментарии <span className="preview__cloud"></span>
-        <b className="preview__comment-count">{props.comments.length}</b>
+        <b className="preview__comment-count">{comments.length}</b>
       </a>
     </>
   );
-}
+};
