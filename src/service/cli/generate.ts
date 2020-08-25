@@ -9,7 +9,7 @@ import {getRandomInt, shuffle} from "../../utils";
 import {Category} from "../../types/category";
 import {transliterate} from "../../shared/transliterate";
 
-const DEFAULT_COUNT: number = 1;
+const DEFAULT_COUNT = 10;
 const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
 const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
 const validCommentId = `-ZyTZtrsZjjBq8k5Bskzjb`;
@@ -53,17 +53,17 @@ async function readFile(filePath: string): Promise<string[]> {
   }
 }
 
-async function generateMocks(
+function generateMocks(
   count: number,
   sentences: string[],
   categories: string[],
   titles: string[],
   comments: string[],
-): Promise<Article[]> {
+): Article[] {
   return Array(count)
     .fill(undefined)
-    .map((value, index) => ({
-      id: getId(index),
+    .map(() => ({
+      id: getId(),
       announce: getAnnounce(sentences),
       category: getCategories(categories),
       createdDate: getDate(Date.now()),
@@ -73,13 +73,13 @@ async function generateMocks(
     }));
 }
 
-async function generateMocksForTests(
+function generateMocksForTests(
   count: number,
   sentences: string[],
   categories: string[],
   titles: string[],
   comments: string[],
-): Promise<Article[]> {
+): Article[] {
   return Array(count)
     .fill(undefined)
     .map((value, index) => ({
@@ -95,7 +95,7 @@ async function generateMocksForTests(
 
 export const cliAction: CliAction = {
   name: `--generate`,
-  async run(args?) {
+  async run(args?: string) {
     const [mockCountInput, test] = args;
     const mockCount = parseInt(mockCountInput, 10) || DEFAULT_COUNT;
     if (mockCount > 1000) {
@@ -110,8 +110,8 @@ export const cliAction: CliAction = {
       MockTextsFilePath.COMMENTS,
     );
     const mocks = isMocksForTests
-      ? await generateMocksForTests(mockCount, sentences, categories, titles, comments)
-      : await generateMocks(mockCount, sentences, categories, titles, comments);
+      ? generateMocksForTests(mockCount, sentences, categories, titles, comments)
+      : generateMocks(mockCount, sentences, categories, titles, comments);
     const content = JSON.stringify(mocks, undefined, 2);
     try {
       await promises.writeFile(MOCK_FILE_PATH, content);
@@ -139,7 +139,7 @@ async function getTextsForMocks(
   ]);
 }
 
-function getId(index: number): string {
+function getId(): string {
   return nanoid();
 }
 
@@ -150,7 +150,7 @@ function getIdForTests(index: number): string {
 function getComments(commentsSentences: string[]): ArticleComment[] {
   return Array(CommentRestrict.max)
     .fill(undefined)
-    .map<ArticleComment>((value, index) => ({
+    .map<ArticleComment>(() => ({
       id: nanoid(),
       text: shuffle(commentsSentences)
         .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
