@@ -41,7 +41,7 @@ export class DataProviderService {
         newArticle,
       );
     } catch (e) {
-      console.error(`error \n`, e);
+      console.error(`Error during creation the new article`);
       /* eslint-disable @typescript-eslint/no-unsafe-member-access */
       if (e?.response?.status === HttpCode.BAD_REQUEST) {
         return e?.response?.data as ArticleValidationResponse;
