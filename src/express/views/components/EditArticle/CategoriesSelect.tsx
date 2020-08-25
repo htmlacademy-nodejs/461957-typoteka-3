@@ -1,10 +1,11 @@
 import React, {FunctionComponent} from "react";
 import {Category} from "../../../../types/category";
+import {CategoryId} from "../../../../types/category-id";
 
 export interface CategoriesSelectProps {
   inputName: string;
   availableCategories: Category[];
-  selectedCategories: Category[];
+  selectedCategories: CategoryId[];
 }
 
 export const CategoriesSelect: FunctionComponent<CategoriesSelectProps> = ({

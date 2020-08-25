@@ -6,12 +6,14 @@ import {HotList} from "../components/HotList/HotList";
 import {LastList} from "../components/LastList/LastList";
 import {PreviewList} from "../components/PreviewList/PreviewList";
 import {Article} from "../../../types/article";
+import {Category} from "../../../types/category";
 
 interface MainPageProps {
   articles?: Article[];
+  availableCategories: Category[];
 }
 
-export const MainPage: FunctionComponent<MainPageProps> = ({articles}: MainPageProps) => {
+export const MainPage: FunctionComponent<MainPageProps> = ({articles, availableCategories: availableCategories}) => {
   const themes = [
     {
       title: `Title`,
@@ -91,7 +93,7 @@ export const MainPage: FunctionComponent<MainPageProps> = ({articles}: MainPageP
           <HotList hotList={hotList} />
           <LastList lastList={lastList} />
         </div>
-        <PreviewList previews={articles} />
+        <PreviewList previews={articles} availableCategories={availableCategories} />
       </main>
     </LayoutFilled>
   );

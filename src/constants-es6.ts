@@ -1,5 +1,5 @@
 export const DEFAULT_PORT = 3000;
-export const MOCK_FILE_PATH = `mocks.json`;
+export const MockFilePath = {ARTICLES: `mocks/articles.json`, CATEGORIES: `mocks/categories.json`} as const;
 export const DEFAULT_SSR_PORT = 8080;
 export const STATIC_DIR = `static`;
 export const HttpCode = {

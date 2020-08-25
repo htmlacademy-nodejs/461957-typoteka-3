@@ -9,9 +9,12 @@ export const mainPageRouter = Router();
 
 mainPageRouter.get(`/`, async (req, res, next: NextFunction) => {
   try {
-    const articles = await dataProviderService.getArticles();
-    if (articles !== null) {
-      streamPage(res, MainPage, {articles});
+    const [articles, categories] = await Promise.all([
+      dataProviderService.getArticles(),
+      dataProviderService.getCategories(),
+    ]);
+    if (articles !== null && categories !== null) {
+      streamPage(res, MainPage, {articles, availableCategories: categories});
     } else {
       next(new SSRError({message: `Failed to load articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }

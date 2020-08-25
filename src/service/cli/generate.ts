@@ -1,13 +1,14 @@
 import {CliAction} from "../../types/cli-action";
 import {Article} from "../../types/article";
 import {ArticleComment} from "../../types/article-comment";
-import {DAYS_IN_MONTH, ExitCode, MOCK_FILE_PATH, MockTextsFilePath, MS_IN_DAY} from "../../constants-es6";
+import {DAYS_IN_MONTH, ExitCode, MockFilePath, MockTextsFilePath, MS_IN_DAY} from "../../constants-es6";
 import chalk from "chalk";
 import {nanoid} from "nanoid";
 import {promises} from "fs";
 import {getRandomInt, shuffle} from "../../utils";
 import {Category} from "../../types/category";
 import {transliterate} from "../../shared/transliterate";
+import {CategoryId} from "../../types/category-id";
 
 const DEFAULT_COUNT = 10;
 const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
@@ -113,13 +114,19 @@ export const cliAction: CliAction = {
       ? generateMocksForTests(mockCount, sentences, categories, titles, comments)
       : generateMocks(mockCount, sentences, categories, titles, comments);
     const content = JSON.stringify(mocks, undefined, 2);
+    const categoriesMocks: Category[] = generateCategoriesMocks(categories);
+    const categoriesJSON = JSON.stringify(categoriesMocks, undefined, 2);
     try {
-      await promises.writeFile(MOCK_FILE_PATH, content);
+      await Promise.all([
+        promises.writeFile(MockFilePath.ARTICLES, content),
+        promises.writeFile(MockFilePath.CATEGORIES, categoriesJSON),
+      ]);
       console.log(
-        chalk.green(`${mockCount} article(s) ${isMocksForTests ? `for tests ` : ``}saved to ${MOCK_FILE_PATH}`),
+        chalk.green(`${mockCount} article(s) ${isMocksForTests ? `for tests ` : ``}saved to ${MockFilePath.ARTICLES}`),
       );
+      console.log(chalk.green(`${mockCount} categories(s) saved to ${MockFilePath.CATEGORIES}`));
     } catch (e) {
-      console.error(chalk.red(`Fail to write file ${MOCK_FILE_PATH}`));
+      console.error(chalk.red(`Mock files cannot be written:`, MockFilePath.ARTICLES, MockFilePath.CATEGORIES));
       console.error(chalk.red(e));
     }
   },
@@ -177,10 +184,10 @@ function getAnnounce(sentences: string[]): string {
     .join(` `);
 }
 
-function getCategories(categories: string[]): Category[] {
+function getCategories(categories: string[]): CategoryId[] {
   return shuffle(categories)
     .slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max))
-    .map(categoryName => ({id: transliterate(categoryName), label: categoryName}));
+    .map(transliterate);
 }
 
 function getFullText(sentences: string[]): string {
@@ -191,4 +198,8 @@ function getFullText(sentences: string[]): string {
 
 function getTitle(titles: string[]): string {
   return titles[getRandomInt(0, titles.length - 1)];
+}
+
+function generateCategoriesMocks(categoriesNames: CategoryId[]): Category[] {
+  return categoriesNames.map(categoryName => ({id: transliterate(categoryName), label: categoryName}));
 }
