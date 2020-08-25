@@ -13,6 +13,7 @@
     "copy-static-assets": "node copy-static-assets.js",
     "test": "npm run eslint",
     "test:rest": "cross-env PORT=7777 jest --maxWorkers=1 src/service/cli/server",
+    "generate-mock": "ts-node src/service/service.ts --generate",
     "eslint": "eslint --ext .js,.ts src/",
     "nodemon": "./node_modules/.bin/nodemon",
     "nodemon:data": "npm run nodemon -- --config nodemon.data.json",
