@@ -27,7 +27,7 @@ export const MockTextsFilePath = {
   TITLES: `./data/titles.txt`,
   COMMENTS: `./data/comments.txt`,
 };
-export const Routes = {
+export const APIRoutes = {
   API: `/api`,
   ARTICLES: `/articles`,
   COMMENTS: `/comments`,

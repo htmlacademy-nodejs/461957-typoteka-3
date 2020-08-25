@@ -1,6 +1,6 @@
 import express, {Application} from "express";
 import * as bodyParser from "body-parser";
-import {DEFAULT_PORT, Routes} from "../../../constants-es6";
+import {DEFAULT_PORT, APIRoutes} from "../../../constants-es6";
 import {apiRouter} from "./routes/api";
 import * as http from "http";
 
@@ -30,7 +30,7 @@ export class App {
   }
 
   private configureRoutes(): void {
-    this.app.use(Routes.API, apiRouter);
+    this.app.use(APIRoutes.API, apiRouter);
     this.app.use((req, res) => {
       res.status(404).send(`Page not found`);
     });
