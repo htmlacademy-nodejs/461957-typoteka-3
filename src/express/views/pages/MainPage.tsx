@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from "react";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {Greeting} from "../components/Greeting/Greeting";
-import {ThemeList} from "../components/ThemeList/ThemeList";
+import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {HotList} from "../components/HotList/HotList";
 import {LastList} from "../components/LastList/LastList";
 import {PreviewList} from "../components/PreviewList/PreviewList";
@@ -14,33 +14,13 @@ interface MainPageProps {
 }
 
 export const MainPage: FunctionComponent<MainPageProps> = ({articles, availableCategories: availableCategories}) => {
-  const themes = [
-    {
-      title: `Title`,
-      count: 5,
-      link: `#`,
-    },
-    {
-      title: `Title`,
-      count: 5,
-      link: `#`,
-    },
-    {
-      title: `Title`,
-      count: 5,
-      link: `#`,
-    },
-    {
-      title: `Title`,
-      count: 5,
-      link: `#`,
-    },
-    {
-      title: `Title`,
-      count: 5,
-      link: `#`,
-    },
-  ];
+  const categoriesForFilter = availableCategories
+    .map((category, index) => ({
+      title: category.label,
+      link: category.id,
+      count: index + 1,
+    }))
+    .sort((a, b) => b.count - a.count);
   const hotList = [
     {
       title: `Билл Гейтс впервые за два года возглавил рейтинг самых богатых людей мира по версии Bloomberg`,
@@ -88,7 +68,7 @@ export const MainPage: FunctionComponent<MainPageProps> = ({articles, availableC
     <LayoutFilled>
       <main className="main-page">
         <Greeting />
-        <ThemeList themes={themes} />
+        <CategoriesList categories={categoriesForFilter} />
         <div className="main-page__section-flex">
           <HotList hotList={hotList} />
           <LastList lastList={lastList} />
