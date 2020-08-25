@@ -23,10 +23,7 @@ export class DataProviderService {
       console.error(`error`, e);
     }
     if (response && response.status === 200) {
-      return response.data.map(article => ({
-        ...article,
-        createdDate: new Date(Date.parse((article.createdDate as unknown) as string)),
-      }));
+      return response.data.map(transformDate);
     } else {
       console.error(response.data);
       return null;
@@ -64,7 +61,7 @@ export class DataProviderService {
       console.error(`Failed to load article by id "${id}"`, e);
     }
     if (response && response.status === 200) {
-      return {...response.data, createdDate: new Date(Date.parse((response.data.createdDate as unknown) as string))};
+      return transformDate(response.data);
     } else {
       console.error(response.data);
       return null;
@@ -113,6 +110,10 @@ export class DataProviderService {
       return null;
     }
   }
+}
+
+function transformDate(article: Article): Article {
+  return {...article, createdDate: new Date(Date.parse((article.createdDate as unknown) as string))};
 }
 
 export const dataProviderService = new DataProviderService();
