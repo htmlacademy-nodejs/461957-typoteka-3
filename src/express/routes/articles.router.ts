@@ -8,6 +8,7 @@ import multer from "multer";
 import {NewArticle} from "../../types/new-article";
 import {ArticleValidationResponse} from "../../types/article-validation-response";
 import {EditArticle} from "../views/components/EditArticle/EditArticle";
+import {categoriesToArrayMiddleware} from "../middlewares/categories-to-array.middleware";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -26,7 +27,7 @@ articlesRouter.get(`/add`, async (req, res, next) => {
   }
 });
 
-articlesRouter.post(`/add`, multerMiddleware.none(), async (req, res, next) => {
+articlesRouter.post(`/add`, [multerMiddleware.none(), categoriesToArrayMiddleware], async (req, res, next) => {
   const newArticle = req.body as NewArticle;
   try {
     const response: true | ArticleValidationResponse = await dataProviderService.createArticle(newArticle);
