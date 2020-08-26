@@ -7,10 +7,12 @@ import {SSRError} from "../errors/ssr-error";
 
 export const mainPageRouter = Router();
 
+const articlesNumber = 8;
+
 mainPageRouter.get(`/`, async (req, res, next: NextFunction) => {
   try {
     const [articles, categories] = await Promise.all([
-      dataProviderService.getArticles(),
+      dataProviderService.getArticles(articlesNumber),
       dataProviderService.getCategories(),
     ]);
     if (articles !== null && categories !== null) {

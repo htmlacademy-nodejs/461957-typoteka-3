@@ -15,10 +15,10 @@ export class DataProviderService {
     this.requestService = axios;
   }
 
-  public async getArticles(): Promise<Article[]> {
+  public async getArticles(count?: number): Promise<Article[]> {
     let response: AxiosResponse<Article[]>;
     try {
-      response = await this.requestService.get<Article[]>(this.apiEndPoint + APIRoutes.ARTICLES, {});
+      response = await this.requestService.get<Article[]>(this.apiEndPoint + APIRoutes.ARTICLES, {params: {count}});
     } catch (e) {
       console.error(`error`, e);
     }
