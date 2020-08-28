@@ -4,6 +4,7 @@ import {APIRoutes, DEFAULT_PORT, HttpCode} from "../../../constants-es6";
 import {apiRouter} from "./routes/api";
 import * as http from "http";
 import {getLogger} from "../../logger";
+import {expressPino} from "../../logger";
 
 export class App {
   private logger = getLogger();
@@ -31,6 +32,7 @@ export class App {
 
   private initializeMiddleware(): void {
     this.app.use(bodyParser.json());
+    this.app.use(expressPino);
     // TODO: Error handling
   }
 
