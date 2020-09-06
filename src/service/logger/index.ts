@@ -1,2 +1,2 @@
 export * from "./manual-logger";
-export * from "./express-pino";
+export * from "./pino-http";
