@@ -5,6 +5,7 @@
   "main": "./src/service/service.ts",
   "scripts": {
     "start": "ts-node -r dotenv/config src/service/service.ts --server | pino-pretty",
+    "start:debug": "cross-env LOG_LEVEL=debug npm run start",
     "start:prod": "cross-env NODE_ENV=production node -r dotenv/config build/service/service.js",
     "start-front-server": "ts-node -r dotenv/config src/express/index.ts",
     "start-front-server:prod": "cross-env NODE_ENV=production node -r dotenv/config build/express/index.js",
