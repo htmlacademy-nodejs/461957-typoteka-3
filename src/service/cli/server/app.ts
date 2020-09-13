@@ -4,7 +4,7 @@ import {APIRoutes, DEFAULT_PORT, HttpCode} from "../../../constants-es6";
 import {apiRouter} from "./routes/api";
 import * as http from "http";
 import {getLogger} from "../../logger";
-import {responseStatusCodeMiddleware} from "../../middlewares/response-status-code.middleware";
+import {responseStatusCodeMiddleware} from "../../middlewares";
 
 export class App {
   private logger = getLogger();
