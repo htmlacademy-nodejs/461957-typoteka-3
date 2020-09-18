@@ -1,7 +1,7 @@
 import {NextFunction, Response} from "express";
-import {getLogger} from "../logger";
-import {messageConstructor} from "../logger/message-constructor";
-import {RequestExtended} from "../models/types/request-extended";
+import {getLogger} from "../../logger";
+import {messageConstructor} from "../../logger/message-constructor";
+import {RequestExtended} from "../../models/types/request-extended";
 
 export function responseStatusCodeMiddleware(req: RequestExtended, res: Response, next: NextFunction): void {
   res.on(`finish`, () => onResFinished(req, res));
