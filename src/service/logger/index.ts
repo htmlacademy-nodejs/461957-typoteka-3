@@ -1,2 +1,1 @@
-export * from "./manual-logger";
-export * from "./pino-http";
+export {getLogger} from "./manual-logger";
