@@ -1,10 +1,10 @@
-import express, {Application, Request} from "express";
+import express, {Application, Request, RequestHandler} from "express";
 import * as bodyParser from "body-parser";
 import {APIRoutes, DEFAULT_PORT, HttpCode} from "../../../constants-es6";
 import {apiRouter} from "./routes/api";
 import * as http from "http";
 import {getLogger} from "../../logger";
-import {assignLogFieldsMiddleware, responseStatusCodeMiddleware} from "../../middlewares/logger";
+import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "../../middlewares/logger";
 
 export class App {
   private logger = getLogger();
@@ -13,7 +13,13 @@ export class App {
 
   constructor() {
     this.app = express();
-    this.initializeMiddleware();
+    this.initializeMiddleware([
+      bodyParser.json(),
+      assignLogFieldsMiddleware,
+      responseStatusCodeMiddleware,
+      logRouteMiddleware,
+      // TODO: Error handling
+    ]);
     this.configureRoutes();
   }
 
@@ -30,11 +36,8 @@ export class App {
       .on(`error`, error => this.logger.error(`Unable to start the server on the port ${port}`, error));
   }
 
-  private initializeMiddleware(): void {
-    this.app.use(bodyParser.json());
-    this.app.use(assignLogFieldsMiddleware);
-    this.app.use(responseStatusCodeMiddleware);
-    // TODO: Error handling
+  private initializeMiddleware(middlewares: RequestHandler[]): void {
+    middlewares.forEach(middleware => this.app.use(middleware));
   }
 
   private configureRoutes(): void {
