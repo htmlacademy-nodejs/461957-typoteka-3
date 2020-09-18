@@ -9,7 +9,6 @@ export function responseStatusCodeMiddleware(req: RequestExtended, res: Response
 }
 
 function onResFinished(req: RequestExtended, res: Response): void {
-  res.removeListener(`error`, onResFinished);
   res.removeListener(`finish`, onResFinished);
   getLogger().info(messageConstructor(req.context.id, `Response sent, code: ${res.statusCode}`));
 }
