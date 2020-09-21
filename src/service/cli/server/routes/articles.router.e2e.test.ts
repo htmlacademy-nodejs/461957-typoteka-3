@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {App} from "../app";
 import {agent as request} from "supertest";
 import {Application} from "express";
@@ -43,6 +44,10 @@ describe(`Articles router`, () => {
     test(`Should return an array`, async () => {
       const res = await request(server).get(`/api/articles/`);
       expect(Array.isArray(res.body)).toBe(true);
+    });
+    test(`Should return an array given length`, async () => {
+      const res = await request(server).get(`/api/articles/?count=3`);
+      expect(res.body.length).toBe(3);
     });
   });
 
@@ -124,16 +129,12 @@ describe(`Articles router`, () => {
 
   describe(`POST Create new article`, () => {
     test(`Should return code 400 when pass invalid article params`, async () => {
-      const res = await request(server)
-        .post(`/api/articles/`)
-        .send(invalidNewArticle);
+      const res = await request(server).post(`/api/articles/`).send(invalidNewArticle);
       expect(res.status).toBe(400);
     });
 
     test(`Should return code 201 when pass valid article params`, async () => {
-      const res = await request(server)
-        .post(`/api/articles/`)
-        .send(validNewArticle);
+      const res = await request(server).post(`/api/articles/`).send(validNewArticle);
       expect(res.status).toBe(201);
     });
   });

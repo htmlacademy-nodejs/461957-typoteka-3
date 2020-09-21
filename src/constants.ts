@@ -1,3 +1,7 @@
+/**
+  Please use ./constants-es6.ts
+*/
+
 const DEFAULT_COMMAND = `--help`;
 const USER_ARGV_INDEX = 2;
 const ExitCode = {
@@ -19,7 +23,6 @@ const ContentType = {
 const DEFAULT_PORT = 3000;
 const SSR_PORT = 8080;
 const STATIC_DIR = `src/express/static`;
-const MOCK_FILE_PATH = `./mocks.json`;
 
 export = {
   USER_ARGV_INDEX,
@@ -28,7 +31,6 @@ export = {
   STATIC_DIR,
   DEFAULT_PORT,
   DEFAULT_COMMAND,
-  MOCK_FILE_PATH,
   HttpCode,
   ContentType,
 };

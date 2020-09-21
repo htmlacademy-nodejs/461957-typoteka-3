@@ -1,5 +1,7 @@
 export const DEFAULT_PORT = 3000;
-export const MOCK_FILE_PATH = `mocks.json`;
+export const MockFilePath = {ARTICLES: `mocks/articles.json`, CATEGORIES: `mocks/categories.json`} as const;
+export const DEFAULT_SSR_PORT = 8080;
+export const STATIC_DIR = `static`;
 export const HttpCode = {
   OK: 200,
   CREATED: 201,
@@ -25,9 +27,52 @@ export const MockTextsFilePath = {
   TITLES: `./data/titles.txt`,
   COMMENTS: `./data/comments.txt`,
 };
-export const Routes = {
+export const APIRoutes = {
   API: `/api`,
   ARTICLES: `/articles`,
+  COMMENTS: `/comments`,
   CATEGORIES: `/categories`,
   SEARCH: `/search`,
 };
+export const ClientRoutes = {
+  ADMIN: {
+    INDEX: `/my`,
+    COMMENTS: `/my/comments`,
+  },
+  ARTICLES: {
+    INDEX: `/articles`,
+    ADD: `/articles/add`,
+  },
+};
+export const HttpMethod = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`,
+} as const;
+export const ARTICLE_FORM_FIELDS = {
+  createdDate: {
+    name: `createdDate`,
+    label: `Дата`,
+  },
+  category: {
+    name: `category`,
+    label: `Категории`,
+  },
+  title: {
+    name: `title`,
+    label: `Заголовок`,
+  },
+  announce: {
+    name: `announce`,
+    label: `Анонс публикации`,
+  },
+  fullText: {
+    name: `fullText`,
+    label: `Полный текст публикации`,
+  },
+  Image: {
+    name: `image`,
+    label: `Фотография`,
+  },
+} as const;

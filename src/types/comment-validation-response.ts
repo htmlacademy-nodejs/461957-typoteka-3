@@ -1,6 +1,4 @@
 import {ArticleComment} from "./article-comment";
-import {ValidationError} from "../service/errors/validation-error";
+import {ValidationMessage} from "./validation-message";
 
-export type CommentValidationResponse = {
-  [key in keyof ArticleComment]?: ValidationError;
-}
+export type CommentValidationResponse = Partial<Record<keyof ArticleComment, ValidationMessage>>;

@@ -1,5 +1,5 @@
 {
-  "watch": ["src"],
-  "ext": "ts",
+  "watch": ["src/express/", "src/constants-es6.ts"],
+  "ext": "ts,tsx",
   "exec": "npm run start-front-server"
 }

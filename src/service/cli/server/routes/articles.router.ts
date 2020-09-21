@@ -8,7 +8,8 @@ import {newCommentValidator} from "../../../middlewares/comment-validator";
 export const articlesRouter = Router();
 
 articlesRouter.get(`/`, async (req, res) => {
-  const {status = HttpCode.OK, payload} = await articlesController.getArticles();
+  const count = Number(req.query?.count as string);
+  const {status = HttpCode.OK, payload} = await articlesController.getArticles(count);
   return res.status(status).send(payload);
 });
 articlesRouter.get(`/:id`, async (req, res) => {
@@ -27,7 +28,7 @@ articlesRouter.delete(`/:articleId/comments/:commentId`, async (req, res) => {
   const {status = HttpCode.OK, payload} = await articlesController.deleteCommentById(articleId, commentId);
   res.status(status).send(payload);
 });
-articlesRouter.post(`/:id/comments/`, newCommentValidator,async (req, res) => {
+articlesRouter.post(`/:id/comments/`, newCommentValidator, async (req, res) => {
   const articleId = req.params.id;
   const commentText = req.body?.text;
   const {status = HttpCode.OK, payload} = await articlesController.createComment(articleId, commentText);
