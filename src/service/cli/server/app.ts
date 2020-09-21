@@ -1,4 +1,4 @@
-import express, {Application, RequestHandler, Response} from "express";
+import express, {Application, NextFunction, RequestHandler, Response} from "express";
 import * as bodyParser from "body-parser";
 import {APIRoutes, DEFAULT_PORT, HttpCode} from "../../../constants-es6";
 import {apiRouter} from "./routes/api";
@@ -48,5 +48,11 @@ export class App {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);
       this.logger.error(messageConstructor(req.context.id, `'${req.url}' not found`));
     });
+  }
+
+  private globalErrorHandler(err: Error, req: RequestExtended, res: Response): void {
+    res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    this.logger.error(messageConstructor(req.context.id, `Error: ,` + err));
   }
 }
