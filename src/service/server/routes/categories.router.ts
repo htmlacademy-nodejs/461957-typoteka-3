@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {categoriesController} from "../controllers";
-import {HttpCode} from "../../../../constants-es6";
+import {HttpCode} from "../../../constants-es6";
 
 // eslint-disable-next-line new-cap
 export const categoriesRouter = Router();

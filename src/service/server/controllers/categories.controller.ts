@@ -1,7 +1,7 @@
 import {DataProviderService} from "../services/data-provider.service";
-import {HttpCode} from "../../../../constants-es6";
-import {ControllerResponse} from "../../../../types/controller-response";
-import {Category} from "../../../../types/category";
+import {HttpCode} from "../../../constants-es6";
+import {ControllerResponse} from "../../../types/controller-response";
+import {Category} from "../../../types/category";
 
 export class CategoriesController {
   constructor(private dataProvider: DataProviderService) {}

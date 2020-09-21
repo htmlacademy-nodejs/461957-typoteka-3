@@ -1,8 +1,8 @@
-import {Article} from "../../../../types/article";
+import {Article} from "../../../types/article";
 import {promises} from "fs";
-import {MockFilePath} from "../../../../constants-es6";
-import {ArticleComment} from "../../../../types/article-comment";
-import {Category} from "../../../../types/category";
+import {MockFilePath} from "../../../constants-es6";
+import {ArticleComment} from "../../../types/article-comment";
+import {Category} from "../../../types/category";
 
 export class DataProviderService {
   public articlesCash: Article[];

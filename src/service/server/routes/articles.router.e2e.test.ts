@@ -3,9 +3,9 @@ import {App} from "../app";
 import {agent as request} from "supertest";
 import {Application} from "express";
 import * as http from "http";
-import {Article} from "../../../../types/article";
-import {NewArticle} from "../../../../types/new-article";
-import {ArticleComment} from "../../../../types/article-comment";
+import {Article} from "../../../types/article";
+import {NewArticle} from "../../../types/new-article";
+import {ArticleComment} from "../../../types/article-comment";
 
 const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
 const invalidArticleId = `invalid-article-id`;
