@@ -70,8 +70,8 @@ export const MainPage: FunctionComponent<MainPageProps> = ({articles, availableC
         <Greeting />
         <CategoriesList categories={categoriesForFilter} />
         <div className="main-page__section-flex">
-          <HotList hotList={hotList} />
-          <LastList lastList={lastList} />
+          <HotList listOfHot={hotList} />
+          <LastList listOfLast={lastList} />
         </div>
         <PreviewList previews={articles} availableCategories={availableCategories} />
       </main>

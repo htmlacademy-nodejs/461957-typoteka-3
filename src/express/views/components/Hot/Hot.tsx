@@ -1,17 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, {FunctionComponent} from "react";
 
-export function Hot(props) {
-  return (
-    <a className="hot__list-link" href={props.link}>
-      {props.title}
-      <sup className="hot__link-sup">{props.count}</sup>
-    </a>
-  );
+export interface HotProps {
+  title: string;
+  link: string;
+  count: number;
 }
 
-Hot.propTypes = {
-  title: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
+export const Hot: FunctionComponent<HotProps> = ({count, title, link}) => {
+  return (
+    <a className="hot__list-link" href={link}>
+      {title}
+      <sup className="hot__link-sup">{count}</sup>
+    </a>
+  );
 };
