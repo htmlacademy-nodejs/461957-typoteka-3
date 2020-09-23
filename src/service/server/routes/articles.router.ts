@@ -1,8 +1,8 @@
 import {Router} from "express";
 import {articlesController} from "../controllers";
-import {HttpCode} from "../../../../constants-es6";
-import {newArticleValidator} from "../../../middlewares/article-validator";
-import {newCommentValidator} from "../../../middlewares/comment-validator";
+import {HttpCode} from "../../../constants-es6";
+import {newArticleValidator} from "../../middlewares/article-validator";
+import {newCommentValidator} from "../../middlewares/comment-validator";
 
 // eslint-disable-next-line new-cap
 export const articlesRouter = Router();
