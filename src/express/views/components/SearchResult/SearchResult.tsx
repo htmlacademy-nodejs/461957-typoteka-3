@@ -26,7 +26,7 @@ export const SearchResult: FunctionComponent<SearchResultProps> = ({date, match,
           if (!i) {
             return [current];
           }
-          return prev.concat(<mark><b key={value + current}>{value}</b></mark>, current);
+          return prev.concat(<mark key={value + current}><b key={value + current}>{value}</b></mark>, current);
         }, [])}
       </span>
     );
