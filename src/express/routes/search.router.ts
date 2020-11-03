@@ -72,7 +72,7 @@ function mapMatchesToProps(articleSearchResult: ArticleSearchResult, query: stri
   return {
     text: articleSearchResult.title,
     match: query,
-    date: articleSearchResult.createdDate,
+    date: new Date(Date.parse((articleSearchResult.createdDate as unknown) as string)),
     link: articleSearchResult.link,
   };
 }
