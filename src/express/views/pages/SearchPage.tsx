@@ -26,7 +26,13 @@ export const SearchPage: FunctionComponent<SearchPageProps> = ({searchQuery, mat
                 </button>
               </form>
               {matches.map(match => (
-                <SearchResult key={match.text} date={match.date} text={match.text} match={match.match} />
+                <SearchResult
+                  key={match.text}
+                  date={match.date}
+                  text={match.text}
+                  match={match.match}
+                  link={match.link}
+                />
               ))}
             </div>
             {isEmpty && <p className="search-page__empty">Ничего не нашлось</p>}

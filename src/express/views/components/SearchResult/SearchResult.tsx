@@ -4,15 +4,16 @@ export interface SearchResultProps {
   date: Date;
   text: string;
   match: string;
+  link: string;
 }
 
-export const SearchResult: FunctionComponent<SearchResultProps> = ({date, match, text}) => {
+export const SearchResult: FunctionComponent<SearchResultProps> = ({date, match, text, link}) => {
   return (
     <div className="search__result">
       <time className="search__date" dateTime={date.toISOString()}>
         {date.toLocaleString()}
       </time>
-      <a className="search__link">{highlightQuery(text, match)}</a>
+      <a className="search__link" href={link}>{highlightQuery(text, match)}</a>
     </div>
   );
 
