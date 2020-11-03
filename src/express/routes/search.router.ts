@@ -9,33 +9,6 @@ import {ArticleSearchResult} from "../../types/article-search-result";
 
 export const searchRouter = Router();
 
-const mock: SearchResultProps[] = [
-  {
-    date: new Date(Date.now()),
-    text: `Huawei открыла в России путешествия на смартфон Mate 30 Pro без сервисов Google`,
-    match: `путешествия`,
-    link: ``,
-  },
-  {
-    date: new Date(Date.now()),
-    text: `«Яндекс.Метрика» запустила путешествия сервис для оценки эффективности баннеров и видеорекламы в реальном времени`,
-    match: `путешествия`,
-    link: ``,
-  },
-  {
-    date: new Date(Date.now()),
-    text: `«Яндекс.Метрика» запустила смартфон Mate 30 Pro без приложения "путешествия"`,
-    match: `путешествия`,
-    link: ``,
-  },
-  {
-    date: new Date(Date.now()),
-    text: `Huawei открыла в России путешествия на сервис «Яндекс.Метрика»`,
-    match: `путешествия`,
-    link: ``,
-  },
-];
-
 searchRouter.get(`/`, (req, res, next) => {
   if (!req.query?.query) {
     streamPage(res, SearchPage);
