@@ -37,11 +37,15 @@ const mock: SearchResultProps[] = [
 ];
 
 searchRouter.get(`/`, (req, res, next) => {
-  streamPage(res, SearchPage);
+  if (!req.query?.query) {
+    streamPage(res, SearchPage);
+  } else {
+    next();
+  }
 });
 
-searchRouter.get(`/:query`, async (req, res, next) => {
-  const query = req.params.query;
+searchRouter.get(`/`, async (req, res, next) => {
+  const query = req.query.query as string;
   try {
     const searchResult = await dataProviderService.search(query);
     if (searchResult !== null) {

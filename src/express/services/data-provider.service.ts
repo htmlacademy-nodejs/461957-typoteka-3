@@ -97,10 +97,11 @@ export class DataProviderService {
   public async search(query: string): Promise<ArticleSearchCollection> {
     let response: AxiosResponse<ArticleSearchCollection>;
     try {
-      response = await this.requestService.get<ArticleSearchCollection>(
-        this.apiEndPoint + APIRoutes.SEARCH,
-        {params: query},
-      );
+      response = await this.requestService.get<ArticleSearchCollection>(this.apiEndPoint + APIRoutes.SEARCH, {
+        params: {
+          query,
+        },
+      });
     } catch (e) {
       console.error(`search request`, e);
     }
