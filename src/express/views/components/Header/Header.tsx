@@ -1,5 +1,6 @@
 import React from "react";
 import {Logo} from "../Logo/Logo";
+import {ClientRoutes} from "../../../../constants-es6";
 
 export function Header() {
   return (
@@ -19,7 +20,7 @@ export function Header() {
           </li>
         </ul>
       </nav>
-      <a className="header__search button button--search" href="#" aria-label="поиск по сайту"></a>
+      <a className="header__search button button--search" href={ClientRoutes.SEARCH.INDEX} aria-label="поиск по сайту" />
     </header>
   );
 }
