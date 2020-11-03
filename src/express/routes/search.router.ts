@@ -4,7 +4,7 @@ import {SearchPage} from "../views/pages/SearchPage";
 import {SearchResultProps} from "../views/components/SearchResult/SearchResult";
 import {dataProviderService} from "../services/data-provider.service";
 import {SSRError} from "../errors/ssr-error";
-import {HttpCode} from "../../constants-es6";
+import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {ArticleSearchResult} from "../../types/article-search-result";
 
 export const searchRouter = Router();
@@ -26,6 +26,7 @@ searchRouter.get(`/`, async (req, res, next) => {
         matches: searchResult.items.map(match => mapMatchesToProps(match, query)),
         query: searchResult.query,
         itemsCount: searchResult.itemsCount,
+        endPoint: ClientRoutes.SEARCH.INDEX,
       });
     } else {
       next(new SSRError({message: `Search failed`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));

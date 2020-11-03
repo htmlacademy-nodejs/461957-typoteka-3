@@ -6,9 +6,10 @@ export interface SearchPageProps {
   query?: string;
   matches?: SearchResultProps[];
   itemsCount?: number;
+  endPoint: string;
 }
 
-export const SearchPage: FunctionComponent<SearchPageProps> = ({query, matches = [], itemsCount}) => {
+export const SearchPage: FunctionComponent<SearchPageProps> = ({query, matches = [], itemsCount, endPoint}) => {
   const isEmpty = query && itemsCount === 0;
 
   return (
@@ -18,9 +19,9 @@ export const SearchPage: FunctionComponent<SearchPageProps> = ({query, matches =
           <div className={"search-page__wrapper" + (isEmpty ? " search-page__wrapper--empty" : "")}>
             <h1>Поиск</h1>
             <div className="search search-page__form">
-              <form action="#" method="get">
+              <form action={endPoint} method="get">
                 <label>
-                  <input type="text" placeholder="Что ищем?" defaultValue={query} />
+                  <input type="text" name="query" placeholder="Что ищем?" defaultValue={query} />
                 </label>
                 <button className="search__button button button--transparent" type="submit">
                   Найти
