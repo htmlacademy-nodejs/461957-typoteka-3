@@ -3,12 +3,13 @@ import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {SearchResult, SearchResultProps} from "../components/SearchResult/SearchResult";
 
 export interface SearchPageProps {
-  searchQuery?: string;
+  query?: string;
   matches?: SearchResultProps[];
+  itemsCount?: number;
 }
 
-export const SearchPage: FunctionComponent<SearchPageProps> = ({searchQuery, matches = []}) => {
-  const isEmpty = !matches.length;
+export const SearchPage: FunctionComponent<SearchPageProps> = ({query, matches = [], itemsCount}) => {
+  const isEmpty = query && itemsCount === 0;
 
   return (
     <LayoutFilled>
@@ -19,7 +20,7 @@ export const SearchPage: FunctionComponent<SearchPageProps> = ({searchQuery, mat
             <div className="search search-page__form">
               <form action="#" method="get">
                 <label>
-                  <input type="text" placeholder="Что ищем?" defaultValue={searchQuery} />
+                  <input type="text" placeholder="Что ищем?" defaultValue={query} />
                 </label>
                 <button className="search__button button button--transparent" type="submit">
                   Найти
