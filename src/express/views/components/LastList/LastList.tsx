@@ -1,9 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {Last} from "../Last/Last";
+import React, {FunctionComponent} from "react";
+import {Last, LastProps} from "../Last/Last";
 
-export function LastList(props) {
-  const lastList = props.lastList.map(last => (
+interface LastListProps {
+  listOfLast: LastProps[];
+}
+
+export const LastList: FunctionComponent<LastListProps> = ({listOfLast}) => {
+  const lastList = listOfLast.map(last => (
     <li className="last__list-item" key={last.title}>
       <Last title={last.title} link={last.link} authorAvatar={last.authorAvatar} authorName={last.authorName} />
     </li>
@@ -12,20 +15,9 @@ export function LastList(props) {
   return (
     <section className="main-page__last last">
       <h2 className="last__name">
-        Последние комментарии <span className="last__icon last__icon--cloud"></span>
+        Последние комментарии <span className="last__icon last__icon--cloud" />
       </h2>
       <ul className="last__list">{lastList}</ul>
     </section>
   );
-}
-
-LastList.propTypes = {
-  lastList: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired,
-      authorName: PropTypes.string.isRequired,
-      authorAvatar: PropTypes.string.isRequired,
-    }),
-  ),
 };

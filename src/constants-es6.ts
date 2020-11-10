@@ -43,6 +43,9 @@ export const ClientRoutes = {
     INDEX: `/articles`,
     ADD: `/articles/add`,
   },
+  SEARCH: {
+    INDEX: `/search`,
+  },
 };
 export const HttpMethod = {
   GET: `GET`,

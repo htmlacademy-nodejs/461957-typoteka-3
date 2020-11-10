@@ -1,11 +1,12 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
 import {Article} from "../../types/article";
 import {ENV} from "../../shared/env/env";
-import {HttpCode, APIRoutes} from "../../constants-es6";
+import {APIRoutes, HttpCode} from "../../constants-es6";
 import {ArticleComment} from "../../types/article-comment";
 import {NewArticle} from "../../types/new-article";
 import {ArticleValidationResponse} from "../../types/article-validation-response";
 import {Category} from "../../types/category";
+import {ArticleSearchCollection} from "../../types/article-search-collection";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -89,6 +90,25 @@ export class DataProviderService {
       return response.data;
     } catch (e) {
       console.error(`error`, e);
+      return null;
+    }
+  }
+
+  public async search(query: string): Promise<ArticleSearchCollection> {
+    let response: AxiosResponse<ArticleSearchCollection>;
+    try {
+      response = await this.requestService.get<ArticleSearchCollection>(this.apiEndPoint + APIRoutes.SEARCH, {
+        params: {
+          query,
+        },
+      });
+    } catch (e) {
+      console.error(`search request`, e);
+    }
+    if (response && response.status === HttpCode.OK) {
+      return response.data;
+    } else {
+      console.error(`search request status`, response.data);
       return null;
     }
   }

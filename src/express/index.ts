@@ -8,6 +8,7 @@ import {adminPublicationsRouter} from "./routes/admin-publications.router";
 import {articlesRouter} from "./routes/articles.router";
 import {notFoundMiddleware} from "./middlewares/not-found.middleware";
 import {errorHandlerMiddleware} from "./middlewares/error-handler.middleware";
+import {searchRouter} from "./routes/search.router";
 
 // const registerRouter = require(`./routes/register`);
 // const loginRouter = require(`./routes/login`);
@@ -21,7 +22,7 @@ app.use(express.static(path.join(__dirname, STATIC_DIR)));
 app.use(`/`, mainPageRouter);
 // app.use(`/register`, registerRouter);
 // app.use(`/login`, loginRouter);
-// app.use(`/search`, searchRouter);
+app.use(ClientRoutes.SEARCH.INDEX, searchRouter);
 app.use(ClientRoutes.ADMIN.INDEX, adminPublicationsRouter);
 // app.use(`/categories`, categoriesRouter);
 app.use(ClientRoutes.ARTICLES.INDEX, articlesRouter);
