@@ -39,7 +39,7 @@ function getDate(currentDate: number): Date {
   return new Date(currentDate - 1 - getRandomInt(0, THREE_MONTHS_DURATION));
 }
 
-async function readFile(filePath: string): Promise<string[]> {
+export async function readTXTFile(filePath: string): Promise<string[]> {
   try {
     const rawContent: string = await promises.readFile(filePath, `utf8`);
     return rawContent
@@ -139,10 +139,10 @@ async function getTextsForMocks(
   commentsFilePath: string,
 ): Promise<[string[], string[], string[], string[]]> {
   return Promise.all([
-    readFile(sentencesFilePath),
-    readFile(categoriesFilePath),
-    readFile(titlesFilePath),
-    readFile(commentsFilePath),
+    readTXTFile(sentencesFilePath),
+    readTXTFile(categoriesFilePath),
+    readTXTFile(titlesFilePath),
+    readTXTFile(commentsFilePath),
   ]);
 }
 
