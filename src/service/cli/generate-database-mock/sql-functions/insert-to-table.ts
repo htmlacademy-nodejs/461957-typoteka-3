@@ -1,4 +1,4 @@
-import {TableNames} from "../../constants/table-names.constant";
+import {TableNames} from "../../../../constants-es6";
 
 type TableNameKey = keyof typeof TableNames;
 type TableName = typeof TableNames[TableNameKey];

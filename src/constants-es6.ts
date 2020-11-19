@@ -1,5 +1,9 @@
 export const DEFAULT_PORT = 3000;
-export const MockFilePath = {ARTICLES: `mocks/articles.json`, CATEGORIES: `mocks/categories.json`} as const;
+export const MockFilePath = {
+  ARTICLES: `mocks/articles.json`,
+  CATEGORIES: `mocks/categories.json`,
+  FILL_DATABASE_SQL_SCRIPT: `mocks/fill-database-generated.sql`,
+} as const;
 export const DEFAULT_SSR_PORT = 8080;
 export const STATIC_DIR = `static`;
 export const HttpCode = {
@@ -26,7 +30,7 @@ export const MockTextsFilePath = {
   CATEGORIES: `./data/categories.txt`,
   TITLES: `./data/titles.txt`,
   COMMENTS: `./data/comments.txt`,
-};
+} as const;
 export const APIRoutes = {
   API: `/api`,
   ARTICLES: `/articles`,
@@ -78,4 +82,11 @@ export const ARTICLE_FORM_FIELDS = {
     name: `image`,
     label: `Фотография`,
   },
+} as const;
+export const TableNames = {
+  USERS: `users`,
+  PERMISSIONS: `permissions`,
+  ARTICLES: `articles`,
+  CATEGORIES: `categories`,
+  ARTICLES_CATEGORIES: `articles_categories`,
 } as const;
