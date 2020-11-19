@@ -15,6 +15,7 @@
     "test": "npm run eslint",
     "test:rest": "cross-env PORT=7777 jest --maxWorkers=1 src/service/server",
     "generate-mock": "ts-node src/service/service.ts --generate",
+    "generate-database-mock": "ts-node src/service/cli/generate-database-mock.ts",
     "eslint": "eslint --ext .js,.ts src/",
     "nodemon": "./node_modules/.bin/nodemon",
     "nodemon:data": "npm run nodemon -- --config nodemon.data.json",
