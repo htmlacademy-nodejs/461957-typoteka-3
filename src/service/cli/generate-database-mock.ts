@@ -29,7 +29,7 @@ async function insertCategories(): Promise<void> {
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- CATEGORIES\n`);
   const categories = await readTXTFile(MockTextsFilePath.CATEGORIES);
   for (const category of categories) {
-    const fillTableCategories = insertToTable(TableNames.CATEGORIES, [category]);
+    const fillTableCategories = insertToTable(TableNames.CATEGORIES, [`DEFAULT`, category]);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableCategories);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
