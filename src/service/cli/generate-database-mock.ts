@@ -5,6 +5,7 @@ import {appendToFile} from "./generate-database-mock/fs-functions/append-to-file
 import {readTXTFile} from "./generate";
 import {MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
 import {shuffle} from "../../utils";
+import {truncateFile} from "./generate-database-mock/fs-functions/trunctate-file";
 
 function getCliArguments(): ICLIArguments {
   return yargs(process.argv.slice(2)).options({
@@ -18,6 +19,7 @@ getCliArguments();
 
 async function init(): Promise<void> {
   const params: ICLIArguments = getCliArguments();
+  await truncateFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT);
   await insertCategories();
   await insertPermissions();
   await insertUsers(params.number);
