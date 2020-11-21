@@ -6,7 +6,7 @@ type TableName = typeof TableNames[TableNameKey];
 
 export function insertToTable(table: TableName, values: string[]): string {
   const message = values.map(value => (SQL_KEYWORDS.includes(value) ? value : escapeString(value)));
-  return `INSERT INTO ${table} (${message.toString()});\n`;
+  return `INSERT INTO ${table} VALUES (${message.toString()});\n`;
 }
 
 function escapeString(message: string): string {
