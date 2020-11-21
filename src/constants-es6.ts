@@ -30,6 +30,7 @@ export const MockTextsFilePath = {
   CATEGORIES: `./data/categories.txt`,
   TITLES: `./data/titles.txt`,
   COMMENTS: `./data/comments.txt`,
+  PERMISSIONS: `data/permissions.txt`,
 } as const;
 export const APIRoutes = {
   API: `/api`,
