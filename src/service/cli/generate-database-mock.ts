@@ -17,18 +17,28 @@ getCliArguments();
 
 async function init(): Promise<void> {
   const params: ICLIArguments = getCliArguments();
-  // INSERT categories
+  await insertCategories();
+  await insertPermissions();
+}
+
+async function insertCategories(): Promise<void> {
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- CATEGORIES\n`);
   const categories = await readTXTFile(MockTextsFilePath.CATEGORIES);
   for (const category of categories) {
     const fillTableCategories = insertToTable(TableNames.CATEGORIES, [category]);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableCategories);
   }
-  // INSERT permissions
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
+}
+
+async function insertPermissions(): Promise<void> {
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- PERMISSIONS\n`);
   const permissions = await readTXTFile(MockTextsFilePath.PERMISSIONS);
   for (const permission of permissions) {
     const fillTablePermissions = insertToTable(TableNames.PERMISSIONS, [permission]);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTablePermissions);
   }
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
 }
 
 void init();
