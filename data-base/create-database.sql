@@ -44,3 +44,12 @@ CREATE TABLE public.articles_categories
     category_id bigint NOT NULL REFERENCES categories (id),
     PRIMARY KEY (article_id, category_id)
 );
+
+CREATE TABLE public.comments
+(
+    id bigserial NOT NULL PRIMARY KEY,
+    article_id bigint NOT NULL REFERENCES articles (id),
+    user_id bigint NOT NULL REFERENCES users (id),
+    date date NOT NULL,
+    text varchar(1000) NOT NULL
+)
