@@ -4,12 +4,13 @@ import {insertToTable} from "./generate-database-mock/sql-functions/insert-to-ta
 import {appendToFile} from "./generate-database-mock/fs-functions/append-to-file";
 import {readTXTFile} from "./generate";
 import {MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
+import {shuffle} from "../../utils";
 
 function getCliArguments(): ICLIArguments {
   return yargs(process.argv.slice(2)).options({
     database: {type: `string`, demandOption: true, desc: `Database name`},
     user: {type: `string`, demandOption: true, desc: `User who has access to database`},
-    number: {type: `number`, desc: `Number of generated articles`, default: 3},
+    number: {type: `number`, desc: `Number of generated users`, default: 3},
   }).argv as ICLIArguments;
 }
 
@@ -19,6 +20,7 @@ async function init(): Promise<void> {
   const params: ICLIArguments = getCliArguments();
   await insertCategories();
   await insertPermissions();
+  await insertUsers(params.number);
 }
 
 async function insertCategories(): Promise<void> {
@@ -37,6 +39,28 @@ async function insertPermissions(): Promise<void> {
   for (const permission of permissions) {
     const fillTablePermissions = insertToTable(TableNames.PERMISSIONS, [permission]);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTablePermissions);
+  }
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
+}
+
+async function insertUsers(usersNumber: number): Promise<void> {
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- USERS\n`);
+  const [firstNames, lastNames, emails, permissions] = await Promise.all(
+    [
+      MockTextsFilePath.FIRST_NAMES,
+      MockTextsFilePath.LAST_NAMES,
+      MockTextsFilePath.EMAILS,
+      MockTextsFilePath.PERMISSIONS,
+    ].map(file => readTXTFile(file)),
+  );
+  const selectedFirstNames = shuffle(firstNames).slice(0, usersNumber);
+  const users = selectedFirstNames.reduce((accumulator, firstName) => {
+    accumulator.push([`DEFAULT`, shuffle(emails)[0], permissions[0], firstName, shuffle(lastNames)[0], `NULL`]);
+    return accumulator;
+  }, [] as string[][]);
+  for (const user of users) {
+    const fillTableUsers = insertToTable(TableNames.USERS, user);
+    await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableUsers);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
 }
