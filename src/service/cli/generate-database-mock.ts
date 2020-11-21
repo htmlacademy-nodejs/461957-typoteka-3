@@ -2,7 +2,7 @@ import yargs from "yargs/yargs";
 import {ICLIArguments} from "./generate-database-mock/models/cli-arguments.interface";
 import {insertToTable} from "./generate-database-mock/sql-functions/insert-to-table";
 import {appendToFile} from "./generate-database-mock/fs-functions/append-to-file";
-import {readTXTFile} from "./generate";
+import {getAnnounce, getDate, getFullText, getTitle, readTXTFile} from "./generate";
 import {MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
 import {shuffle} from "../../utils";
 import {truncateFile} from "./generate-database-mock/fs-functions/trunctate-file";
@@ -24,6 +24,7 @@ async function init(): Promise<void> {
   await insertCategories();
   await insertPermissions();
   await insertUsers(params.number);
+  await insertArticles(params.number);
 }
 
 async function insertCategories(): Promise<void> {
@@ -69,6 +70,35 @@ async function insertUsers(usersNumber: number): Promise<void> {
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
   console.log(chalk.green(`USERS: scripts generated successfully`));
+}
+
+async function insertArticles(userNumber: number): Promise<void> {
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- ARTICLES\n`);
+  const [titles, sentences] = await Promise.all(
+    [
+      MockTextsFilePath.TITLES,
+      MockTextsFilePath.SENTENCES,
+    ].map(file => readTXTFile(file)),
+  );
+  const articles = new Array(userNumber).fill(undefined).map((article, index) => {
+
+    return [
+      `DEFAULT`,
+      getTitle(titles),
+      getDate(Date.now()).toISOString(),
+      (index + 1).toString(10),
+      getFullText(sentences),
+      `NULL`,
+      getAnnounce(sentences),
+    ];
+  });
+
+  for (const article of articles) {
+    const fillTableArticles = insertToTable(TableNames.ARTICLES, article);
+    await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableArticles);
+  }
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
+  console.log(chalk.green(`ARTICLES: scripts generated successfully`));
 }
 
 void init();

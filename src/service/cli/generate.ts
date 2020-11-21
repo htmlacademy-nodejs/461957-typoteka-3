@@ -23,6 +23,7 @@ const CategoriesRestrict = {
 const AnnounceRestrict = {
   min: 0,
   max: 5,
+  maxLength: 250,
 };
 
 const CommentRestrict = {
@@ -35,7 +36,15 @@ const CommentTextRestrict = {
   max: 5,
 };
 
-function getDate(currentDate: number): Date {
+const TitleRestrict = {
+  maxLength: 250,
+};
+
+const FullTextRestrict = {
+  maxLength: 1000,
+};
+
+export function getDate(currentDate: number): Date {
   return new Date(currentDate - 1 - getRandomInt(0, THREE_MONTHS_DURATION));
 }
 
@@ -164,7 +173,7 @@ function getComments(commentsSentences: string[]): ArticleComment[] {
         .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
         .join(` `),
     }))
-    .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, AnnounceRestrict.max));
+    .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, CommentRestrict.max));
 }
 
 function getCommentsForTests(commentsSentences: string[], forceCreateComments: boolean): ArticleComment[] {
@@ -176,29 +185,31 @@ function getCommentsForTests(commentsSentences: string[], forceCreateComments: b
         .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
         .join(` `),
     }))
-    .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, AnnounceRestrict.max));
+    .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, CommentRestrict.max));
 }
 
-function getAnnounce(sentences: string[]): string {
+export function getAnnounce(sentences: string[]): string {
   return shuffle(sentences)
     .slice(AnnounceRestrict.min, getRandomInt(AnnounceRestrict.min + 1, AnnounceRestrict.max))
-    .join(` `);
+    .join(` `)
+    .slice(0, AnnounceRestrict.maxLength);
 }
 
-function getCategories(categories: string[]): CategoryId[] {
+export function getCategories(categories: string[]): CategoryId[] {
   return shuffle(categories)
     .slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max))
     .map(transliterate);
 }
 
-function getFullText(sentences: string[]): string {
+export function getFullText(sentences: string[]): string {
   return shuffle(sentences)
     .slice(0, sentences.length - 1)
-    .join(` `);
+    .join(` `)
+    .slice(0, FullTextRestrict.maxLength);
 }
 
-function getTitle(titles: string[]): string {
-  return titles[getRandomInt(0, titles.length - 1)];
+export function getTitle(titles: string[]): string {
+  return titles[getRandomInt(0, titles.length - 1)].slice(0, TitleRestrict.maxLength);
 }
 
 function generateCategoriesMocks(categoriesNames: CategoryId[]): Category[] {
