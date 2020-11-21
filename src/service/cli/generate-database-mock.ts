@@ -6,6 +6,7 @@ import {readTXTFile} from "./generate";
 import {MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
 import {shuffle} from "../../utils";
 import {truncateFile} from "./generate-database-mock/fs-functions/trunctate-file";
+import chalk from "chalk";
 
 function getCliArguments(): ICLIArguments {
   return yargs(process.argv.slice(2)).options({
@@ -33,6 +34,7 @@ async function insertCategories(): Promise<void> {
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableCategories);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
+  console.log(chalk.green(`CATEGORIES: scripts generated successfully`));
 }
 
 async function insertPermissions(): Promise<void> {
@@ -43,6 +45,7 @@ async function insertPermissions(): Promise<void> {
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTablePermissions);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
+  console.log(chalk.green(`PERMISSIONS: scripts generated successfully`));
 }
 
 async function insertUsers(usersNumber: number): Promise<void> {
@@ -65,6 +68,7 @@ async function insertUsers(usersNumber: number): Promise<void> {
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableUsers);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
+  console.log(chalk.green(`USERS: scripts generated successfully`));
 }
 
 void init();
