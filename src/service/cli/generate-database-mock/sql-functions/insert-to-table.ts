@@ -1,5 +1,5 @@
 import {TableNames} from "../../../../constants-es6";
-import {SQL_KEYWORDS} from "../../constants/sql-keywords.constant";
+import {SQL_KEYWORDS} from "../constants/sql-keywords.constant";
 
 type TableNameKey = keyof typeof TableNames;
 type TableName = typeof TableNames[TableNameKey];

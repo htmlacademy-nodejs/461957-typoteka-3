@@ -1,7 +1,7 @@
 import {CliAction} from "../../types/cli-action";
 import {Article} from "../../types/article";
 import {ArticleComment} from "../../types/article-comment";
-import {DAYS_IN_MONTH, ExitCode, MockFilePath, MockTextsFilePath, MS_IN_DAY} from "../../constants-es6";
+import {ExitCode, MockFilePath, MockTextsFilePath} from "../../constants-es6";
 import chalk from "chalk";
 import {nanoid} from "nanoid";
 import {promises} from "fs";
@@ -9,61 +9,20 @@ import {getRandomInt, shuffle} from "../../utils";
 import {Category} from "../../types/category";
 import {transliterate} from "../../shared/transliterate";
 import {CategoryId} from "../../types/category-id";
+import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
+import {
+  getAnnounce,
+  getCategories,
+  getComments,
+  getDate,
+  getFullText,
+  getTitle,
+} from "./generate-database-mock/values-generators";
+import {CommentRestrict, CommentTextRestrict} from "./generate-database-mock/constants/mocks-restrictions";
 
 const DEFAULT_COUNT = 10;
-const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
 const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
 const validCommentId = `-ZyTZtrsZjjBq8k5Bskzjb`;
-
-export const CategoriesRestrict = {
-  min: 1,
-  max: 5,
-};
-
-const AnnounceRestrict = {
-  min: 0,
-  max: 5,
-  maxLength: 250,
-};
-
-const CommentRestrict = {
-  min: 0,
-  max: 10,
-};
-
-const CommentTextRestrict = {
-  min: 1,
-  max: 5,
-  maxLength: 1000,
-};
-
-const TitleRestrict = {
-  maxLength: 250,
-};
-
-const FullTextRestrict = {
-  maxLength: 1000,
-};
-
-export function getDate(currentDate: number): Date {
-  return new Date(currentDate - 1 - getRandomInt(0, THREE_MONTHS_DURATION));
-}
-
-export async function readTXTFile(filePath: string): Promise<string[]> {
-  try {
-    const rawContent: string = await promises.readFile(filePath, `utf8`);
-    console.log(chalk.white(`Read successfully: ${filePath}`));
-    return rawContent
-      .replace(/(\r\n)/gm, `\n`)
-      .replace(/(\r)/gm, `\n`)
-      .split(`\n`)
-      .filter(item => !!item.length);
-  } catch (e) {
-    console.error(chalk.red(`Unable to read file ${filePath}`));
-    console.error(chalk.red(e));
-    return [];
-  }
-}
 
 function generateMocks(
   count: number,
@@ -165,23 +124,6 @@ function getIdForTests(index: number): string {
   return index ? nanoid() : validArticleId;
 }
 
-export function getComments(commentsSentences: string[]): ArticleComment[] {
-  return Array(CommentRestrict.max)
-    .fill(undefined)
-    .map<ArticleComment>(() => ({
-      id: nanoid(),
-      text: getCommentText(commentsSentences),
-    }))
-    .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, CommentRestrict.max));
-}
-
-export function getCommentText(sentences: string[]): string {
-  return shuffle(sentences)
-    .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
-    .join(` `)
-    .slice(0, CommentTextRestrict.maxLength);
-}
-
 function getCommentsForTests(commentsSentences: string[], forceCreateComments: boolean): ArticleComment[] {
   return Array(forceCreateComments ? CommentRestrict.max + 1 : CommentRestrict.max)
     .fill(undefined)
@@ -192,30 +134,6 @@ function getCommentsForTests(commentsSentences: string[], forceCreateComments: b
         .join(` `),
     }))
     .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, CommentRestrict.max));
-}
-
-export function getAnnounce(sentences: string[]): string {
-  return shuffle(sentences)
-    .slice(AnnounceRestrict.min, getRandomInt(AnnounceRestrict.min + 1, AnnounceRestrict.max))
-    .join(` `)
-    .slice(0, AnnounceRestrict.maxLength);
-}
-
-export function getCategories(categories: string[]): CategoryId[] {
-  return shuffle(categories)
-    .slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max))
-    .map(transliterate);
-}
-
-export function getFullText(sentences: string[]): string {
-  return shuffle(sentences)
-    .slice(0, sentences.length - 1)
-    .join(` `)
-    .slice(0, FullTextRestrict.maxLength);
-}
-
-export function getTitle(titles: string[]): string {
-  return titles[getRandomInt(0, titles.length - 1)].slice(0, TitleRestrict.maxLength);
 }
 
 function generateCategoriesMocks(categoriesNames: CategoryId[]): Category[] {
