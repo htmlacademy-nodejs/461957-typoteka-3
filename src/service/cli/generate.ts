@@ -15,8 +15,8 @@ const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
 const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
 const validCommentId = `-ZyTZtrsZjjBq8k5Bskzjb`;
 
-const CategoriesRestrict = {
-  min: 0,
+export const CategoriesRestrict = {
+  min: 1,
   max: 5,
 };
 

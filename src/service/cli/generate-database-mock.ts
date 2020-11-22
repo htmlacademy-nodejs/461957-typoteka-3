@@ -2,7 +2,7 @@ import yargs from "yargs/yargs";
 import {ICLIArguments} from "./generate-database-mock/models/cli-arguments.interface";
 import {insertToTable} from "./generate-database-mock/sql-functions/insert-to-table";
 import {appendToFile} from "./generate-database-mock/fs-functions/append-to-file";
-import {getAnnounce, getCommentText, getDate, getFullText, getTitle, readTXTFile} from "./generate";
+import {CategoriesRestrict, getAnnounce, getCommentText, getDate, getFullText, getTitle, readTXTFile} from "./generate";
 import {MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
 import {getRandomInt, shuffle} from "../../utils";
 import {truncateFile} from "./generate-database-mock/fs-functions/trunctate-file";
@@ -35,6 +35,7 @@ async function init(): Promise<void> {
   await insertUsers(params.number, firstNames, lastNames, emails, permissions);
   await insertArticles(params.number, titles, sentences);
   await insertComments(params.number, comments);
+  await insertArticlesCategories(params.number, categories.length);
 }
 
 async function loadSources(filePaths: string[]): Promise<string[][]> {
@@ -120,6 +121,37 @@ async function insertComments(userNumber: number, commentsSrc: string[]): Promis
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
   console.log(chalk.green(`COMMENTS: scripts generated successfully`));
+}
+
+async function insertArticlesCategories(userNumber: number, categoriesNumber: number): Promise<void> {
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- ARTICLES_CATEGORIES\n`);
+  const intersectionMap: [string, string[]][] = new Array(userNumber)
+    .fill(undefined)
+    .map((value, index) => [
+      (index + 1).toString(10),
+      generateCategoriesForArticle(categoriesNumber, CategoriesRestrict.min, CategoriesRestrict.max),
+    ]);
+  for (const pair of unfoldCategoriesMap(intersectionMap)) {
+    const fillTableArticlesCategories = insertToTable(TableNames.ARTICLES_CATEGORIES, pair);
+    await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableArticlesCategories);
+  }
+  console.log(chalk.green(`ARTICLES_CATEGORIES: scripts generated successfully`));
+}
+
+function generateCategoriesForArticle(categoriesLength: number, min: number, max: number): string[] {
+  return [
+    ...new Set(
+      new Array(getRandomInt(min, max)).fill(undefined).map(() => getRandomInt(1, categoriesLength).toString(10)),
+    ),
+  ];
+}
+
+function unfoldCategoriesMap(intersectionMap: [string, string[]][]): [string, string][] {
+  const flatMap: [string, string][] = [];
+  intersectionMap.forEach(([article, categories]) => {
+    categories.forEach(category => flatMap.push([article, category]));
+  });
+  return flatMap;
 }
 
 void init();
