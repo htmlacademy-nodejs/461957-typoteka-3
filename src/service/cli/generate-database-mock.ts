@@ -16,22 +16,34 @@ function getCliArguments(): ICLIArguments {
   }).argv as ICLIArguments;
 }
 
-getCliArguments();
-
 async function init(): Promise<void> {
   const params: ICLIArguments = getCliArguments();
+  const [firstNames, lastNames, emails, permissions, categories, sentences, comments, titles] = await loadSources([
+    MockTextsFilePath.FIRST_NAMES,
+    MockTextsFilePath.LAST_NAMES,
+    MockTextsFilePath.EMAILS,
+    MockTextsFilePath.PERMISSIONS,
+    MockTextsFilePath.CATEGORIES,
+    MockTextsFilePath.SENTENCES,
+    MockTextsFilePath.COMMENTS,
+    MockTextsFilePath.TITLES,
+  ]);
+
   await truncateFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT);
-  await insertCategories();
-  await insertPermissions();
-  await insertUsers(params.number);
-  await insertArticles(params.number);
-  await insertComments(params.number);
+  await insertCategories(categories);
+  await insertPermissions(permissions);
+  await insertUsers(params.number, firstNames, lastNames, emails, permissions);
+  await insertArticles(params.number, titles, sentences);
+  await insertComments(params.number, comments);
 }
 
-async function insertCategories(): Promise<void> {
+async function loadSources(filePaths: string[]): Promise<string[][]> {
+  return Promise.all(filePaths.map(readTXTFile));
+}
+
+async function insertCategories(categoriesSrc: string[]): Promise<void> {
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- CATEGORIES\n`);
-  const categories = await readTXTFile(MockTextsFilePath.CATEGORIES);
-  for (const category of categories) {
+  for (const category of categoriesSrc) {
     const fillTableCategories = insertToTable(TableNames.CATEGORIES, [`DEFAULT`, category]);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableCategories);
   }
@@ -39,10 +51,9 @@ async function insertCategories(): Promise<void> {
   console.log(chalk.green(`CATEGORIES: scripts generated successfully`));
 }
 
-async function insertPermissions(): Promise<void> {
+async function insertPermissions(permissionsSrc: string[]): Promise<void> {
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- PERMISSIONS\n`);
-  const permissions = await readTXTFile(MockTextsFilePath.PERMISSIONS);
-  for (const permission of permissions) {
+  for (const permission of permissionsSrc) {
     const fillTablePermissions = insertToTable(TableNames.PERMISSIONS, [permission]);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTablePermissions);
   }
@@ -50,16 +61,14 @@ async function insertPermissions(): Promise<void> {
   console.log(chalk.green(`PERMISSIONS: scripts generated successfully`));
 }
 
-async function insertUsers(usersNumber: number): Promise<void> {
+async function insertUsers(
+  usersNumber: number,
+  firstNames: string[],
+  lastNames: string[],
+  emails: string[],
+  permissions: string[],
+): Promise<void> {
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- USERS\n`);
-  const [firstNames, lastNames, emails, permissions] = await Promise.all(
-    [
-      MockTextsFilePath.FIRST_NAMES,
-      MockTextsFilePath.LAST_NAMES,
-      MockTextsFilePath.EMAILS,
-      MockTextsFilePath.PERMISSIONS,
-    ].map(readTXTFile),
-  );
   const selectedFirstNames = shuffle(firstNames).slice(0, usersNumber);
   const users = selectedFirstNames.reduce((accumulator, firstName) => {
     accumulator.push([`DEFAULT`, shuffle(emails)[0], permissions[0], firstName, shuffle(lastNames)[0], `NULL`]);
@@ -73,21 +82,18 @@ async function insertUsers(usersNumber: number): Promise<void> {
   console.log(chalk.green(`USERS: scripts generated successfully`));
 }
 
-async function insertArticles(userNumber: number): Promise<void> {
+async function insertArticles(userNumber: number, titlesSrc: string[], sentencesSrc: string[]): Promise<void> {
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- ARTICLES\n`);
-  const [titles, sentences] = await Promise.all(
-    [MockTextsFilePath.TITLES, MockTextsFilePath.SENTENCES].map(readTXTFile),
-  );
   const articles = new Array(userNumber)
     .fill(undefined)
     .map((article, index) => [
       `DEFAULT`,
-      getTitle(titles),
+      getTitle(titlesSrc),
       getDate(Date.now()).toISOString(),
       (index + 1).toString(10),
-      getFullText(sentences),
+      getFullText(sentencesSrc),
       `NULL`,
-      getAnnounce(sentences),
+      getAnnounce(sentencesSrc),
     ]);
   for (const article of articles) {
     const fillTableArticles = insertToTable(TableNames.ARTICLES, article);
@@ -97,9 +103,8 @@ async function insertArticles(userNumber: number): Promise<void> {
   console.log(chalk.green(`ARTICLES: scripts generated successfully`));
 }
 
-async function insertComments(userNumber: number): Promise<void> {
+async function insertComments(userNumber: number, commentsSrc: string[]): Promise<void> {
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- COMMENTS\n`);
-  const [comments] = await Promise.all([MockTextsFilePath.COMMENTS].map(readTXTFile));
   const generatedComments = new Array(userNumber * 3)
     .fill(undefined)
     .map(() => [
@@ -107,9 +112,8 @@ async function insertComments(userNumber: number): Promise<void> {
       getRandomInt(1, userNumber).toString(10),
       getRandomInt(1, userNumber).toString(10),
       getDate(Date.now()).toISOString(),
-      getCommentText(comments),
+      getCommentText(commentsSrc),
     ]);
-
   for (const comment of generatedComments) {
     const fillTableComments = insertToTable(TableNames.COMMENTS, comment);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableComments);
