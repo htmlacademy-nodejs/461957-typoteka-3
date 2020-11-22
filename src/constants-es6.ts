@@ -26,10 +26,10 @@ export const MINUTES_IN_HOUR = 60;
 export const DAYS_IN_WEEK = 7;
 export const DAYS_IN_MONTH = 30;
 export const MockTextsFilePath = {
-  SENTENCES: `./data/sentences.txt`,
-  CATEGORIES: `./data/categories.txt`,
-  TITLES: `./data/titles.txt`,
-  COMMENTS: `./data/comments.txt`,
+  SENTENCES: `data/sentences.txt`,
+  CATEGORIES: `data/categories.txt`,
+  TITLES: `data/titles.txt`,
+  COMMENTS: `data/comments.txt`,
   PERMISSIONS: `data/permissions.txt`,
   FIRST_NAMES: `data/first-names.txt`,
   LAST_NAMES: `data/last-names.txt`,
