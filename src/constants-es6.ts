@@ -93,4 +93,5 @@ export const TableNames = {
   ARTICLES: `articles`,
   CATEGORIES: `categories`,
   ARTICLES_CATEGORIES: `articles_categories`,
+  COMMENTS: `comments`,
 } as const;

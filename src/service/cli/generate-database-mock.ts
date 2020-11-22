@@ -2,9 +2,9 @@ import yargs from "yargs/yargs";
 import {ICLIArguments} from "./generate-database-mock/models/cli-arguments.interface";
 import {insertToTable} from "./generate-database-mock/sql-functions/insert-to-table";
 import {appendToFile} from "./generate-database-mock/fs-functions/append-to-file";
-import {getAnnounce, getDate, getFullText, getTitle, readTXTFile} from "./generate";
+import {getAnnounce, getCommentText, getDate, getFullText, getTitle, readTXTFile} from "./generate";
 import {MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
-import {shuffle} from "../../utils";
+import {getRandomInt, shuffle} from "../../utils";
 import {truncateFile} from "./generate-database-mock/fs-functions/trunctate-file";
 import chalk from "chalk";
 
@@ -25,6 +25,7 @@ async function init(): Promise<void> {
   await insertPermissions();
   await insertUsers(params.number);
   await insertArticles(params.number);
+  await insertComments(params.number);
 }
 
 async function insertCategories(): Promise<void> {
@@ -57,7 +58,7 @@ async function insertUsers(usersNumber: number): Promise<void> {
       MockTextsFilePath.LAST_NAMES,
       MockTextsFilePath.EMAILS,
       MockTextsFilePath.PERMISSIONS,
-    ].map(file => readTXTFile(file)),
+    ].map(readTXTFile),
   );
   const selectedFirstNames = shuffle(firstNames).slice(0, usersNumber);
   const users = selectedFirstNames.reduce((accumulator, firstName) => {
@@ -75,14 +76,11 @@ async function insertUsers(usersNumber: number): Promise<void> {
 async function insertArticles(userNumber: number): Promise<void> {
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- ARTICLES\n`);
   const [titles, sentences] = await Promise.all(
-    [
-      MockTextsFilePath.TITLES,
-      MockTextsFilePath.SENTENCES,
-    ].map(file => readTXTFile(file)),
+    [MockTextsFilePath.TITLES, MockTextsFilePath.SENTENCES].map(readTXTFile),
   );
-  const articles = new Array(userNumber).fill(undefined).map((article, index) => {
-
-    return [
+  const articles = new Array(userNumber)
+    .fill(undefined)
+    .map((article, index) => [
       `DEFAULT`,
       getTitle(titles),
       getDate(Date.now()).toISOString(),
@@ -90,15 +88,34 @@ async function insertArticles(userNumber: number): Promise<void> {
       getFullText(sentences),
       `NULL`,
       getAnnounce(sentences),
-    ];
-  });
-
+    ]);
   for (const article of articles) {
     const fillTableArticles = insertToTable(TableNames.ARTICLES, article);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableArticles);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
   console.log(chalk.green(`ARTICLES: scripts generated successfully`));
+}
+
+async function insertComments(userNumber: number): Promise<void> {
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- COMMENTS\n`);
+  const [comments] = await Promise.all([MockTextsFilePath.COMMENTS].map(readTXTFile));
+  const generatedComments = new Array(userNumber * 3)
+    .fill(undefined)
+    .map(() => [
+      `DEFAULT`,
+      getRandomInt(1, userNumber).toString(10),
+      getRandomInt(1, userNumber).toString(10),
+      getDate(Date.now()).toISOString(),
+      getCommentText(comments),
+    ]);
+
+  for (const comment of generatedComments) {
+    const fillTableComments = insertToTable(TableNames.COMMENTS, comment);
+    await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableComments);
+  }
+  await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
+  console.log(chalk.green(`COMMENTS: scripts generated successfully`));
 }
 
 void init();

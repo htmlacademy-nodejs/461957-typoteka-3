@@ -34,6 +34,7 @@ const CommentRestrict = {
 const CommentTextRestrict = {
   min: 1,
   max: 5,
+  maxLength: 1000,
 };
 
 const TitleRestrict = {
@@ -164,16 +165,21 @@ function getIdForTests(index: number): string {
   return index ? nanoid() : validArticleId;
 }
 
-function getComments(commentsSentences: string[]): ArticleComment[] {
+export function getComments(commentsSentences: string[]): ArticleComment[] {
   return Array(CommentRestrict.max)
     .fill(undefined)
     .map<ArticleComment>(() => ({
       id: nanoid(),
-      text: shuffle(commentsSentences)
-        .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
-        .join(` `),
+      text: getCommentText(commentsSentences),
     }))
     .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, CommentRestrict.max));
+}
+
+export function getCommentText(sentences: string[]): string {
+  return shuffle(sentences)
+    .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
+    .join(` `)
+    .slice(0, CommentTextRestrict.maxLength);
 }
 
 function getCommentsForTests(commentsSentences: string[], forceCreateComments: boolean): ArticleComment[] {
