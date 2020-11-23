@@ -2,7 +2,7 @@ export const DEFAULT_PORT = 3000;
 export const MockFilePath = {
   ARTICLES: `mocks/articles.json`,
   CATEGORIES: `mocks/categories.json`,
-  FILL_DATABASE_SQL_SCRIPT: `mocks/fill-database-generated.sql`,
+  FILL_DATABASE_SQL_SCRIPT: `mocks/fill-db.sql`,
 } as const;
 export const DEFAULT_SSR_PORT = 8080;
 export const STATIC_DIR = `static`;
