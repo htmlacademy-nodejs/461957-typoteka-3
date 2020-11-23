@@ -43,7 +43,7 @@ async function init(articlesNumber: number): Promise<void> {
   await insertArticles(articlesNumber, titles, sentences);
   await insertComments(articlesNumber, comments);
   await insertArticlesCategories(articlesNumber, categories.length);
-  printSuccessMessage();
+  printSuccessMessage(articlesNumber);
 }
 
 async function loadSources(filePaths: string[]): Promise<string[][]> {
@@ -57,7 +57,7 @@ async function insertCategories(categoriesSrc: string[]): Promise<void> {
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableCategories);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
-  console.log(chalk.green(`CATEGORIES: scripts generated successfully`));
+  console.log(chalk.white(`CATEGORIES: scripts generated successfully`));
 }
 
 async function insertPermissions(permissionsSrc: string[]): Promise<void> {
@@ -67,7 +67,7 @@ async function insertPermissions(permissionsSrc: string[]): Promise<void> {
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTablePermissions);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
-  console.log(chalk.green(`PERMISSIONS: scripts generated successfully`));
+  console.log(chalk.white(`PERMISSIONS: scripts generated successfully`));
 }
 
 async function insertUsers(
@@ -88,7 +88,7 @@ async function insertUsers(
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableUsers);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
-  console.log(chalk.green(`USERS: scripts generated successfully`));
+  console.log(chalk.white(`USERS: scripts generated successfully`));
 }
 
 async function insertArticles(userNumber: number, titlesSrc: string[], sentencesSrc: string[]): Promise<void> {
@@ -109,7 +109,7 @@ async function insertArticles(userNumber: number, titlesSrc: string[], sentences
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableArticles);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
-  console.log(chalk.green(`ARTICLES: scripts generated successfully`));
+  console.log(chalk.white(`ARTICLES: scripts generated successfully`));
 }
 
 async function insertComments(userNumber: number, commentsSrc: string[]): Promise<void> {
@@ -128,7 +128,7 @@ async function insertComments(userNumber: number, commentsSrc: string[]): Promis
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableComments);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
-  console.log(chalk.green(`COMMENTS: scripts generated successfully`));
+  console.log(chalk.white(`COMMENTS: scripts generated successfully`));
 }
 
 async function insertArticlesCategories(userNumber: number, categoriesNumber: number): Promise<void> {
@@ -143,7 +143,7 @@ async function insertArticlesCategories(userNumber: number, categoriesNumber: nu
     const fillTableArticlesCategories = insertToTable(TableNames.ARTICLES_CATEGORIES, pair);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableArticlesCategories);
   }
-  console.log(chalk.green(`ARTICLES_CATEGORIES: scripts generated successfully`));
+  console.log(chalk.white(`ARTICLES_CATEGORIES: scripts generated successfully`));
 }
 
 function generateCategoriesForArticle(categoriesLength: number, min: number, max: number): string[] {
@@ -162,6 +162,8 @@ function unfoldCategoriesMap(intersectionMap: [string, string[]][]): [string, st
   return flatMap;
 }
 
-function printSuccessMessage(): void {
-  console.log(chalk.white(`SQL commands saved to ${MockFilePath.FILL_DATABASE_SQL_SCRIPT}`));
+function printSuccessMessage(userNumber: number): void {
+  console.log(
+    chalk.green(`SQL commands to create ${userNumber} articles saved to ${MockFilePath.FILL_DATABASE_SQL_SCRIPT}`),
+  );
 }
