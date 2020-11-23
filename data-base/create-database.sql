@@ -52,4 +52,4 @@ CREATE TABLE public.comments
     user_id bigint NOT NULL REFERENCES users (id),
     date date NOT NULL,
     text varchar(1000) NOT NULL
-)
+);
