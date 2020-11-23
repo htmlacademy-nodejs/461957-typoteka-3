@@ -14,6 +14,7 @@ const cliAction: CliAction = {
     --help                     печатает этот текст
     --generate <count>         формирует файл mocks.json
     --generate <count> --test  формирует файл mocks.json для E2E тестов
+    --fill <count>             формирует SQL-скоманды для наполнения базы данных
     `));
   },
 };

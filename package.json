@@ -15,7 +15,7 @@
     "test": "npm run eslint",
     "test:rest": "cross-env PORT=7777 jest --maxWorkers=1 src/service/server",
     "generate-mock": "ts-node src/service/service.ts --generate",
-    "generate-database-mock": "ts-node --transpile-only -- src/service/cli/generate-database-mock.ts",
+    "generate-database-mock": "ts-node --transpile-only src/service/service.ts --fill",
     "eslint": "eslint --ext .js,.ts src/",
     "nodemon": "./node_modules/.bin/nodemon",
     "nodemon:data": "npm run nodemon -- --config nodemon.data.json",
@@ -62,7 +62,6 @@
   },
   "dependencies": {
     "@sindresorhus/slugify": "1.1.0",
-    "@types/yargs": "^15.0.10",
     "axios": "0.21.0",
     "cross-env": "7.0.2",
     "dotenv": "8.2.0",
@@ -71,7 +70,6 @@
     "nanoid": "3.1.16",
     "pino": "6.7.0",
     "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "yargs": "^16.1.1"
+    "react-dom": "17.0.1"
   }
 }

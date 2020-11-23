@@ -1,31 +1,30 @@
-import yargs from "yargs/yargs";
-import {ICLIArguments} from "./generate-database-mock/models/cli-arguments.interface";
 import {insertToTable} from "./generate-database-mock/sql-functions/insert-to-table";
 import {appendToFile} from "./generate-database-mock/fs-functions/append-to-file";
-import {
-  getAnnounce,
-  getCommentText,
-  getDate,
-  getFullText,
-  getTitle,
-} from "./generate-database-mock/values-generators";
-import {MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
+import {getAnnounce, getCommentText, getDate, getFullText, getTitle} from "./generate-database-mock/values-generators";
+import {ExitCode, MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
 import {getRandomInt, shuffle} from "../../utils";
 import {truncateFile} from "./generate-database-mock/fs-functions/trunctate-file";
 import chalk from "chalk";
 import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
 import {CategoriesRestrict} from "./generate-database-mock/constants/mocks-restrictions";
+import {CliAction} from "../../types/cli-action";
 
-function getCliArguments(): ICLIArguments {
-  return yargs(process.argv.slice(2)).options({
-    database: {type: `string`, demandOption: true, desc: `Database name`},
-    user: {type: `string`, demandOption: true, desc: `User who has access to database`},
-    number: {type: `number`, desc: `Number of generated users`, default: 3},
-  }).argv as ICLIArguments;
-}
+const DEFAULT_COUNT = 3;
 
-async function init(): Promise<void> {
-  const params: ICLIArguments = getCliArguments();
+export const cliAction: CliAction = {
+  name: `--fill`,
+  async run(args?: string) {
+    const [mockCountInput] = args;
+    const mockCount = parseInt(mockCountInput, 10) || DEFAULT_COUNT;
+    if (mockCount > 1000) {
+      console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${mockCount}`));
+      process.exit(ExitCode.SUCCESS);
+    }
+    await init(mockCount);
+  },
+};
+
+async function init(articlesNumber: number): Promise<void> {
   const [firstNames, lastNames, emails, permissions, categories, sentences, comments, titles] = await loadSources([
     MockTextsFilePath.FIRST_NAMES,
     MockTextsFilePath.LAST_NAMES,
@@ -40,10 +39,11 @@ async function init(): Promise<void> {
   await truncateFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT);
   await insertCategories(categories);
   await insertPermissions(permissions);
-  await insertUsers(params.number, firstNames, lastNames, emails, permissions);
-  await insertArticles(params.number, titles, sentences);
-  await insertComments(params.number, comments);
-  await insertArticlesCategories(params.number, categories.length);
+  await insertUsers(articlesNumber, firstNames, lastNames, emails, permissions);
+  await insertArticles(articlesNumber, titles, sentences);
+  await insertComments(articlesNumber, comments);
+  await insertArticlesCategories(articlesNumber, categories.length);
+  printSuccessMessage();
 }
 
 async function loadSources(filePaths: string[]): Promise<string[][]> {
@@ -162,4 +162,6 @@ function unfoldCategoriesMap(intersectionMap: [string, string[]][]): [string, st
   return flatMap;
 }
 
-void init();
+function printSuccessMessage(): void {
+  console.log(chalk.white(`SQL commands saved to ${MockFilePath.FILL_DATABASE_SQL_SCRIPT}`));
+}
