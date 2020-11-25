@@ -26,8 +26,30 @@ CREATE TABLE public.users
 (
     id         bigserial    NOT NULL PRIMARY KEY,
     email      varchar(255) NOT NULL,
-    type       varchar(100) NOT NULL references permissions (name),
+    type       varchar(100) NOT NULL REFERENCES permissions (name),
     first_name varchar(255) NOT NULL,
     last_name  varchar(255) NOT NULL,
     image_id   varchar(1000)
+);
+
+CREATE TABLE public.categories
+(
+    id bigserial NOT NULL PRIMARY KEY,
+    title varchar(255) NOT NULL
+);
+
+CREATE TABLE public.articles_categories
+(
+    article_id bigint NOT NULL REFERENCES articles (id),
+    category_id bigint NOT NULL REFERENCES categories (id),
+    PRIMARY KEY (article_id, category_id)
+);
+
+CREATE TABLE public.comments
+(
+    id bigserial NOT NULL PRIMARY KEY,
+    article_id bigint NOT NULL REFERENCES articles (id),
+    user_id bigint NOT NULL REFERENCES users (id),
+    date date NOT NULL,
+    text varchar(1000) NOT NULL
 );

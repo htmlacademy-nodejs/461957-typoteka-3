@@ -1,5 +1,9 @@
 export const DEFAULT_PORT = 3000;
-export const MockFilePath = {ARTICLES: `mocks/articles.json`, CATEGORIES: `mocks/categories.json`} as const;
+export const MockFilePath = {
+  ARTICLES: `mocks/articles.json`,
+  CATEGORIES: `mocks/categories.json`,
+  FILL_DATABASE_SQL_SCRIPT: `mocks/fill-db.sql`,
+} as const;
 export const DEFAULT_SSR_PORT = 8080;
 export const STATIC_DIR = `static`;
 export const HttpCode = {
@@ -22,11 +26,15 @@ export const MINUTES_IN_HOUR = 60;
 export const DAYS_IN_WEEK = 7;
 export const DAYS_IN_MONTH = 30;
 export const MockTextsFilePath = {
-  SENTENCES: `./data/sentences.txt`,
-  CATEGORIES: `./data/categories.txt`,
-  TITLES: `./data/titles.txt`,
-  COMMENTS: `./data/comments.txt`,
-};
+  SENTENCES: `data/sentences.txt`,
+  CATEGORIES: `data/categories.txt`,
+  TITLES: `data/titles.txt`,
+  COMMENTS: `data/comments.txt`,
+  PERMISSIONS: `data/permissions.txt`,
+  FIRST_NAMES: `data/first-names.txt`,
+  LAST_NAMES: `data/last-names.txt`,
+  EMAILS: `data/emails.txt`,
+} as const;
 export const APIRoutes = {
   API: `/api`,
   ARTICLES: `/articles`,
@@ -78,4 +86,12 @@ export const ARTICLE_FORM_FIELDS = {
     name: `image`,
     label: `Фотография`,
   },
+} as const;
+export const TableNames = {
+  USERS: `users`,
+  PERMISSIONS: `permissions`,
+  ARTICLES: `articles`,
+  CATEGORIES: `categories`,
+  ARTICLES_CATEGORIES: `articles_categories`,
+  COMMENTS: `comments`,
 } as const;
