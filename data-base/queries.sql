@@ -42,5 +42,46 @@ GROUP BY articles.id, comments_count, users.first_name, users.last_name, users.e
 ORDER BY articles.date DESC;
 
 -- Полную информацию определённой публикации (идентификатор публикации, заголовок публикации, анонс, полный текст публикации, дата публикации, путь к изображению, имя и фамилия автора, контактный email, количество комментариев, наименование категорий);
+SELECT articles.id,
+       articles.title,
+       articles.announce,
+       articles.content,
+       articles.date,
+       articles.image_id,
+       concat(users.first_name, ' ', users.last_name) author,
+       users.email,
+       comments.count                                 comments_count,
+       string_agg(categories.title, ', ')             categories
+FROM articles
+         LEFT JOIN users on articles.user_id = users.id
+         LEFT JOIN articles_categories on articles.id = articles_categories.article_id
+         LEFT JOIN categories on articles_categories.category_id = categories.id
+         LEFT JOIN (
+    SELECT article_id, count(1) count
+    from comments
+    GROUP BY article_id
+) comments on articles.id = comments.article_id
+WHERE articles.id = 1
+GROUP BY articles.id, comments_count, users.first_name, users.last_name, users.email, articles.date;
+
 -- Список из 5 свежих комментариев (идентификатор комментария, идентификатор публикации, имя и фамилия автора, текст комментария);
+SELECT comments.id,
+       articles.id,
+       concat(users.first_name, ' ', users.last_name) author,
+       comments.text
+FROM comments
+         LEFT JOIN articles on articles.id = comments.article_id
+         LEFT JOIN users on users.id = comments.user_id
+ORDER BY comments.date DESC
+LIMIT 5;
+
 -- Список комментариев для определённой публикации (идентификатор комментария, идентификатор публикации, имя и фамилия автора, текст комментария). Сначала новые комментарии;
+SELECT comments.id,
+       articles.id,
+       concat(users.first_name, ' ', users.last_name) author,
+       comments.text
+from comments
+         LEFT JOIN articles on comments.article_id = articles.id
+         LEFT JOIN users on users.id = comments.user_id
+WHERE articles.id = 1
+ORDER BY comments.date DESC;
