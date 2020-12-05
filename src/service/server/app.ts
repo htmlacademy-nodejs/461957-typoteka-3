@@ -1,12 +1,12 @@
 import express, {Application, RequestHandler, Response} from "express";
 import * as bodyParser from "body-parser";
 import {APIRoutes, DEFAULT_PORT, HttpCode} from "../../constants-es6";
-import {apiRouter} from "./routes/api";
 import * as http from "http";
 import {getLogger} from "../logger";
 import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "../middlewares/logger";
 import {messageConstructor} from "../logger/message-constructor";
 import {RequestExtended} from "../models/types/request-extended";
+import {apiRouter} from "./routes";
 
 export class App {
   private logger = getLogger();

@@ -5,7 +5,7 @@ import {newArticleValidator} from "../../middlewares/article-validator";
 import {newCommentValidator} from "../../middlewares/comment-validator";
 
 // eslint-disable-next-line new-cap
-export const articlesRouter = Router();
+const articlesRouter = Router();
 
 articlesRouter.get(`/`, async (req, res) => {
   const count = Number(req.query?.count as string);
@@ -56,3 +56,5 @@ articlesRouter.delete(`/:id`, async (req, res) => {
   const {status = HttpCode.OK, payload} = await articlesController.deleteArticle(articleId);
   res.status(status).send(payload);
 });
+
+export {articlesRouter};
