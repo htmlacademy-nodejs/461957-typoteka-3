@@ -95,3 +95,5 @@ export const TableNames = {
   ARTICLES_CATEGORIES: `articles_categories`,
   COMMENTS: `comments`,
 } as const;
+export const DEFAULT_COMMAND = `--help`;
+export const USER_ARGV_INDEX = 2;

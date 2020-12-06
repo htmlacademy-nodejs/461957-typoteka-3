@@ -1,12 +1,13 @@
-const Cli = require(`./cli`);
-const {DEFAULT_COMMAND, USER_ARGV_INDEX, ExitCode} = require(`../constants`);
+import {Cli} from "./cli";
+import {DEFAULT_COMMAND, ExitCode, USER_ARGV_INDEX} from "../constants-es6";
+import {ServiceCliCommandName} from "../types/service-cli-command-name";
 
 const userArguments: string[] = process.argv.slice(USER_ARGV_INDEX);
 const [userCommand] = userArguments;
 
 if (userArguments.length === 0 || !Cli[userCommand]) {
-  Cli[DEFAULT_COMMAND].run();
+  void Cli[DEFAULT_COMMAND].run();
   process.exit(ExitCode.SUCCESS);
 }
 
-Cli[userCommand].run(userArguments.slice(1));
+void Cli[userCommand as ServiceCliCommandName].run(userArguments.slice(1));

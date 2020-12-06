@@ -1,8 +1,6 @@
 import {App} from "./app";
 
-function runServer() {
+export function runServer(): void {
   const app = new App();
   app.listen();
 }
-
-export = runServer;
