@@ -21,7 +21,9 @@
     "nodemon:data": "npm run nodemon -- --config nodemon.data.json",
     "nodemon:front": "npm run nodemon -- --config nodemon.front.json",
     "npm-check-updates": "./node_modules/.bin/ncu",
-    "connect-to-database": "ts-node --transpile-only -r dotenv/config src/service/server/data-access/database-connector.ts | pino-pretty"
+    "connect-to-database": "ts-node --transpile-only -r dotenv/config src/service/server/data-access/database-connector.ts | pino-pretty",
+    "/": "___UTILITY_COMMANDS___",
+    "ts-node": "./node_modules/.bin/ts-node"
   },
   "repository": {
     "type": "git",
