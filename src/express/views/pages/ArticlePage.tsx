@@ -7,7 +7,7 @@ interface ArticlePageProps {
 }
 
 export const ArticlePage: FunctionComponent<ArticlePageProps> = ({article}) => (
-  <LayoutFilled addScripts={true}>
+  <LayoutFilled>
     <main>
       <section className="post">
         <code>{JSON.stringify(article, undefined, 2)}</code>

@@ -40,7 +40,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
         };
 
   return (
-    <LayoutFilled fixScroll={true} addScripts={true}>
+    <LayoutFilled>
       <main>
         <section className="modal modal--flex">
           <div className="popup popup--new-publication popup--flex">
