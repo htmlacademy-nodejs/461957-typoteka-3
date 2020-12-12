@@ -1,6 +1,6 @@
 import {getLogger} from "../../logger";
 import {ExitCode} from "../../../constants-es6";
-import {databaseConnector} from "./database.connector";
+import {databaseConnector} from "./connectors/database.connector";
 
 const logger = getLogger();
 
@@ -15,5 +15,3 @@ export async function connectToDatabase(): Promise<void> {
     process.exit(ExitCode.ERROR);
   }
 }
-
-void connectToDatabase();

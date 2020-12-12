@@ -1,5 +1,5 @@
 import {Sequelize} from "sequelize";
-import {ENV} from "../../../shared/env/env";
+import {ENV} from "../../../../shared/env/env";
 
 export class DatabaseConnector {
   private connection: Sequelize;
