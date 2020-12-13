@@ -42,8 +42,8 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
   return (
     <LayoutFilled>
       <main>
-        <section className="modal modal--flex">
-          <div className="popup popup--new-publication popup--flex">
+        <section>
+          <div className="popup popup--new-publication popup--anti">
             <div className="new-publication">
               <form action={endPoint} method="POST" encType="multipart/form-data">
                 <div className="new-publication__header">
@@ -58,7 +58,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                           defaultValue={getInitialDate()}
                           name={ARTICLE_FORM_FIELDS.createdDate.name}
                           id="new-publication-date"
-                          placeholder="21.03.2019"
+                          placeholder="2019-03-21"
                         />
                       </div>
                     </div>
@@ -67,9 +67,9 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                     Опубликовать
                   </button>
                 </div>
-                <button type="button" className="popup__button button button--popup-close" aria-label="Закрыть окно">
+                <a type="button" className="popup__button button button--popup-close" aria-label="Закрыть окно">
                   Закрыть окно
-                </button>
+                </a>
                 <div className="new-publication__form form">
                   {Object.keys(articleValidationResponse).length ? (
                     <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
@@ -107,8 +107,9 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                       <label>
                         <input
                           id="image-name-field"
+                          name={ARTICLE_FORM_FIELDS.Upload.name}
                           type="text"
-                          placeholder={ARTICLE_FORM_FIELDS.Image.label}
+                          placeholder={ARTICLE_FORM_FIELDS.Upload.label}
                           readOnly
                         />
                       </label>
@@ -137,7 +138,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                     <div className="form__field form__field--publication-text">
                       <label>
                         <textarea
-                          rows={2}
+                          rows={5}
                           placeholder={ARTICLE_FORM_FIELDS.announce.label}
                           name={ARTICLE_FORM_FIELDS.announce.name}
                           value={articleProps.announce}
@@ -159,7 +160,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                       <label>
                         <textarea
                           name={ARTICLE_FORM_FIELDS.fullText.name}
-                          rows={5}
+                          rows={10}
                           placeholder={ARTICLE_FORM_FIELDS.fullText.label}
                           value={articleProps.fullText}
                           onChange={() => {}}

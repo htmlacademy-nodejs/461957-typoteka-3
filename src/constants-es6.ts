@@ -86,6 +86,10 @@ export const ARTICLE_FORM_FIELDS = {
     name: `image`,
     label: `Фотография`,
   },
+  Upload: {
+    name: `upload`,
+    label: `Фотография`,
+  },
 } as const;
 export const TableNames = {
   USERS: `users`,
