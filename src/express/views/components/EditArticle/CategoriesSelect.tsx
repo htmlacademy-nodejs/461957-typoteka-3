@@ -14,11 +14,11 @@ export const CategoriesSelect: FunctionComponent<CategoriesSelectProps> = ({
   selectedCategories,
 }) => (
   // TODO: Select selected categories
-  <div style={{display: `flex`, flexWrap: `wrap`}}>
+  <div className="new-publication__category-wrapper">
     {availableCategories.map(category => (
       <div className="new-publication__checkbox" key={category.id} style={{display: `flex`}}>
         <input type="checkbox" name={inputName + `[` + category.id + `]`} id={`checkbox` + category.id} />
-        <label htmlFor={`checkbox` + category.id} style={{marginTop: `12px`}}>
+        <label htmlFor={`checkbox` + category.id}>
           {category.label}
         </label>
       </div>
@@ -26,7 +26,7 @@ export const CategoriesSelect: FunctionComponent<CategoriesSelectProps> = ({
     <a
       key={`link-to-new-category`}
       className="new-publication__form-link button button--transparent"
-      style={{marginTop: `12px`, marginBottom: 0, padding: `8px 20px`, marginLeft: `auto`}}
+      style={{marginBottom: 0, padding: `8px 20px`, marginLeft: `auto`}}
       href="#"
     >
       Добавить категорию
