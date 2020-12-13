@@ -117,6 +117,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                         <label>
                           <input
                             className="visually-hidden"
+                            style={{width: "1px"}}
                             name={ARTICLE_FORM_FIELDS.Image.name}
                             type="file"
                             disabled
