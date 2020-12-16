@@ -56,6 +56,7 @@ export const ClientRoutes = {
     INDEX: `/search`,
   },
   REGISTRATION: `/register`,
+  SIGN_IN: `/login`,
 };
 export const HttpMethod = {
   GET: `GET`,
