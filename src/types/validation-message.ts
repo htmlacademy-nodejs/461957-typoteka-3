@@ -1,4 +1,4 @@
-import {ValidationError} from "../service/errors/validation-error";
+import {ValidationError} from "../shared/errors/validation-error";
 
 export interface ValidationMessage {
   state: ValidationError;

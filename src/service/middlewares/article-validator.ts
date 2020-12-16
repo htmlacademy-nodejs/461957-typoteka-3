@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response} from "express";
 import {Article} from "../../types/article";
 import {ArticleValidationResponse} from "../../types/article-validation-response";
-import {ValidationError} from "../errors/validation-error";
+import {ValidationError} from "../../shared/errors/validation-error";
 import {HttpCode} from "../../constants-es6";
 
 const TITLE_RESTRICTIONS = [30, 250];
