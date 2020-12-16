@@ -1,7 +1,7 @@
 import {CliAction} from "../../types/cli-action";
-const chalk = require(`chalk`);
+import chalk from "chalk";
 
-const cliAction: CliAction = {
+export const cliAction: CliAction = {
   name: `--help`,
   run() {
     console.log(chalk.gray(`Программа запускает http-сервер и формирует файл с данными для API.
@@ -18,5 +18,3 @@ const cliAction: CliAction = {
     `));
   },
 };
-
-export = cliAction;

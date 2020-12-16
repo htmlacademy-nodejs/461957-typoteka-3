@@ -1,10 +1,7 @@
 import {CliAction} from "../../types/cli-action";
+import {runServer} from "../server";
 
-const runServer = require(`../server`);
-
-const cliAction: CliAction = {
+export const cliAction: CliAction = {
   name: `--server`,
   run: runServer,
 };
-
-export = cliAction;

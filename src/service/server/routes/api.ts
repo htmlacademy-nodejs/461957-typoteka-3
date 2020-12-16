@@ -5,7 +5,10 @@ import {searchRouter} from "./search.router";
 import {APIRoutes} from "../../../constants-es6";
 
 // eslint-disable-next-line new-cap
-export const apiRouter = Router();
+const apiRouter = Router();
+
 apiRouter.use(APIRoutes.ARTICLES, articlesRouter);
 apiRouter.use(APIRoutes.CATEGORIES, categoriesRouter);
 apiRouter.use(APIRoutes.SEARCH, searchRouter);
+
+export {apiRouter};
