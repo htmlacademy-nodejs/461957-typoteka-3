@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
-import {ArticleComment} from "../../../../types/article-comment";
-import {Category} from "../../../../types/category";
+import type {ArticleComment} from "../../../../types/article-comment";
+import type {Category} from "../../../../types/category";
 
 interface PreviewProps {
   comments: ArticleComment[];

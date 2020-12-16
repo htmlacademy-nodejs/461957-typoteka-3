@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {ArticleComment} from "../../../../types/article-comment";
+import type {ArticleComment} from "../../../../types/article-comment";
 
 interface CommentProps extends Partial<ArticleComment> {}
 

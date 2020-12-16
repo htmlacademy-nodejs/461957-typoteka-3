@@ -5,7 +5,7 @@ import {SearchResultProps} from "../views/components/SearchResult/SearchResult";
 import {dataProviderService} from "../services/data-provider.service";
 import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {ArticleSearchResult} from "../../types/article-search-result";
+import type {ArticleSearchResult} from "../../types/article-search-result";
 
 export const searchRouter = Router();
 

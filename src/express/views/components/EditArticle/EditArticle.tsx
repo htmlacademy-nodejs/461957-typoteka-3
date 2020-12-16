@@ -1,15 +1,15 @@
 import React, {FunctionComponent} from "react";
-import {Article} from "../../../../types/article";
+import type {Article} from "../../../../types/article";
 import {ARTICLE_FORM_FIELDS} from "../../../../constants-es6";
-import {ArticleValidationResponse} from "../../../../types/article-validation-response";
+import type {ArticleValidationResponse} from "../../../../types/article-validation-response";
 import {FormValidationBlock} from "../Form/FormValidationBlock";
 import {FormValidationMessage} from "../Form/FormValidationMessage";
 import {ValidationError} from "../../../../shared/errors/validation-error";
-import {ValidationMessage} from "../../../../types/validation-message";
+import type {ValidationMessage} from "../../../../types/validation-message";
 import {LayoutFilled} from "../Layout/LayoutFilled";
 import {FieldValidationBlock} from "../Form/FieldVlidationBlock";
 import {CategoriesSelect} from "./CategoriesSelect";
-import {Category} from "../../../../types/category";
+import type {Category} from "../../../../types/category";
 
 interface EditArticleProps {
   article?: Partial<Article>;

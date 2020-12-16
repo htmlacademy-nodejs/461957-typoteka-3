@@ -1,4 +1,4 @@
-import {ServiceCliCommandName} from "./service-cli-command-name";
+import type {ServiceCliCommandName} from "./service-cli-command-name";
 
 export interface CliAction {
   name: ServiceCliCommandName,

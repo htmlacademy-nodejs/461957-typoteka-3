@@ -5,8 +5,8 @@ import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {HotList} from "../components/HotList/HotList";
 import {LastList} from "../components/LastList/LastList";
 import {PreviewList} from "../components/PreviewList/PreviewList";
-import {Article} from "../../../types/article";
-import {Category} from "../../../types/category";
+import type {Article} from "../../../types/article";
+import type {Category} from "../../../types/category";
 import {Pagination} from "../components/Pagination/Pagination";
 
 interface MainPageProps {

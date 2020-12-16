@@ -5,8 +5,8 @@ import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services/data-provider.service";
 import {ArticlePage} from "../views/pages/ArticlePage";
 import multer from "multer";
-import {NewArticle} from "../../types/new-article";
-import {ArticleValidationResponse} from "../../types/article-validation-response";
+import type {NewArticle} from "../../types/new-article";
+import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import {EditArticle} from "../views/components/EditArticle/EditArticle";
 import {categoriesToArrayMiddleware} from "../middlewares/categories-to-array.middleware";
 
