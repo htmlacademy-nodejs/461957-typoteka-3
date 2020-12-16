@@ -11,6 +11,8 @@
     "start-front-server:prod": "cross-env NODE_ENV=production node -r dotenv/config build/express/index.js",
     "build": "npm run build:ts && npm run copy-static-assets",
     "build:ts": "tsc",
+    "build:front": "tsc --build src/express --verbose",
+    "build:service": "tsc --build src/service --verbose",
     "copy-static-assets": "node copy-static-assets.js",
     "test": "npm run eslint",
     "test:rest": "cross-env PORT=7777 jest --maxWorkers=1 src/service/server",
