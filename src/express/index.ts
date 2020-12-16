@@ -11,8 +11,8 @@ import {errorHandlerMiddleware} from "./middlewares/error-handler.middleware";
 import {searchRouter} from "./routes/search.router";
 import {registrationRouter} from "./routes/registration.router";
 import {signInRouter} from "./routes/sign-in.router";
+import {categoriesRouter} from "./routes/categories.router";
 
-// const categoriesRouter = require(`./routes/categories`);
 const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;
 const app = express();
 app.use(express.static(path.join(__dirname, STATIC_DIR)));
@@ -21,7 +21,7 @@ app.use(`/`, mainPageRouter);
 app.use(ClientRoutes.SIGN_IN, signInRouter);
 app.use(ClientRoutes.SEARCH.INDEX, searchRouter);
 app.use(ClientRoutes.ADMIN.INDEX, adminPublicationsRouter);
-// app.use(`/categories`, categoriesRouter);
+app.use(ClientRoutes.CATEGORIES, categoriesRouter);
 app.use(ClientRoutes.ARTICLES.INDEX, articlesRouter);
 app.use(ClientRoutes.REGISTRATION, registrationRouter);
 app.use(`*`, notFoundMiddleware);
