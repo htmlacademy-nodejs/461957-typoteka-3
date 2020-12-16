@@ -1,6 +1,6 @@
 import {ValidationError} from "../shared/errors/validation-error";
 
 export interface ValidationMessage {
-  state: ValidationError;
+  state: typeof ValidationError[keyof typeof ValidationError];
   message?: string;
 }

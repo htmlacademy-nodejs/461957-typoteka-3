@@ -1,4 +1,4 @@
-export enum ValidationError {
-  REQUIRED = `required`,
-  INVALID = `invalid`,
-}
+export const ValidationError = {
+  REQUIRED: `required`,
+  INVALID: `invalid`,
+};
