@@ -9,12 +9,12 @@ export function Header() {
       <nav className="header__nav">
         <ul className="header__nav-list">
           <li className="header__list-item">
-            <a className="header__registration" href="#">
+            <a className="header__registration" href={ClientRoutes.REGISTRATION}>
               Регистрация
             </a>
           </li>
           <li className="header__list-item">
-            <a className="header__enter" href="#">
+            <a className="header__enter" href={ClientRoutes.SIGN_IN}>
               Вход с паролем
             </a>
           </li>
