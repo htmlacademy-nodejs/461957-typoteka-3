@@ -7,6 +7,7 @@ import {LastList} from "../components/LastList/LastList";
 import {PreviewList} from "../components/PreviewList/PreviewList";
 import {Article} from "../../../types/article";
 import {Category} from "../../../types/category";
+import {Pagination} from "../components/Pagination/Pagination";
 
 interface MainPageProps {
   articles?: Article[];
@@ -74,6 +75,9 @@ export const MainPage: FunctionComponent<MainPageProps> = ({articles, availableC
           <LastList listOfLast={lastList} />
         </div>
         <PreviewList previews={articles} availableCategories={availableCategories} />
+        <div className="preview__toggle-wrapper">
+          <Pagination parentCssClass={"preview"} min={1} max={5} current={1} hasNext={true} hasPrev={false} />
+        </div>
       </main>
     </LayoutFilled>
   );
