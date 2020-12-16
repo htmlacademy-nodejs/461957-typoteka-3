@@ -19,7 +19,7 @@ const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;
 const app = express();
 app.use(express.static(path.join(__dirname, STATIC_DIR)));
 
-app.use(`/`, mainPageRouter);
+app.use(ClientRoutes.INDEX, mainPageRouter);
 app.use(ClientRoutes.SIGN_IN, signInRouter);
 app.use(ClientRoutes.SEARCH.INDEX, searchRouter);
 app.use(ClientRoutes.ADMIN.INDEX, adminPublicationsRouter);
