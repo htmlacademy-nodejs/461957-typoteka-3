@@ -9,8 +9,8 @@ import {articlesRouter} from "./routes/articles.router";
 import {notFoundMiddleware} from "./middlewares/not-found.middleware";
 import {errorHandlerMiddleware} from "./middlewares/error-handler.middleware";
 import {searchRouter} from "./routes/search.router";
+import {registrationRouter} from "./routes/registration.router";
 
-// const registerRouter = require(`./routes/register`);
 // const loginRouter = require(`./routes/login`);
 // const searchRouter = require(`./routes/search`);
 // const categoriesRouter = require(`./routes/categories`);
@@ -26,6 +26,7 @@ app.use(ClientRoutes.SEARCH.INDEX, searchRouter);
 app.use(ClientRoutes.ADMIN.INDEX, adminPublicationsRouter);
 // app.use(`/categories`, categoriesRouter);
 app.use(ClientRoutes.ARTICLES.INDEX, articlesRouter);
+app.use(ClientRoutes.REGISTRATION, registrationRouter);
 app.use(`*`, notFoundMiddleware);
 
 app.use(errorHandlerMiddleware);

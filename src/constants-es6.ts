@@ -43,6 +43,7 @@ export const APIRoutes = {
   SEARCH: `/search`,
 };
 export const ClientRoutes = {
+  INDEX: `/`,
   ADMIN: {
     INDEX: `/my`,
     COMMENTS: `/my/comments`,
@@ -54,6 +55,7 @@ export const ClientRoutes = {
   SEARCH: {
     INDEX: `/search`,
   },
+  REGISTRATION: `/register`,
 };
 export const HttpMethod = {
   GET: `GET`,
