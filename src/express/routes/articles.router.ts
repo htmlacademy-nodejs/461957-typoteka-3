@@ -2,7 +2,7 @@ import {Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {dataProviderService} from "../services/data-provider.service";
+import {dataProviderService} from "../services";
 import {ArticlePage} from "../views/pages/ArticlePage";
 import multer from "multer";
 import type {NewArticle} from "../../types/new-article";

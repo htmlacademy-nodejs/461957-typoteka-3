@@ -135,5 +135,3 @@ export class DataProviderService {
 function transformDate(article: Article): Article {
   return {...article, createdDate: new Date(Date.parse((article.createdDate as unknown) as string))};
 }
-
-export const dataProviderService = new DataProviderService();

@@ -1,6 +1,6 @@
 import {NextFunction, Router} from "express";
 import {HttpCode} from "../../constants-es6";
-import {dataProviderService} from "../services/data-provider.service";
+import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {MainPage} from "../views/pages/MainPage";
 import {SSRError} from "../errors/ssr-error";

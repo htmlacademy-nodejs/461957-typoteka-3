@@ -2,7 +2,7 @@ import {Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {SearchPage} from "../views/pages/SearchPage";
 import {SearchResultProps} from "../views/components/SearchResult/SearchResult";
-import {dataProviderService} from "../services/data-provider.service";
+import {dataProviderService} from "../services";
 import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
 import type {ArticleSearchResult} from "../../types/article-search-result";

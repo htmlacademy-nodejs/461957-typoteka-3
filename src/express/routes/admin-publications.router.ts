@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {dataProviderService} from "../services/data-provider.service";
+import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
 import {AdminCommentsPage} from "../views/pages/AdminCommentsPage";
