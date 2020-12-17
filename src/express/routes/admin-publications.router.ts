@@ -21,7 +21,7 @@ adminPublicationsRouter.get(`/`, async (req, res, next) => {
       new SSRError({
         message: `Failed to get Admin articles`,
         statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-        errorPayload: e,
+        errorPayload: e as Error,
       }),
     );
   }
@@ -40,7 +40,7 @@ adminPublicationsRouter.get(ClientRoutes.ADMIN.COMMENTS, async (req, res, next) 
       new SSRError({
         message: `Failed to get Admin comments`,
         statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-        errorPayload: e,
+        errorPayload: e as Error,
       }),
     );
   }
