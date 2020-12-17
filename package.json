@@ -4,10 +4,10 @@
   "description": "Типотека",
   "main": "src/service/index.ts",
   "scripts": {
-    "start": "ts-node --transpile-only -r dotenv/config src/service/index.ts --server | pino-pretty",
+    "start": "ts-node --transpile-only -r dotenv/config --project src/service/tsconfig.json src/service/index.ts --server | pino-pretty",
     "start:debug": "cross-env LOG_LEVEL=debug npm run start",
     "start:prod": "cross-env NODE_ENV=production node -r dotenv/config build/service/service.js",
-    "start-front-server": "ts-node --transpile-only -r dotenv/config src/express/index.ts",
+    "start-front-server": "ts-node --transpile-only --project src/express/tsconfig.json -r dotenv/config src/express/index.ts",
     "start-front-server:prod": "cross-env NODE_ENV=production node -r dotenv/config build/express/index.js",
     "build": "npm run build:ts && npm run copy-static-assets",
     "build:ts": "tsc",
