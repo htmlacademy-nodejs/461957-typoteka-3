@@ -1,9 +1,9 @@
 import {streamPage} from "../utils/stream-page";
-import {Router} from "express";
+import {Request, Response, Router} from "express";
 import {SignInPage} from "../views/pages/SignInPage";
 
 export const signInRouter = Router();
 
-signInRouter.get(`/`, (req, res) => {
+signInRouter.get(`/`, (req: Request, res: Response) => {
   streamPage(res, SignInPage, {endPoint: `#`});
 });

@@ -1,4 +1,4 @@
-import {Router} from "express";
+import {NextFunction, Request, Response, Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {CategoriesPage} from "../views/pages/CategoriesPage";
 import {dataProviderService} from "../services";
@@ -8,7 +8,7 @@ import {CategoryEditableProps} from "../views/components/CategoryEditable/Catego
 
 export const categoriesRouter = Router();
 
-categoriesRouter.get(`/`, async (req, res, next) => {
+categoriesRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   const categories = await dataProviderService.getCategories();
   if (categories !== null) {
     const editableCategories: CategoryEditableProps[] = categories.map(category => ({

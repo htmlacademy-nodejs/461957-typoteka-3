@@ -13,7 +13,7 @@ import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
 const multerMiddleware = multer();
 export const articlesRouter = Router();
 
-articlesRouter.get(`/add`, async (req, res, next) => {
+articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunction) => {
   const categories = await dataProviderService.getCategories();
   if (categories !== null) {
     streamPage(res, EditArticle, {endPoint: ClientRoutes.ARTICLES.ADD, availableCategories: categories});
@@ -63,7 +63,7 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
   }
 });
 
-articlesRouter.get(`/category/:id`, (req, res, next) => {
+articlesRouter.get(`/category/:id`, (req: Request, res: Response, next: NextFunction) => {
   const categoryId = req.params.id;
   // TODO: Get categories
   if (categoryId !== null) {
@@ -72,7 +72,7 @@ articlesRouter.get(`/category/:id`, (req, res, next) => {
   next();
 });
 
-articlesRouter.get(`/:id`, async (req, res, next) => {
+articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunction) => {
   const articleId = req.params.id;
   try {
     const article = await dataProviderService.getArticleById(articleId);
@@ -92,7 +92,7 @@ articlesRouter.get(`/:id`, async (req, res, next) => {
   }
 });
 
-articlesRouter.get(`/edit/:id`, async (req, res, next) => {
+articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFunction) => {
   const articleId = req.params.id;
   try {
     const [article, categories] = await Promise.all([

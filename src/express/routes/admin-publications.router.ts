@@ -1,4 +1,4 @@
-import {Router} from "express";
+import {NextFunction, Request, Response, Router} from "express";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
@@ -8,7 +8,7 @@ import {SSRError} from "../errors/ssr-error";
 
 export const adminPublicationsRouter = Router();
 
-adminPublicationsRouter.get(`/`, async (req, res, next) => {
+adminPublicationsRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const articles = await dataProviderService.getArticles();
     if (articles !== null) {
@@ -27,7 +27,7 @@ adminPublicationsRouter.get(`/`, async (req, res, next) => {
   }
 });
 
-adminPublicationsRouter.get(ClientRoutes.ADMIN.COMMENTS, async (req, res, next) => {
+adminPublicationsRouter.get(ClientRoutes.ADMIN.COMMENTS, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const listOfComments = await dataProviderService.getComments(3);
     if (listOfComments !== null) {
