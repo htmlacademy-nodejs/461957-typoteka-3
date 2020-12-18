@@ -8,6 +8,7 @@ import {PreviewList} from "../components/PreviewList/PreviewList";
 import type {Article} from "../../../types/article";
 import type {Category} from "../../../types/category";
 import {Pagination} from "../components/Pagination/Pagination";
+import {ClientRoutes} from "../../../constants-es6";
 
 interface MainPageProps {
   articles?: Article[];
@@ -18,7 +19,7 @@ export const MainPage: FunctionComponent<MainPageProps> = ({articles, availableC
   const categoriesForFilter = availableCategories
     .map((category, index) => ({
       title: category.label,
-      link: category.id,
+      link: `${ClientRoutes.ARTICLES.CATEGORY}/${category.id}`,
       count: index + 1,
     }))
     .sort((a, b) => b.count - a.count);

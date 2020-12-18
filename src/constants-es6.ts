@@ -51,6 +51,7 @@ export const ClientRoutes = {
   ARTICLES: {
     INDEX: `/articles`,
     ADD: `/articles/add`,
+    CATEGORY: `/articles/category`,
   },
   SEARCH: {
     INDEX: `/search`,
