@@ -10,7 +10,7 @@
     "start-front-server": "ts-node --transpile-only --project src/express/tsconfig.json -r dotenv/config src/express/index.ts",
     "start-front-server:prod": "cross-env NODE_ENV=production node -r dotenv/config build/express/index.js",
     "build": "npm run build:ts && npm run copy-static-assets",
-    "build:ts": "tsc",
+    "build:ts": "npm run build:service && npm run build:front",
     "build:front": "tsc --build src/express --verbose",
     "build:service": "tsc --build src/service --verbose",
     "copy-static-assets": "node copy-static-assets.js",
