@@ -9,15 +9,16 @@ interface Props {
   pageTitle: string;
   categories: CategoryWithLinksAndNumbers[],
   articles: Article[],
+  selectedCategoryId?: string,
 }
 
-export const ArticlesByCategoryPage: FunctionComponent<Props> = ({pageTitle, categories, articles}) => {
+export const ArticlesByCategoryPage: FunctionComponent<Props> = ({pageTitle, categories, articles, selectedCategoryId}) => {
   return (
     <LayoutFilled>
       <main className="articles-category">
         <h1>{pageTitle}</h1>
         <section className="articles-category__theme-list">
-          <CategoriesList categories={categories} />
+          <CategoriesList categories={categories} selectedCategoryId={selectedCategoryId} />
         </section>
         <section className="articles-category__list preview">
           <PreviewList previews={articles} categories={categories} />

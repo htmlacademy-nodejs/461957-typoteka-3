@@ -4,9 +4,10 @@ import {CategoryWithLinksAndNumbers} from "../../../../types/category-with-links
 
 interface Props {
   categories: CategoryWithLinksAndNumbers[];
+  selectedCategoryId?: string;
 }
 
-export const CategoriesList: FunctionComponent<Props> = ({categories}) => (
+export const CategoriesList: FunctionComponent<Props> = ({categories, selectedCategoryId}) => (
   <>
     <h2 className="visually-hidden">Список тем</h2>
     <ul className="themes">
@@ -14,7 +15,7 @@ export const CategoriesList: FunctionComponent<Props> = ({categories}) => (
         .sort((a, b) => a.label.localeCompare(b.label))
         .map(theme => (
           <li className="themes__item" key={theme.link}>
-            <CategoryLink id={theme.id} label={theme.label} count={theme.count} link={theme.link} />
+            <CategoryLink id={theme.id} label={theme.label} count={theme.count} link={theme.link} isActive={theme.id === selectedCategoryId} />
           </li>
         ))}
     </ul>
