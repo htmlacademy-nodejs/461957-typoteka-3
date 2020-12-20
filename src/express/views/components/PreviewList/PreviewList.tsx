@@ -1,9 +1,12 @@
 import React, {FunctionComponent} from "react";
 import {Preview} from "../Preview/Preview";
 import type {Article} from "../../../../types/article";
-import type {Category} from "../../../../types/category";
 import type {CategoryId} from "../../../../types/category-id";
 import {CategoryWithLink} from "../../../../types/category-with-link";
+
+interface HasId {
+  id: string;
+}
 
 interface PreviewListProps {
   previews: Article[];
@@ -31,6 +34,6 @@ export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, pr
   );
 };
 
-function resolveCategoriesLabels(selectedCategories: CategoryId[], availableCategories: Category[]): Category[] {
+function resolveCategoriesLabels<T extends HasId>(selectedCategories: CategoryId[], availableCategories: T[]): T[] {
   return availableCategories.filter(category => selectedCategories.includes(category.id));
 }
