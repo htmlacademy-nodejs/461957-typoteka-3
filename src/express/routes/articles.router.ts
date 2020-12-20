@@ -12,7 +12,6 @@ import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
 import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
-import {CategoryWithNumbers} from "../../types/category-with-numbers";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -74,8 +73,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
       await dataProviderService.getArticlesByCategoryId(categoryId),
       dataProviderService.getCategories(),
     ]);
-    const categoriesWithNumbers: CategoryWithNumbers[] = categories.map(item => ({...item, count: 1}));
-    const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categoriesWithNumbers);
+    const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
     if (articles !== null) {
       streamPage(res, ArticlesByCategoryPage, {pageTitle: `Page Title`, categories: preparedCategories, articles});
     } else {

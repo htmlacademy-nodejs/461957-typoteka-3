@@ -5,8 +5,8 @@ import {APIRoutes, HttpCode} from "../../constants-es6";
 import type {ArticleComment} from "../../types/article-comment";
 import type {NewArticle} from "../../types/new-article";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
-import type {Category} from "../../types/category";
 import type {ArticleSearchCollection} from "../../types/article-search-collection";
+import {CategoryWithNumbers} from "../../types/category-with-numbers";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -98,10 +98,10 @@ export class DataProviderService {
     return comments.flat(1);
   }
 
-  public async getCategories(): Promise<Category[]> {
-    let response: AxiosResponse<Category[]>;
+  public async getCategories(): Promise<CategoryWithNumbers[]> {
+    let response: AxiosResponse<CategoryWithNumbers[]>;
     try {
-      response = await this.requestService.get<Category[]>(this.apiEndPoint + APIRoutes.CATEGORIES, {});
+      response = await this.requestService.get<CategoryWithNumbers[]>(this.apiEndPoint + APIRoutes.CATEGORIES, {});
       return response.data;
     } catch (e) {
       console.error(`error`, e);
