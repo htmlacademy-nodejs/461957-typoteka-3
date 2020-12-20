@@ -1,7 +1,7 @@
 import type {ArticleSearchResult} from "./article-search-result";
+import {Collection} from "./collection";
 
-export interface ArticleSearchCollection {
+export interface ArticleSearchCollection extends Collection {
   items: ArticleSearchResult[];
   query: string;
-  itemsCount: number;
 }
