@@ -7,6 +7,7 @@ import type {NewArticle} from "../../types/new-article";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import type {ArticleSearchCollection} from "../../types/article-search-collection";
 import {CategoryWithNumbers} from "../../types/category-with-numbers";
+import {ArticlesByCategory} from "../../types/articles-by-category";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -69,15 +70,22 @@ export class DataProviderService {
     }
   }
 
-  public async getArticlesByCategoryId(categoryId: string): Promise<Article[]> {
-    let response: AxiosResponse<Article[]>;
+  public async getArticlesByCategoryId(categoryId: string): Promise<ArticlesByCategory> {
+    let response: AxiosResponse<ArticlesByCategory>;
     try {
-      response = await this.requestService.get<Article[]>(this.apiEndPoint + APIRoutes.CATEGORIES + `/` + categoryId, {});
+      response = await this.requestService.get<ArticlesByCategory>(
+        this.apiEndPoint + APIRoutes.CATEGORIES + `/` + categoryId,
+        {},
+      );
     } catch (e) {
       console.error(`Failed to load articles by categoryId "${categoryId}"`, e);
     }
     if (response && response.status === 200) {
-      return response.data.map(transformDate);
+      return {
+        category: response.data.category,
+        articles: response.data.articles.map(transformDate),
+        itemsCount: response.data.itemsCount,
+      };
     } else {
       console.error(response.data);
       return null;

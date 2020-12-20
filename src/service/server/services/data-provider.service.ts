@@ -4,6 +4,7 @@ import {MockFilePath} from "../../../constants-es6";
 import {ArticleComment} from "../../../types/article-comment";
 import {Category} from "../../../types/category";
 import {CategoryWithNumbers} from "../../../types/category-with-numbers";
+import {ArticlesByCategory} from "../../../types/articles-by-category";
 
 export class DataProviderService {
   public articlesCash: Article[];
@@ -66,12 +67,21 @@ export class DataProviderService {
     return articles.find(article => article.id === id) ?? null;
   }
 
-  public async getArticlesByCategory(categoryId: string): Promise<Article[]> {
-    const articles = await this.getArticles();
+  public async getArticlesByCategory(categoryId: string): Promise<ArticlesByCategory> {
+    const [articles, category] = await Promise.all([this.getArticles(), this.getCategoryById(categoryId)]);
     if (articles === null) {
-      return [];
+      return {
+        articles: [],
+        itemsCount: 0,
+        category: {id: category.id, label: category.label},
+      };
     }
-    return articles.filter(article => article.category.includes(categoryId));
+    const validArticles = articles.filter(article => article.category.includes(categoryId));
+    return {
+      category: {id: category.id, label: category.label},
+      itemsCount: validArticles.length,
+      articles: validArticles,
+    };
   }
 
   public async getCommentsByArticleId(id: string): Promise<ArticleComment[] | null> {
@@ -135,5 +145,9 @@ export class DataProviderService {
     }
     existingArticle.comments.push(newComment);
     return newComment;
+  }
+
+  private async getCategoryById(categoryId: string): Promise<CategoryWithNumbers> {
+    return (await this.getCategories()).find(category => category.id === categoryId);
   }
 }

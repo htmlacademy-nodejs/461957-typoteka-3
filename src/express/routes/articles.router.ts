@@ -69,13 +69,13 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
 articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: NextFunction) => {
   const categoryId = req.params.id;
   try {
-    const [articles, categories] = await Promise.all([
+    const [{articles, category}, categories] = await Promise.all([
       await dataProviderService.getArticlesByCategoryId(categoryId),
       dataProviderService.getCategories(),
     ]);
     const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
     if (articles !== null) {
-      streamPage(res, ArticlesByCategoryPage, {pageTitle: `Page Title`, categories: preparedCategories, articles});
+      streamPage(res, ArticlesByCategoryPage, {pageTitle: category.label, categories: preparedCategories, articles});
     } else {
       next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }

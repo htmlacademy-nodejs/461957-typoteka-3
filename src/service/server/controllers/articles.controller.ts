@@ -5,6 +5,7 @@ import {Article} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
 import {nanoid} from "nanoid";
 import {NewArticle} from "../../../types/new-article";
+import {ArticlesByCategory} from "../../../types/articles-by-category";
 
 export class ArticlesController {
   constructor(private dataProvider: DataProviderService) {}
@@ -25,7 +26,7 @@ export class ArticlesController {
     return {payload: article};
   }
 
-  public async getArticlesByCategory(categoryId: string): Promise<ControllerResponse<Article[]>> {
+  public async getArticlesByCategory(categoryId: string): Promise<ControllerResponse<ArticlesByCategory>> {
     const articles = await this.dataProvider.getArticlesByCategory(categoryId);
     if (articles === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
