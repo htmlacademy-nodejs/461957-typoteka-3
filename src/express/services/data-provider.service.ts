@@ -69,6 +69,21 @@ export class DataProviderService {
     }
   }
 
+  public async getArticlesByCategoryId(categoryId: string): Promise<Article[]> {
+    let response: AxiosResponse<Article[]>;
+    try {
+      response = await this.requestService.get<Article[]>(this.apiEndPoint + APIRoutes.CATEGORIES + `/` + categoryId, {});
+    } catch (e) {
+      console.error(`Failed to load articles by categoryId "${categoryId}"`, e);
+    }
+    if (response && response.status === 200) {
+      return response.data.map(transformDate);
+    } else {
+      console.error(response.data);
+      return null;
+    }
+  }
+
   public async getComments(quantityOfArticles: number): Promise<ArticleComment[]> {
     const articlesList = await this.getArticles();
     if (articlesList === null) {

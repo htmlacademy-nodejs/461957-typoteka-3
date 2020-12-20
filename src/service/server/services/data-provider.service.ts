@@ -48,6 +48,14 @@ export class DataProviderService {
     return articles.find(article => article.id === id) ?? null;
   }
 
+  public async getArticlesByCategory(categoryId: string): Promise<Article[]> {
+    const articles = await this.getArticles();
+    if (articles === null) {
+      return [];
+    }
+    return articles.filter(article => article.category.includes(categoryId));
+  }
+
   public async getCommentsByArticleId(id: string): Promise<ArticleComment[] | null> {
     const article = await this.getArticleById(id);
     if (article === null) {

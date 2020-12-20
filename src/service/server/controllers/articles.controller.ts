@@ -25,6 +25,14 @@ export class ArticlesController {
     return {payload: article};
   }
 
+  public async getArticlesByCategory(categoryId: string): Promise<ControllerResponse<Article[]>> {
+    const articles = await this.dataProvider.getArticlesByCategory(categoryId);
+    if (articles === null) {
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
+    }
+    return {payload: articles};
+  }
+
   public async getCommentsByArticleId(id: string): Promise<ControllerResponse<ArticleComment[]>> {
     const articleComments = await this.dataProvider.getCommentsByArticleId(id);
     if (articleComments === null) {
