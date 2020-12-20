@@ -9,6 +9,10 @@ import type {NewArticle} from "../../types/new-article";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import {EditArticle} from "../views/components/EditArticle/EditArticle";
 import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
+import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
+import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
+import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
+import {CategoryWithNumbers} from "../../types/category-with-numbers";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -63,13 +67,29 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
   }
 });
 
-articlesRouter.get(`/category/:id`, (req: Request, res: Response, next: NextFunction) => {
+articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: NextFunction) => {
   const categoryId = req.params.id;
-  // TODO: Get categories
-  if (categoryId !== null) {
-    return res.send(`articles-by-category`);
+  try {
+    const [articles, categories] = await Promise.all([
+      await dataProviderService.getArticlesByCategoryId(categoryId),
+      dataProviderService.getCategories(),
+    ]);
+    const categoriesWithNumbers: CategoryWithNumbers[] = categories.map(item => ({...item, count: 1}));
+    const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categoriesWithNumbers);
+    if (articles !== null) {
+      streamPage(res, ArticlesByCategoryPage, {pageTitle: `Page Title`, categories: preparedCategories, articles});
+    } else {
+      next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    }
+  } catch (e) {
+    next(
+      new SSRError({
+        message: `Failed to get article`,
+        statusCode: HttpCode.NOT_FOUND,
+        errorPayload: e as Error,
+      }),
+    );
   }
-  next();
 });
 
 articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunction) => {
