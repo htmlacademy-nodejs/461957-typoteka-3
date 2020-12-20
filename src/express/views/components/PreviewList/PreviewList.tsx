@@ -3,13 +3,14 @@ import {Preview} from "../Preview/Preview";
 import type {Article} from "../../../../types/article";
 import type {Category} from "../../../../types/category";
 import type {CategoryId} from "../../../../types/category-id";
+import {CategoryWithLink} from "../../../../types/category-with-link";
 
 interface PreviewListProps {
   previews: Article[];
-  availableCategories: Category[];
+  categories: CategoryWithLink[];
 }
 
-export const PreviewList: FunctionComponent<PreviewListProps> = ({availableCategories, previews}) => {
+export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, previews}) => {
   return (
     <section className="main-page__list preview">
       <h2 className="visually-hidden">Список превью статей</h2>
@@ -18,7 +19,7 @@ export const PreviewList: FunctionComponent<PreviewListProps> = ({availableCateg
           <li className="preview__item" key={preview.id}>
             <Preview
               announce={preview.announce}
-              selectedCategories={resolveCategoriesLabels(preview.category, availableCategories)}
+              selectedCategories={resolveCategoriesLabels(preview.category, categories)}
               comments={preview.comments}
               createdDate={preview.createdDate}
               title={preview.title}
