@@ -17,14 +17,24 @@ const multerMiddleware = multer();
 export const articlesRouter = Router();
 
 articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunction) => {
-  const categories = await dataProviderService.getCategories();
-  if (categories !== null) {
+  try {
+    const categories = await dataProviderService.getCategories();
+    if (categories === null) {
+      return next(
+        new SSRError({
+          message: `Failed to request categories`,
+          statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+        }),
+      );
+    }
     streamPage(res, EditArticle, {endPoint: ClientRoutes.ARTICLES.ADD, availableCategories: categories});
-  } else {
-    next(
+  } catch (e) {
+    console.log(e);
+    return next(
       new SSRError({
-        message: `Failed to request categories`,
-        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+        message: `Failed to create an article`,
+        statusCode: HttpCode.BAD_REQUEST,
+        errorPayload: e as Error,
       }),
     );
   }
@@ -38,25 +48,24 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
       res.redirect(ClientRoutes.ADMIN.INDEX);
     } else {
       const categories = await dataProviderService.getCategories();
-      if (categories !== null) {
-        streamPage(res, EditArticle, {
-          article: newArticle,
-          endPoint: ClientRoutes.ARTICLES.ADD,
-          articleValidationResponse: response,
-          availableCategories: categories,
-        });
-      } else {
-        next(
+      if (categories === null) {
+        return next(
           new SSRError({
             message: `Failed to create an article`,
             statusCode: HttpCode.BAD_REQUEST,
           }),
         );
       }
+      streamPage(res, EditArticle, {
+        article: newArticle,
+        endPoint: ClientRoutes.ARTICLES.ADD,
+        articleValidationResponse: response,
+        availableCategories: categories,
+      });
     }
   } catch (e) {
     console.log(e);
-    next(
+    return next(
       new SSRError({
         message: `Failed to create an article`,
         statusCode: HttpCode.BAD_REQUEST,
@@ -74,18 +83,17 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
       dataProviderService.getCategories(),
     ]);
     const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
-    if (articles !== null) {
-      streamPage(res, ArticlesByCategoryPage, {
-        pageTitle: category.label,
-        categories: preparedCategories,
-        articles,
-        selectedCategoryId: category.id,
-      });
-    } else {
-      next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    if (articles === null) {
+      return next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
+    streamPage(res, ArticlesByCategoryPage, {
+      pageTitle: category.label,
+      categories: preparedCategories,
+      articles,
+      selectedCategoryId: category.id,
+    });
   } catch (e) {
-    next(
+    return next(
       new SSRError({
         message: `Failed to get article`,
         statusCode: HttpCode.NOT_FOUND,
@@ -99,13 +107,12 @@ articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunctio
   const articleId = req.params.id;
   try {
     const article = await dataProviderService.getArticleById(articleId);
-    if (article !== null) {
-      streamPage(res, ArticlePage, {article});
-    } else {
-      next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    if (article === null) {
+      return next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
+    streamPage(res, ArticlePage, {article});
   } catch (e) {
-    next(
+    return next(
       new SSRError({
         message: `Failed to get article`,
         statusCode: HttpCode.NOT_FOUND,
@@ -122,17 +129,16 @@ articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFu
       dataProviderService.getArticleById(articleId),
       dataProviderService.getCategories(),
     ]);
-    if (article !== null && categories !== null) {
-      streamPage(res, EditArticle, {
-        article,
-        endPoint: ClientRoutes.ARTICLES.INDEX + `/` + articleId,
-        availableCategories: categories,
-      });
-    } else {
-      next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    if (article === null && categories === null) {
+      return next(new SSRError({message: `Failed to get article or categories`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
+    streamPage(res, EditArticle, {
+      article,
+      endPoint: ClientRoutes.ARTICLES.INDEX + `/` + articleId,
+      availableCategories: categories,
+    });
   } catch (e) {
-    next(
+    return next(
       new SSRError({
         message: `Failed to get article`,
         statusCode: HttpCode.NOT_FOUND,

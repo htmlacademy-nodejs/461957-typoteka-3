@@ -19,18 +19,21 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       dataProviderService.getArticles(articlesNumber),
       dataProviderService.getCategories(),
     ]);
-    if (articles !== null && categories !== null) {
-      const categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
-      const categoriesWithLinks: CategoryWithLink[] = resolveCategoriesLinks(categories);
-      streamPage(res, MainPage, {
-        articles,
-        categoriesWithLinks,
-        categoriesWithLinksAndNumbers,
-      });
-    } else {
-      next(new SSRError({message: `Failed to load articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    if (articles === null && categories === null) {
+      return next(
+        new SSRError({message: `Failed to load articles or categories`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}),
+      );
     }
+    const categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(
+      categories,
+    );
+    const categoriesWithLinks: CategoryWithLink[] = resolveCategoriesLinks(categories);
+    streamPage(res, MainPage, {
+      articles,
+      categoriesWithLinks,
+      categoriesWithLinksAndNumbers,
+    });
   } catch (e) {
-    next(new SSRError({message: `Failed to load articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    return next(new SSRError({message: `Failed to load articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
   }
 });
