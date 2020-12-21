@@ -1,6 +1,6 @@
-import {NextFunction, Router} from "express";
+import {NextFunction, Request, Response, Router} from "express";
 import {HttpCode} from "../../constants-es6";
-import {dataProviderService} from "../services/data-provider.service";
+import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {MainPage} from "../views/pages/MainPage";
 import {SSRError} from "../errors/ssr-error";
@@ -9,7 +9,7 @@ export const mainPageRouter = Router();
 
 const articlesNumber = 8;
 
-mainPageRouter.get(`/`, async (req, res, next: NextFunction) => {
+mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const [articles, categories] = await Promise.all([
       dataProviderService.getArticles(articlesNumber),

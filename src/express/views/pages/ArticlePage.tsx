@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
-import {Article} from "../../../types/article";
+import type {Article} from "../../../types/article";
 
 interface ArticlePageProps {
   article?: Article;

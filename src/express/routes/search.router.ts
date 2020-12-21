@@ -1,15 +1,15 @@
-import {Router} from "express";
+import {NextFunction, Request, Response, Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {SearchPage} from "../views/pages/SearchPage";
 import {SearchResultProps} from "../views/components/SearchResult/SearchResult";
-import {dataProviderService} from "../services/data-provider.service";
+import {dataProviderService} from "../services";
 import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {ArticleSearchResult} from "../../types/article-search-result";
+import type {ArticleSearchResult} from "../../types/article-search-result";
 
 export const searchRouter = Router();
 
-searchRouter.get(`/`, (req, res, next) => {
+searchRouter.get(`/`, (req: Request, res: Response, next: NextFunction) => {
   if (!req.query?.query) {
     streamPage(res, SearchPage);
   } else {
@@ -17,7 +17,7 @@ searchRouter.get(`/`, (req, res, next) => {
   }
 });
 
-searchRouter.get(`/`, async (req, res, next) => {
+searchRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   const query = req.query.query as string;
   try {
     const searchResult = await dataProviderService.search(query);

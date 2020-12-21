@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Article} from "../../../types/article";
+import type {Article} from "../../../types/article";
 import {Note} from "../components/Note/Note";
 import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
 

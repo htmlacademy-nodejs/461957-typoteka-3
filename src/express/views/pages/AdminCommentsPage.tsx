@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
-import {ArticleComment} from "../../../types/article-comment";
+import type {ArticleComment} from "../../../types/article-comment";
 import {PublicationComment} from "../components/PublicationComment/PublicationComment";
 
 interface AdminCommentsPageProps {

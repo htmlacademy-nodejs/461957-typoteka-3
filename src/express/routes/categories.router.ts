@@ -1,14 +1,14 @@
-import {Router} from "express";
+import {NextFunction, Request, Response, Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {CategoriesPage} from "../views/pages/CategoriesPage";
-import {dataProviderService} from "../services/data-provider.service";
+import {dataProviderService} from "../services";
 import {HttpCode} from "../../constants-es6";
 import {SSRError} from "../errors/ssr-error";
 import {CategoryEditableProps} from "../views/components/CategoryEditable/CategoryEditable";
 
 export const categoriesRouter = Router();
 
-categoriesRouter.get(`/`, async (req, res, next) => {
+categoriesRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   const categories = await dataProviderService.getCategories();
   if (categories !== null) {
     const editableCategories: CategoryEditableProps[] = categories.map(category => ({

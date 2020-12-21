@@ -1,12 +1,12 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
-import {Article} from "../../types/article";
+import type {Article} from "../../types/article";
 import {ENV} from "../../shared/env/env";
 import {APIRoutes, HttpCode} from "../../constants-es6";
-import {ArticleComment} from "../../types/article-comment";
-import {NewArticle} from "../../types/new-article";
-import {ArticleValidationResponse} from "../../types/article-validation-response";
-import {Category} from "../../types/category";
-import {ArticleSearchCollection} from "../../types/article-search-collection";
+import type {ArticleComment} from "../../types/article-comment";
+import type {NewArticle} from "../../types/new-article";
+import type {ArticleValidationResponse} from "../../types/article-validation-response";
+import type {Category} from "../../types/category";
+import type {ArticleSearchCollection} from "../../types/article-search-collection";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -135,5 +135,3 @@ export class DataProviderService {
 function transformDate(article: Article): Article {
   return {...article, createdDate: new Date(Date.parse((article.createdDate as unknown) as string))};
 }
-
-export const dataProviderService = new DataProviderService();

@@ -1,8 +1,8 @@
 import React, {FunctionComponent} from "react";
 import {Preview} from "../Preview/Preview";
-import {Article} from "../../../../types/article";
-import {Category} from "../../../../types/category";
-import {CategoryId} from "../../../../types/category-id";
+import type {Article} from "../../../../types/article";
+import type {Category} from "../../../../types/category";
+import type {CategoryId} from "../../../../types/category-id";
 
 interface PreviewListProps {
   previews: Article[];
