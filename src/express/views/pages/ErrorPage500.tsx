@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from "react";
 import {Layout} from "../components/Layout/Layout";
-import {Header404} from "../components/Header/Header404";
 import {Footer} from "../components/Footer/Footer";
 import {Header500} from "../components/Header/Header500";
 

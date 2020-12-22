@@ -1,13 +1,13 @@
 import React, {FunctionComponent} from "react";
 import type {ArticleComment} from "../../../../types/article-comment";
-import type {Category} from "../../../../types/category";
+import {CategoryWithLink} from "../../../../types/category-with-link";
 
 interface PreviewProps {
   comments: ArticleComment[];
   title: string;
   announce: string;
   createdDate: Date;
-  selectedCategories: Category[];
+  selectedCategories: CategoryWithLink[];
 }
 
 export const Preview: FunctionComponent<PreviewProps> = ({
@@ -19,7 +19,7 @@ export const Preview: FunctionComponent<PreviewProps> = ({
 }) => {
   const categories = selectedCategories.map(categoryItem => (
     <li className="preview__breadcrumbs-item" key={categoryItem.id}>
-      <a className="preview__breadcrumbs-link" href="#">
+      <a className="preview__breadcrumbs-link" href={categoryItem.link}>
         {categoryItem.label}
       </a>
     </li>
@@ -52,7 +52,7 @@ export const Preview: FunctionComponent<PreviewProps> = ({
       </h3>
       <p className="preview__text">{announce}</p>
       <a className="preview__comment" href="#">
-        Комментарии <span className="preview__cloud"></span>
+        Комментарии <span className="preview__cloud" />
         <b className="preview__comment-count">{comments.length}</b>
       </a>
     </>

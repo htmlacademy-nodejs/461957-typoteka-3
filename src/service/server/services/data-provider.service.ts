@@ -3,15 +3,34 @@ import {promises} from "fs";
 import {MockFilePath} from "../../../constants-es6";
 import {ArticleComment} from "../../../types/article-comment";
 import {Category} from "../../../types/category";
+import {CategoryWithNumbers} from "../../../types/category-with-numbers";
+import {ArticlesByCategory} from "../../../types/articles-by-category";
 
 export class DataProviderService {
   public articlesCash: Article[];
-  public categoriesCash: Category[];
+  public categoriesCash: CategoryWithNumbers[];
 
-  public async getCategories(): Promise<Category[] | null> {
+  public async getCategories(): Promise<CategoryWithNumbers[] | null> {
     if (!this.categoriesCash) {
       try {
-        this.categoriesCash = JSON.parse(await promises.readFile(MockFilePath.CATEGORIES, `utf-8`)) as Category[];
+        const articles = await this.getArticles();
+        const categoriesIds: Map<string, number> = new Map<string, number>();
+        const categories = JSON.parse(await promises.readFile(MockFilePath.CATEGORIES, `utf-8`)) as Category[];
+        articles.forEach(article => {
+          article.category.forEach(categoryId => {
+            if (categoriesIds.has(categoryId)) {
+              const number = categoriesIds.get(categoryId);
+              categoriesIds.set(categoryId, number + 1);
+            } else {
+              categoriesIds.set(categoryId, 1);
+            }
+          });
+        });
+        this.categoriesCash = Array.from(categoriesIds).map(([id, count]) => ({
+          id,
+          label: categories.find(item => item.id === id).label,
+          count,
+        }));
       } catch (e) {
         console.error(`Failed to get categories`);
         this.categoriesCash = null;
@@ -46,6 +65,23 @@ export class DataProviderService {
       return null;
     }
     return articles.find(article => article.id === id) ?? null;
+  }
+
+  public async getArticlesByCategory(categoryId: string): Promise<ArticlesByCategory> {
+    const [articles, category] = await Promise.all([this.getArticles(), this.getCategoryById(categoryId)]);
+    if (articles === null) {
+      return {
+        articles: [],
+        itemsCount: 0,
+        category: {id: category.id, label: category.label},
+      };
+    }
+    const validArticles = articles.filter(article => article.category.includes(categoryId));
+    return {
+      category: {id: category.id, label: category.label},
+      itemsCount: validArticles.length,
+      articles: validArticles,
+    };
   }
 
   public async getCommentsByArticleId(id: string): Promise<ArticleComment[] | null> {
@@ -109,5 +145,9 @@ export class DataProviderService {
     }
     existingArticle.comments.push(newComment);
     return newComment;
+  }
+
+  private async getCategoryById(categoryId: string): Promise<CategoryWithNumbers> {
+    return (await this.getCategories()).find(category => category.id === categoryId);
   }
 }
