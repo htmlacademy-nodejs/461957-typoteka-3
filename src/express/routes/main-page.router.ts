@@ -28,7 +28,7 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       categories,
     );
     const categoriesWithLinks: CategoryWithLink[] = resolveCategoriesLinks(categories);
-    streamPage(res, MainPage, {
+    return streamPage(res, MainPage, {
       articles,
       categoriesWithLinks,
       categoriesWithLinksAndNumbers,

@@ -14,7 +14,7 @@ adminPublicationsRouter.get(`/`, async (req: Request, res: Response, next: NextF
     if (articles === null) {
       return next(new SSRError({message: `Failed to get Admin articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
-    streamPage(res, AdminPublicationsPage, {articles});
+    return streamPage(res, AdminPublicationsPage, {articles});
   } catch (e) {
     return next(
       new SSRError({
@@ -32,7 +32,7 @@ adminPublicationsRouter.get(ClientRoutes.ADMIN.COMMENTS, async (req: Request, re
     if (listOfComments === null) {
       return next(new SSRError({message: `Failed to get Admin comments`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
-    streamPage(res, AdminCommentsPage, {listOfComments});
+    return streamPage(res, AdminCommentsPage, {listOfComments});
   } catch (e) {
     return next(
       new SSRError({

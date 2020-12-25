@@ -10,7 +10,7 @@ export const searchRouter = Router();
 
 searchRouter.get(`/`, (req: Request, res: Response, next: NextFunction) => {
   if (!req.query?.query) {
-    streamPage(res, SearchPage);
+    return streamPage(res, SearchPage);
   } else {
     return next();
   }
@@ -29,7 +29,7 @@ searchRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) =>
       date: new Date(Date.parse((match.createdDate as unknown) as string)),
       link: match.link,
     }));
-    streamPage(res, SearchPage, {
+    return streamPage(res, SearchPage, {
       matches,
       query: searchResult.query,
       itemsCount: searchResult.itemsCount,

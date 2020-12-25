@@ -24,7 +24,7 @@ categoriesRouter.get(`/`, async (req: Request, res: Response, next: NextFunction
       endPoint: category.id,
       id: category.id,
     }));
-    streamPage(res, CategoriesPage, {newCategoryEndPoint: `#`, categories: editableCategories});
+    return streamPage(res, CategoriesPage, {newCategoryEndPoint: `#`, categories: editableCategories});
   } catch (e) {
     return next(
       new SSRError({
