@@ -14,7 +14,7 @@
     "build:front": "tsc --build src/express --verbose",
     "build:service": "tsc --build src/service --verbose",
     "copy-static-assets": "node copy-static-assets.js",
-    "test": "npm run eslint",
+    "lint": "npm run eslint",
     "test:rest": "cross-env PORT=7777 jest --maxWorkers=1 src/service/server",
     "generate-mock": "ts-node src/service/index.ts --generate",
     "generate-database-mock": "ts-node --transpile-only src/service/index.ts --fill",
