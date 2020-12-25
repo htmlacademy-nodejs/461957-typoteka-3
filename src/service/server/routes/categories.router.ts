@@ -2,7 +2,6 @@ import {Request, Response, Router} from "express";
 import {articlesController, categoriesController} from "../controllers";
 import {HttpCode} from "../../../constants-es6";
 
-// eslint-disable-next-line new-cap
 const categoriesRouter = Router();
 
 categoriesRouter.get(`/`, async (req, res) => {

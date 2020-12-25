@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import {App} from "../app";
 import {agent as request} from "supertest";
 import {Application} from "express";
