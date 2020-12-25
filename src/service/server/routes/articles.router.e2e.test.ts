@@ -6,9 +6,9 @@ import {Article} from "../../../types/article";
 import {NewArticle} from "../../../types/new-article";
 import {ArticleComment} from "../../../types/article-comment";
 
-const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
+let validArticleId: string;
 const invalidArticleId = `invalid-article-id`;
-const validCommentId = `-ZyTZtrsZjjBq8k5Bskzjb`;
+let validCommentId: string;
 const invalidCommentId = `invalid-comment-id`;
 const validNewArticle: NewArticle = {
   announce: `Игры и программирование разные вещи. Не стоит идти в программисты, если вам нравится только игры.  1938 году.`,
@@ -26,10 +26,14 @@ const invalidNewComment = {};
 describe(`Articles router`, () => {
   let server: Application;
   let httpServer: http.Server;
-  beforeEach(() => {
+  beforeEach(async () => {
     const app = new App();
     httpServer = app.listen();
     server = app.getServer();
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const {body: articles} = await request(server).get(`/api/articles/?count=100`);
+    validArticleId = (articles as Article[])[0].id;
   });
   afterEach(() => {
     httpServer.close();
@@ -37,11 +41,11 @@ describe(`Articles router`, () => {
 
   describe(`GET articles`, () => {
     test(`Should return code 200 when request articles`, async () => {
-      const res = await request(server).get(`/api/articles/`);
+      const res = await request(server).get(`/api/articles/?count=100`);
       expect(res.status).toBe(200);
     });
     test(`Should return an array`, async () => {
-      const res = await request(server).get(`/api/articles/`);
+      const res = await request(server).get(`/api/articles/?count=100`);
       expect(Array.isArray(res.body)).toBe(true);
     });
     test(`Should return an array given length`, async () => {
@@ -88,6 +92,11 @@ describe(`Articles router`, () => {
   });
 
   describe(`GET comment by id`, () => {
+    beforeEach(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const {body: comments} = await request(server).get(`/api/articles/${validArticleId}/comments/`);
+      validCommentId = (comments as ArticleComment[])[0].id;
+    });
     test(`Should return code 404 when request invalid id`, async () => {
       const res = await request(server).get(`/api/articles/${validArticleId}/comments/${invalidCommentId}`);
       expect(res.status).toBe(404);
@@ -116,6 +125,11 @@ describe(`Articles router`, () => {
   });
 
   describe(`DELETE comment by id`, () => {
+    beforeAll(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const {body: comments} = await request(server).get(`/api/articles/${validArticleId}/comments/`);
+      validCommentId = (comments as ArticleComment[])[0].id;
+    });
     test(`Should return code 404 when pass invalid id`, async () => {
       const res = await request(server).delete(`/api/articles/${validArticleId}/comments/${invalidCommentId}`);
       expect(res.status).toBe(404);
