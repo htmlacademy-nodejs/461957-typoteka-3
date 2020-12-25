@@ -16,6 +16,7 @@ plugins:
   - "react"
 ignorePatterns:
   - "*.tsx"
+  - "src/express/static/**"
 rules:
   comma-dangle:
     - warn
