@@ -2,6 +2,7 @@ import {App} from "../app";
 import {agent as request} from "supertest";
 import {Application} from "express";
 import http from "http";
+import {ArticleSearchCollection} from "../../../types/article-search-collection";
 
 describe(`Search router`, () => {
   let server: Application;
@@ -30,11 +31,11 @@ describe(`Search router`, () => {
     });
     test(`Should return array when pass query string`, async () => {
       const res = await request(server).get(`/api/search?query=%D1%84`);
-      expect(Array.isArray(res.body)).toBe(true);
+      expect(Array.isArray(res.body.items)).toBe(true);
     });
     test(`Should return empty array when pass empty query string`, async () => {
       const res = await request(server).get(`/api/search?query=`);
-      expect((res.body.length).toBe(0));
+      expect((res.body as ArticleSearchCollection).items.length).toBe(0);
     });
   });
 });
