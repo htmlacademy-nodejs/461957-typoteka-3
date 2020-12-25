@@ -12,6 +12,7 @@ import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
 import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
+import type {ArticleFromBrowser} from "../../types/article-from-browser";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -41,7 +42,7 @@ articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunctio
 });
 
 articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res: Response, next: NextFunction) => {
-  const newArticle = {...req.body, category: convertCategoriesToArray(req?.body?.category)} as NewArticle;
+  const newArticle = {...req.body, category: convertCategoriesToArray((req.body as ArticleFromBrowser)?.category)} as NewArticle;
   try {
     const response: true | ArticleValidationResponse = await dataProviderService.createArticle(newArticle);
     if (response === true) {
