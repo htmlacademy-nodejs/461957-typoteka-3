@@ -1,0 +1,1 @@
+export {categoryFabric} from "./category";
