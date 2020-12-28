@@ -21,7 +21,7 @@ categoriesRouter.get(`/`, async (req: Request, res: Response, next: NextFunction
     }
     const editableCategories: CategoryEditableProps[] = categories.map(category => ({
       label: category.label,
-      endPoint: category.id,
+      endPoint: category.id.toString(10),
       id: category.id,
     }));
     return streamPage(res, CategoriesPage, {newCategoryEndPoint: `#`, categories: editableCategories});

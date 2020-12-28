@@ -8,6 +8,7 @@ import type {ArticleValidationResponse} from "../../types/article-validation-res
 import type {ArticleSearchCollection} from "../../types/article-search-collection";
 import {CategoryWithNumbers} from "../../types/category-with-numbers";
 import {ArticlesByCategory} from "../../types/articles-by-category";
+import {CategoryId} from "../../types/category-id";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -70,11 +71,11 @@ export class DataProviderService {
     }
   }
 
-  public async getArticlesByCategoryId(categoryId: string): Promise<ArticlesByCategory> {
+  public async getArticlesByCategoryId(categoryId: CategoryId): Promise<ArticlesByCategory> {
     let response: AxiosResponse<ArticlesByCategory>;
     try {
       response = await this.requestService.get<ArticlesByCategory>(
-        this.apiEndPoint + APIRoutes.CATEGORIES + `/` + categoryId,
+        this.apiEndPoint + APIRoutes.CATEGORIES + `/` + categoryId.toString(10),
         {},
       );
     } catch (e) {

@@ -1,10 +1,11 @@
 import React, {FunctionComponent} from "react";
 import {CategoryLink} from "../CategoryLink/CategoryLink";
 import {CategoryWithLinksAndNumbers} from "../../../../types/category-with-links-and-numbers";
+import {CategoryId} from "../../../../types/category-id";
 
 interface Props {
   categories: CategoryWithLinksAndNumbers[];
-  selectedCategoryId?: string;
+  selectedCategoryId?: CategoryId;
 }
 
 export const CategoriesList: FunctionComponent<Props> = ({categories, selectedCategoryId}) => (

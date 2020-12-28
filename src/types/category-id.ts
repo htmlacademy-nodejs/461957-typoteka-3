@@ -1,1 +1,1 @@
-export type CategoryId = string;
+export type CategoryId = number;

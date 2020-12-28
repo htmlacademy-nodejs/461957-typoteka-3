@@ -4,12 +4,13 @@ import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
 import {PreviewList} from "../components/PreviewList/PreviewList";
 import {Article} from "../../../types/article";
+import {CategoryId} from "../../../types/category-id";
 
 interface Props {
   pageTitle: string;
   categories: CategoryWithLinksAndNumbers[],
   articles: Article[],
-  selectedCategoryId?: string,
+  selectedCategoryId?: CategoryId,
 }
 
 export const ArticlesByCategoryPage: FunctionComponent<Props> = ({pageTitle, categories, articles, selectedCategoryId}) => {

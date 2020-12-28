@@ -5,6 +5,7 @@ import {ArticleComment} from "../../../types/article-comment";
 import {Category} from "../../../types/category";
 import {CategoryWithNumbers} from "../../../types/category-with-numbers";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
+import {CategoryId} from "../../../types/category-id";
 
 export class DataProviderService {
   public articlesCash: Article[];
@@ -14,7 +15,7 @@ export class DataProviderService {
     if (!this.categoriesCash) {
       try {
         const articles = await this.getArticles();
-        const categoriesIds: Map<string, number> = new Map<string, number>();
+        const categoriesIds: Map<number, number> = new Map<number, number>();
         const categories = JSON.parse(await promises.readFile(MockFilePath.CATEGORIES, `utf-8`)) as Category[];
         articles.forEach(article => {
           article.category.forEach(categoryId => {
@@ -67,7 +68,7 @@ export class DataProviderService {
     return articles.find(article => article.id === id) ?? null;
   }
 
-  public async getArticlesByCategory(categoryId: string): Promise<ArticlesByCategory> {
+  public async getArticlesByCategory(categoryId: CategoryId): Promise<ArticlesByCategory> {
     const [articles, category] = await Promise.all([this.getArticles(), this.getCategoryById(categoryId)]);
     if (articles === null) {
       return {
@@ -147,7 +148,7 @@ export class DataProviderService {
     return newComment;
   }
 
-  private async getCategoryById(categoryId: string): Promise<CategoryWithNumbers> {
+  private async getCategoryById(categoryId: CategoryId): Promise<CategoryWithNumbers> {
     return (await this.getCategories()).find(category => category.id === categoryId);
   }
 }

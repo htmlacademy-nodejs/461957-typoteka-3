@@ -10,7 +10,7 @@ categoriesRouter.get(`/`, async (req, res) => {
 });
 
 categoriesRouter.get(`/:id`, async (req: Request, res: Response) => {
-  const categoryId = req.params.id;
+  const categoryId = Number(req.params.id);
   const {status = HttpCode.OK, payload} = await articlesController.getArticlesByCategory(categoryId);
   return res.status(status).send(payload);
 });

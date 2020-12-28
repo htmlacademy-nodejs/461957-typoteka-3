@@ -5,7 +5,7 @@ import type {CategoryId} from "../../../../types/category-id";
 import {CategoryWithLink} from "../../../../types/category-with-link";
 
 interface HasId {
-  id: string;
+  id: number;
 }
 
 interface PreviewListProps {

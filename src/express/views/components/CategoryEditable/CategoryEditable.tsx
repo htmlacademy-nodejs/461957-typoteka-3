@@ -1,8 +1,9 @@
 import React, {FunctionComponent} from "react";
+import {CategoryId} from "../../../../types/category-id";
 
 export interface CategoryEditableProps {
   label: string;
-  id: string;
+  id: CategoryId;
   endPoint: string;
 }
 

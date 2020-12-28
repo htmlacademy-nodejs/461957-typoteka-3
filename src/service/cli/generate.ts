@@ -7,12 +7,10 @@ import {nanoid} from "nanoid";
 import {promises} from "fs";
 import {getRandomInt, shuffle} from "../../utils";
 import {Category} from "../../types/category";
-import {transliterate} from "../../shared/transliterate";
-import {CategoryId} from "../../types/category-id";
 import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
 import {
   getAnnounce,
-  getCategories,
+  getCategoriesIds,
   getComments,
   getDate,
   getFullText,
@@ -36,7 +34,7 @@ function generateMocks(
     .map(() => ({
       id: getId(),
       announce: getAnnounce(sentences),
-      category: getCategories(categories),
+      category: getCategoriesIds(categories),
       createdDate: getDate(Date.now()),
       fullText: getFullText(sentences),
       title: getTitle(titles),
@@ -56,7 +54,7 @@ function generateMocksForTests(
     .map((value, index) => ({
       id: getIdForTests(index),
       announce: getAnnounce(sentences),
-      category: getCategories(categories),
+      category: getCategoriesIds(categories),
       createdDate: getDate(Date.now()),
       fullText: getFullText(sentences),
       title: getTitle(titles),
@@ -136,6 +134,6 @@ function getCommentsForTests(commentsSentences: string[], forceCreateComments: b
     .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, CommentRestrict.max));
 }
 
-function generateCategoriesMocks(categoriesNames: CategoryId[]): Category[] {
-  return categoriesNames.map(categoryName => ({id: transliterate(categoryName), label: categoryName}));
+function generateCategoriesMocks(categoriesNames: string[]): Category[] {
+  return categoriesNames.map((categoryName, index) => ({id: index + 1, label: categoryName}));
 }

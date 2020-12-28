@@ -77,7 +77,7 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
 });
 
 articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: NextFunction) => {
-  const categoryId = req.params.id;
+  const categoryId = Number(req.params.id);
   try {
     const [{articles, category}, categories] = await Promise.all([
       dataProviderService.getArticlesByCategoryId(categoryId),
@@ -91,7 +91,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
       pageTitle: category.label,
       categories: preparedCategories,
       articles,
-      selectedCategoryId: category.id,
+      selectedCategoryId: Number(category.id),
     });
   } catch (e) {
     return next(

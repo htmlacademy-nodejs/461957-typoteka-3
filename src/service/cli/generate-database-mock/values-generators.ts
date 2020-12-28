@@ -1,6 +1,5 @@
 import {getRandomInt, shuffle} from "../../../utils";
 import {CategoryId} from "../../../types/category-id";
-import {transliterate} from "../../../shared/transliterate";
 import {ArticleComment} from "../../../types/article-comment";
 import {nanoid} from "nanoid";
 import {
@@ -22,10 +21,9 @@ export function getAnnounce(sentences: string[]): string {
     .slice(0, AnnounceRestrict.maxLength);
 }
 
-export function getCategories(categories: string[]): CategoryId[] {
-  return shuffle(categories)
-    .slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max))
-    .map(transliterate);
+export function getCategoriesIds(categories: string[]): CategoryId[] {
+  return shuffle(categories.map((category, index) => index + 1))
+    .slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max));
 }
 
 export function getFullText(sentences: string[]): string {

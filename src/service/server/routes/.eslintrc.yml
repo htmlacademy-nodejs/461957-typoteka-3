@@ -1,7 +1,7 @@
 extends:
   - "../../../../.eslintrc.yml"
 parserOptions:
-  project: "src/service/tsconfig.json"
+  project: "../../tsconfig.json"
 overrides:
   - files:
       - "*.e2e.test.ts"
