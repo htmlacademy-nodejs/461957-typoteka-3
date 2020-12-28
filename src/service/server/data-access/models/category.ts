@@ -16,7 +16,7 @@ export const categoryFabric = (
     `Category`,
     {
       id: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
