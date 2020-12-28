@@ -106,3 +106,11 @@ export const TableNames = {
 } as const;
 export const DEFAULT_COMMAND = `--help`;
 export const USER_ARGV_INDEX = 2;
+export const LogLevel = {
+  FATAL: `fatal`,
+  ERROR: `error`,
+  WARN: `warn`,
+  INFO: `info`,
+  DEBUG: `debug`,
+  TRACE: `trace`,
+} as const;

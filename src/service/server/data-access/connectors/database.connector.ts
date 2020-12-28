@@ -1,5 +1,8 @@
 import {Sequelize} from "sequelize";
 import {ENV} from "../../../../shared/env/env";
+import {getLogger} from "../../../logger";
+
+const logger = getLogger();
 
 export class DatabaseConnector {
   private connection: Sequelize;
@@ -26,6 +29,8 @@ function openConnection(): Sequelize {
     password: ENV.DATABASE_PASSWORD,
     host: ENV.DATABASE_HOST,
     dialect: `postgres`,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    logging: logger.debug.bind(logger),
   });
 }
 
