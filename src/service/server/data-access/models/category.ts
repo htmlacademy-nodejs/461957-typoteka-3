@@ -1,18 +1,13 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
 import {TableName} from "../constants/table-name";
+import {Category} from "../../../../types/category";
 
-interface CategoryAttributes extends CategoryCreationAttributes {
-  id: number;
-}
-
-interface CategoryCreationAttributes {
-  label: string;
-}
+type CategoryCreationAttributes = Omit<Category, `id`>
 
 export const categoryFabric = (
   sequelize: Sequelize,
-): ModelCtor<Model<CategoryAttributes, CategoryCreationAttributes>> =>
-  sequelize.define<Model<CategoryAttributes, CategoryCreationAttributes>>(
+): ModelCtor<Model<Category, CategoryCreationAttributes>> =>
+  sequelize.define<Model<Category, CategoryCreationAttributes>>(
     `Category`,
     {
       id: {
