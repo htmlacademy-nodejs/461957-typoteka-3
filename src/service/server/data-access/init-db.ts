@@ -1,4 +1,4 @@
-import {categoryFabric} from "./models";
+import {articleFabric, categoryFabric} from "./models";
 import {databaseConnector} from "./connectors/database.connector";
 import {ExitCode} from "../../../constants-es6";
 import {getLogger} from "../../logger";
@@ -16,8 +16,8 @@ export async function connectToDatabase(): Promise<void> {
     process.exit(ExitCode.ERROR);
   }
   try {
-    const Category = categoryFabric(connection);
-    await Category.create({label: `www`});
+    const CategoryModel = categoryFabric(connection);
+    const ArticleModel = articleFabric(connection);
     await connection.sync({force: true});
   } catch (e) {
     logger.error(`Failed to Create categories,\n${(e as Error).toString()}`);
