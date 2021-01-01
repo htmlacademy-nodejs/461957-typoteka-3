@@ -5,7 +5,7 @@ import {Article} from "../../../../types/article";
 type PredefinedArticle = Omit<Article, `comments`|`category`>;
 type ArticleCreationAttributes = Omit<Article, `id`>;
 
-export const articleFabric = (sequelize: Sequelize): ModelCtor<Model<PredefinedArticle, ArticleCreationAttributes>> =>
+export const defineArticle = (sequelize: Sequelize): ModelCtor<Model<PredefinedArticle, ArticleCreationAttributes>> =>
   sequelize.define<Model<PredefinedArticle, ArticleCreationAttributes>>(
     `Article`,
     {

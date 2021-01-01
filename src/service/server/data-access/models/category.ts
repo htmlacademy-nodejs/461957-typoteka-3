@@ -4,7 +4,7 @@ import {Category} from "../../../../types/category";
 
 type CategoryCreationAttributes = Omit<Category, `id`>
 
-export const categoryFabric = (
+export const defineCategory = (
   sequelize: Sequelize,
 ): ModelCtor<Model<Category, CategoryCreationAttributes>> =>
   sequelize.define<Model<Category, CategoryCreationAttributes>>(

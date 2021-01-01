@@ -1,4 +1,4 @@
-import {articleFabric, categoryFabric, commentFabric} from "./models";
+import {defineArticle, defineCategory, defineComment} from "./models";
 import {databaseConnector} from "./connectors/database.connector";
 import {ExitCode} from "../../../constants-es6";
 import {getLogger} from "../../logger";
@@ -17,9 +17,9 @@ export async function connectToDatabase(): Promise<void> {
     process.exit(ExitCode.ERROR);
   }
   try {
-    const CategoryModel = categoryFabric(connection);
-    const ArticleModel = articleFabric(connection);
-    const CommentModel = commentFabric(connection);
+    const CategoryModel = defineCategory(connection);
+    const ArticleModel = defineArticle(connection);
+    const CommentModel = defineComment(connection);
 
     ArticleModel.hasMany(CommentModel, {as: ArticleProperty.COMMENTS, foreignKey: CommentProperty.ARTICLEID});
     CommentModel.belongsTo(ArticleModel, {foreignKey: CommentProperty.ARTICLEID});

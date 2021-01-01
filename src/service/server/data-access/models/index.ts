@@ -1,3 +1,3 @@
-export {categoryFabric} from "./category";
-export {articleFabric} from "./article";
-export {commentFabric} from "./comment";
+export {defineCategory} from "./category";
+export {defineArticle} from "./article";
+export {defineComment} from "./comment";

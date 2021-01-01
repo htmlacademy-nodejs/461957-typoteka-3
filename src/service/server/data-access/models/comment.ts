@@ -5,7 +5,7 @@ import {ArticleComment} from "../../../../types/article-comment";
 type PredefinedCommentAttributes = ArticleComment;
 type CommentCreationAttributes = Omit<ArticleComment, `id`>;
 
-export const commentFabric = (sequelize: Sequelize): ModelCtor<Model<PredefinedCommentAttributes, CommentCreationAttributes>> =>
+export const defineComment = (sequelize: Sequelize): ModelCtor<Model<PredefinedCommentAttributes, CommentCreationAttributes>> =>
   sequelize.define<Model<PredefinedCommentAttributes, CommentCreationAttributes>>(
     `Comment`,
     {
