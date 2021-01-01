@@ -1,7 +1,8 @@
-import {articleFabric, categoryFabric} from "./models";
+import {articleFabric, categoryFabric, commentFabric} from "./models";
 import {databaseConnector} from "./connectors/database.connector";
 import {ExitCode} from "../../../constants-es6";
 import {getLogger} from "../../logger";
+import {ArticleProperty, CommentProperty} from "./constants/property-name";
 
 const logger = getLogger();
 
@@ -18,6 +19,11 @@ export async function connectToDatabase(): Promise<void> {
   try {
     const CategoryModel = categoryFabric(connection);
     const ArticleModel = articleFabric(connection);
+    const CommentModel = commentFabric(connection);
+
+    ArticleModel.hasMany(CommentModel, {as: ArticleProperty.COMMENTS, foreignKey: CommentProperty.ARTICLEID});
+    CommentModel.belongsTo(ArticleModel, {foreignKey: CommentProperty.ARTICLEID});
+
     await connection.sync({force: true});
   } catch (e) {
     logger.error(`Failed to Create categories,\n${(e as Error).toString()}`);

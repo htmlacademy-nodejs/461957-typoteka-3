@@ -2,8 +2,8 @@ import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
 import {TableName} from "../constants/table-name";
 import {Article} from "../../../../types/article";
 
-type ArticleCreationAttributes = Omit<Article, `id`>;
 type PredefinedArticle = Omit<Article, `comments`|`category`>;
+type ArticleCreationAttributes = Omit<Article, `id`>;
 
 export const articleFabric = (sequelize: Sequelize): ModelCtor<Model<PredefinedArticle, ArticleCreationAttributes>> =>
   sequelize.define<Model<PredefinedArticle, ArticleCreationAttributes>>(

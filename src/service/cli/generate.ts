@@ -130,6 +130,8 @@ function getCommentsForTests(commentsSentences: string[], forceCreateComments: b
       text: shuffle(commentsSentences)
         .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
         .join(` `),
+      articleId: 1,
+      createdDate: getDate(Date.now()),
     }))
     .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, CommentRestrict.max));
 }
