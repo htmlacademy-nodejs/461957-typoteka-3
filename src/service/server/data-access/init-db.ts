@@ -1,8 +1,9 @@
-import {defineArticle, defineCategory, defineComment} from "./models";
+import {defineArticle, defineCategory, defineComment, defineIntermediateModel} from "./models";
 import {databaseConnector} from "./connectors/database.connector";
 import {ExitCode} from "../../../constants-es6";
 import {getLogger} from "../../logger";
-import {ArticleProperty, CommentProperty} from "./constants/property-name";
+import {ArticleCategoryProperty, ArticleProperty, CommentProperty} from "./constants/property-name";
+import {TableName} from "./constants/table-name";
 
 const logger = getLogger();
 
@@ -20,9 +21,19 @@ export async function connectToDatabase(): Promise<void> {
     const CategoryModel = defineCategory(connection);
     const ArticleModel = defineArticle(connection);
     const CommentModel = defineComment(connection);
+    const CategoryArticleIntermediateModel = defineIntermediateModel(connection, TableName.ARTICLES_CATEGORIES);
 
     ArticleModel.hasMany(CommentModel, {as: ArticleProperty.COMMENTS, foreignKey: CommentProperty.ARTICLEID});
     CommentModel.belongsTo(ArticleModel, {foreignKey: CommentProperty.ARTICLEID});
+
+    ArticleModel.belongsToMany(CategoryModel, {
+      through: CategoryArticleIntermediateModel,
+      as: ArticleCategoryProperty.CATEGORY,
+    });
+    CategoryModel.belongsToMany(ArticleModel, {
+      through: CategoryArticleIntermediateModel,
+      as: ArticleCategoryProperty.ARTICLE,
+    });
 
     await connection.sync({force: true});
   } catch (e) {
