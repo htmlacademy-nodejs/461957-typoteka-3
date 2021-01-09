@@ -1,6 +1,7 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
 import {TableName} from "../constants/table-name";
 import {Article} from "../../../../types/article";
+import {modelOptions} from "./constants/model-options";
 
 type PredefinedArticle = Omit<Article, `comments`|`category`>;
 type ArticleCreationAttributes = Omit<Article, `id`>;
@@ -33,8 +34,7 @@ export const defineArticle = (sequelize: Sequelize): ModelCtor<Model<PredefinedA
       },
     },
     {
-      timestamps: true,
-      paranoid: true,
+      ...modelOptions,
       tableName: TableName.ARTICLES,
     },
   );

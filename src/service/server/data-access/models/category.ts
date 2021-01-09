@@ -1,6 +1,7 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
 import {TableName} from "../constants/table-name";
 import {Category} from "../../../../types/category";
+import {modelOptions} from "./constants/model-options";
 
 type CategoryCreationAttributes = Omit<Category, `id`>
 
@@ -22,8 +23,7 @@ export const defineCategory = (
       },
     },
     {
-      timestamps: true,
-      paranoid: true,
+      ...modelOptions,
       tableName: TableName.CATEGORIES,
     },
   );

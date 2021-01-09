@@ -1,6 +1,7 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
 import {TableName} from "../constants/table-name";
 import {ArticleComment} from "../../../../types/article-comment";
+import {modelOptions} from "./constants/model-options";
 
 type PredefinedCommentAttributes = ArticleComment;
 type CommentCreationAttributes = Omit<ArticleComment, `id`>;
@@ -29,8 +30,7 @@ export const defineComment = (sequelize: Sequelize): ModelCtor<Model<PredefinedC
       },
     },
     {
-      timestamps: true,
-      paranoid: true,
+      ...modelOptions,
       tableName: TableName.COMMENTS,
     },
   );
