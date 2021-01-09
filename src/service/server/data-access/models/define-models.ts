@@ -1,4 +1,4 @@
-import {Model, ModelCtor, Sequelize} from "sequelize";
+import {Sequelize} from "sequelize";
 import {defineCategory} from "./category";
 import {defineArticle} from "./article";
 import {defineComment} from "./comment";
@@ -8,12 +8,7 @@ import {ArticleCategoryProperty, ArticleProperty, CommentProperty} from "../cons
 
 export function defineDatabaseModels(
   connection: Sequelize,
-): {
-  CategoryModel: ModelCtor<Model>;
-  ArticleModel: ModelCtor<Model>;
-  CommentModel: ModelCtor<Model>;
-  CategoryArticleIntermediateModel: ModelCtor<Model>;
-} {
+) {
   const CategoryModel = defineCategory(connection);
   const ArticleModel = defineArticle(connection);
   const CommentModel = defineComment(connection);
