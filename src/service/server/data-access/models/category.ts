@@ -4,10 +4,11 @@ import {Category} from "../../../../types/category";
 import {modelOptions} from "./constants/model-options";
 
 type CategoryCreationAttributes = Omit<Category, `id`>
+export type ICategoryModel = ModelCtor<Model<Category, CategoryCreationAttributes>>
 
 export const defineCategory = (
   sequelize: Sequelize,
-): ModelCtor<Model<Category, CategoryCreationAttributes>> =>
+): ICategoryModel =>
   sequelize.define<Model<Category, CategoryCreationAttributes>>(
     `Category`,
     {

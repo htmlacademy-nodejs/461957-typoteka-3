@@ -1,10 +1,14 @@
 import {Sequelize} from "sequelize";
-import {defineCategory} from "./category";
+import {ICategoryModel, defineCategory} from "./category";
 import {defineArticle} from "./article";
 import {defineComment} from "./comment";
 import {defineIntermediateModel} from "./intermediate";
 import {TableName} from "../constants/table-name";
 import {ArticleCategoryProperty, ArticleProperty, CommentProperty} from "../constants/property-name";
+
+export interface DatabaseModels {
+  CategoryModel: ICategoryModel,
+}
 
 export function defineDatabaseModels(
   connection: Sequelize,
