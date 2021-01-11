@@ -3,7 +3,7 @@ import {ExitCode, MockTextsFilePath} from "../../constants-es6";
 import {Model, ModelCtor, Sequelize} from "sequelize";
 import {connectToDatabase} from "../server/data-access/database-connector";
 import {defineDatabaseModels} from "../server/data-access/models";
-import {ICategoryModel} from "../server/data-access/models/category";
+import {ICategoryEntity, ICategoryModel} from "../server/data-access/models/category";
 import {getLogger} from "../logger";
 import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
 import chalk from "chalk";
@@ -59,11 +59,11 @@ async function init<U, I, O, P>(articlesNumber: number, models: Models<U, I, O, 
     MockTextsFilePath.TITLES,
   ]);
 
-  await createCategories(CategoryModel, categories);
+  const createdCategories = await createCategories(CategoryModel, categories);
 }
 
-async function createCategories(CategoryModel: ICategoryModel, categories: string[]): Promise<void> {
-  const categoryModels = await CategoryModel.bulkCreate(categories.map(item => ({label: item})));
+function createCategories(CategoryModel: ICategoryModel, categories: string[]): Promise<ICategoryEntity[]> {
+  return CategoryModel.bulkCreate(categories.map(item => ({label: item})));
 }
 
 async function loadSources(filePaths: string[]): Promise<string[][]> {

@@ -3,13 +3,12 @@ import {TableName} from "../constants/table-name";
 import {Category} from "../../../../types/category";
 import {modelOptions} from "./constants/model-options";
 
-type CategoryCreationAttributes = Omit<Category, `id`>
-export type ICategoryModel = ModelCtor<Model<Category, CategoryCreationAttributes>>
+type CategoryCreationAttributes = Omit<Category, `id`>;
+export type ICategoryEntity = Model<Category, CategoryCreationAttributes>;
+export type ICategoryModel = ModelCtor<ICategoryEntity>;
 
-export const defineCategory = (
-  sequelize: Sequelize,
-): ICategoryModel =>
-  sequelize.define<Model<Category, CategoryCreationAttributes>>(
+export const defineCategory = (sequelize: Sequelize): ICategoryModel =>
+  sequelize.define<ICategoryEntity>(
     `Category`,
     {
       id: {
