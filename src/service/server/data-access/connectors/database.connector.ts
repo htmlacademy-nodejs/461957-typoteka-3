@@ -15,9 +15,13 @@ export class DatabaseConnector {
   }
 
   public async close(): Promise<void> {
+    // TODO: run this method
     if (this.connection) {
       await this.connection.close();
       this.connection = undefined;
+      logger.info(`The database connection is closed`);
+    } else {
+      logger.info(`No open connections`);
     }
   }
 }
