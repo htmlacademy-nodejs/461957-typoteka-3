@@ -1,9 +1,8 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
-import type {Article} from "../../types/article";
+import type {Article, NewArticle} from "../../types/article";
 import {ENV} from "../../shared/env/env";
 import {APIRoutes, HttpCode} from "../../constants-es6";
 import type {ArticleComment} from "../../types/article-comment";
-import type {NewArticle} from "../../types/new-article";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import type {ArticleSearchCollection} from "../../types/article-search-collection";
 import {CategoryWithNumbers} from "../../types/category-with-numbers";

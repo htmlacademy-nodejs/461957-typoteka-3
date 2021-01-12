@@ -3,8 +3,7 @@ import {articlesController} from "../controllers";
 import {HttpCode} from "../../../constants-es6";
 import {newArticleValidator, newCommentValidator} from "../../middlewares";
 import {ArticleComment} from "../../../types/article-comment";
-import {NewArticle} from "../../../types/new-article";
-import {Article} from "../../../types/article";
+import {Article, NewArticle} from "../../../types/article";
 
 const articlesRouter = Router();
 

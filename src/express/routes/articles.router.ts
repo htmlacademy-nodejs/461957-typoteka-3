@@ -5,7 +5,6 @@ import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services";
 import {ArticlePage} from "../views/pages/ArticlePage";
 import multer from "multer";
-import type {NewArticle} from "../../types/new-article";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import {EditArticle} from "../views/components/EditArticle/EditArticle";
 import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
@@ -13,6 +12,7 @@ import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
 import type {ArticleFromBrowser} from "../../types/article-from-browser";
+import {NewArticle} from "../../types/article";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();

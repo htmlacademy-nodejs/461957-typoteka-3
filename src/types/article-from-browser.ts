@@ -1,5 +1,5 @@
-import {NewArticle} from "./new-article";
+import {NewArticle} from "./article";
 
 export interface ArticleFromBrowser extends Omit<NewArticle, `category`> {
-  category: Record<string, `on`>
+  category: Record<string, `on`>;
 }

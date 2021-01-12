@@ -1,10 +1,9 @@
 import {DataProviderService} from "../services/data-provider.service";
 import {HttpCode} from "../../../constants-es6";
 import {ArticleComment} from "../../../types/article-comment";
-import {Article} from "../../../types/article";
+import {Article, NewArticle} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
 import {nanoid} from "nanoid";
-import {NewArticle} from "../../../types/new-article";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
 

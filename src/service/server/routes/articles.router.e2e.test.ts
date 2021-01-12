@@ -2,8 +2,7 @@ import {App} from "../app";
 import {agent as request} from "supertest";
 import {Application} from "express";
 import * as http from "http";
-import {Article} from "../../../types/article";
-import {NewArticle} from "../../../types/new-article";
+import {Article, NewArticle} from "../../../types/article";
 import {ArticleComment} from "../../../types/article-comment";
 
 let validArticleId: string;
