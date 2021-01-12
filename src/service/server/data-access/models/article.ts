@@ -31,7 +31,7 @@ export const defineArticle = (sequelize: Sequelize): IArticleModel =>
         allowNull: false,
       },
       fullText: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
       },
     },
