@@ -27,6 +27,13 @@ export function getCategoriesIds(categories: string[]): CategoryId[] {
   );
 }
 
+export function getCategories(categories: string[]): string[] {
+  return shuffle(categories).slice(
+    CategoriesRestrict.min,
+    getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max),
+  );
+}
+
 export function getFullText(sentences: string[]): string {
   return shuffle(sentences)
     .slice(0, sentences.length - 1)

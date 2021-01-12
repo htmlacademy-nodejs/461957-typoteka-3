@@ -7,10 +7,18 @@ import {ICategoryEntity, ICategoryModel} from "../server/data-access/models/cate
 import {getLogger} from "../logger";
 import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
 import chalk from "chalk";
-import {IArticleModel} from "../server/data-access/models/article";
+import {IArticleEntity, IArticleModel} from "../server/data-access/models/article";
 import {DatabaseModels} from "../server/data-access/models/define-models";
-import {getAnnounce, getComments, getDate, getFullText, getTitle} from "./generate-database-mock/values-generators";
+import {
+  getAnnounce,
+  getCategories,
+  getComments,
+  getDate,
+  getFullText,
+  getTitle,
+} from "./generate-database-mock/values-generators";
 import {TableName} from "../server/data-access/constants/table-name";
+import {CategoryId} from "../../types/category-id";
 
 const DEFAULT_COUNT = 3;
 const logger = getLogger();
@@ -60,25 +68,37 @@ async function init(articlesNumber: number, models: Partial<DatabaseModels>): Pr
 
   const createdCategories = await createCategories(CategoryModel, categories);
   const createdArticles = await createArticles(ArticleModel, articlesNumber, {titles, comments, sentences});
+  await assignCategoriesToArticles(createdArticles, createdCategories, {categories});
 }
 
 function createCategories(CategoryModel: ICategoryModel, categories: string[]): Promise<ICategoryEntity[]> {
   return CategoryModel.bulkCreate(categories.map(item => ({label: item})));
 }
 
+async function assignCategoriesToArticles(
+  articlesEntities: IArticleEntity[],
+  categoriesEntities: ICategoryEntity[],
+  payload: {categories: string[]},
+): Promise<void> {
+  const categoryIdByName = getCategoriesIds(categoriesEntities);
+  for (const article of articlesEntities) {
+    await article.addCategories(getCategories(payload.categories).map(categoryName => categoryIdByName[categoryName]));
+  }
+}
+
 async function createArticles(
   ArticleModel: IArticleModel,
   articlesCount: number,
   payload: {titles: string[]; sentences: string[]; comments: string[]},
-): Promise<void> {
+): Promise<IArticleEntity[]> {
   const articles = new Array(articlesCount).fill(undefined);
-  await ArticleModel.bulkCreate(
+  return ArticleModel.bulkCreate(
     articles.map(() => ({
       title: getTitle(payload.titles),
       fullText: getFullText(payload.sentences),
       createdDate: getDate(Date.now()),
       announce: getAnnounce(payload.sentences),
-      category: [1, 2],
+      category: undefined,
       comments: getComments(payload.comments),
     })),
     {include: [TableName.COMMENTS]},
@@ -87,4 +107,14 @@ async function createArticles(
 
 async function loadSources(filePaths: string[]): Promise<string[][]> {
   return Promise.all(filePaths.map(readTXTFile));
+}
+
+function getCategoriesIds(categoriesEntities: ICategoryEntity[]): Record<string, CategoryId> {
+  return categoriesEntities.reduce(
+    (acc, next) => ({
+      [next.getDataValue(`label`)]: next.getDataValue(`id`),
+      ...acc,
+    }),
+    {} as Record<string, CategoryId>,
+  );
 }
