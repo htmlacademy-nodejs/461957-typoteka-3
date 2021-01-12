@@ -1,18 +1,13 @@
 import {CliAction} from "../../types/cli-action";
 import {ExitCode, MockTextsFilePath} from "../../constants-es6";
-import {Model, ModelCtor, Sequelize} from "sequelize";
+import {Sequelize} from "sequelize";
 import {connectToDatabase} from "../server/data-access/database-connector";
 import {defineDatabaseModels} from "../server/data-access/models";
 import {ICategoryEntity, ICategoryModel} from "../server/data-access/models/category";
 import {getLogger} from "../logger";
 import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
 import chalk from "chalk";
-
-interface Models<U, I, O, P> {
-  CategoryModel: ICategoryModel;
-  ArticleModel: ModelCtor<Model<U, I>>;
-  CommentModel: ModelCtor<Model<O, P>>;
-}
+import {DatabaseModels} from "../server/data-access/models/define-models";
 
 const DEFAULT_COUNT = 3;
 const logger = getLogger();
@@ -47,7 +42,7 @@ export const cliAction: CliAction = {
   },
 };
 
-async function init<U, I, O, P>(articlesNumber: number, models: Models<U, I, O, P>): Promise<void> {
+async function init(articlesNumber: number, models: Partial<DatabaseModels>): Promise<void> {
   const {CommentModel, CategoryModel, ArticleModel} = models;
   const [firstNames, lastNames, emails, permissions, categories, sentences, comments, titles] = await loadSources([
     MockTextsFilePath.FIRST_NAMES,
