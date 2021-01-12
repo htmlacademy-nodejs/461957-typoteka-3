@@ -5,8 +5,7 @@ import {modelOptions} from "./constants/model-options";
 import {NewArticleComment} from "../../../../types/article-comment";
 
 type PredefinedArticle = Omit<Article, `comments` | `category`>;
-type ArticleCreation = Omit<Article, `comments`> & {comments: NewArticleComment[]};
-type ArticleCreationAttributes = Omit<ArticleCreation, `id`>;
+type ArticleCreationAttributes = Omit<Article, `comments` | `id`> & {comments: NewArticleComment[]};
 export type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes>;
 export type IArticleModel = ModelCtor<IArticleEntity>;
 
