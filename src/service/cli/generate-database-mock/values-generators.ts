@@ -1,7 +1,6 @@
 import {getRandomInt, shuffle} from "../../../utils";
 import {CategoryId} from "../../../types/category-id";
-import {ArticleComment} from "../../../types/article-comment";
-import {nanoid} from "nanoid";
+import {NewArticleComment} from "../../../types/article-comment";
 import {
   AnnounceRestrict,
   CategoriesRestrict,
@@ -22,8 +21,10 @@ export function getAnnounce(sentences: string[]): string {
 }
 
 export function getCategoriesIds(categories: string[]): CategoryId[] {
-  return shuffle(categories.map((category, index) => index + 1))
-    .slice(CategoriesRestrict.min, getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max));
+  return shuffle(categories.map((category, index) => index + 1)).slice(
+    CategoriesRestrict.min,
+    getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max),
+  );
 }
 
 export function getFullText(sentences: string[]): string {
@@ -37,11 +38,12 @@ export function getTitle(titles: string[]): string {
   return titles[getRandomInt(0, titles.length - 1)].slice(0, TitleRestrict.maxLength);
 }
 
-export function getComments(commentsSentences: string[]): ArticleComment[] {
+export function getComments(commentsSentences: string[]): NewArticleComment[] {
   return Array(CommentRestrict.max)
     .fill(undefined)
-    .map<ArticleComment>(() => ({
-      id: nanoid(),
+    .map<NewArticleComment>(() => ({
+      createdDate: getDate(Date.now()),
+      articleId: 1,
       text: getCommentText(commentsSentences),
     }))
     .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, CommentRestrict.max));

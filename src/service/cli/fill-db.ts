@@ -7,7 +7,10 @@ import {ICategoryEntity, ICategoryModel} from "../server/data-access/models/cate
 import {getLogger} from "../logger";
 import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
 import chalk from "chalk";
+import {IArticleModel} from "../server/data-access/models/article";
 import {DatabaseModels} from "../server/data-access/models/define-models";
+import {getAnnounce, getComments, getDate, getFullText, getTitle} from "./generate-database-mock/values-generators";
+import {TableName} from "../server/data-access/constants/table-name";
 
 const DEFAULT_COUNT = 3;
 const logger = getLogger();
@@ -56,10 +59,30 @@ async function init(articlesNumber: number, models: Partial<DatabaseModels>): Pr
   ]);
 
   const createdCategories = await createCategories(CategoryModel, categories);
+  const createdArticles = await createArticles(ArticleModel, articlesNumber, {titles, comments, sentences});
 }
 
 function createCategories(CategoryModel: ICategoryModel, categories: string[]): Promise<ICategoryEntity[]> {
   return CategoryModel.bulkCreate(categories.map(item => ({label: item})));
+}
+
+async function createArticles(
+  ArticleModel: IArticleModel,
+  articlesCount: number,
+  payload: {titles: string[]; sentences: string[]; comments: string[]},
+): Promise<void> {
+  const articles = new Array(articlesCount).fill(undefined);
+  await ArticleModel.bulkCreate(
+    articles.map(() => ({
+      title: getTitle(payload.titles),
+      fullText: getFullText(payload.sentences),
+      createdDate: getDate(Date.now()),
+      announce: getAnnounce(payload.sentences),
+      category: [1, 2],
+      comments: getComments(payload.comments),
+    })),
+    {include: [TableName.COMMENTS]},
+  );
 }
 
 async function loadSources(filePaths: string[]): Promise<string[][]> {

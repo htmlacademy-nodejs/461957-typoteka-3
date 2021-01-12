@@ -38,7 +38,7 @@ function generateMocks(
       createdDate: getDate(Date.now()),
       fullText: getFullText(sentences),
       title: getTitle(titles),
-      comments: getComments(comments),
+      comments: getComments(comments).map(comment => ({...comment, id: getId()})),
     }));
 }
 

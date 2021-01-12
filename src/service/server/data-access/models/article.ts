@@ -2,9 +2,11 @@ import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
 import {TableName} from "../constants/table-name";
 import {Article} from "../../../../types/article";
 import {modelOptions} from "./constants/model-options";
+import {NewArticleComment} from "../../../../types/article-comment";
 
 type PredefinedArticle = Omit<Article, `comments` | `category`>;
-type ArticleCreationAttributes = Omit<Article, `id`>;
+type ArticleCreation = Omit<Article, `comments`> & {comments: NewArticleComment[]};
+type ArticleCreationAttributes = Omit<ArticleCreation, `id`>;
 export type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes>;
 export type IArticleModel = ModelCtor<IArticleEntity>;
 
