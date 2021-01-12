@@ -5,9 +5,11 @@ import {modelOptions} from "./constants/model-options";
 
 type PredefinedCommentAttributes = ArticleComment;
 type CommentCreationAttributes = Omit<ArticleComment, `id`>;
+export type ICommentEntity = Model<PredefinedCommentAttributes, CommentCreationAttributes>;
+export type ICommentModel = ModelCtor<ICommentEntity>;
 
-export const defineComment = (sequelize: Sequelize): ModelCtor<Model<PredefinedCommentAttributes, CommentCreationAttributes>> =>
-  sequelize.define<Model<PredefinedCommentAttributes, CommentCreationAttributes>>(
+export const defineComment = (sequelize: Sequelize): ICommentModel =>
+  sequelize.define<ICommentEntity>(
     `Comment`,
     {
       id: {

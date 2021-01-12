@@ -3,11 +3,13 @@ import {TableName} from "../constants/table-name";
 import {Article} from "../../../../types/article";
 import {modelOptions} from "./constants/model-options";
 
-type PredefinedArticle = Omit<Article, `comments`|`category`>;
+type PredefinedArticle = Omit<Article, `comments` | `category`>;
 type ArticleCreationAttributes = Omit<Article, `id`>;
+export type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes>;
+export type IArticleModel = ModelCtor<IArticleEntity>;
 
-export const defineArticle = (sequelize: Sequelize): ModelCtor<Model<PredefinedArticle, ArticleCreationAttributes>> =>
-  sequelize.define<Model<PredefinedArticle, ArticleCreationAttributes>>(
+export const defineArticle = (sequelize: Sequelize): IArticleModel =>
+  sequelize.define<IArticleEntity>(
     `Article`,
     {
       id: {
