@@ -30,7 +30,7 @@ export const cliAction: CliAction = {
     try {
       connection = await connectToDatabase();
     } catch (e) {
-      logger.error(e);
+      logger.error((e as Error).message);
       process.exit(ExitCode.ERROR);
     }
     try {
@@ -39,7 +39,8 @@ export const cliAction: CliAction = {
 
       await init(mockCount, {ArticleModel, CategoryModel, CommentModel});
       await connection.close();
-    } catch (err) {
+    } catch (e) {
+      logger.error((e as Error).message);
       process.exit(1);
     }
     logger.info(`Connection to database established`);
