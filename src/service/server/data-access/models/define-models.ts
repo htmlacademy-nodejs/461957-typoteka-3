@@ -24,11 +24,11 @@ export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
 
   ArticleModel.belongsToMany(CategoryModel, {
     through: CategoryArticleIntermediateModel,
-    as: ArticleCategoryProperty.CATEGORY,
+    as: {singular: ArticleCategoryProperty.CATEGORY.singular, plural: ArticleCategoryProperty.CATEGORY.plural},
   });
   CategoryModel.belongsToMany(ArticleModel, {
     through: CategoryArticleIntermediateModel,
-    as: ArticleCategoryProperty.ARTICLE,
+    as: {singular: ArticleCategoryProperty.CATEGORY.singular, plural: ArticleCategoryProperty.CATEGORY.plural},
   });
   return {
     CategoryModel,

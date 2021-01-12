@@ -17,9 +17,15 @@ export const CategoryProperty: Record<Uppercase<keyof Category>, string> = {
   LABEL: `label`,
 };
 
-export const ArticleCategoryProperty: Record<string, string> = {
-  ARTICLE: `article_id`,
-  CATEGORY: `category_id`,
+export const ArticleCategoryProperty = {
+  ARTICLE: {
+    singular: `article`,
+    plural: `articles`,
+  },
+  CATEGORY: {
+    singular: `category`,
+    plural: `categories`,
+  },
 };
 
 export const CommentProperty: Record<Uppercase<keyof ArticleComment>, string> = {
