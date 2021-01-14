@@ -1,13 +1,20 @@
-import {Router} from "express";
-import {articlesRouter} from "./articles.router";
-import {categoriesRouter} from "./categories.router";
 import {searchRouter} from "./search.router";
 import {APIRoutes} from "../../../constants-es6";
+import {articleRouter} from "./articles.router";
+import {categoriesRouter} from "./categories.router";
+import {dataProviderService} from "../services";
+import {articlesControllerFabric, categoriesControllerFabric, searchControllerFabric} from "../controllers";
+import {Router} from "express";
 
-const apiRouter = Router();
+export const apiRouter = (): Router => {
+  const router = Router();
+  const articlesController = articlesControllerFabric(dataProviderService);
+  const categoriesController = categoriesControllerFabric(dataProviderService);
+  const searchController = searchControllerFabric(dataProviderService);
 
-apiRouter.use(APIRoutes.ARTICLES, articlesRouter);
-apiRouter.use(APIRoutes.CATEGORIES, categoriesRouter);
-apiRouter.use(APIRoutes.SEARCH, searchRouter);
+  router.use(APIRoutes.ARTICLES, articleRouter(articlesController));
+  router.use(APIRoutes.CATEGORIES, categoriesRouter(articlesController, categoriesController));
+  router.use(APIRoutes.SEARCH, searchRouter(searchController));
 
-export {apiRouter};
+  return router;
+};

@@ -43,7 +43,7 @@ export class App {
   }
 
   private configureRoutes(): void {
-    this.app.use(APIRoutes.API, apiRouter);
+    this.app.use(APIRoutes.API, apiRouter());
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);
       this.logger.error(messageConstructor(req.context.id, `'${req.url}' not found`));

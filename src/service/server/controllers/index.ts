@@ -1,8 +1,11 @@
 import {ArticlesController} from "./articles.controller";
 import {CategoriesController} from "./categories.controller";
 import {SearchController} from "./search.controller";
-import {dataProviderService} from "../services";
+import {DataProviderService} from "../services/data-provider.service";
 
-export const articlesController = new ArticlesController(dataProviderService);
-export const categoriesController = new CategoriesController(dataProviderService);
-export const searchController = new SearchController(dataProviderService);
+export const articlesControllerFabric = (dataProviderService: DataProviderService): ArticlesController =>
+  new ArticlesController(dataProviderService);
+export const categoriesControllerFabric = (dataProviderService: DataProviderService): CategoriesController =>
+  new CategoriesController(dataProviderService);
+export const searchControllerFabric = (dataProviderService: DataProviderService): SearchController =>
+  new SearchController(dataProviderService);
