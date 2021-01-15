@@ -7,6 +7,9 @@ import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddlew
 import {messageConstructor} from "../logger/message-constructor";
 import {RequestExtended} from "../models/types/request-extended";
 import {apiRouter} from "./routes";
+import {defineDatabaseModels} from "./data-access/models";
+import {connectToDatabase} from "./data-access/database-connector";
+import {ICategoryModel} from "./data-access/models/category";
 
 export class App {
   private logger = getLogger();
@@ -22,7 +25,12 @@ export class App {
       logRouteMiddleware,
       // TODO: Error handling
     ]);
-    this.configureRoutes();
+  }
+
+  public async init(): Promise<void> {
+    const connection = await connectToDatabase();
+    const {CategoryModel, ArticleModel, CommentModel} = defineDatabaseModels(connection);
+    this.configureRoutes(CategoryModel);
   }
 
   public getServer(): Application {
@@ -42,8 +50,8 @@ export class App {
     middlewares.forEach(middleware => this.app.use(middleware));
   }
 
-  private configureRoutes(): void {
-    this.app.use(APIRoutes.API, apiRouter());
+  private configureRoutes(CategoryModel: ICategoryModel): void {
+    this.app.use(APIRoutes.API, apiRouter({CategoryModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);
       this.logger.error(messageConstructor(req.context.id, `'${req.url}' not found`));
