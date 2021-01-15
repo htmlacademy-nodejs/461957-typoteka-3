@@ -17,7 +17,7 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
   try {
     const [articles, categories] = await Promise.all([
       dataProviderService.getArticles(articlesNumber),
-      dataProviderService.getCategories(),
+      dataProviderService.getCategoriesWithNumbers(),
     ]);
     if (articles === null && categories === null) {
       return next(

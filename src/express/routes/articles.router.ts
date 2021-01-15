@@ -42,7 +42,10 @@ articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunctio
 });
 
 articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res: Response, next: NextFunction) => {
-  const newArticle = {...req.body, category: convertCategoriesToArray((req.body as ArticleFromBrowser)?.category)} as NewArticle;
+  const newArticle = {
+    ...req.body,
+    category: convertCategoriesToArray((req.body as ArticleFromBrowser)?.category),
+  } as NewArticle;
   try {
     const response: true | ArticleValidationResponse = await dataProviderService.createArticle(newArticle);
     if (response === true) {
@@ -81,7 +84,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
   try {
     const [{articles, category}, categories] = await Promise.all([
       dataProviderService.getArticlesByCategoryId(categoryId),
-      dataProviderService.getCategories(),
+      dataProviderService.getCategoriesWithNumbers(),
     ]);
     const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
     if (articles === null) {
@@ -131,7 +134,9 @@ articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFu
       dataProviderService.getCategories(),
     ]);
     if (article === null && categories === null) {
-      return next(new SSRError({message: `Failed to get article or categories`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+      return next(
+        new SSRError({message: `Failed to get article or categories`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}),
+      );
     }
     return streamPage(res, EditArticle, {
       article,

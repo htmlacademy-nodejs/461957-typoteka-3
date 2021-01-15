@@ -40,6 +40,7 @@ export const APIRoutes = {
   ARTICLES: `/articles`,
   COMMENTS: `/comments`,
   CATEGORIES: `/categories`,
+  CATEGORIES_STATISTICS: `/categories-statistics`,
   SEARCH: `/search`,
 };
 export const ClientRoutes = {

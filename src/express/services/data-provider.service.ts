@@ -8,6 +8,7 @@ import type {ArticleSearchCollection} from "../../types/article-search-collectio
 import {CategoryWithNumbers} from "../../types/category-with-numbers";
 import {ArticlesByCategory} from "../../types/articles-by-category";
 import {CategoryId} from "../../types/category-id";
+import {Category} from "../../types/category";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -106,10 +107,24 @@ export class DataProviderService {
     return comments.flat(1);
   }
 
-  public async getCategories(): Promise<CategoryWithNumbers[]> {
+  public async getCategories(): Promise<Category[]> {
+    let response: AxiosResponse<Category[]>;
+    try {
+      response = await this.requestService.get<Category[]>(this.apiEndPoint + APIRoutes.CATEGORIES, {});
+      return response.data;
+    } catch (e) {
+      console.error(`error`, e);
+      return null;
+    }
+  }
+
+  public async getCategoriesWithNumbers(): Promise<CategoryWithNumbers[]> {
     let response: AxiosResponse<CategoryWithNumbers[]>;
     try {
-      response = await this.requestService.get<CategoryWithNumbers[]>(this.apiEndPoint + APIRoutes.CATEGORIES, {});
+      response = await this.requestService.get<CategoryWithNumbers[]>(
+        this.apiEndPoint + APIRoutes.CATEGORIES_STATISTICS,
+        {},
+      );
       return response.data;
     } catch (e) {
       console.error(`error`, e);
