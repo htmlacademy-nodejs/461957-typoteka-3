@@ -7,8 +7,9 @@ import {ArticleSearchCollection} from "../../../types/article-search-collection"
 describe(`Search router`, () => {
   let server: Application;
   let httpServer: http.Server;
-  beforeAll(() => {
+  beforeAll(async () => {
     const app = new App();
+    await app.init();
     httpServer = app.listen();
     server = app.getServer();
   });

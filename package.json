@@ -15,7 +15,7 @@
     "build:service": "tsc --build src/service --verbose",
     "copy-static-assets": "node copy-static-assets.js",
     "lint": "npm run eslint",
-    "test:rest": "npm run generate-mock && cross-env PORT=7777 jest --maxWorkers=1 src/service/server",
+    "test:rest": "npm run generate-mock && npm run fill-db && cross-env PORT=7777 jest --maxWorkers=1 src/service/server",
     "generate-mock": "ts-node src/service/index.ts --generate",
     "generate-database-mock": "ts-node --transpile-only src/service/index.ts --fill",
     "fill-db": "npm run ts-node -- src/service/index.ts --fill-db | pino-pretty",

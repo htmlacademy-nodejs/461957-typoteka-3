@@ -25,8 +25,9 @@ const invalidNewComment = {};
 describe(`Articles router`, () => {
   let server: Application;
   let httpServer: http.Server;
-  beforeEach(async () => {
+  beforeAll(async () => {
     const app = new App();
+    await app.init();
     httpServer = app.listen();
     server = app.getServer();
 
