@@ -30,7 +30,7 @@ export class App {
   public async init(): Promise<void> {
     const connection = await connectToDatabase();
     const {CategoryModel, ArticleModel, CommentModel, ArticleCategoryModel} = defineDatabaseModels(connection);
-    this.configureRoutes({CategoryModel, ArticleCategoryModel});
+    this.configureRoutes({ArticleModel, CategoryModel, ArticleCategoryModel, CommentModel});
   }
 
   public getServer(): Application {
@@ -50,8 +50,8 @@ export class App {
     middlewares.forEach(middleware => this.app.use(middleware));
   }
 
-  private configureRoutes({CategoryModel, ArticleCategoryModel}: Partial<DatabaseModels>): void {
-    this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleCategoryModel}));
+  private configureRoutes({CategoryModel, ArticleCategoryModel, ArticleModel, CommentModel}: DatabaseModels): void {
+    this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleCategoryModel, ArticleModel, CommentModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);
       this.logger.error(messageConstructor(req.context.id, `'${req.url}' not found`));

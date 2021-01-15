@@ -8,11 +8,11 @@ import {Router} from "express";
 import {categoriesStatisticsRouter} from "./categories-statistics.router";
 import {DatabaseModels} from "../data-access/models/define-models";
 
-export const apiRouter = ({CategoryModel, ArticleCategoryModel}: Partial<DatabaseModels>): Router => {
+export const apiRouter = ({CategoryModel, ArticleCategoryModel, ArticleModel}: DatabaseModels): Router => {
   const router = Router();
   const articlesController = articlesControllerFactory(dataProviderService);
   const categoriesController = categoriesControllerFactory(CategoryModel, ArticleCategoryModel);
-  const searchController = searchControllerFactory(dataProviderService);
+  const searchController = searchControllerFactory(ArticleModel);
 
   router.use(APIRoutes.ARTICLES, articleRouter(articlesController));
   router.use(APIRoutes.CATEGORIES, categoriesRouter(articlesController, categoriesController));
