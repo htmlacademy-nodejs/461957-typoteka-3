@@ -1,5 +1,5 @@
 import {DataProviderService} from "../services/data-provider.service";
-import {ClientRoutes, HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants-es6";
 import {ControllerResponse} from "../../../types/controller-response";
 import {Article} from "../../../types/article";
 import {ArticleSearchResult} from "../../../types/article-search-result";
@@ -40,6 +40,5 @@ function convertArticleToSearchResult(article: Article): ArticleSearchResult {
     title: article.title,
     createdDate: article.createdDate,
     id: article.id,
-    link: ClientRoutes.ARTICLES.INDEX + `/` + article.id,
   };
 }
