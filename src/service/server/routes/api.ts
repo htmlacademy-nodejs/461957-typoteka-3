@@ -7,11 +7,22 @@ import {articlesControllerFabric, categoriesControllerFabric, searchControllerFa
 import {Router} from "express";
 import {ICategoryModel} from "../data-access/models/category";
 import {categoriesStatisticsRouter} from "./categories-statistics.router";
+import {IIntermediateModel} from "../data-access/models/intermediate";
 
-export const apiRouter = ({CategoryModel}: {CategoryModel: ICategoryModel}): Router => {
+export const apiRouter = ({
+  CategoryModel,
+  CategoryArticleIntermediateModel,
+}: {
+  CategoryModel: ICategoryModel;
+  CategoryArticleIntermediateModel: IIntermediateModel;
+}): Router => {
   const router = Router();
   const articlesController = articlesControllerFabric(dataProviderService);
-  const categoriesController = categoriesControllerFabric(dataProviderService, CategoryModel);
+  const categoriesController = categoriesControllerFabric(
+    dataProviderService,
+    CategoryModel,
+    CategoryArticleIntermediateModel,
+  );
   const searchController = searchControllerFabric(dataProviderService);
 
   router.use(APIRoutes.ARTICLES, articleRouter(articlesController));

@@ -16,10 +16,10 @@ export class CategoriesController {
   }
 
   public async getCategoriesWithNumbers(): Promise<ControllerResponse<CategoryWithNumbers[]>> {
-    const categories = await this.categoriesService.findAll();
+    const categories = await this.categoriesService.findAllWithNumbers();
     if (categories === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    return {payload: categories.map(item => ({...item, count: 1}))};
+    return {payload: categories};
   }
 }

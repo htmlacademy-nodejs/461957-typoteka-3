@@ -30,6 +30,7 @@ export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
     through: CategoryArticleIntermediateModel,
     as: {singular: ArticleCategoryProperty.CATEGORY.singular, plural: ArticleCategoryProperty.CATEGORY.plural},
   });
+  CategoryModel.hasMany(CategoryArticleIntermediateModel, {as: TableName.ARTICLES_CATEGORIES});
   return {
     CategoryModel,
     ArticleModel,

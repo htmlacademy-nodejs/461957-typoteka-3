@@ -10,6 +10,7 @@ import {apiRouter} from "./routes";
 import {defineDatabaseModels} from "./data-access/models";
 import {connectToDatabase} from "./data-access/database-connector";
 import {ICategoryModel} from "./data-access/models/category";
+import {IIntermediateModel} from "./data-access/models/intermediate";
 
 export class App {
   private logger = getLogger();
@@ -29,8 +30,10 @@ export class App {
 
   public async init(): Promise<void> {
     const connection = await connectToDatabase();
-    const {CategoryModel, ArticleModel, CommentModel} = defineDatabaseModels(connection);
-    this.configureRoutes(CategoryModel);
+    const {CategoryModel, ArticleModel, CommentModel, CategoryArticleIntermediateModel} = defineDatabaseModels(
+      connection,
+    );
+    this.configureRoutes(CategoryModel, CategoryArticleIntermediateModel);
   }
 
   public getServer(): Application {
@@ -50,8 +53,8 @@ export class App {
     middlewares.forEach(middleware => this.app.use(middleware));
   }
 
-  private configureRoutes(CategoryModel: ICategoryModel): void {
-    this.app.use(APIRoutes.API, apiRouter({CategoryModel}));
+  private configureRoutes(CategoryModel: ICategoryModel, CategoryArticleIntermediateModel: IIntermediateModel): void {
+    this.app.use(APIRoutes.API, apiRouter({CategoryModel, CategoryArticleIntermediateModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);
       this.logger.error(messageConstructor(req.context.id, `'${req.url}' not found`));
