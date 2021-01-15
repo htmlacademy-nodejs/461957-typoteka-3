@@ -4,5 +4,5 @@ import {IIntermediateModel} from "../../data-access/models/intermediate";
 
 export const categoriesFactory = (
   CategoryModel: ICategoryModel,
-  CategoryArticleIntermediateModel: IIntermediateModel,
-): CategoriesService => new CategoriesService(CategoryModel, CategoryArticleIntermediateModel);
+  ArticleCategoryModel: IIntermediateModel,
+): CategoriesService => new CategoriesService(CategoryModel, ArticleCategoryModel);

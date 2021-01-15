@@ -8,10 +8,11 @@ import {IIntermediateModel} from "../data-access/models/intermediate";
 
 export const articlesControllerFabric = (dataProviderService: DataProviderService): ArticlesController =>
   new ArticlesController(dataProviderService);
+
 export const categoriesControllerFabric = (
-  dataProviderService: DataProviderService,
   CategoryModel: ICategoryModel,
-  CategoryArticleIntermediateModel: IIntermediateModel,
-): CategoriesController => new CategoriesController(categoriesFactory(CategoryModel, CategoryArticleIntermediateModel));
+  ArticleCategoryModel: IIntermediateModel,
+): CategoriesController => new CategoriesController(categoriesFactory(CategoryModel, ArticleCategoryModel));
+
 export const searchControllerFabric = (dataProviderService: DataProviderService): SearchController =>
   new SearchController(dataProviderService);

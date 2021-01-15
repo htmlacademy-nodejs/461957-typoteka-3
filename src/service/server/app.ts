@@ -9,8 +9,7 @@ import {RequestExtended} from "../models/types/request-extended";
 import {apiRouter} from "./routes";
 import {defineDatabaseModels} from "./data-access/models";
 import {connectToDatabase} from "./data-access/database-connector";
-import {ICategoryModel} from "./data-access/models/category";
-import {IIntermediateModel} from "./data-access/models/intermediate";
+import {DatabaseModels} from "./data-access/models/define-models";
 
 export class App {
   private logger = getLogger();
@@ -30,10 +29,8 @@ export class App {
 
   public async init(): Promise<void> {
     const connection = await connectToDatabase();
-    const {CategoryModel, ArticleModel, CommentModel, CategoryArticleIntermediateModel} = defineDatabaseModels(
-      connection,
-    );
-    this.configureRoutes(CategoryModel, CategoryArticleIntermediateModel);
+    const {CategoryModel, ArticleModel, CommentModel, ArticleCategoryModel} = defineDatabaseModels(connection);
+    this.configureRoutes({CategoryModel, ArticleCategoryModel});
   }
 
   public getServer(): Application {
@@ -53,8 +50,8 @@ export class App {
     middlewares.forEach(middleware => this.app.use(middleware));
   }
 
-  private configureRoutes(CategoryModel: ICategoryModel, CategoryArticleIntermediateModel: IIntermediateModel): void {
-    this.app.use(APIRoutes.API, apiRouter({CategoryModel, CategoryArticleIntermediateModel}));
+  private configureRoutes({CategoryModel, ArticleCategoryModel}: Partial<DatabaseModels>): void {
+    this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleCategoryModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);
       this.logger.error(messageConstructor(req.context.id, `'${req.url}' not found`));

@@ -1,4 +1,4 @@
-import {Sequelize, Model} from "sequelize";
+import {Model, Sequelize} from "sequelize";
 import {ICategoryModel} from "../../data-access/models/category";
 import {Category} from "../../../../types/category";
 import {CategoryWithNumbers} from "../../../../types/category-with-numbers";
@@ -8,7 +8,7 @@ import {IIntermediateModel} from "../../data-access/models/intermediate";
 export class CategoriesService {
   constructor(
     private readonly CategoryModel: ICategoryModel,
-    private readonly CategoryArticleIntermediateModel: IIntermediateModel,
+    private readonly ArticleCategoryModel: IIntermediateModel,
   ) {}
 
   public async findAll(): Promise<Category[]> {
@@ -25,7 +25,7 @@ export class CategoriesService {
       group: [Sequelize.col(`Category.id`)],
       include: [
         {
-          model: this.CategoryArticleIntermediateModel,
+          model: this.ArticleCategoryModel,
           as: TableName.ARTICLES_CATEGORIES,
           attributes: [],
         },
