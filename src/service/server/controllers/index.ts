@@ -6,13 +6,13 @@ import {categoriesFactory} from "../services/data-service";
 import {ICategoryModel} from "../data-access/models/category";
 import {IIntermediateModel} from "../data-access/models/intermediate";
 
-export const articlesControllerFabric = (dataProviderService: DataProviderService): ArticlesController =>
+export const articlesControllerFactory = (dataProviderService: DataProviderService): ArticlesController =>
   new ArticlesController(dataProviderService);
 
-export const categoriesControllerFabric = (
+export const categoriesControllerFactory = (
   CategoryModel: ICategoryModel,
   ArticleCategoryModel: IIntermediateModel,
 ): CategoriesController => new CategoriesController(categoriesFactory(CategoryModel, ArticleCategoryModel));
 
-export const searchControllerFabric = (dataProviderService: DataProviderService): SearchController =>
+export const searchControllerFactory = (dataProviderService: DataProviderService): SearchController =>
   new SearchController(dataProviderService);
