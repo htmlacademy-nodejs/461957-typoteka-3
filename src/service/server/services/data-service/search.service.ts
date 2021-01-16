@@ -1,6 +1,5 @@
 import {IArticleModel} from "../../data-access/models/article";
 import {Model, Op} from "sequelize";
-import {TableName} from "../../data-access/constants/table-name";
 import {ArticleSearchResult} from "../../../../types/article-search-result";
 
 export class SearchService {
@@ -14,7 +13,6 @@ export class SearchService {
           [Op.iLike]: `%${query}%`,
         },
       },
-      include: [TableName.CATEGORIES],
     });
     return articles.map(article => article.get());
   }
