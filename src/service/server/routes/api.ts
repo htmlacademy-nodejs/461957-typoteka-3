@@ -10,7 +10,7 @@ import {DatabaseModels} from "../data-access/models/define-models";
 
 export const apiRouter = ({CategoryModel, ArticleCategoryModel, ArticleModel}: DatabaseModels): Router => {
   const router = Router();
-  const articlesController = articlesControllerFactory(dataProviderService);
+  const articlesController = articlesControllerFactory(ArticleModel, ArticleCategoryModel, dataProviderService);
   const categoriesController = categoriesControllerFactory(CategoryModel, ArticleCategoryModel);
   const searchController = searchControllerFactory(ArticleModel);
 

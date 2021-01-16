@@ -6,9 +6,10 @@ import {ControllerResponse} from "../../../types/controller-response";
 import {nanoid} from "nanoid";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
+import {ArticlesService} from "../services/data-service/articles.service";
 
 export class ArticlesController {
-  constructor(private dataProvider: DataProviderService) {}
+  constructor(private readonly articlesService: ArticlesService, private dataProvider: DataProviderService) {}
 
   public async getArticles(count?: number): Promise<ControllerResponse<Article[]>> {
     const articles = await this.dataProvider.getArticles(count);
