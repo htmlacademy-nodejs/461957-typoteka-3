@@ -23,7 +23,6 @@ export class SearchController {
     if (matches === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    console.log(matches);
     return {
       payload: {
         query,
