@@ -8,12 +8,17 @@ import {CategoryId} from "../../../types/category-id";
 
 interface Props {
   pageTitle: string;
-  categories: CategoryWithLinksAndNumbers[],
-  articles: Article[],
-  selectedCategoryId?: CategoryId,
+  categories: CategoryWithLinksAndNumbers[];
+  articles: Article[];
+  selectedCategoryId?: CategoryId;
 }
 
-export const ArticlesByCategoryPage: FunctionComponent<Props> = ({pageTitle, categories, articles, selectedCategoryId}) => {
+export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
+  pageTitle,
+  categories,
+  articles,
+  selectedCategoryId,
+}) => {
   return (
     <LayoutFilled>
       <main className="articles-category">
