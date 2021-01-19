@@ -10,7 +10,10 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
 
   router.get(`/`, async (req, res) => {
     const count = Number(req.query?.count as string);
-    const {status = HttpCode.OK, payload} = await articlesController.getArticles(count);
+    const areCommentsRequired = Boolean(req.query?.comments);
+    const {status = HttpCode.OK, payload} = await articlesController.getArticles(
+      areCommentsRequired ? areCommentsRequired : undefined,
+    );
     return res.status(status).send(payload);
   });
   router.get(`/:id`, async (req, res) => {

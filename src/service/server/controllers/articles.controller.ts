@@ -11,8 +11,12 @@ import {ArticlesService} from "../services/data-service/articles.service";
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService, private dataProvider: DataProviderService) {}
 
-  public async getArticles(count?: number): Promise<ControllerResponse<Article[]>> {
-    const articles = await this.dataProvider.getArticles(count);
+  public async getArticles(areCommentsRequired: false): Promise<ControllerResponse<NewArticle[]>>;
+  public async getArticles(areCommentsRequired: true): Promise<ControllerResponse<Article[]>>;
+  public async getArticles(areCommentsRequired: boolean): Promise<ControllerResponse<Article[] | NewArticle[]>> {
+    const articles = areCommentsRequired
+      ? await this.articlesService.findAll(true)
+      : await this.articlesService.findAll(false);
     if (articles === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
