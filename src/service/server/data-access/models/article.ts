@@ -6,7 +6,7 @@ import {NewArticleComment} from "../../../../types/article-comment";
 import {ICategoryEntity} from "./category";
 import {CategoryId} from "../../../../types/category-id";
 
-type PredefinedArticle = Omit<Article, `comments` | `category`>;
+type PredefinedArticle = Omit<Article, `comments` | `categories`>;
 type ArticleCreationAttributes = Omit<Article, `comments` | `id`> & {comments: NewArticleComment[]};
 export type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes> & {
   addCategory(categoryId: CategoryId): Promise<HasManyAddAssociationMixin<ICategoryEntity, CategoryId>>;

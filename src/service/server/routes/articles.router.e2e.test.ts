@@ -11,7 +11,7 @@ let validCommentId: string;
 const invalidCommentId = `invalid-comment-id`;
 const validNewArticle: NewArticle = {
   announce: `Игры и программирование разные вещи. Не стоит идти в программисты, если вам нравится только игры.  1938 году.`,
-  category: [1, 3],
+  categories: [1, 3],
   createdDate: new Date(Date.now()),
   fullText: `Освоить вёрстку несложно.`,
   title: `Как собрать камни бесконечности`,

@@ -6,7 +6,7 @@ export interface NewArticle {
   createdDate: Date;
   announce: string;
   fullText?: string;
-  category: CategoryId[];
+  categories: CategoryId[];
 }
 
 export interface Article extends NewArticle {

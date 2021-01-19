@@ -49,8 +49,8 @@ function getArticleValidationResponse(
   if (!article.createdDate) {
     validationResponse.createdDate = {state: ValidationError.REQUIRED};
   }
-  if (!article?.category?.length) {
-    validationResponse.category = {state: ValidationError.REQUIRED};
+  if (!article?.categories?.length) {
+    validationResponse.categories = {state: ValidationError.REQUIRED};
   }
   if (!article.announce) {
     validationResponse.announce = {

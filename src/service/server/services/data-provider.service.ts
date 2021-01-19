@@ -18,7 +18,7 @@ export class DataProviderService {
         const categoriesIds: Map<number, number> = new Map<number, number>();
         const categories = JSON.parse(await promises.readFile(MockFilePath.CATEGORIES, `utf-8`)) as Category[];
         articles.forEach(article => {
-          article.category.forEach(categoryId => {
+          article.categories.forEach(categoryId => {
             if (categoriesIds.has(categoryId)) {
               const number = categoriesIds.get(categoryId);
               categoriesIds.set(categoryId, number + 1);
@@ -77,7 +77,7 @@ export class DataProviderService {
         category: {id: category.id, label: category.label},
       };
     }
-    const validArticles = articles.filter(article => article.category.includes(categoryId));
+    const validArticles = articles.filter(article => article.categories.includes(categoryId));
     return {
       category: {id: category.id, label: category.label},
       itemsCount: validArticles.length,

@@ -30,13 +30,13 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
           title: "",
           announce: "",
           fullText: "",
-          category: [],
+          categories: [],
         }
       : {
           title: article.title,
           announce: article.announce,
           fullText: article.fullText,
-          category: article.category,
+          categories: article.categories,
         };
 
   return (
@@ -131,7 +131,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                     </div>
                     <CategoriesSelect
                       availableCategories={availableCategories}
-                      selectedCategories={articleProps.category}
+                      selectedCategories={articleProps.categories}
                       inputName={ARTICLE_FORM_FIELDS.category.name}
                     />
                   </div>

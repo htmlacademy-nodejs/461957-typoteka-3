@@ -4,7 +4,7 @@ import {ArticleComment} from "../../../../types/article-comment";
 
 export const ArticleProperty: Record<Uppercase<keyof Article>, string> = {
   COMMENTS: `comments`,
-  CATEGORY: `category`,
+  CATEGORIES: `categories`,
   ANNOUNCE: `announce`,
   ID: `id`,
   CREATEDDATE: `created_date`,
