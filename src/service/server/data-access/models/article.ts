@@ -40,6 +40,10 @@ export const defineArticle = (sequelize: Sequelize): IArticleModel =>
         type: DataTypes.TEXT,
         allowNull: true,
       },
+      commentsCount: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
     {
       ...modelOptions,

@@ -10,6 +10,7 @@ export const ArticleProperty: Record<Uppercase<keyof Article>, string> = {
   CREATEDDATE: `created_date`,
   FULLTEXT: `full_text`,
   TITLE: `title`,
+  COMMENTSCOUNT: `comments_count`,
 };
 
 export const CategoryProperty: Record<Uppercase<keyof Category>, string> = {
