@@ -22,8 +22,8 @@ export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, pr
           <li className="preview__item" key={preview.id}>
             <Preview
               announce={preview.announce}
-              selectedCategories={resolveCategoriesLabels(preview.category, categories)}
-              comments={preview.comments}
+              selectedCategories={resolveCategoriesLabels(preview.categories, categories)}
+              commentsCount={preview.commentsCount}
               createdDate={preview.createdDate}
               title={preview.title}
             />
