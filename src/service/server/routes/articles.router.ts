@@ -10,6 +10,7 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
 
   router.get(`/`, async (req, res) => {
     const count = Number(req.query?.count as string);
+    // TODO: implement pagination
     const areCommentsRequired = Boolean(req.query?.comments);
     const {status = HttpCode.OK, payload} = await articlesController.getArticles(
       areCommentsRequired ? areCommentsRequired : undefined,
