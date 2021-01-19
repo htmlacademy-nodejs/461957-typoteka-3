@@ -1,12 +1,20 @@
-import {DataTypes, Model, ModelCtor, Sequelize, HasManyAddAssociationMixin} from "sequelize";
+import {DataTypes, HasManyAddAssociationMixin, Model, ModelCtor, Sequelize} from "sequelize";
 import {TableName} from "../constants/table-name";
-import {Article} from "../../../../types/article";
+import {
+  Article,
+  IAnnounce,
+  IArticleId,
+  ICommentsCount,
+  ICreatedDate,
+  IFullText,
+  ITitle,
+} from "../../../../types/article";
 import {modelOptions} from "./constants/model-options";
 import {NewArticleComment} from "../../../../types/article-comment";
 import {ICategoryEntity} from "./category";
 import {CategoryId} from "../../../../types/category-id";
 
-type PredefinedArticle = Omit<Article, `comments` | `categories`>;
+type PredefinedArticle = IArticleId & ITitle & ICreatedDate & IAnnounce & IFullText & ICommentsCount;
 type ArticleCreationAttributes = Omit<Article, `comments` | `id`> & {comments: NewArticleComment[]};
 export type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes> & {
   addCategory(categoryId: CategoryId): Promise<HasManyAddAssociationMixin<ICategoryEntity, CategoryId>>;

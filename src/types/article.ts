@@ -1,5 +1,42 @@
-import type {ArticleComment} from "./article-comment";
+import type {ArticleComment, CommentId} from "./article-comment";
 import {CategoryId} from "./category-id";
+import {ArticleId} from "./article-id";
+
+export interface IArticleId {
+  id: ArticleId;
+}
+
+export interface ITitle {
+  title: string;
+}
+
+export interface ICreatedDate {
+  createdDate: Date;
+}
+
+export interface IAnnounce {
+  announce: string;
+}
+
+export interface IFullText {
+  fullText: string;
+}
+
+export interface ICategories {
+  categories: CategoryId[];
+}
+
+export interface ICommentsCount {
+  commentsCount: number;
+}
+
+export interface ICommentsIds {
+  commentsIds: CommentId[];
+}
+
+export interface IComments {
+  comments: ArticleComment[];
+}
 
 export interface NewArticle {
   title: string;
@@ -12,5 +49,9 @@ export interface NewArticle {
 
 export interface Article extends NewArticle {
   id: string;
+  comments: ArticleComment[];
+}
+
+export interface ArticleWithComments extends NewArticle {
   comments: ArticleComment[];
 }

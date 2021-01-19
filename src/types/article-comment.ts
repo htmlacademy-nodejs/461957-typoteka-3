@@ -9,3 +9,5 @@ export interface NewArticleComment {
 export interface ArticleComment extends NewArticleComment {
   id: string;
 }
+
+export type CommentId = number;

@@ -1,10 +1,11 @@
 import {IArticleModel} from "../../data-access/models/article";
 import {IIntermediateModel} from "../../data-access/models/intermediate";
-import {Article, NewArticle} from "../../../../types/article";
+import {ArticleWithComments, IComments, NewArticle} from "../../../../types/article";
 import {TableName} from "../../data-access/constants/table-name";
-import {Model} from "sequelize";
+import {FindAttributeOptions, Model} from "sequelize";
 import {CategoryId} from "../../../../types/category-id";
 import {Includeable} from "sequelize/types/lib/model";
+import {CommentProperty} from "../../data-access/constants/property-name";
 
 interface NestedCategory {
   categories: {id: CategoryId}[];
@@ -19,31 +20,62 @@ export class ArticlesService {
   ) {}
 
   public async findAll(areCommentsRequired: false): Promise<NewArticle[]>;
-  public async findAll(areCommentsRequired: true): Promise<Article[]>;
-  public async findAll(areCommentsRequired: boolean): Promise<Article[] | NewArticle[]> {
-    const include: Includeable[] = [
-      {
+  public async findAll(areCommentsRequired: true): Promise<ArticleWithComments[]>;
+  public async findAll(areCommentsRequired: boolean): Promise<ArticleWithComments[] | NewArticle[]> {
+    const include: Record<string, Includeable> = {
+      categories: {
         association: TableName.CATEGORIES,
         attributes: [`id`],
-        through: {attributes: []},
+        through: {
+          attributes: [],
+        },
       },
-      {
+      commentsForCount: {
         association: TableName.COMMENTS,
         attributes: [`id`],
       },
+      comments: {
+        association: TableName.COMMENTS,
+        attributes: [
+          CommentProperty.ID,
+          [CommentProperty.ARTICLEID, `articleId`],
+          CommentProperty.TEXT,
+          [CommentProperty.CREATEDDATE, `createdDate`],
+        ],
+      },
+    };
+    const attributes: FindAttributeOptions = [
+      `announce`,
+      [`full_text`, `fullText`],
+      `title`,
+      `id`,
+      [`created_date`, `createdDate`],
     ];
-    let articles: Model<Override<Article, NestedCategory> | Override<NewArticle, NestedCategory>>[];
     if (areCommentsRequired) {
-      articles = await this.ArticleModel.findAll<Model<Override<Article, NestedCategory>>>({include});
-    } else {
-      articles = await this.ArticleModel.findAll<Model<Override<NewArticle, NestedCategory>>>({
-        attributes: [`announce`, [`full_text`, `fullText`], `title`, `id`, [`created_date`, `createdDate`]],
-        include,
+      const articles = await this.ArticleModel.findAll<Model<Override<ArticleWithComments, NestedCategory>>>({
+        attributes,
+        include: [include.categories, include.comments],
       });
+      return articles
+        .map(item => item.get({plain: true}))
+        .map(item => ({
+          ...item,
+          categories: item.categories.map(category => category.id),
+          commentsCount: item.comments.length,
+        }));
+    } else {
+      const articles = await this.ArticleModel.findAll<Model<Override<NewArticle & IComments, NestedCategory>>>({
+        attributes,
+        include: [include.categories, include.commentsForCount],
+      });
+      return articles
+        .map(item => item.get({plain: true}))
+        .map(item => ({
+          ...item,
+          categories: item.categories.map(category => category.id),
+          commentsCount: item.comments.length,
+        }));
     }
-    return articles
-      .map(item => item.get({plain: true}))
-      .map(item => ({...item, categories: item.categories.map(category => category.id)}));
   }
 
   // public async findPage({limit, offset}: {limit: number; offset: number}): Promise<Article[]> {}
