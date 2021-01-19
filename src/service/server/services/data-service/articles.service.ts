@@ -27,6 +27,10 @@ export class ArticlesService {
         attributes: [`id`],
         through: {attributes: []},
       },
+      {
+        association: TableName.COMMENTS,
+        attributes: [`id`],
+      },
     ];
     let articles: Model<Override<Article, NestedCategory> | Override<NewArticle, NestedCategory>>[];
     if (areCommentsRequired) {
