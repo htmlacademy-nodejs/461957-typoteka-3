@@ -1,14 +1,14 @@
 import {IArticleModel} from "../../data-access/models/article";
 import {IIntermediateModel} from "../../data-access/models/intermediate";
-import {ArticleWithComments, IComments, NewArticle} from "../../../../types/article";
+import {ArticleWithComments, IComments, ICommentsCount, NewArticle} from "../../../../types/article";
 import {TableName} from "../../data-access/constants/table-name";
-import {FindAttributeOptions, Model} from "sequelize";
+import Sequelize, {FindAttributeOptions, Model} from "sequelize";
 import {CategoryId} from "../../../../types/category-id";
 import {Includeable} from "sequelize/types/lib/model";
 import {CommentProperty} from "../../data-access/constants/property-name";
 
 interface NestedCategory {
-  categories: {id: CategoryId}[];
+  categoriesIds: CategoryId[];
 }
 
 type Override<T extends NewArticle, T2> = Omit<T, keyof T2> & T2;
@@ -25,14 +25,14 @@ export class ArticlesService {
     const include: Record<string, Includeable> = {
       categories: {
         association: TableName.CATEGORIES,
-        attributes: [`id`],
+        attributes: [],
         through: {
           attributes: [],
         },
       },
       commentsForCount: {
         association: TableName.COMMENTS,
-        attributes: [`id`],
+        attributes: [],
       },
       comments: {
         association: TableName.COMMENTS,
@@ -50,32 +50,29 @@ export class ArticlesService {
       `title`,
       `id`,
       [`created_date`, `createdDate`],
+      [Sequelize.fn(`COUNT`, `comments.id`), `commentsCount`],
+      [Sequelize.literal(`ARRAY_AGG(comments.id)`), `commentIds`],
+      // [Sequelize.literal(`ARRAY_AGG(categories.id)`), `categoriesIds`],
     ];
-    if (areCommentsRequired) {
-      const articles = await this.ArticleModel.findAll<Model<Override<ArticleWithComments, NestedCategory>>>({
-        attributes,
-        include: [include.categories, include.comments],
-      });
-      return articles
-        .map(item => item.get({plain: true}))
-        .map(item => ({
-          ...item,
-          categories: item.categories.map(category => category.id),
-          commentsCount: item.comments.length,
-        }));
-    } else {
-      const articles = await this.ArticleModel.findAll<Model<Override<NewArticle & IComments, NestedCategory>>>({
-        attributes,
-        include: [include.categories, include.commentsForCount],
-      });
-      return articles
-        .map(item => item.get({plain: true}))
-        .map(item => ({
-          ...item,
-          categories: item.categories.map(category => category.id),
-          commentsCount: item.comments.length,
-        }));
-    }
+    // if (areCommentsRequired) {
+    //   const articles = await this.ArticleModel.findAll<
+    //     Model<Override<NewArticle & IComments & ICommentsCount, NestedCategory>>
+    //   >({
+    //     attributes,
+    //     include: [include.categories, include.comments],
+    //     group: [`Article.id`],
+    //   });
+    //   return articles.map(item => item.get({plain: true})).map(item => ({...item, categories: item.categoriesIds}));
+    // } else {
+    const articles = await this.ArticleModel.findAll<
+      Model<Override<NewArticle & IComments & ICommentsCount, NestedCategory>>
+    >({
+      attributes,
+      include: [include.categories, include.commentsForCount],
+      group: [`Article.id`],
+    });
+    return articles.map(item => item.get({plain: true})).map(item => ({...item}));
+    // }
   }
 
   // public async findPage({limit, offset}: {limit: number; offset: number}): Promise<Article[]> {}
