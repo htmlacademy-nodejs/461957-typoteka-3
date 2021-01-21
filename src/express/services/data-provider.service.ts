@@ -1,5 +1,5 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
-import type {Article, NewArticle} from "../../types/article";
+import type {Article, ICreatedDate, NewArticle} from "../../types/article";
 import {ENV} from "../../shared/env/env";
 import {APIRoutes, HttpCode} from "../../constants-es6";
 import type {ArticleComment} from "../../types/article-comment";
@@ -9,6 +9,8 @@ import {CategoryWithNumbers} from "../../types/category-with-numbers";
 import {ArticlesByCategory} from "../../types/articles-by-category";
 import {CategoryId} from "../../types/category-id";
 import {Category} from "../../types/category";
+import {IArticlePreview} from "../../types/interfaces/article-preview";
+import {ArticleId} from "../../types/article-id";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
