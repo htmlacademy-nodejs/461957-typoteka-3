@@ -1,11 +1,8 @@
 import React, {FunctionComponent} from "react";
 import {CategoryWithLink} from "../../../../types/category-with-link";
+import {IAnnounce, ICommentsCount, ICreatedDate, ITitle} from "../../../../types/article";
 
-interface PreviewProps {
-  commentsCount: number;
-  title: string;
-  announce: string;
-  createdDate: Date;
+interface PreviewProps extends ICommentsCount, ITitle, IAnnounce, ICreatedDate {
   selectedCategories: CategoryWithLink[];
 }
 

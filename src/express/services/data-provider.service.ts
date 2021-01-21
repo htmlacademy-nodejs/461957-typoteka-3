@@ -18,10 +18,12 @@ export class DataProviderService {
     this.requestService = axios;
   }
 
-  public async getArticles(count?: number): Promise<Article[]> {
-    let response: AxiosResponse<Article[]>;
+  public async getArticles(count?: number): Promise<IArticlePreview[]> {
+    let response: AxiosResponse<IArticlePreview[]>;
     try {
-      response = await this.requestService.get<Article[]>(this.apiEndPoint + APIRoutes.ARTICLES, {params: {count}});
+      response = await this.requestService.get<IArticlePreview[]>(this.apiEndPoint + APIRoutes.ARTICLES, {
+        params: {count},
+      });
     } catch (e) {
       console.error(`error`, e);
     }
@@ -151,11 +153,11 @@ export class DataProviderService {
     }
   }
 
-  private async getArticleComments(articleId: string): Promise<ArticleComment[]> {
+  private async getArticleComments(articleId: ArticleId): Promise<ArticleComment[]> {
     let response: AxiosResponse<ArticleComment[]>;
     try {
       response = await this.requestService.get<ArticleComment[]>(
-        this.apiEndPoint + APIRoutes.ARTICLES + `/` + articleId + APIRoutes.COMMENTS,
+        `${this.apiEndPoint + APIRoutes.ARTICLES}/${articleId}${APIRoutes.COMMENTS}`,
         {},
       );
     } catch (e) {
@@ -170,6 +172,6 @@ export class DataProviderService {
   }
 }
 
-function transformDate(article: Article): Article {
+function transformDate<T extends ICreatedDate>(article: T): T {
   return {...article, createdDate: new Date(Date.parse((article.createdDate as unknown) as string))};
 }

@@ -5,13 +5,13 @@ import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {HotList} from "../components/HotList/HotList";
 import {LastList} from "../components/LastList/LastList";
 import {PreviewList} from "../components/PreviewList/PreviewList";
-import type {Article} from "../../../types/article";
 import {Pagination} from "../components/Pagination/Pagination";
 import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
 import {CategoryWithLink} from "../../../types/category-with-link";
+import {IArticlePreview} from "../../../types/interfaces/article-preview";
 
 interface MainPageProps {
-  articles?: Article[];
+  articles?: IArticlePreview[];
   categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[];
   categoriesWithLinks: CategoryWithLink[];
 }

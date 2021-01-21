@@ -3,13 +3,13 @@ import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
 import {PreviewList} from "../components/PreviewList/PreviewList";
-import {Article} from "../../../types/article";
 import {CategoryId} from "../../../types/category-id";
+import {IArticlePreview} from "../../../types/interfaces/article-preview";
 
 interface Props {
   pageTitle: string;
   categories: CategoryWithLinksAndNumbers[];
-  articles: Article[];
+  articles: IArticlePreview[];
   selectedCategoryId?: CategoryId;
 }
 
