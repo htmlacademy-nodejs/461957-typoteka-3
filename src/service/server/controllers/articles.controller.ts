@@ -1,26 +1,52 @@
 import {DataProviderService} from "../services/data-provider.service";
 import {HttpCode} from "../../../constants-es6";
 import {ArticleComment} from "../../../types/article-comment";
-import {Article, NewArticle} from "../../../types/article";
+import {Article, ICategories, IComments, NewArticle} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
 import {nanoid} from "nanoid";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
 import {ArticlesService} from "../services/data-service/articles.service";
+import {CategoriesService} from "../services/data-service/categories.service";
+import {CommentsService} from "../services/data-service/comments.service";
+import {IArticlePlain} from "../../../types/interfaces/article-plain";
 
 export class ArticlesController {
-  constructor(private readonly articlesService: ArticlesService, private dataProvider: DataProviderService) {}
+  constructor(
+    private readonly articlesService: ArticlesService,
+    private readonly categoriesService: CategoriesService,
+    private readonly commentsService: CommentsService,
+    private dataProvider: DataProviderService,
+  ) {}
 
-  public async getArticles(areCommentsRequired: false): Promise<ControllerResponse<NewArticle[]>>;
-  public async getArticles(areCommentsRequired: true): Promise<ControllerResponse<Article[]>>;
-  public async getArticles(areCommentsRequired: boolean): Promise<ControllerResponse<Article[] | NewArticle[]>> {
-    const articles = areCommentsRequired
-      ? await this.articlesService.findAll(true)
-      : await this.articlesService.findAll(false);
-    if (articles === null) {
+  public async getArticles(areCommentsRequired: false): Promise<ControllerResponse<(IArticlePlain & ICategories)[]>>;
+  public async getArticles(
+    areCommentsRequired: true,
+  ): Promise<ControllerResponse<(IArticlePlain & ICategories & IComments)[]>>;
+  public async getArticles(
+    areCommentsRequired: boolean,
+  ): Promise<ControllerResponse<(IArticlePlain & ICategories)[] | (IArticlePlain & ICategories & IComments)[]>> {
+    const plainArticles = await this.articlesService.findAll();
+    if (plainArticles === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    return {payload: articles};
+    const plainArticlesWithCategories = await Promise.all(
+      plainArticles.map(async article => ({
+        ...article,
+        categories: await this.categoriesService.findByArticleId(article.id),
+      })),
+    );
+    if (areCommentsRequired) {
+      const articlesWithComments = await Promise.all(
+        plainArticlesWithCategories.map(async article => ({
+          ...article,
+          comments: await this.commentsService.findByArticleId(article.id),
+        })),
+      );
+      return {payload: articlesWithComments};
+    } else {
+      return {payload: plainArticlesWithCategories};
+    }
   }
 
   public async getArticleById(id: string): Promise<ControllerResponse<Article>> {

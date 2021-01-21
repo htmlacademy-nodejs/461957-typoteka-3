@@ -1,6 +1,7 @@
 import type {ArticleComment, CommentId} from "./article-comment";
 import {CategoryId} from "./category-id";
 import {ArticleId} from "./article-id";
+import {Category} from "./category";
 
 export interface IArticleId {
   id: ArticleId;
@@ -23,7 +24,7 @@ export interface IFullText {
 }
 
 export interface ICategories {
-  categories: CategoryId[];
+  categories: Category[];
 }
 
 export interface ICommentsCount {
