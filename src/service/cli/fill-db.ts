@@ -93,18 +93,14 @@ async function createArticles(
 ): Promise<IArticleEntity[]> {
   const articles = new Array(articlesCount).fill(undefined);
   return ArticleModel.bulkCreate(
-    articles.map(() => {
-      const comments = getComments(payload.comments);
-      return {
-        title: getTitle(payload.titles),
-        fullText: getFullText(payload.sentences),
-        createdDate: getDate(Date.now()),
-        announce: getAnnounce(payload.sentences),
-        categories: undefined,
-        commentsCount: comments.length,
-        comments,
-      };
-    }),
+    articles.map(() => ({
+      title: getTitle(payload.titles),
+      fullText: getFullText(payload.sentences),
+      createdDate: getDate(Date.now()),
+      announce: getAnnounce(payload.sentences),
+      categories: undefined,
+      comments: getComments(payload.comments),
+    })),
     {include: [TableName.COMMENTS]},
   );
 }

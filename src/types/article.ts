@@ -44,7 +44,6 @@ export interface NewArticle {
   announce: string;
   fullText?: string;
   categories: CategoryId[];
-  commentsCount: number;
 }
 
 export interface Article extends NewArticle {

@@ -31,19 +31,15 @@ function generateMocks(
 ): Article[] {
   return Array(count)
     .fill(undefined)
-    .map(() => {
-      const generatedComments = getComments(comments).map(comment => ({...comment, id: getId()}));
-      return {
-        id: getId(),
-        announce: getAnnounce(sentences),
-        categories: getCategoriesIds(categories),
-        createdDate: getDate(Date.now()),
-        fullText: getFullText(sentences),
-        title: getTitle(titles),
-        comments: generatedComments,
-        commentsCount: generatedComments.length,
-      };
-    });
+    .map(() => ({
+      id: getId(),
+      announce: getAnnounce(sentences),
+      categories: getCategoriesIds(categories),
+      createdDate: getDate(Date.now()),
+      fullText: getFullText(sentences),
+      title: getTitle(titles),
+      comments: getComments(comments).map(comment => ({...comment, id: getId()})),
+    }));
 }
 
 function generateMocksForTests(
@@ -55,19 +51,15 @@ function generateMocksForTests(
 ): Article[] {
   return Array(count)
     .fill(undefined)
-    .map((value, index) => {
-      const generatedComments = getCommentsForTests(comments, !index);
-      return {
-        id: getIdForTests(index),
-        announce: getAnnounce(sentences),
-        categories: getCategoriesIds(categories),
-        createdDate: getDate(Date.now()),
-        fullText: getFullText(sentences),
-        title: getTitle(titles),
-        comments: getCommentsForTests(comments, !index),
-        commentsCount: generatedComments.length,
-      };
-    });
+    .map((value, index) => ({
+      id: getIdForTests(index),
+      announce: getAnnounce(sentences),
+      categories: getCategoriesIds(categories),
+      createdDate: getDate(Date.now()),
+      fullText: getFullText(sentences),
+      title: getTitle(titles),
+      comments: getCommentsForTests(comments, !index),
+    }));
 }
 
 export const cliAction: CliAction = {
