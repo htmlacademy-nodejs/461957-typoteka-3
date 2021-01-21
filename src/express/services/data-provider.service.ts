@@ -60,7 +60,7 @@ export class DataProviderService {
     }
   }
 
-  public async getArticleById(id: string): Promise<Article> {
+  public async getArticleById(id: ArticleId): Promise<Article> {
     let response: AxiosResponse<Article>;
     try {
       response = await this.requestService.get<Article>(this.apiEndPoint + APIRoutes.ARTICLES + `/` + id, {});

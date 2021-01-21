@@ -15,7 +15,7 @@ export const categoriesRouter = (
   });
 
   router.get(`/:id`, async (req: Request, res: Response) => {
-    const categoryId = Number(req.params.id);
+    const categoryId = parseInt(req.params.id, 10);
     const {status = HttpCode.OK, payload} = await articlesController.getArticlesByCategory(categoryId);
     return res.status(status).send(payload);
   });

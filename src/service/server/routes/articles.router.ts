@@ -18,30 +18,30 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
     return res.status(status).send(payload);
   });
   router.get(`/:id`, async (req, res) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id, 10);
     const {status = HttpCode.OK, payload} = await articlesController.getArticleById(id);
     return res.status(status).send(payload);
   });
   router.get(`/:id/comments/`, async (req, res) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id, 10);
     const {status = HttpCode.OK, payload} = await articlesController.getCommentsByArticleId(id);
     return res.status(status).send(payload);
   });
   router.delete(`/:articleId/comments/:commentId`, async (req, res) => {
-    const articleId = req.params.articleId;
-    const commentId = req.params.commentId;
+    const articleId = parseInt(req.params.articleId, 10);
+    const commentId = parseInt(req.params.commentId, 10);
     const {status = HttpCode.OK, payload} = await articlesController.deleteCommentById(articleId, commentId);
     res.status(status).send(payload);
   });
   router.post(`/:id/comments/`, newCommentValidator, async (req, res) => {
-    const articleId = req.params.id;
+    const articleId = parseInt(req.params.id, 10);
     const commentText = (req.body as ArticleComment)?.text;
     const {status = HttpCode.OK, payload} = await articlesController.createComment(articleId, commentText);
     return res.status(status).send(payload);
   });
-  router.get(`/:id/comments/:commentId`, async (req, res) => {
-    const articleId = req.params.id;
-    const commentId = req.params.commentId;
+  router.get(`/:articleId/comments/:commentId`, async (req, res) => {
+    const articleId = parseInt(req.params.articleId, 10);
+    const commentId = parseInt(req.params.commentId, 10);
     const {status = HttpCode.OK, payload} = await articlesController.getArticleCommentById(articleId, commentId);
     return res.status(status).send(payload);
   });
@@ -51,13 +51,13 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
     res.status(status).send(payload);
   });
   router.put(`/:id`, newArticleValidator, async (req, res) => {
-    const articleId = req.params.id;
+    const articleId = parseInt(req.params.id, 10);
     const articleContent = req.body as Article;
     const {status = HttpCode.OK, payload} = await articlesController.updateArticle(articleId, articleContent);
     res.status(status).send(payload);
   });
   router.delete(`/:id`, async (req, res) => {
-    const articleId = req.params.id;
+    const articleId = parseInt(req.params.id, 10);
     const {status = HttpCode.OK, payload} = await articlesController.deleteArticle(articleId);
     res.status(status).send(payload);
   });

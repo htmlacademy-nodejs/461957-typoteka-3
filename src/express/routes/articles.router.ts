@@ -80,7 +80,7 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
 });
 
 articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: NextFunction) => {
-  const categoryId = Number(req.params.id);
+  const categoryId = parseInt(req.params.id, 10);
   try {
     const [{articles, category}, categories] = await Promise.all([
       dataProviderService.getArticlesByCategoryId(categoryId),
@@ -99,7 +99,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
       pageTitle: category.label,
       categories: preparedCategories,
       articles,
-      selectedCategoryId: Number(category.id),
+      selectedCategoryId: category.id,
     });
   } catch (e) {
     return next(
@@ -113,7 +113,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
 });
 
 articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunction) => {
-  const articleId = req.params.id;
+  const articleId = parseInt(req.params.id, 10);
   try {
     const article = await dataProviderService.getArticleById(articleId);
     if (article === null) {
@@ -132,7 +132,7 @@ articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunctio
 });
 
 articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFunction) => {
-  const articleId = req.params.id;
+  const articleId = parseInt(req.params.id, 10);
   try {
     const [article, categories] = await Promise.all([
       dataProviderService.getArticleById(articleId),

@@ -40,8 +40,7 @@ export interface IComments {
 
 export interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategories {}
 
-export interface Article extends NewArticle {
-  id: string;
+export interface Article extends NewArticle, IArticleId {
   comments: ArticleComment[];
 }
 

@@ -3,11 +3,12 @@ import {agent as request} from "supertest";
 import {Application} from "express";
 import * as http from "http";
 import {Article, NewArticle} from "../../../types/article";
-import {ArticleComment} from "../../../types/article-comment";
+import {ArticleComment, CommentId} from "../../../types/article-comment";
+import {ArticleId} from "../../../types/article-id";
 
-let validArticleId: string;
+let validArticleId: ArticleId;
 const invalidArticleId = `invalid-article-id`;
-let validCommentId: string;
+let validCommentId: CommentId;
 const invalidCommentId = `invalid-comment-id`;
 const validNewArticle: NewArticle = {
   announce: `Игры и программирование разные вещи. Не стоит идти в программисты, если вам нравится только игры.  1938 году.`,

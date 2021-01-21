@@ -7,7 +7,7 @@ export interface NewArticleComment {
 }
 
 export interface ArticleComment extends NewArticleComment {
-  id: string;
+  id: CommentId;
 }
 
 export type CommentId = number;
