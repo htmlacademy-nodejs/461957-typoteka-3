@@ -6,13 +6,30 @@ import {dataProviderService} from "../services";
 import {articlesControllerFactory, categoriesControllerFactory, searchControllerFactory} from "../controllers";
 import {Router} from "express";
 import {categoriesStatisticsRouter} from "./categories-statistics.router";
-import {DatabaseModels} from "../data-access/models/define-models";
+import {ICategoryModel} from "../data-access/models/category";
+import {IArticleModel} from "../data-access/models/article";
+import {ICommentModel} from "../data-access/models/comment";
+import {IIntermediateModel} from "../data-access/models/intermediate";
 
-export const apiRouter = ({CategoryModel, ArticleCategoryModel, ArticleModel}: DatabaseModels): Router => {
+export const apiRouter = ({
+  CategoryModel,
+  ArticleCategoryModel,
+  ArticleModel,
+}: {
+  CategoryModel: ICategoryModel;
+  ArticleModel: IArticleModel;
+  CommentModel: ICommentModel;
+  ArticleCategoryModel: IIntermediateModel;
+}): Router => {
   const router = Router();
-  const articlesController = articlesControllerFactory(ArticleModel, ArticleCategoryModel, dataProviderService);
-  const categoriesController = categoriesControllerFactory(CategoryModel, ArticleCategoryModel);
-  const searchController = searchControllerFactory(ArticleModel);
+  const articlesController = articlesControllerFactory({
+    ArticleModel,
+    CategoryModel,
+    ArticleCategoryModel,
+    dataProviderService,
+  });
+  const categoriesController = categoriesControllerFactory({CategoryModel, ArticleCategoryModel});
+  const searchController = searchControllerFactory({ArticleModel});
 
   router.use(APIRoutes.ARTICLES, articleRouter(articlesController));
   router.use(APIRoutes.CATEGORIES, categoriesRouter(articlesController, categoriesController));

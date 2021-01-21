@@ -7,17 +7,30 @@ import {ICategoryModel} from "../data-access/models/category";
 import {IIntermediateModel} from "../data-access/models/intermediate";
 import {IArticleModel} from "../data-access/models/article";
 
-export const articlesControllerFactory = (
-  ArticleModel: IArticleModel,
-  ArticleCategoryModel: IIntermediateModel,
-  dataProviderService: DataProviderService,
-): ArticlesController =>
-  new ArticlesController(articlesServiceFactory(ArticleModel, ArticleCategoryModel), dataProviderService);
+export const articlesControllerFactory = ({
+  ArticleModel,
+  ArticleCategoryModel,
+  CategoryModel,
+  dataProviderService,
+}: {
+  ArticleModel: IArticleModel;
+  ArticleCategoryModel: IIntermediateModel;
+  CategoryModel: ICategoryModel;
+  dataProviderService: DataProviderService;
+}): ArticlesController =>
+  new ArticlesController(
+    articlesServiceFactory(ArticleModel, ArticleCategoryModel),
+    categoriesServiceFactory(CategoryModel, ArticleCategoryModel),
+    dataProviderService,
+  );
 
-export const categoriesControllerFactory = (
-  CategoryModel: ICategoryModel,
-  ArticleCategoryModel: IIntermediateModel,
-): CategoriesController => new CategoriesController(categoriesServiceFactory(CategoryModel, ArticleCategoryModel));
+export const categoriesControllerFactory = ({
+  CategoryModel,
+  ArticleCategoryModel,
+}: {
+  CategoryModel: ICategoryModel;
+  ArticleCategoryModel: IIntermediateModel;
+}): CategoriesController => new CategoriesController(categoriesServiceFactory(CategoryModel, ArticleCategoryModel));
 
-export const searchControllerFactory = (ArticleModel: IArticleModel): SearchController =>
+export const searchControllerFactory = ({ArticleModel}: {ArticleModel: IArticleModel}): SearchController =>
   new SearchController(searchServiceFactory(ArticleModel));
