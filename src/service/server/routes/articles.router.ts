@@ -40,9 +40,8 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
     return res.status(status).send(payload);
   });
   router.get(`/:articleId/comments/:commentId`, async (req, res) => {
-    const articleId = parseInt(req.params.articleId, 10);
     const commentId = parseInt(req.params.commentId, 10);
-    const {status = HttpCode.OK, payload} = await articlesController.getArticleCommentById(articleId, commentId);
+    const {status = HttpCode.OK, payload} = await articlesController.getCommentById(commentId);
     return res.status(status).send(payload);
   });
   router.post(`/`, newArticleValidator, async (req, res) => {
