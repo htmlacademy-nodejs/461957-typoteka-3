@@ -1,10 +1,10 @@
 import React, {FunctionComponent} from "react";
-import type {Article} from "../../../types/article";
+import type {IArticleId, ICreatedDate, ITitle} from "../../../types/article";
 import {Note} from "../components/Note/Note";
 import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
 
 interface AdminPublicationsPageProps {
-  articles: Article[];
+  articles: (ITitle & ICreatedDate & IArticleId)[];
 }
 
 export const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps> = (
