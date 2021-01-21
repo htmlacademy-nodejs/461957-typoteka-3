@@ -3,8 +3,6 @@ import {IIntermediateModel} from "../../data-access/models/intermediate";
 import {IAnnounce, IArticleId, ICommentsCount, ICreatedDate, IFullText, ITitle} from "../../../../types/article";
 import {TableName} from "../../data-access/constants/table-name";
 import Sequelize, {FindAttributeOptions, Model} from "sequelize";
-import {Includeable} from "sequelize/types/lib/model";
-import {CommentProperty} from "../../data-access/constants/property-name";
 
 type PlainArticle = IAnnounce & IFullText & ITitle & IArticleId & ICreatedDate & ICommentsCount;
 
@@ -15,19 +13,6 @@ export class ArticlesService {
   ) {}
 
   public async findAll(): Promise<PlainArticle[]> {
-    const include: Record<string, Includeable> = {
-      categories: {
-        association: TableName.CATEGORIES,
-        attributes: [],
-        through: {
-          attributes: [],
-        },
-      },
-      commentsForCount: {
-        association: TableName.COMMENTS,
-        attributes: [],
-      },
-    };
     const attributes: FindAttributeOptions = [
       `announce`,
       [`full_text`, `fullText`],
@@ -38,7 +23,12 @@ export class ArticlesService {
     ];
     const articles = await this.ArticleModel.findAll<Model<PlainArticle>>({
       attributes,
-      include: [include.commentsForCount],
+      include: [
+        {
+          association: TableName.COMMENTS,
+          attributes: [],
+        },
+      ],
       group: [`Article.id`],
     });
     return articles.map(item => item.get({plain: true}));
