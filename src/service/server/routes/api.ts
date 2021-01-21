@@ -15,6 +15,7 @@ export const apiRouter = ({
   CategoryModel,
   ArticleCategoryModel,
   ArticleModel,
+  CommentModel,
 }: {
   CategoryModel: ICategoryModel;
   ArticleModel: IArticleModel;
@@ -26,6 +27,7 @@ export const apiRouter = ({
     ArticleModel,
     CategoryModel,
     ArticleCategoryModel,
+    CommentModel,
     dataProviderService,
   });
   const categoriesController = categoriesControllerFactory({CategoryModel, ArticleCategoryModel});

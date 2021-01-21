@@ -27,15 +27,6 @@ export class ArticlesService {
         association: TableName.COMMENTS,
         attributes: [],
       },
-      comments: {
-        association: TableName.COMMENTS,
-        attributes: [
-          CommentProperty.ID,
-          [CommentProperty.ARTICLEID, `articleId`],
-          CommentProperty.TEXT,
-          [CommentProperty.CREATEDDATE, `createdDate`],
-        ],
-      },
     };
     const attributes: FindAttributeOptions = [
       `announce`,
@@ -44,7 +35,6 @@ export class ArticlesService {
       `id`,
       [`created_date`, `createdDate`],
       [Sequelize.fn(`COUNT`, `comments.id`), `commentsCount`],
-      // [Sequelize.literal(`ARRAY_AGG(categories.id)`), `categoriesIds`],
     ];
     const articles = await this.ArticleModel.findAll<Model<PlainArticle>>({
       attributes,
