@@ -27,14 +27,6 @@ export class DataProviderService {
     return articles.find(article => article.id === id) ?? null;
   }
 
-  public async getCommentsByArticleId(id: ArticleId): Promise<ArticleComment[] | null> {
-    const article = await this.getArticleById(id);
-    if (article === null) {
-      return null;
-    }
-    return article.comments;
-  }
-
   public async deleteCommentById(articleId: ArticleId, commentId: CommentId): Promise<ArticleComment | null> {
     const article = await this.getArticleById(articleId);
     if (article === null) {
@@ -46,14 +38,6 @@ export class DataProviderService {
     }
     article.comments = article.comments.filter(comment => comment.id !== commentId);
     return commentToDelete;
-  }
-
-  public async getArticleCommentById(articleId: ArticleId, commentId: CommentId): Promise<ArticleComment | null> {
-    const comments = await this.getCommentsByArticleId(articleId);
-    if (comments === null) {
-      return null;
-    }
-    return comments.find(comment => comment.id === commentId) ?? null;
   }
 
   public async createNewArticle(article: Article): Promise<Article | null> {
