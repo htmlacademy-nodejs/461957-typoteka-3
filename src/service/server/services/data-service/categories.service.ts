@@ -5,6 +5,7 @@ import {CategoryWithNumbers} from "../../../../types/category-with-numbers";
 import {TableName} from "../../data-access/constants/table-name";
 import {IIntermediateModel} from "../../data-access/models/intermediate";
 import {ArticleId} from "../../../../types/article-id";
+import {CategoryId} from "../../../../types/category-id";
 
 export class CategoriesService {
   constructor(
@@ -49,5 +50,15 @@ export class CategoriesService {
       ],
     });
     return result.map(it => it.get({plain: true}));
+  }
+
+  public async findOneById(id: CategoryId): Promise<Category> {
+    const category = await this.CategoryModel.findOne({
+      attributes: [`id`, `label`],
+      where: {
+        id,
+      },
+    });
+    return category.get();
   }
 }
