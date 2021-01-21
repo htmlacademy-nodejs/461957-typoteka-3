@@ -88,7 +88,12 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
     ]);
     const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
     if (articles === null) {
-      return next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+      return next(
+        new SSRError({
+          message: `Failed to get articles by category id or failed to get categories`,
+          statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+        }),
+      );
     }
     return streamPage(res, ArticlesByCategoryPage, {
       pageTitle: category.label,
@@ -99,8 +104,8 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
   } catch (e) {
     return next(
       new SSRError({
-        message: `Failed to get article`,
-        statusCode: HttpCode.NOT_FOUND,
+        message: `Failed to get articles by category id or by get categories`,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
         errorPayload: e as Error,
       }),
     );
