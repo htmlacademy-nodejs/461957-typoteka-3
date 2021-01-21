@@ -4,7 +4,6 @@ import {MockFilePath} from "../../../constants-es6";
 import {ArticleComment} from "../../../types/article-comment";
 import {Category} from "../../../types/category";
 import {CategoryWithNumbers} from "../../../types/category-with-numbers";
-import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
 
 export class DataProviderService {
@@ -52,37 +51,12 @@ export class DataProviderService {
     return this.articlesCash?.slice(0, count);
   }
 
-  public async searchByArticlesTitle(query: string): Promise<Article[] | null> {
-    const articles = await this.getArticles();
-    if (articles === null) {
-      return null;
-    }
-    return articles.filter(article => article.title.includes(query));
-  }
-
   public async getArticleById(id: string): Promise<Article | null> {
     const articles = await this.getArticles();
     if (articles === null) {
       return null;
     }
     return articles.find(article => article.id === id) ?? null;
-  }
-
-  public async getArticlesByCategory(categoryId: CategoryId): Promise<ArticlesByCategory> {
-    const [articles, category] = await Promise.all([this.getArticles(), this.getCategoryById(categoryId)]);
-    if (articles === null) {
-      return {
-        articles: [],
-        itemsCount: 0,
-        category: {id: category.id, label: category.label},
-      };
-    }
-    const validArticles = articles.filter(article => article.categories.includes(categoryId));
-    return {
-      category: {id: category.id, label: category.label},
-      itemsCount: validArticles.length,
-      articles: validArticles,
-    };
   }
 
   public async getCommentsByArticleId(id: string): Promise<ArticleComment[] | null> {
