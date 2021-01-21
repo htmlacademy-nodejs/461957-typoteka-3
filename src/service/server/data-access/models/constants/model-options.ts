@@ -1,5 +1,5 @@
 export const modelOptions = {
-  timestamps: true,
-  paranoid: true,
+  timestamps: false,
+  paranoid: false,
   underscored: true,
 };
