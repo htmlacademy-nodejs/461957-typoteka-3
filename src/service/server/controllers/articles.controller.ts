@@ -58,11 +58,26 @@ export class ArticlesController {
   }
 
   public async getArticlesByCategory(categoryId: CategoryId): Promise<ControllerResponse<ArticlesByCategory>> {
-    const articles = await this.dataProvider.getArticlesByCategory(categoryId);
-    if (articles === null) {
+    const [plainArticles, category] = await Promise.all([
+      this.articlesService.findByCategoryId(categoryId),
+      this.categoriesService.findOneById(categoryId),
+    ]);
+    if (plainArticles === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    return {payload: articles};
+    const plainArticlesWithCategories = await Promise.all(
+      plainArticles.map(async article => ({
+        ...article,
+        categories: await this.categoriesService.findByArticleId(article.id),
+      })),
+    );
+    return {
+      payload: {
+        articles: plainArticlesWithCategories,
+        category,
+        itemsCount: plainArticlesWithCategories.length,
+      },
+    };
   }
 
   public async getCommentsByArticleId(id: string): Promise<ControllerResponse<ArticleComment[]>> {

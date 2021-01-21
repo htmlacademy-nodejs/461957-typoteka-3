@@ -1,8 +1,8 @@
 import {Category} from "./category";
-import {Article} from "./article";
 import {Collection} from "./collection";
+import {IArticlePreview} from "./interfaces/article-preview";
 
 export interface ArticlesByCategory extends Collection {
-  category: Category,
-  articles: Article[],
+  category: Category;
+  articles: IArticlePreview[];
 }
