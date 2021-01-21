@@ -10,7 +10,7 @@ import {Category} from "../../types/category";
 import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
 import {
   getAnnounce,
-  getCategoriesIds,
+  getCategories,
   getComments,
   getDate,
   getFullText,
@@ -34,7 +34,7 @@ function generateMocks(
     .map(() => ({
       id: getId(),
       announce: getAnnounce(sentences),
-      categories: getCategoriesIds(categories),
+      categories: getCategories(categories),
       createdDate: getDate(Date.now()),
       fullText: getFullText(sentences),
       title: getTitle(titles),
@@ -54,7 +54,7 @@ function generateMocksForTests(
     .map((value, index) => ({
       id: getIdForTests(index),
       announce: getAnnounce(sentences),
-      categories: getCategoriesIds(categories),
+      categories: getCategories(categories),
       createdDate: getDate(Date.now()),
       fullText: getFullText(sentences),
       title: getTitle(titles),

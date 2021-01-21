@@ -1,5 +1,4 @@
 import type {ArticleComment, CommentId} from "./article-comment";
-import {CategoryId} from "./category-id";
 import {ArticleId} from "./article-id";
 import {Category} from "./category";
 
@@ -39,13 +38,7 @@ export interface IComments {
   comments: ArticleComment[];
 }
 
-export interface NewArticle {
-  title: string;
-  createdDate: Date;
-  announce: string;
-  fullText?: string;
-  categories: CategoryId[];
-}
+export interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategories {}
 
 export interface Article extends NewArticle {
   id: string;

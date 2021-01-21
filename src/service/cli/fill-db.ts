@@ -11,7 +11,7 @@ import {IArticleEntity, IArticleModel} from "../server/data-access/models/articl
 import {DatabaseModels} from "../server/data-access/models/define-models";
 import {
   getAnnounce,
-  getCategories,
+  getCategoriesLabels,
   getComments,
   getDate,
   getFullText,
@@ -82,7 +82,9 @@ async function assignCategoriesToArticles(
 ): Promise<void> {
   const categoryIdByName = getCategoriesIds(categoriesEntities);
   for (const article of articlesEntities) {
-    await article.addCategories(getCategories(payload.categories).map(categoryName => categoryIdByName[categoryName]));
+    await article.addCategories(
+      getCategoriesLabels(payload.categories).map(categoryName => categoryIdByName[categoryName]),
+    );
   }
 }
 

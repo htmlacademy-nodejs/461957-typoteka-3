@@ -1,5 +1,4 @@
 import {getRandomInt, shuffle} from "../../../utils";
-import {CategoryId} from "../../../types/category-id";
 import {NewArticleComment} from "../../../types/article-comment";
 import {
   AnnounceRestrict,
@@ -10,6 +9,7 @@ import {
   TitleRestrict,
 } from "./constants/mocks-restrictions";
 import {DAYS_IN_MONTH, MS_IN_DAY} from "../../../constants-es6";
+import {Category} from "../../../types/category";
 
 const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
 
@@ -20,14 +20,14 @@ export function getAnnounce(sentences: string[]): string {
     .slice(0, AnnounceRestrict.maxLength);
 }
 
-export function getCategoriesIds(categories: string[]): CategoryId[] {
-  return shuffle(categories.map((category, index) => index + 1)).slice(
+export function getCategories(categories: string[]): Category[] {
+  return shuffle(categories.map((category, index) => ({id: index + 1, label: category}))).slice(
     CategoriesRestrict.min,
     getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max),
   );
 }
 
-export function getCategories(categories: string[]): string[] {
+export function getCategoriesLabels(categories: string[]): string[] {
   return shuffle(categories).slice(
     CategoriesRestrict.min,
     getRandomInt(CategoriesRestrict.min + 1, CategoriesRestrict.max),
