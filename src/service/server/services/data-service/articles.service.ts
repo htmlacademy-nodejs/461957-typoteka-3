@@ -4,6 +4,7 @@ import {IAnnounce, IArticleId, ICommentsCount, ICreatedDate, IFullText, ITitle} 
 import {TableName} from "../../data-access/constants/table-name";
 import Sequelize, {FindAttributeOptions, Model} from "sequelize";
 import {CategoryId} from "../../../../types/category-id";
+import {ArticleId} from "../../../../types/article-id";
 
 type PlainArticle = IAnnounce & IFullText & ITitle & IArticleId & ICreatedDate & ICommentsCount;
 
@@ -38,7 +39,31 @@ export class ArticlesService {
   }
 
   // public async findPage({limit, offset}: {limit: number; offset: number}): Promise<Article[]> {}
-  // public async findOne(areCommentsRequired: boolean): Promise<Article> {}
+  public async findOneById(articleId: ArticleId): Promise<PlainArticle> {
+    const attributes: FindAttributeOptions = [
+      `announce`,
+      [`full_text`, `fullText`],
+      `title`,
+      `id`,
+      [`created_date`, `createdDate`],
+      [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
+    ];
+    const article = await this.ArticleModel.findOne<Model<PlainArticle>>({
+      attributes,
+      include: [
+        {
+          association: TableName.COMMENTS,
+          attributes: [],
+        },
+      ],
+      group: [`Article.id`],
+      where: {
+        id: articleId,
+      },
+    });
+    const plainArticle = article.get({plain: true});
+    return {...plainArticle, commentsCount: parseInt(`${plainArticle.commentsCount}`, 10)};
+  }
 
   public async findByCategoryId(categoryId: CategoryId): Promise<PlainArticle[]> {
     const attributes: FindAttributeOptions = [
