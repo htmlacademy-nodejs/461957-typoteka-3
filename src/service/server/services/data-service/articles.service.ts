@@ -31,7 +31,9 @@ export class ArticlesService {
       ],
       group: [`Article.id`],
     });
-    return articles.map(item => item.get({plain: true}));
+    return articles
+      .map(item => item.get({plain: true}))
+      .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)}));
   }
 
   // public async findPage({limit, offset}: {limit: number; offset: number}): Promise<Article[]> {}
