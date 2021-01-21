@@ -19,7 +19,7 @@ export class ArticlesService {
       `title`,
       `id`,
       [`created_date`, `createdDate`],
-      [Sequelize.fn(`COUNT`, `comments.id`), `commentsCount`],
+      [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
     ];
     const articles = await this.ArticleModel.findAll<Model<PlainArticle>>({
       attributes,
