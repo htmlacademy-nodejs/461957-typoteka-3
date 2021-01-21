@@ -1,15 +1,16 @@
 import {DataProviderService} from "../services/data-provider.service";
 import {HttpCode} from "../../../constants-es6";
-import {ArticleComment} from "../../../types/article-comment";
+import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {Article, ICategories, IComments, NewArticle} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
-import {nanoid} from "nanoid";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
 import {ArticlesService} from "../services/data-service/articles.service";
 import {CategoriesService} from "../services/data-service/categories.service";
 import {CommentsService} from "../services/data-service/comments.service";
 import {IArticlePlain} from "../../../types/interfaces/article-plain";
+import {ArticleId} from "../../../types/article-id";
+import {getNumericalId} from "../../../shared/get-id";
 
 export class ArticlesController {
   constructor(
@@ -80,7 +81,7 @@ export class ArticlesController {
     };
   }
 
-  public async getCommentsByArticleId(id: string): Promise<ControllerResponse<ArticleComment[]>> {
+  public async getCommentsByArticleId(id: ArticleId): Promise<ControllerResponse<ArticleComment[]>> {
     const articleComments = await this.dataProvider.getCommentsByArticleId(id);
     if (articleComments === null) {
       return {status: HttpCode.NOT_FOUND};
@@ -88,7 +89,10 @@ export class ArticlesController {
     return {payload: articleComments};
   }
 
-  public async deleteCommentById(articleId: string, commentId: string): Promise<ControllerResponse<ArticleComment>> {
+  public async deleteCommentById(
+    articleId: ArticleId,
+    commentId: CommentId,
+  ): Promise<ControllerResponse<ArticleComment>> {
     const articleComments = await this.dataProvider.deleteCommentById(articleId, commentId);
     if (articleComments === null) {
       return {status: HttpCode.NOT_FOUND};
@@ -97,8 +101,8 @@ export class ArticlesController {
   }
 
   public async getArticleCommentById(
-    articleId: string,
-    commentId: string,
+    articleId: ArticleId,
+    commentId: CommentId,
   ): Promise<ControllerResponse<ArticleComment>> {
     const comment = await this.dataProvider.getArticleCommentById(articleId, commentId);
     if (comment === null) {
@@ -108,7 +112,7 @@ export class ArticlesController {
   }
 
   public async createNewArticle(newArticle: NewArticle): Promise<ControllerResponse<Article>> {
-    const article: Article = {...newArticle, id: nanoid(), comments: []};
+    const article: Article = {...newArticle, id: getNumericalId(), comments: []};
     const savedArticle = await this.dataProvider.createNewArticle(article);
     if (savedArticle === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
@@ -116,7 +120,7 @@ export class ArticlesController {
     return {status: HttpCode.CREATED, payload: savedArticle};
   }
 
-  public async updateArticle(id: string, article: Article): Promise<ControllerResponse<Article>> {
+  public async updateArticle(id: ArticleId, article: Article): Promise<ControllerResponse<Article>> {
     const updatedArticle = await this.dataProvider.updateArticle(id, article);
     if (updatedArticle === null) {
       return {status: HttpCode.NOT_FOUND};
@@ -124,7 +128,7 @@ export class ArticlesController {
     return {payload: updatedArticle};
   }
 
-  public async deleteArticle(id: string): Promise<ControllerResponse<Article>> {
+  public async deleteArticle(id: ArticleId): Promise<ControllerResponse<Article>> {
     const deletedArticle = await this.dataProvider.deleteArticle(id);
     if (deletedArticle === null) {
       return {status: HttpCode.NOT_FOUND};
@@ -132,8 +136,13 @@ export class ArticlesController {
     return {status: HttpCode.OK};
   }
 
-  public async createComment(articleId: string, commentText: string): Promise<ControllerResponse<ArticleComment>> {
-    const newComment: ArticleComment = {id: nanoid(), text: commentText};
+  public async createComment(articleId: ArticleId, commentText: string): Promise<ControllerResponse<ArticleComment>> {
+    const newComment: ArticleComment = {
+      id: getNumericalId(),
+      text: commentText,
+      articleId,
+      createdDate: new Date(),
+    };
     const savedComment = await this.dataProvider.createComment(articleId, newComment);
     if (savedComment === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
