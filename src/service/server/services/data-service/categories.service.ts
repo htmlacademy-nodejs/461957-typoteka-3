@@ -4,6 +4,7 @@ import {Category} from "../../../../types/category";
 import {CategoryWithNumbers} from "../../../../types/category-with-numbers";
 import {TableName} from "../../data-access/constants/table-name";
 import {IIntermediateModel} from "../../data-access/models/intermediate";
+import {ArticleId} from "../../../../types/article-id";
 
 export class CategoriesService {
   constructor(
@@ -32,5 +33,21 @@ export class CategoriesService {
       ],
     });
     return result.map<CategoryWithNumbers>(it => it.get());
+  }
+
+  public async findByArticleId(articleId: ArticleId): Promise<Category[]> {
+    const result = await this.CategoryModel.findAll({
+      attributes: [`id`, `label`],
+      include: [
+        {
+          association: TableName.ARTICLES_CATEGORIES,
+          attributes: [],
+          where: {
+            ArticleId: articleId,
+          },
+        },
+      ],
+    });
+    return result.map(it => it.get({plain: true}));
   }
 }
