@@ -87,7 +87,7 @@ export class ArticlesController {
   }
 
   public async getCommentsByArticleId(id: ArticleId): Promise<ControllerResponse<ArticleComment[]>> {
-    const articleComments = await this.dataProvider.getCommentsByArticleId(id);
+    const articleComments = await this.commentsService.findByArticleId(id);
     if (articleComments === null) {
       return {status: HttpCode.NOT_FOUND};
     }
