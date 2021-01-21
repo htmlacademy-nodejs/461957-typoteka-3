@@ -50,12 +50,17 @@ export class ArticlesController {
     }
   }
 
-  public async getArticleById(id: string): Promise<ControllerResponse<Article>> {
-    const article = await this.dataProvider.getArticleById(id);
-    if (article === null) {
+  public async getArticleById(id: ArticleId): Promise<ControllerResponse<Article>> {
+    const [plainArticle, categories, comments] = await Promise.all([
+      this.articlesService.findOneById(id),
+      this.categoriesService.findByArticleId(id),
+      this.commentsService.findByArticleId(id),
+    ]);
+    if (plainArticle === null) {
       return {status: HttpCode.NOT_FOUND};
     }
-    return {payload: article};
+
+    return {payload: {...plainArticle, categories, comments}};
   }
 
   public async getArticlesByCategory(categoryId: CategoryId): Promise<ControllerResponse<ArticlesByCategory>> {

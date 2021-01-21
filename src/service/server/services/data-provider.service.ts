@@ -2,43 +2,10 @@ import {Article} from "../../../types/article";
 import {promises} from "fs";
 import {MockFilePath} from "../../../constants-es6";
 import {ArticleComment, CommentId} from "../../../types/article-comment";
-import {Category} from "../../../types/category";
-import {CategoryWithNumbers} from "../../../types/category-with-numbers";
-import {CategoryId} from "../../../types/category-id";
 import {ArticleId} from "../../../types/article-id";
 
 export class DataProviderService {
   public articlesCash: Article[];
-  public categoriesCash: CategoryWithNumbers[];
-
-  public async getCategories(): Promise<CategoryWithNumbers[] | null> {
-    if (!this.categoriesCash) {
-      try {
-        const articles = await this.getArticles();
-        const categoriesIds: Map<number, number> = new Map<number, number>();
-        const categories = JSON.parse(await promises.readFile(MockFilePath.CATEGORIES, `utf-8`)) as Category[];
-        articles.forEach(article => {
-          article.categories.forEach(({id}) => {
-            if (categoriesIds.has(id)) {
-              const number = categoriesIds.get(id);
-              categoriesIds.set(id, number + 1);
-            } else {
-              categoriesIds.set(id, 1);
-            }
-          });
-        });
-        this.categoriesCash = Array.from(categoriesIds).map(([id, count]) => ({
-          id,
-          label: categories.find(item => item.id === id).label,
-          count,
-        }));
-      } catch (e) {
-        console.error(`Failed to get categories`);
-        this.categoriesCash = null;
-      }
-    }
-    return this.categoriesCash;
-  }
 
   public async getArticles(count?: number): Promise<Article[] | null> {
     if (!this.articlesCash) {
@@ -121,9 +88,5 @@ export class DataProviderService {
     }
     existingArticle.comments.push(newComment);
     return newComment;
-  }
-
-  private async getCategoryById(categoryId: CategoryId): Promise<CategoryWithNumbers> {
-    return (await this.getCategories()).find(category => category.id === categoryId);
   }
 }
