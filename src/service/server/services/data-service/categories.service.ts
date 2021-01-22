@@ -1,4 +1,4 @@
-import {Model, Sequelize} from "sequelize";
+import {Model, Op, Sequelize} from "sequelize";
 import {ICategoryModel} from "../../data-access/models/category";
 import {Category} from "../../../../types/category";
 import {CategoryWithNumbers} from "../../../../types/category-with-numbers";
@@ -23,13 +23,17 @@ export class CategoriesService {
 
   public async findAllWithNumbers(): Promise<CategoryWithNumbers[]> {
     const result = await this.CategoryModel.findAll<Model<CategoryWithNumbers>>({
-      attributes: [`id`, `label`, [Sequelize.fn(`COUNT`, `*`), `count`]],
+      attributes: [`id`, `label`, [Sequelize.fn(`COUNT`, Sequelize.col(`article_id`)), `count`]],
       group: [Sequelize.col(`Category.id`)],
       include: [
         {
-          model: this.ArticleCategoryModel,
-          as: TableName.ARTICLES_CATEGORIES,
+          association: TableName.ARTICLES_CATEGORIES,
           attributes: [],
+          where: {
+            [`article_id`]: {
+              [Op.gt]: 0,
+            },
+          },
         },
       ],
     });
