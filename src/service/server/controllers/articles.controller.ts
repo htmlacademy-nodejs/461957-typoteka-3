@@ -105,8 +105,11 @@ export class ArticlesController {
     return {status: HttpCode.OK};
   }
 
-  public async getCommentById(commentId: CommentId): Promise<ControllerResponse<ArticleComment>> {
-    const comment = await this.commentsService.findById(commentId);
+  public async getByArticleIdAndCommentId(
+    articleId: ArticleId,
+    commentId: CommentId,
+  ): Promise<ControllerResponse<ArticleComment>> {
+    const comment = await this.commentsService.findByArticleIdAndCommentId(articleId, commentId);
     if (comment === null) {
       return {status: HttpCode.NOT_FOUND};
     }
