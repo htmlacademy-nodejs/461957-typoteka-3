@@ -2,7 +2,6 @@ import {searchRouter} from "./search.router";
 import {APIRoutes} from "../../../constants-es6";
 import {articleRouter} from "./articles.router";
 import {categoriesRouter} from "./categories.router";
-import {dataProviderService} from "../services";
 import {articlesControllerFactory, categoriesControllerFactory, searchControllerFactory} from "../controllers";
 import {Router} from "express";
 import {categoriesStatisticsRouter} from "./categories-statistics.router";
@@ -28,7 +27,6 @@ export const apiRouter = ({
     CategoryModel,
     ArticleCategoryModel,
     CommentModel,
-    dataProviderService,
   });
   const categoriesController = categoriesControllerFactory({CategoryModel, ArticleCategoryModel});
   const searchController = searchControllerFactory({ArticleModel});

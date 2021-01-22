@@ -1,4 +1,3 @@
-import {DataProviderService} from "../services/data-provider.service";
 import {HttpCode} from "../../../constants-es6";
 import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {Article, ICategories, IComments, NewArticle} from "../../../types/article";
@@ -16,7 +15,6 @@ export class ArticlesController {
     private readonly articlesService: ArticlesService,
     private readonly categoriesService: CategoriesService,
     private readonly commentsService: CommentsService,
-    private dataProvider: DataProviderService,
   ) {}
 
   public async getArticles(areCommentsRequired: false): Promise<ControllerResponse<(IArticlePlain & ICategories)[]>>;

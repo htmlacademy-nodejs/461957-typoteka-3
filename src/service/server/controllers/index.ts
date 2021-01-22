@@ -1,7 +1,6 @@
 import {ArticlesController} from "./articles.controller";
 import {CategoriesController} from "./categories.controller";
 import {SearchController} from "./search.controller";
-import {DataProviderService} from "../services/data-provider.service";
 import {
   articlesServiceFactory,
   categoriesServiceFactory,
@@ -18,19 +17,16 @@ export const articlesControllerFactory = ({
   ArticleCategoryModel,
   CategoryModel,
   CommentModel,
-  dataProviderService,
 }: {
   ArticleModel: IArticleModel;
   ArticleCategoryModel: IIntermediateModel;
   CategoryModel: ICategoryModel;
   CommentModel: ICommentModel;
-  dataProviderService: DataProviderService;
 }): ArticlesController =>
   new ArticlesController(
     articlesServiceFactory(ArticleModel, ArticleCategoryModel),
     categoriesServiceFactory(CategoryModel, ArticleCategoryModel),
     commentsServiceFactory(CommentModel),
-    dataProviderService,
   );
 
 export const categoriesControllerFactory = ({
