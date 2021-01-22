@@ -6,7 +6,7 @@ import {ArticleId} from "../../../types/article-id";
 export class DataProviderService {
   public articlesCash: Article[];
 
-  public async getArticles(count?: number): Promise<Article[] | null> {
+  private async getArticles(count?: number): Promise<Article[] | null> {
     if (!this.articlesCash) {
       try {
         this.articlesCash = JSON.parse(await promises.readFile(MockFilePath.ARTICLES, `utf-8`)) as Article[];
@@ -18,7 +18,7 @@ export class DataProviderService {
     return this.articlesCash?.slice(0, count);
   }
 
-  public async getArticleById(id: ArticleId): Promise<Article | null> {
+  private async getArticleById(id: ArticleId): Promise<Article | null> {
     const articles = await this.getArticles();
     if (articles === null) {
       return null;
@@ -32,14 +32,5 @@ export class DataProviderService {
       return null;
     }
     return Object.assign(existingArticle, article);
-  }
-
-  public async deleteArticle(id: ArticleId): Promise<Article | null> {
-    const existingArticle = await this.getArticleById(id);
-    if (existingArticle === null) {
-      return null;
-    }
-    this.articlesCash = this.articlesCash.filter(article => article.id !== id);
-    return existingArticle;
   }
 }

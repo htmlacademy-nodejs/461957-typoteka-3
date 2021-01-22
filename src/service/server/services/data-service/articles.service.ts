@@ -119,7 +119,15 @@ export class ArticlesService {
     return createdDate ? true : null;
   }
 
-  // public async drop(id: ArticleId): Promise<void> {}
+  public async drop(id: ArticleId): Promise<boolean> {
+    const deletedArticle = await this.ArticleModel.destroy({
+      where: {
+        id,
+      },
+      cascade: true,
+    });
+    return !!deletedArticle;
+  }
 
   // public async update(): Promise<void> {}
 }

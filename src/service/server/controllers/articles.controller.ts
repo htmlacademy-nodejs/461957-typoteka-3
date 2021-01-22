@@ -132,8 +132,8 @@ export class ArticlesController {
   }
 
   public async deleteArticle(id: ArticleId): Promise<ControllerResponse<Article>> {
-    const deletedArticle = await this.dataProvider.deleteArticle(id);
-    if (deletedArticle === null) {
+    const isSuccess = await this.articlesService.drop(id);
+    if (!isSuccess) {
       return {status: HttpCode.NOT_FOUND};
     }
     return {status: HttpCode.OK};
