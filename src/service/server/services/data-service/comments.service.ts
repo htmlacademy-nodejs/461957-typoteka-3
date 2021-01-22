@@ -16,6 +16,17 @@ export class CommentsService {
     return comment.get();
   }
 
+  public async findByArticleIdAndCommentId(articleId: ArticleId, commentId: CommentId): Promise<ArticleComment> {
+    const comment = await this.CommentsModel.findOne({
+      attributes: [CommentProperty.ID, CommentProperty.TEXT],
+      where: {
+        id: commentId,
+        articleId,
+      },
+    });
+    return comment.get();
+  }
+
   public async findByArticleId(articleId: ArticleId): Promise<ArticleComment[]> {
     const comments = await this.CommentsModel.findAll({
       attributes: [CommentProperty.ID, CommentProperty.TEXT],
