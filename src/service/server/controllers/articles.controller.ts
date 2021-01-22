@@ -98,8 +98,8 @@ export class ArticlesController {
     articleId: ArticleId,
     commentId: CommentId,
   ): Promise<ControllerResponse<ArticleComment>> {
-    const articleComments = await this.dataProvider.deleteCommentById(articleId, commentId);
-    if (articleComments === null) {
+    const articleComments = await this.commentsService.drop(articleId, commentId);
+    if (!articleComments) {
       return {status: HttpCode.NOT_FOUND};
     }
     return {status: HttpCode.OK};

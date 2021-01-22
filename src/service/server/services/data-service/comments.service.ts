@@ -45,4 +45,14 @@ export class CommentsService {
     });
     return comment.get();
   }
+
+  public async drop(articleId: ArticleId, commentId: CommentId): Promise<boolean> {
+    const deletedComment = await this.CommentsModel.destroy({
+      where: {
+        articleId,
+        id: commentId,
+      },
+    });
+    return !!deletedComment;
+  }
 }

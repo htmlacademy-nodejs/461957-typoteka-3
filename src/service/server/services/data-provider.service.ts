@@ -1,7 +1,6 @@
 import {Article} from "../../../types/article";
 import {promises} from "fs";
 import {MockFilePath} from "../../../constants-es6";
-import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {ArticleId} from "../../../types/article-id";
 
 export class DataProviderService {
@@ -25,19 +24,6 @@ export class DataProviderService {
       return null;
     }
     return articles.find(article => article.id === id) ?? null;
-  }
-
-  public async deleteCommentById(articleId: ArticleId, commentId: CommentId): Promise<ArticleComment | null> {
-    const article = await this.getArticleById(articleId);
-    if (article === null) {
-      return null;
-    }
-    const commentToDelete = article.comments.find(comment => comment.id === commentId);
-    if (!commentToDelete) {
-      return null;
-    }
-    article.comments = article.comments.filter(comment => comment.id !== commentId);
-    return commentToDelete;
   }
 
   public async createNewArticle(article: Article): Promise<Article | null> {
