@@ -115,7 +115,7 @@ export class ArticlesService {
       fullText,
       title,
     });
-    await createdArticle.addCategories(categories.map(item => item.id));
+    await createdArticle.setCategories(categories.map(item => item.id));
     return createdDate ? true : null;
   }
 

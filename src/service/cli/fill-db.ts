@@ -82,7 +82,7 @@ async function assignCategoriesToArticles(
 ): Promise<void> {
   const categoryIdByName = getCategoriesIds(categoriesEntities);
   for (const article of articlesEntities) {
-    await article.addCategories(
+    await article.setCategories(
       getCategoriesLabels(payload.categories).map(categoryName => categoryIdByName[categoryName]),
     );
   }

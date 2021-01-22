@@ -8,8 +8,7 @@ import {CategoryId} from "../../../../types/category-id";
 type PredefinedArticle = IArticleId & ITitle & ICreatedDate & IAnnounce & IFullText;
 type ArticleCreationAttributes = ITitle & ICreatedDate & IAnnounce & IFullText;
 export type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes> & {
-  addCategory(categoryId: CategoryId): Promise<HasManyAddAssociationMixin<ICategoryEntity, CategoryId>>;
-  addCategories(categoryIds: CategoryId[]): Promise<HasManyAddAssociationMixin<ICategoryEntity, CategoryId[]>>;
+  setCategories(categoryIds: CategoryId[]): Promise<HasManyAddAssociationMixin<ICategoryEntity, CategoryId[]>>;
 };
 export type IArticleModel = ModelCtor<IArticleEntity>;
 
