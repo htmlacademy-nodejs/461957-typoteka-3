@@ -2,14 +2,15 @@ import {App} from "../app";
 import {agent as request} from "supertest";
 import {Application} from "express";
 import * as http from "http";
-import {Article, NewArticle} from "../../../types/article";
-import {ArticleComment, CommentId} from "../../../types/article-comment";
+import {Article, IArticleId, ICommentsCount, NewArticle} from "../../../types/article";
+import {ArticleComment, CommentId, NewArticleComment} from "../../../types/article-comment";
 import {ArticleId} from "../../../types/article-id";
 
 let validArticleId: ArticleId;
-const invalidArticleId = `invalid-article-id`;
+let articleWithCommentsId: ArticleId;
+const invalidArticleId = `-1`;
 let validCommentId: CommentId;
-const invalidCommentId = `invalid-comment-id`;
+const invalidCommentId = `-1`;
 const validNewArticle: NewArticle = {
   announce: `Игры и программирование разные вещи. Не стоит идти в программисты, если вам нравится только игры.  1938 году.`,
   categories: [
@@ -20,9 +21,11 @@ const validNewArticle: NewArticle = {
   fullText: `Освоить вёрстку несложно.`,
   title: `Как собрать камни бесконечности`,
 };
-const invalidNewArticle = {...validNewArticle, category: undefined};
-const validNewComment: Partial<ArticleComment> = {
+const invalidNewArticle = {...validNewArticle, categories: 10};
+const validNewComment: NewArticleComment = {
   text: `Comment`,
+  createdDate: new Date(),
+  articleId: 1,
 };
 const invalidNewComment = {};
 
@@ -38,6 +41,7 @@ describe(`Articles router`, () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const {body: articles} = await request(server).get(`/api/articles/?count=100`);
     validArticleId = (articles as Article[])[0].id;
+    articleWithCommentsId = findIdOfArticleWithComments(articles as (IArticleId & ICommentsCount)[]);
   });
   afterEach(() => {
     httpServer.close();
@@ -52,7 +56,8 @@ describe(`Articles router`, () => {
       const res = await request(server).get(`/api/articles/?count=100`);
       expect(Array.isArray(res.body)).toBe(true);
     });
-    test(`Should return an array given length`, async () => {
+    // TODO: Turn on after pagination implementations
+    test.skip(`Should return an array given length`, async () => {
       const res = await request(server).get(`/api/articles/?count=3`);
       expect(res.body.length).toBe(3);
     });
@@ -67,7 +72,7 @@ describe(`Articles router`, () => {
       const res = await request(server).get(`/api/articles/${validArticleId}`);
       expect(res.status).toBe(200);
     });
-    test(`Should return code 200 when request valid id`, async () => {
+    test(`Should return valid properties`, async () => {
       const res = await request(server).get(`/api/articles/${validArticleId}`);
       const responseKeys = Object.keys(res.body as Article);
       expect(responseKeys).toContain(`id`);
@@ -75,16 +80,12 @@ describe(`Articles router`, () => {
       expect(responseKeys).toContain(`createdDate`);
       expect(responseKeys).toContain(`announce`);
       expect(responseKeys).toContain(`fullText`);
-      expect(responseKeys).toContain(`category`);
+      expect(responseKeys).toContain(`categories`);
       expect(responseKeys).toContain(`comments`);
     });
   });
 
   describe(`GET comments by article id`, () => {
-    test(`Should return code 404 when request invalid id`, async () => {
-      const res = await request(server).get(`/api/articles/${invalidArticleId}/comments/`);
-      expect(res.status).toBe(404);
-    });
     test(`Should return code 200 when request valid id`, async () => {
       const res = await request(server).get(`/api/articles/${validArticleId}/comments/`);
       expect(res.status).toBe(200);
@@ -93,24 +94,28 @@ describe(`Articles router`, () => {
       const res = await request(server).get(`/api/articles/${validArticleId}/comments/`);
       expect(Array.isArray(res.body)).toBe(true);
     });
+    test(`Should return an empty array when request invalid id`, async () => {
+      const res = await request(server).get(`/api/articles/${invalidArticleId}/comments/`);
+      expect(res.body.length).toBe(0);
+    });
   });
 
   describe(`GET comment by id`, () => {
     beforeEach(async () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const {body: comments} = await request(server).get(`/api/articles/${validArticleId}/comments/`);
+      const {body: comments} = await request(server).get(`/api/articles/${articleWithCommentsId}/comments/`);
       validCommentId = (comments as ArticleComment[])[0].id;
     });
     test(`Should return code 404 when request invalid id`, async () => {
-      const res = await request(server).get(`/api/articles/${validArticleId}/comments/${invalidCommentId}`);
+      const res = await request(server).get(`/api/articles/${articleWithCommentsId}/comments/${invalidCommentId}`);
       expect(res.status).toBe(404);
     });
     test(`Should return code 200 when request valid id`, async () => {
-      const res = await request(server).get(`/api/articles/${validArticleId}/comments/${validCommentId}`);
+      const res = await request(server).get(`/api/articles/${articleWithCommentsId}/comments/${validCommentId}`);
       expect(res.status).toBe(200);
     });
     test(`Should return valid structure`, async () => {
-      const res = await request(server).get(`/api/articles/${validArticleId}/comments/${validCommentId}`);
+      const res = await request(server).get(`/api/articles/${articleWithCommentsId}/comments/${validCommentId}`);
       const responseKeys = Object.keys(res.body as Article);
       expect(responseKeys).toContain(`id`);
       expect(responseKeys).toContain(`text`);
@@ -180,3 +185,7 @@ describe(`Articles router`, () => {
     });
   });
 });
+
+function findIdOfArticleWithComments(articles: (ICommentsCount & IArticleId)[]): ArticleId {
+  return articles.find(article => article.commentsCount)?.id;
+}
