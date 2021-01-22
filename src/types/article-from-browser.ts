@@ -1,5 +1,5 @@
-import {NewArticle} from "./article";
+import {IAnnounce, ICreatedDate, IFullText, ITitle} from "./article";
 
-export interface ArticleFromBrowser extends Omit<NewArticle, `categories`> {
+export interface ArticleFromBrowser extends ITitle, ICreatedDate, IAnnounce, IFullText {
   categories: Record<string, `on`>;
 }

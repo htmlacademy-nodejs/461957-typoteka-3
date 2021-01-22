@@ -42,10 +42,10 @@ articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunctio
 });
 
 articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res: Response, next: NextFunction) => {
-  const newArticle = {
-    ...req.body,
+  const newArticle: NewArticle = {
+    ...(req.body as ArticleFromBrowser),
     categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
-  } as NewArticle;
+  };
   try {
     const response: true | ArticleValidationResponse = await dataProviderService.createArticle(newArticle);
     if (response === true) {
