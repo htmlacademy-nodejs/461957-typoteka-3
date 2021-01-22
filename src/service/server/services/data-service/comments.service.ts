@@ -36,4 +36,13 @@ export class CommentsService {
     });
     return comments.map(item => item.get({plain: true}));
   }
+
+  public async create(articleId: ArticleId, text: string): Promise<ArticleComment> {
+    const comment = await this.CommentsModel.create({
+      articleId,
+      createdDate: new Date(),
+      text,
+    });
+    return comment.get();
+  }
 }

@@ -142,13 +142,7 @@ export class ArticlesController {
   }
 
   public async createComment(articleId: ArticleId, commentText: string): Promise<ControllerResponse<ArticleComment>> {
-    const newComment: ArticleComment = {
-      id: getNumericalId(),
-      text: commentText,
-      articleId,
-      createdDate: new Date(),
-    };
-    const savedComment = await this.dataProvider.createComment(articleId, newComment);
+    const savedComment = await this.commentsService.create(articleId, commentText);
     if (savedComment === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
