@@ -123,12 +123,12 @@ export class ArticlesController {
     return {status: HttpCode.CREATED, payload: savedArticle};
   }
 
-  public async updateArticle(id: ArticleId, article: Article): Promise<ControllerResponse<Article>> {
-    const updatedArticle = await this.dataProvider.updateArticle(id, article);
-    if (updatedArticle === null) {
+  public async updateArticle(id: ArticleId, article: NewArticle): Promise<ControllerResponse<Article>> {
+    const isSuccess = await this.articlesService.update(id, article);
+    if (!isSuccess) {
       return {status: HttpCode.NOT_FOUND};
     }
-    return {payload: updatedArticle};
+    return {status: HttpCode.OK};
   }
 
   public async deleteArticle(id: ArticleId): Promise<ControllerResponse<Article>> {

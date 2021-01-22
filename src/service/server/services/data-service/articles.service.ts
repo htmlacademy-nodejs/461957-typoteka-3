@@ -129,5 +129,25 @@ export class ArticlesService {
     return !!deletedArticle;
   }
 
-  // public async update(): Promise<void> {}
+  public async update(
+    id: ArticleId,
+    {announce, createdDate, fullText, title, categories}: NewArticle,
+  ): Promise<boolean> {
+    const [, [updatedArticle]] = await this.ArticleModel.update(
+      {
+        createdDate,
+        announce,
+        fullText,
+        title,
+      },
+      {
+        where: {
+          id,
+        },
+        returning: true,
+      },
+    );
+    await updatedArticle.setCategories(categories.map(item => item.id));
+    return !![updatedArticle];
+  }
 }
