@@ -1,10 +1,10 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
 import {TableName} from "../constants/table-name";
-import {ArticleComment} from "../../../../types/article-comment";
+import {ArticleComment, NewArticleComment} from "../../../../types/article-comment";
 import {modelOptions} from "./constants/model-options";
 
 type PredefinedCommentAttributes = ArticleComment;
-type CommentCreationAttributes = Omit<ArticleComment, `id`>;
+type CommentCreationAttributes = NewArticleComment;
 export type ICommentEntity = Model<PredefinedCommentAttributes, CommentCreationAttributes>;
 export type ICommentModel = ModelCtor<ICommentEntity>;
 
