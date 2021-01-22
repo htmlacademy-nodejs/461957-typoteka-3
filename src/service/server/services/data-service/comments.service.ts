@@ -23,6 +23,7 @@ export class CommentsService {
         id: commentId,
         articleId,
       },
+      rejectOnEmpty: true,
     });
     return comment.get();
   }

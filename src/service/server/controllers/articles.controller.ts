@@ -24,40 +24,44 @@ export class ArticlesController {
   public async getArticles(
     areCommentsRequired: boolean,
   ): Promise<ControllerResponse<(IArticlePlain & ICategories)[] | (IArticlePlain & ICategories & IComments)[]>> {
-    const plainArticles = await this.articlesService.findAll();
-    if (plainArticles === null) {
-      return {status: HttpCode.INTERNAL_SERVER_ERROR};
-    }
-    const plainArticlesWithCategories = await Promise.all(
-      plainArticles.map(async article => ({
-        ...article,
-        categories: await this.categoriesService.findByArticleId(article.id),
-      })),
-    );
-    if (areCommentsRequired) {
-      const articlesWithComments = await Promise.all(
-        plainArticlesWithCategories.map(async article => ({
+    try {
+      const plainArticles = await this.articlesService.findAll();
+      if (plainArticles === null) {
+        return {status: HttpCode.INTERNAL_SERVER_ERROR};
+      }
+      const plainArticlesWithCategories = await Promise.all(
+        plainArticles.map(async article => ({
           ...article,
-          comments: await this.commentsService.findByArticleId(article.id),
+          categories: await this.categoriesService.findByArticleId(article.id),
         })),
       );
-      return {payload: articlesWithComments};
-    } else {
-      return {payload: plainArticlesWithCategories};
+      if (areCommentsRequired) {
+        const articlesWithComments = await Promise.all(
+          plainArticlesWithCategories.map(async article => ({
+            ...article,
+            comments: await this.commentsService.findByArticleId(article.id),
+          })),
+        );
+        return {payload: articlesWithComments};
+      } else {
+        return {payload: plainArticlesWithCategories};
+      }
+    } catch (e) {
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
   }
 
   public async getArticleById(id: ArticleId): Promise<ControllerResponse<Article>> {
-    const [plainArticle, categories, comments] = await Promise.all([
-      this.articlesService.findOneById(id),
-      this.categoriesService.findByArticleId(id),
-      this.commentsService.findByArticleId(id),
-    ]);
-    if (plainArticle === null) {
+    try {
+      const [plainArticle, categories, comments] = await Promise.all([
+        this.articlesService.findOneById(id),
+        this.categoriesService.findByArticleId(id),
+        this.commentsService.findByArticleId(id),
+      ]);
+      return {payload: {...plainArticle, categories, comments}};
+    } catch (e) {
       return {status: HttpCode.NOT_FOUND};
     }
-
-    return {payload: {...plainArticle, categories, comments}};
   }
 
   public async getArticlesByCategory(categoryId: CategoryId): Promise<ControllerResponse<ArticlesByCategory>> {
@@ -84,11 +88,12 @@ export class ArticlesController {
   }
 
   public async getCommentsByArticleId(id: ArticleId): Promise<ControllerResponse<ArticleComment[]>> {
-    const articleComments = await this.commentsService.findByArticleId(id);
-    if (articleComments === null) {
+    try {
+      const articleComments = await this.commentsService.findByArticleId(id);
+      return {payload: articleComments};
+    } catch (e) {
       return {status: HttpCode.NOT_FOUND};
     }
-    return {payload: articleComments};
   }
 
   public async deleteCommentById(
@@ -102,15 +107,13 @@ export class ArticlesController {
     return {status: HttpCode.OK};
   }
 
-  public async getByArticleIdAndCommentId(
-    articleId: ArticleId,
-    commentId: CommentId,
-  ): Promise<ControllerResponse<ArticleComment>> {
-    const comment = await this.commentsService.findByArticleIdAndCommentId(articleId, commentId);
-    if (comment === null) {
+  public async getComment(articleId: ArticleId, commentId: CommentId): Promise<ControllerResponse<ArticleComment>> {
+    try {
+      const comment = await this.commentsService.findByArticleIdAndCommentId(articleId, commentId);
+      return {payload: comment};
+    } catch (e) {
       return {status: HttpCode.NOT_FOUND};
     }
-    return {payload: comment};
   }
 
   public async createNewArticle(newArticle: NewArticle): Promise<ControllerResponse<true | null>> {
@@ -122,11 +125,15 @@ export class ArticlesController {
   }
 
   public async updateArticle(id: ArticleId, article: NewArticle): Promise<ControllerResponse<Article>> {
-    const isSuccess = await this.articlesService.update(id, article);
-    if (!isSuccess) {
+    try {
+      const isSuccess = await this.articlesService.update(id, article);
+      if (!isSuccess) {
+        return {status: HttpCode.NOT_FOUND};
+      }
+      return {status: HttpCode.OK};
+    } catch (e) {
       return {status: HttpCode.NOT_FOUND};
     }
-    return {status: HttpCode.OK};
   }
 
   public async deleteArticle(id: ArticleId): Promise<ControllerResponse<Article>> {

@@ -1,24 +1,15 @@
 import {IArticleModel} from "../../data-access/models/article";
-import {
-  IAnnounce,
-  IArticleId,
-  ICommentsCount,
-  ICreatedDate,
-  IFullText,
-  ITitle,
-  NewArticle,
-} from "../../../../types/article";
+import {NewArticle} from "../../../../types/article";
 import {TableName} from "../../data-access/constants/table-name";
 import Sequelize, {FindAttributeOptions, Model} from "sequelize";
 import {CategoryId} from "../../../../types/category-id";
 import {ArticleId} from "../../../../types/article-id";
-
-type PlainArticle = IAnnounce & IFullText & ITitle & IArticleId & ICreatedDate & ICommentsCount;
+import {IArticlePlain} from "../../../../types/interfaces/article-plain";
 
 export class ArticlesService {
   constructor(private readonly ArticleModel: IArticleModel) {}
 
-  public async findAll(): Promise<PlainArticle[]> {
+  public async findAll(): Promise<IArticlePlain[]> {
     const attributes: FindAttributeOptions = [
       `announce`,
       [`full_text`, `fullText`],
@@ -27,7 +18,7 @@ export class ArticlesService {
       [`created_date`, `createdDate`],
       [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
     ];
-    const articles = await this.ArticleModel.findAll<Model<PlainArticle>>({
+    const articles = await this.ArticleModel.findAll<Model<IArticlePlain>>({
       attributes,
       include: [
         {
@@ -44,7 +35,7 @@ export class ArticlesService {
 
   // public async findPage({limit, offset}: {limit: number; offset: number}): Promise<Article[]> {}
 
-  public async findOneById(articleId: ArticleId): Promise<PlainArticle> {
+  public async findOneById(articleId: ArticleId): Promise<IArticlePlain> {
     const attributes: FindAttributeOptions = [
       `announce`,
       [`full_text`, `fullText`],
@@ -53,7 +44,7 @@ export class ArticlesService {
       [`created_date`, `createdDate`],
       [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
     ];
-    const article = await this.ArticleModel.findOne<Model<PlainArticle>>({
+    const article = await this.ArticleModel.findOne<Model<IArticlePlain>>({
       attributes,
       include: [
         {
@@ -65,12 +56,13 @@ export class ArticlesService {
       where: {
         id: articleId,
       },
+      rejectOnEmpty: true,
     });
     const plainArticle = article.get({plain: true});
     return {...plainArticle, commentsCount: parseInt(`${plainArticle.commentsCount}`, 10)};
   }
 
-  public async findByCategoryId(categoryId: CategoryId): Promise<PlainArticle[]> {
+  public async findByCategoryId(categoryId: CategoryId): Promise<IArticlePlain[]> {
     const attributes: FindAttributeOptions = [
       `announce`,
       [`full_text`, `fullText`],
@@ -79,7 +71,7 @@ export class ArticlesService {
       [`created_date`, `createdDate`],
       [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
     ];
-    const articles = await this.ArticleModel.findAll<Model<PlainArticle>>({
+    const articles = await this.ArticleModel.findAll<Model<IArticlePlain>>({
       attributes,
       include: [
         {
@@ -129,7 +121,7 @@ export class ArticlesService {
     id: ArticleId,
     {announce, createdDate, fullText, title, categories}: NewArticle,
   ): Promise<boolean> {
-    const [, [updatedArticle]] = await this.ArticleModel.update(
+    const [count, [updatedArticle]] = await this.ArticleModel.update(
       {
         createdDate,
         announce,
@@ -143,6 +135,9 @@ export class ArticlesService {
         returning: true,
       },
     );
+    if (!count) {
+      return Promise.reject(`Not found`);
+    }
     await updatedArticle.setCategories(categories.map(item => item.id));
     return !![updatedArticle];
   }
