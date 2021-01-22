@@ -2,7 +2,7 @@ import {Sequelize} from "sequelize";
 import {defineCategory, ICategoryModel} from "./category";
 import {defineArticle, IArticleModel} from "./article";
 import {defineComment, ICommentModel} from "./comment";
-import {defineIntermediateModel, IIntermediateModel} from "./intermediate";
+import {defineIntermediateModel} from "./intermediate";
 import {TableName} from "../constants/table-name";
 import {ArticleCategoryProperty, ArticleProperty, CommentProperty} from "../constants/property-name";
 
@@ -10,7 +10,6 @@ export interface DatabaseModels {
   CategoryModel: ICategoryModel;
   ArticleModel: IArticleModel;
   CommentModel: ICommentModel;
-  ArticleCategoryModel: IIntermediateModel;
 }
 
 export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
@@ -35,6 +34,5 @@ export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
     CategoryModel,
     ArticleModel,
     CommentModel,
-    ArticleCategoryModel,
   };
 }

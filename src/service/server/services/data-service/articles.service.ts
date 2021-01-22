@@ -1,5 +1,4 @@
 import {IArticleModel} from "../../data-access/models/article";
-import {IIntermediateModel} from "../../data-access/models/intermediate";
 import {
   IAnnounce,
   IArticleId,
@@ -17,10 +16,7 @@ import {ArticleId} from "../../../../types/article-id";
 type PlainArticle = IAnnounce & IFullText & ITitle & IArticleId & ICreatedDate & ICommentsCount;
 
 export class ArticlesService {
-  constructor(
-    private readonly ArticleModel: IArticleModel,
-    private readonly ArticleCategoryModel: IIntermediateModel,
-  ) {}
+  constructor(private readonly ArticleModel: IArticleModel) {}
 
   public async findAll(): Promise<PlainArticle[]> {
     const attributes: FindAttributeOptions = [

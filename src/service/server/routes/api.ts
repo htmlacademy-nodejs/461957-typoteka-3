@@ -8,27 +8,23 @@ import {categoriesStatisticsRouter} from "./categories-statistics.router";
 import {ICategoryModel} from "../data-access/models/category";
 import {IArticleModel} from "../data-access/models/article";
 import {ICommentModel} from "../data-access/models/comment";
-import {IIntermediateModel} from "../data-access/models/intermediate";
 
 export const apiRouter = ({
   CategoryModel,
-  ArticleCategoryModel,
   ArticleModel,
   CommentModel,
 }: {
   CategoryModel: ICategoryModel;
   ArticleModel: IArticleModel;
   CommentModel: ICommentModel;
-  ArticleCategoryModel: IIntermediateModel;
 }): Router => {
   const router = Router();
   const articlesController = articlesControllerFactory({
     ArticleModel,
     CategoryModel,
-    ArticleCategoryModel,
     CommentModel,
   });
-  const categoriesController = categoriesControllerFactory({CategoryModel, ArticleCategoryModel});
+  const categoriesController = categoriesControllerFactory({CategoryModel});
   const searchController = searchControllerFactory({ArticleModel});
 
   router.use(APIRoutes.ARTICLES, articleRouter(articlesController));
