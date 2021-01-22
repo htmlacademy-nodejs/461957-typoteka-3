@@ -1,6 +1,14 @@
 import {IArticleModel} from "../../data-access/models/article";
 import {IIntermediateModel} from "../../data-access/models/intermediate";
-import {IAnnounce, IArticleId, ICommentsCount, ICreatedDate, IFullText, ITitle} from "../../../../types/article";
+import {
+  IAnnounce,
+  IArticleId,
+  ICommentsCount,
+  ICreatedDate,
+  IFullText,
+  ITitle,
+  NewArticle,
+} from "../../../../types/article";
 import {TableName} from "../../data-access/constants/table-name";
 import Sequelize, {FindAttributeOptions, Model} from "sequelize";
 import {CategoryId} from "../../../../types/category-id";
@@ -39,6 +47,7 @@ export class ArticlesService {
   }
 
   // public async findPage({limit, offset}: {limit: number; offset: number}): Promise<Article[]> {}
+
   public async findOneById(articleId: ArticleId): Promise<PlainArticle> {
     const attributes: FindAttributeOptions = [
       `announce`,
@@ -99,7 +108,18 @@ export class ArticlesService {
       .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)}));
   }
 
+  public async create({announce, createdDate, fullText, title, categories}: NewArticle): Promise<true | null> {
+    const createdArticle = await this.ArticleModel.create({
+      createdDate,
+      announce,
+      fullText,
+      title,
+    });
+    await createdArticle.addCategories(categories.map(item => item.id));
+    return createdDate ? true : null;
+  }
+
   // public async drop(id: ArticleId): Promise<void> {}
-  // public async create(): Promise<Article[]> {}
+
   // public async update(): Promise<void> {}
 }

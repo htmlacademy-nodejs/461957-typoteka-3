@@ -37,7 +37,7 @@ export class DataProviderService {
     }
   }
 
-  public async createArticle(newArticle: NewArticle): Promise<true | ArticleValidationResponse> {
+  public async createArticle(newArticle: NewArticle): Promise<true | null | ArticleValidationResponse> {
     let response: AxiosResponse<Article | ArticleValidationResponse>;
     try {
       response = await this.requestService.post<ArticleValidationResponse>(

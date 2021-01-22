@@ -26,14 +26,6 @@ export class DataProviderService {
     return articles.find(article => article.id === id) ?? null;
   }
 
-  public async createNewArticle(article: Article): Promise<Article | null> {
-    if (!this.articlesCash) {
-      await this.getArticles();
-    }
-    this.articlesCash.push(article);
-    return article;
-  }
-
   public async updateArticle(id: ArticleId, article: Article): Promise<Article | null> {
     const existingArticle = await this.getArticleById(id);
     if (existingArticle === null) {

@@ -10,7 +10,6 @@ import {CategoriesService} from "../services/data-service/categories.service";
 import {CommentsService} from "../services/data-service/comments.service";
 import {IArticlePlain} from "../../../types/interfaces/article-plain";
 import {ArticleId} from "../../../types/article-id";
-import {getNumericalId} from "../../../shared/get-id";
 
 export class ArticlesController {
   constructor(
@@ -116,9 +115,8 @@ export class ArticlesController {
     return {payload: comment};
   }
 
-  public async createNewArticle(newArticle: NewArticle): Promise<ControllerResponse<Article>> {
-    const article: Article = {...newArticle, id: getNumericalId(), comments: []};
-    const savedArticle = await this.dataProvider.createNewArticle(article);
+  public async createNewArticle(newArticle: NewArticle): Promise<ControllerResponse<true | null>> {
+    const savedArticle = await this.articlesService.create(newArticle);
     if (savedArticle === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
