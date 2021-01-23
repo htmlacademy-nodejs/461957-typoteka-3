@@ -1,15 +1,15 @@
-import {App} from "./app";
+import {ApiService} from "./api-service";
 import {ExitCode} from "../../constants-es6";
 import {connectToDatabase} from "./data-access/database-connector";
 
 export async function runServer(): Promise<void> {
-  const app = new App();
+  const apiService = new ApiService();
   try {
     const connection = await connectToDatabase();
-    app.init(connection);
+    apiService.init(connection);
   } catch (e) {
     process.exit(ExitCode.ERROR);
   }
 
-  app.listen();
+  apiService.listen();
 }

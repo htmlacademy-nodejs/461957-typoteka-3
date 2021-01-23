@@ -1,14 +1,14 @@
 import {Application} from "express";
 import http from "http";
-import {App} from "../../app";
+import {ApiService} from "../../api-service";
 import {connectToDatabase} from "../../data-access/database-connector";
 
 export async function initApp(): Promise<{server: Application; httpServer: http.Server}> {
-  const app = new App();
+  const apiService = new ApiService();
   const connection = await connectToDatabase();
-  app.init(connection);
+  apiService.init(connection);
   return {
-    httpServer: app.listen(),
-    server: app.getServer(),
+    httpServer: apiService.listen(),
+    server: apiService.getServer(),
   };
 }

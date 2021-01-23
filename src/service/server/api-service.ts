@@ -11,7 +11,7 @@ import {defineDatabaseModels} from "./data-access/models";
 import {DatabaseModels} from "./data-access/models/define-models";
 import {Sequelize} from "sequelize";
 
-export class App {
+export class ApiService {
   private logger = getLogger();
 
   public app: Application;
