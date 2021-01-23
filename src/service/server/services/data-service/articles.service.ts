@@ -121,24 +121,31 @@ export class ArticlesService {
     id: ArticleId,
     {announce, createdDate, fullText, title, categories}: NewArticle,
   ): Promise<boolean> {
-    const [count, [updatedArticle]] = await this.ArticleModel.update(
-      {
-        createdDate,
-        announce,
-        fullText,
-        title,
-      },
-      {
+    try {
+      await this.ArticleModel.update(
+        {
+          createdDate,
+          announce,
+          fullText,
+          title,
+        },
+        {
+          where: {
+            id: 1,
+          },
+        },
+      );
+      const updatedArticle = await this.ArticleModel.findOne({
         where: {
           id,
         },
-        returning: true,
-      },
-    );
-    if (!count) {
+        rejectOnEmpty: true,
+      });
+      await updatedArticle.setCategories(categories.map(item => item.id));
+      return !!updatedArticle;
+    } catch (e) {
+      console.log(e);
       return Promise.reject(`Not found`);
     }
-    await updatedArticle.setCategories(categories.map(item => item.id));
-    return !![updatedArticle];
   }
 }
