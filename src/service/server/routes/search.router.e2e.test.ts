@@ -3,13 +3,15 @@ import {agent as request} from "supertest";
 import {Application} from "express";
 import http from "http";
 import {ArticleSearchCollection} from "../../../types/article-search-collection";
+import {connectToDatabase} from "../data-access/database-connector";
 
 describe(`Search router`, () => {
   let server: Application;
   let httpServer: http.Server;
   beforeAll(async () => {
     const app = new App();
-    await app.init();
+    const connection = await connectToDatabase();
+    app.init(connection);
     httpServer = app.listen();
     server = app.getServer();
   });

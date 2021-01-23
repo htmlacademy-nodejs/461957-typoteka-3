@@ -8,8 +8,8 @@ import {messageConstructor} from "../logger/message-constructor";
 import {RequestExtended} from "../models/types/request-extended";
 import {apiRouter} from "./routes";
 import {defineDatabaseModels} from "./data-access/models";
-import {connectToDatabase} from "./data-access/database-connector";
 import {DatabaseModels} from "./data-access/models/define-models";
+import {Sequelize} from "sequelize";
 
 export class App {
   private logger = getLogger();
@@ -27,8 +27,7 @@ export class App {
     ]);
   }
 
-  public async init(): Promise<void> {
-    const connection = await connectToDatabase();
+  public init(connection: Sequelize): void {
     const {CategoryModel, ArticleModel, CommentModel} = defineDatabaseModels(connection);
     this.configureRoutes({ArticleModel, CategoryModel, CommentModel});
   }

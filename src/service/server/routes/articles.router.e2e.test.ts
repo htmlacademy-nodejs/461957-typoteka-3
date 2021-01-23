@@ -5,6 +5,7 @@ import * as http from "http";
 import {Article, IArticleId, ICommentsCount, NewArticle} from "../../../types/article";
 import {ArticleComment, CommentId, NewArticleComment} from "../../../types/article-comment";
 import {ArticleId} from "../../../types/article-id";
+import {connectToDatabase} from "../data-access/database-connector";
 
 let validArticleId: ArticleId;
 let articleWithCommentsId: ArticleId;
@@ -34,7 +35,8 @@ describe(`Articles router`, () => {
   let httpServer: http.Server;
   beforeAll(async () => {
     const app = new App();
-    await app.init();
+    const connection = await connectToDatabase();
+    app.init(connection);
     httpServer = app.listen();
     server = app.getServer();
 

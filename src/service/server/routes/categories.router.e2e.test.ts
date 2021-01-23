@@ -2,13 +2,15 @@ import {App} from "../app";
 import {agent as request} from "supertest";
 import {Application} from "express";
 import http from "http";
+import {connectToDatabase} from "../data-access/database-connector";
 
 describe(`Categories router`, () => {
   let server: Application;
   let httpServer: http.Server;
   beforeAll(async () => {
     const app = new App();
-    await app.init();
+    const connection = await connectToDatabase();
+    app.init(connection);
     httpServer = app.listen();
     server = app.getServer();
   });
