@@ -27,7 +27,7 @@ searchRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) =>
       text: match.title,
       match: query,
       date: new Date(Date.parse((match.createdDate as unknown) as string)),
-      link: ClientRoutes.ARTICLES.INDEX + `/` + match.id,
+      link: `${ClientRoutes.ARTICLES.INDEX}/${match.id}`,
     }));
     return streamPage(res, SearchPage, {
       matches,

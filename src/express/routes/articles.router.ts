@@ -145,7 +145,7 @@ articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFu
     }
     return streamPage(res, EditArticle, {
       article,
-      endPoint: ClientRoutes.ARTICLES.INDEX + `/` + articleId,
+      endPoint: `${ClientRoutes.ARTICLES.INDEX}/${articleId}`,
       availableCategories: categories,
     });
   } catch (e) {

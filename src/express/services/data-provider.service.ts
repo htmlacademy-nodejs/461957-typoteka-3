@@ -63,7 +63,7 @@ export class DataProviderService {
   public async getArticleById(id: ArticleId): Promise<Article> {
     let response: AxiosResponse<Article>;
     try {
-      response = await this.requestService.get<Article>(this.apiEndPoint + APIRoutes.ARTICLES + `/` + id, {});
+      response = await this.requestService.get<Article>(`${this.apiEndPoint + APIRoutes.ARTICLES}/${id}`, {});
     } catch (e) {
       console.error(`Failed to load article by id "${id}"`, e);
     }

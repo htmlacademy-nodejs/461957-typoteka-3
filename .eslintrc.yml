@@ -27,7 +27,7 @@ rules:
     - error
     - as-needed
   new-cap:
-    - warn
+    - off
   "@typescript-eslint/no-unused-vars":
     - warn
   "@typescript-eslint/explicit-function-return-type":
@@ -36,4 +36,7 @@ rules:
     - error
     - functions: false
   "@typescript-eslint/no-misused-promises":
-    - warn
+    - off
+#    - checks:
+#        - conditional
+#        - void-return
