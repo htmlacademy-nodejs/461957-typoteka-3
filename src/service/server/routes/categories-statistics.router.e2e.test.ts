@@ -1,18 +1,13 @@
-import {App} from "../app";
 import {agent as request} from "supertest";
 import {Application} from "express";
 import http from "http";
-import {connectToDatabase} from "../data-access/database-connector";
+import {initApp} from "./tests-boilerplate/init-app";
 
 describe(`CategoriesStatistics router`, () => {
-  let server: Application;
+  let app: Application;
   let httpServer: http.Server;
   beforeAll(async () => {
-    const app = new App();
-    const connection = await connectToDatabase();
-    app.init(connection);
-    httpServer = app.listen();
-    server = app.getServer();
+    ({server: app, httpServer} = await initApp());
   });
   afterAll(() => {
     httpServer.close();
@@ -20,11 +15,11 @@ describe(`CategoriesStatistics router`, () => {
 
   describe(`get()`, () => {
     test(`Should return code 200 when request categories`, async () => {
-      const res = await request(server).get(`/api/categories-statistics`);
+      const res = await request(app).get(`/api/categories-statistics`);
       expect(res.status).toBe(200);
     });
     test(`Should return array`, async () => {
-      const res = await request(server).get(`/api/categories-statistics`);
+      const res = await request(app).get(`/api/categories-statistics`);
       expect(Array.isArray(res.body)).toBe(true);
     });
   });
