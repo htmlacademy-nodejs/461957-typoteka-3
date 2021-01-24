@@ -1,6 +1,6 @@
-import {Router} from "express";
+import {NextFunction, Request, Response, Router} from "express";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {dataProviderService} from "../services/data-provider.service";
+import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
 import {AdminCommentsPage} from "../views/pages/AdminCommentsPage";
@@ -8,39 +8,37 @@ import {SSRError} from "../errors/ssr-error";
 
 export const adminPublicationsRouter = Router();
 
-adminPublicationsRouter.get(`/`, async (req, res, next) => {
+adminPublicationsRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const articles = await dataProviderService.getArticles();
-    if (articles !== null) {
-      streamPage(res, AdminPublicationsPage, {articles});
-    } else {
-      next(new SSRError({message: `Failed to get Admin articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    if (articles === null) {
+      return next(new SSRError({message: `Failed to get Admin articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
+    return streamPage(res, AdminPublicationsPage, {articles});
   } catch (e) {
-    next(
+    return next(
       new SSRError({
         message: `Failed to get Admin articles`,
         statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-        errorPayload: e,
+        errorPayload: e as Error,
       }),
     );
   }
 });
 
-adminPublicationsRouter.get(ClientRoutes.ADMIN.COMMENTS, async (req, res, next) => {
+adminPublicationsRouter.get(ClientRoutes.ADMIN.COMMENTS, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const listOfComments = await dataProviderService.getComments(3);
-    if (listOfComments !== null) {
-      streamPage(res, AdminCommentsPage, {listOfComments});
-    } else {
-      next(new SSRError({message: `Failed to get Admin comments`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    if (listOfComments === null) {
+      return next(new SSRError({message: `Failed to get Admin comments`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
+    return streamPage(res, AdminCommentsPage, {listOfComments});
   } catch (e) {
-    next(
+    return next(
       new SSRError({
         message: `Failed to get Admin comments`,
         statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-        errorPayload: e,
+        errorPayload: e as Error,
       }),
     );
   }

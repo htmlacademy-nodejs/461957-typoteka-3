@@ -1,12 +1,10 @@
-import {DataProviderService} from "../services/data-provider.service";
-import {ClientRoutes, HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants-es6";
 import {ControllerResponse} from "../../../types/controller-response";
-import {Article} from "../../../types/article";
-import {ArticleSearchResult} from "../../../types/article-search-result";
 import {ArticleSearchCollection} from "../../../types/article-search-collection";
+import {SearchService} from "../services/data-service/search.service";
 
 export class SearchController {
-  constructor(private dataProvider: DataProviderService) {}
+  constructor(private searchService: SearchService) {}
 
   public async findArticleByMatch(query: string): Promise<ControllerResponse<ArticleSearchCollection>> {
     if (query === undefined) {
@@ -21,25 +19,16 @@ export class SearchController {
         },
       };
     }
-    const matches = await this.dataProvider.searchByArticlesTitle(query);
+    const matches = await this.searchService.searchByArticlesTitle(query);
     if (matches === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
     return {
       payload: {
         query,
-        items: matches.map(article => convertArticleToSearchResult(article)),
+        items: matches,
         itemsCount: matches.length,
       },
     };
   }
-}
-
-function convertArticleToSearchResult(article: Article): ArticleSearchResult {
-  return {
-    title: article.title,
-    createdDate: article.createdDate,
-    id: article.id,
-    link: ClientRoutes.ARTICLES.INDEX + `/` + article.id,
-  };
 }

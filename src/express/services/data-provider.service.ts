@@ -1,12 +1,16 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
-import {Article} from "../../types/article";
+import type {Article, ICreatedDate, NewArticle} from "../../types/article";
 import {ENV} from "../../shared/env/env";
 import {APIRoutes, HttpCode} from "../../constants-es6";
-import {ArticleComment} from "../../types/article-comment";
-import {NewArticle} from "../../types/new-article";
-import {ArticleValidationResponse} from "../../types/article-validation-response";
+import type {ArticleComment} from "../../types/article-comment";
+import type {ArticleValidationResponse} from "../../types/article-validation-response";
+import type {ArticleSearchCollection} from "../../types/article-search-collection";
+import {CategoryWithNumbers} from "../../types/category-with-numbers";
+import {ArticlesByCategory} from "../../types/articles-by-category";
+import {CategoryId} from "../../types/category-id";
 import {Category} from "../../types/category";
-import {ArticleSearchCollection} from "../../types/article-search-collection";
+import {IArticlePreview} from "../../types/interfaces/article-preview";
+import {ArticleId} from "../../types/article-id";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -16,10 +20,12 @@ export class DataProviderService {
     this.requestService = axios;
   }
 
-  public async getArticles(count?: number): Promise<Article[]> {
-    let response: AxiosResponse<Article[]>;
+  public async getArticles(count?: number): Promise<IArticlePreview[]> {
+    let response: AxiosResponse<IArticlePreview[]>;
     try {
-      response = await this.requestService.get<Article[]>(this.apiEndPoint + APIRoutes.ARTICLES, {params: {count}});
+      response = await this.requestService.get<IArticlePreview[]>(this.apiEndPoint + APIRoutes.ARTICLES, {
+        params: {count},
+      });
     } catch (e) {
       console.error(`error`, e);
     }
@@ -31,7 +37,7 @@ export class DataProviderService {
     }
   }
 
-  public async createArticle(newArticle: NewArticle): Promise<true | ArticleValidationResponse> {
+  public async createArticle(newArticle: NewArticle): Promise<true | null | ArticleValidationResponse> {
     let response: AxiosResponse<Article | ArticleValidationResponse>;
     try {
       response = await this.requestService.post<ArticleValidationResponse>(
@@ -54,15 +60,37 @@ export class DataProviderService {
     }
   }
 
-  public async getArticleById(id: string): Promise<Article> {
+  public async getArticleById(id: ArticleId): Promise<Article> {
     let response: AxiosResponse<Article>;
     try {
-      response = await this.requestService.get<Article>(this.apiEndPoint + APIRoutes.ARTICLES + `/` + id, {});
+      response = await this.requestService.get<Article>(`${this.apiEndPoint + APIRoutes.ARTICLES}/${id}`, {});
     } catch (e) {
       console.error(`Failed to load article by id "${id}"`, e);
     }
     if (response && response.status === 200) {
       return transformDate(response.data);
+    } else {
+      console.error(response.data);
+      return null;
+    }
+  }
+
+  public async getArticlesByCategoryId(categoryId: CategoryId): Promise<ArticlesByCategory> {
+    let response: AxiosResponse<ArticlesByCategory>;
+    try {
+      response = await this.requestService.get<ArticlesByCategory>(
+        this.apiEndPoint + APIRoutes.CATEGORIES + `/` + categoryId.toString(10),
+        {},
+      );
+    } catch (e) {
+      console.error(`Failed to load articles by categoryId "${categoryId}"`, e);
+    }
+    if (response && response.status === 200) {
+      return {
+        category: response.data.category,
+        articles: response.data.articles.map(transformDate),
+        itemsCount: response.data.itemsCount,
+      };
     } else {
       console.error(response.data);
       return null;
@@ -94,6 +122,20 @@ export class DataProviderService {
     }
   }
 
+  public async getCategoriesWithNumbers(): Promise<CategoryWithNumbers[]> {
+    let response: AxiosResponse<CategoryWithNumbers[]>;
+    try {
+      response = await this.requestService.get<CategoryWithNumbers[]>(
+        this.apiEndPoint + APIRoutes.CATEGORIES_STATISTICS,
+        {},
+      );
+      return response.data;
+    } catch (e) {
+      console.error(`error`, e);
+      return null;
+    }
+  }
+
   public async search(query: string): Promise<ArticleSearchCollection> {
     let response: AxiosResponse<ArticleSearchCollection>;
     try {
@@ -113,11 +155,11 @@ export class DataProviderService {
     }
   }
 
-  private async getArticleComments(articleId: string): Promise<ArticleComment[]> {
+  private async getArticleComments(articleId: ArticleId): Promise<ArticleComment[]> {
     let response: AxiosResponse<ArticleComment[]>;
     try {
       response = await this.requestService.get<ArticleComment[]>(
-        this.apiEndPoint + APIRoutes.ARTICLES + `/` + articleId + APIRoutes.COMMENTS,
+        `${this.apiEndPoint + APIRoutes.ARTICLES}/${articleId}${APIRoutes.COMMENTS}`,
         {},
       );
     } catch (e) {
@@ -132,8 +174,6 @@ export class DataProviderService {
   }
 }
 
-function transformDate(article: Article): Article {
+function transformDate<T extends ICreatedDate>(article: T): T {
   return {...article, createdDate: new Date(Date.parse((article.createdDate as unknown) as string))};
 }
-
-export const dataProviderService = new DataProviderService();

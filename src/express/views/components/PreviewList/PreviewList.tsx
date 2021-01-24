@@ -1,15 +1,22 @@
 import React, {FunctionComponent} from "react";
 import {Preview} from "../Preview/Preview";
-import {Article} from "../../../../types/article";
-import {Category} from "../../../../types/category";
-import {CategoryId} from "../../../../types/category-id";
+import {CategoryWithLink} from "../../../../types/category-with-link";
+import {IArticlePreview} from "../../../../types/interfaces/article-preview";
 
-interface PreviewListProps {
-  previews: Article[];
-  availableCategories: Category[];
+interface IHasId {
+  id: number;
 }
 
-export const PreviewList: FunctionComponent<PreviewListProps> = ({availableCategories, previews}) => {
+interface IHasLink {
+  link: string;
+}
+
+interface PreviewListProps {
+  previews: IArticlePreview[];
+  categories: CategoryWithLink[];
+}
+
+export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, previews}) => {
   return (
     <section className="main-page__list preview">
       <h2 className="visually-hidden">Список превью статей</h2>
@@ -18,8 +25,8 @@ export const PreviewList: FunctionComponent<PreviewListProps> = ({availableCateg
           <li className="preview__item" key={preview.id}>
             <Preview
               announce={preview.announce}
-              selectedCategories={resolveCategoriesLabels(preview.category, availableCategories)}
-              comments={preview.comments}
+              selectedCategories={resolveCategoriesLabels(categories, preview.categories)}
+              commentsCount={preview.commentsCount}
               createdDate={preview.createdDate}
               title={preview.title}
             />
@@ -30,6 +37,9 @@ export const PreviewList: FunctionComponent<PreviewListProps> = ({availableCateg
   );
 };
 
-function resolveCategoriesLabels(selectedCategories: CategoryId[], availableCategories: Category[]): Category[] {
-  return availableCategories.filter(category => selectedCategories.includes(category.id));
+function resolveCategoriesLabels<T extends IHasId & IHasLink, J extends IHasId>(
+  availableCategories: T[],
+  selectedCategories: J[],
+): T[] {
+  return availableCategories.filter(category => selectedCategories.map(item => item.id).includes(category.id));
 }

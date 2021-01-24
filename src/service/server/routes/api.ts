@@ -1,14 +1,36 @@
-import {Router} from "express";
-import {articlesRouter} from "./articles.router";
-import {categoriesRouter} from "./categories.router";
 import {searchRouter} from "./search.router";
 import {APIRoutes} from "../../../constants-es6";
+import {articleRouter} from "./articles.router";
+import {categoriesRouter} from "./categories.router";
+import {articlesControllerFactory, categoriesControllerFactory, searchControllerFactory} from "../controllers";
+import {Router} from "express";
+import {categoriesStatisticsRouter} from "./categories-statistics.router";
+import {ICategoryModel} from "../data-access/models/category";
+import {IArticleModel} from "../data-access/models/article";
+import {ICommentModel} from "../data-access/models/comment";
 
-// eslint-disable-next-line new-cap
-const apiRouter = Router();
+export const apiRouter = ({
+  CategoryModel,
+  ArticleModel,
+  CommentModel,
+}: {
+  CategoryModel: ICategoryModel;
+  ArticleModel: IArticleModel;
+  CommentModel: ICommentModel;
+}): Router => {
+  const router = Router();
+  const articlesController = articlesControllerFactory({
+    ArticleModel,
+    CategoryModel,
+    CommentModel,
+  });
+  const categoriesController = categoriesControllerFactory({CategoryModel});
+  const searchController = searchControllerFactory({ArticleModel});
 
-apiRouter.use(APIRoutes.ARTICLES, articlesRouter);
-apiRouter.use(APIRoutes.CATEGORIES, categoriesRouter);
-apiRouter.use(APIRoutes.SEARCH, searchRouter);
+  router.use(APIRoutes.ARTICLES, articleRouter(articlesController));
+  router.use(APIRoutes.CATEGORIES, categoriesRouter(articlesController, categoriesController));
+  router.use(APIRoutes.CATEGORIES_STATISTICS, categoriesStatisticsRouter(categoriesController));
+  router.use(APIRoutes.SEARCH, searchRouter(searchController));
 
-export {apiRouter};
+  return router;
+};

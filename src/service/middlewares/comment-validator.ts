@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response} from "express";
 import {HttpCode} from "../../constants-es6";
-import {ValidationError} from "../errors/validation-error";
+import {ValidationError} from "../../shared/errors/validation-error";
 import {CommentValidationResponse} from "../../types/comment-validation-response";
 import {ArticleComment} from "../../types/article-comment";
 

@@ -40,9 +40,11 @@ export const APIRoutes = {
   ARTICLES: `/articles`,
   COMMENTS: `/comments`,
   CATEGORIES: `/categories`,
+  CATEGORIES_STATISTICS: `/categories-statistics`,
   SEARCH: `/search`,
 };
 export const ClientRoutes = {
+  INDEX: `/`,
   ADMIN: {
     INDEX: `/my`,
     COMMENTS: `/my/comments`,
@@ -50,10 +52,14 @@ export const ClientRoutes = {
   ARTICLES: {
     INDEX: `/articles`,
     ADD: `/articles/add`,
+    CATEGORY: `/articles/category`,
   },
   SEARCH: {
     INDEX: `/search`,
   },
+  REGISTRATION: `/register`,
+  SIGN_IN: `/login`,
+  CATEGORIES: `/categories`,
 };
 export const HttpMethod = {
   GET: `GET`,
@@ -67,7 +73,7 @@ export const ARTICLE_FORM_FIELDS = {
     label: `Дата`,
   },
   category: {
-    name: `category`,
+    name: `categories`,
     label: `Категории`,
   },
   title: {
@@ -86,6 +92,10 @@ export const ARTICLE_FORM_FIELDS = {
     name: `image`,
     label: `Фотография`,
   },
+  Upload: {
+    name: `upload`,
+    label: `Фотография`,
+  },
 } as const;
 export const TableNames = {
   USERS: `users`,
@@ -97,3 +107,11 @@ export const TableNames = {
 } as const;
 export const DEFAULT_COMMAND = `--help`;
 export const USER_ARGV_INDEX = 2;
+export const LogLevel = {
+  FATAL: `fatal`,
+  ERROR: `error`,
+  WARN: `warn`,
+  INFO: `info`,
+  DEBUG: `debug`,
+  TRACE: `trace`,
+} as const;

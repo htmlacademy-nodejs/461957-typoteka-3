@@ -1,59 +1,37 @@
-import {Router} from "express";
+import {NextFunction, Request, Response, Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {dataProviderService} from "../services/data-provider.service";
+import {dataProviderService} from "../services";
 import {ArticlePage} from "../views/pages/ArticlePage";
 import multer from "multer";
-import {NewArticle} from "../../types/new-article";
-import {ArticleValidationResponse} from "../../types/article-validation-response";
+import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import {EditArticle} from "../views/components/EditArticle/EditArticle";
-import {categoriesToArrayMiddleware} from "../middlewares/categories-to-array.middleware";
+import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
+import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
+import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
+import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
+import type {ArticleFromBrowser} from "../../types/article-from-browser";
+import {NewArticle} from "../../types/article";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
 
-articlesRouter.get(`/add`, async (req, res, next) => {
-  const categories = await dataProviderService.getCategories();
-  if (categories !== null) {
-    streamPage(res, EditArticle, {endPoint: ClientRoutes.ARTICLES.ADD, availableCategories: categories});
-  } else {
-    next(
-      new SSRError({
-        message: `Failed to request categories`,
-        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-      }),
-    );
-  }
-});
-
-articlesRouter.post(`/add`, [multerMiddleware.none(), categoriesToArrayMiddleware], async (req, res, next) => {
-  const newArticle = req.body as NewArticle;
+articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const response: true | ArticleValidationResponse = await dataProviderService.createArticle(newArticle);
-    if (response === true) {
-      res.redirect(ClientRoutes.ADMIN.INDEX);
-    } else {
-      const categories = await dataProviderService.getCategories();
-      if (categories !== null) {
-        streamPage(res, EditArticle, {
-          article: newArticle,
-          endPoint: ClientRoutes.ARTICLES.ADD,
-          articleValidationResponse: response,
-          availableCategories: categories,
-        });
-      } else {
-        next(
-          new SSRError({
-            message: `Failed to create an article`,
-            statusCode: HttpCode.BAD_REQUEST,
-          }),
-        );
-      }
+    const categories = await dataProviderService.getCategories();
+    if (categories === null) {
+      return next(
+        new SSRError({
+          message: `Failed to request categories`,
+          statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+        }),
+      );
     }
+    return streamPage(res, EditArticle, {endPoint: ClientRoutes.ARTICLES.ADD, availableCategories: categories});
   } catch (e) {
     console.log(e);
-    next(
+    return next(
       new SSRError({
         message: `Failed to create an article`,
         statusCode: HttpCode.BAD_REQUEST,
@@ -63,26 +41,87 @@ articlesRouter.post(`/add`, [multerMiddleware.none(), categoriesToArrayMiddlewar
   }
 });
 
-articlesRouter.get(`/category/:id`, (req, res, next) => {
-  const categoryId = req.params.id;
-  // TODO: Get categories
-  if (categoryId !== null) {
-    return res.send(`articles-by-category`);
-  }
-  next();
-});
-
-articlesRouter.get(`/:id`, async (req, res, next) => {
-  const articleId = req.params.id;
+articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res: Response, next: NextFunction) => {
+  const newArticle: NewArticle = {
+    ...(req.body as ArticleFromBrowser),
+    categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
+  };
   try {
-    const article = await dataProviderService.getArticleById(articleId);
-    if (article !== null) {
-      streamPage(res, ArticlePage, {article});
+    const response: true | ArticleValidationResponse = await dataProviderService.createArticle(newArticle);
+    if (response === true) {
+      return res.redirect(ClientRoutes.ADMIN.INDEX);
     } else {
-      next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+      const categories = await dataProviderService.getCategories();
+      if (categories === null) {
+        return next(
+          new SSRError({
+            message: `Failed to create an article`,
+            statusCode: HttpCode.BAD_REQUEST,
+          }),
+        );
+      }
+      return streamPage(res, EditArticle, {
+        article: newArticle,
+        endPoint: ClientRoutes.ARTICLES.ADD,
+        articleValidationResponse: response,
+        availableCategories: categories,
+      });
     }
   } catch (e) {
-    next(
+    console.log(e);
+    return next(
+      new SSRError({
+        message: `Failed to create an article`,
+        statusCode: HttpCode.BAD_REQUEST,
+        errorPayload: e as Error,
+      }),
+    );
+  }
+});
+
+articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: NextFunction) => {
+  const categoryId = parseInt(req.params.id, 10);
+  try {
+    const [{articles, category}, categories] = await Promise.all([
+      dataProviderService.getArticlesByCategoryId(categoryId),
+      dataProviderService.getCategoriesWithNumbers(),
+    ]);
+    const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
+    if (articles === null) {
+      return next(
+        new SSRError({
+          message: `Failed to get articles by category id or failed to get categories`,
+          statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+        }),
+      );
+    }
+    return streamPage(res, ArticlesByCategoryPage, {
+      pageTitle: category.label,
+      categories: preparedCategories,
+      articles,
+      selectedCategoryId: category.id,
+    });
+  } catch (e) {
+    return next(
+      new SSRError({
+        message: `Failed to get articles by category id or by get categories`,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+        errorPayload: e as Error,
+      }),
+    );
+  }
+});
+
+articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunction) => {
+  const articleId = parseInt(req.params.id, 10);
+  try {
+    const article = await dataProviderService.getArticleById(articleId);
+    if (article === null) {
+      return next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    }
+    return streamPage(res, ArticlePage, {article});
+  } catch (e) {
+    return next(
       new SSRError({
         message: `Failed to get article`,
         statusCode: HttpCode.NOT_FOUND,
@@ -92,24 +131,25 @@ articlesRouter.get(`/:id`, async (req, res, next) => {
   }
 });
 
-articlesRouter.get(`/edit/:id`, async (req, res, next) => {
-  const articleId = req.params.id;
+articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFunction) => {
+  const articleId = parseInt(req.params.id, 10);
   try {
     const [article, categories] = await Promise.all([
       dataProviderService.getArticleById(articleId),
       dataProviderService.getCategories(),
     ]);
-    if (article !== null && categories !== null) {
-      streamPage(res, EditArticle, {
-        article,
-        endPoint: ClientRoutes.ARTICLES.INDEX + `/` + articleId,
-        availableCategories: categories,
-      });
-    } else {
-      next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    if (article === null && categories === null) {
+      return next(
+        new SSRError({message: `Failed to get article or categories`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}),
+      );
     }
+    return streamPage(res, EditArticle, {
+      article,
+      endPoint: `${ClientRoutes.ARTICLES.INDEX}/${articleId}`,
+      availableCategories: categories,
+    });
   } catch (e) {
-    next(
+    return next(
       new SSRError({
         message: `Failed to get article`,
         statusCode: HttpCode.NOT_FOUND,

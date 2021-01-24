@@ -1,40 +1,39 @@
-import {App} from "../app";
 import {agent as request} from "supertest";
 import {Application} from "express";
 import http from "http";
+import {ArticleSearchCollection} from "../../../types/article-search-collection";
+import {initApp} from "./tests-boilerplate/init-app";
 
 describe(`Search router`, () => {
-  let server: Application;
-  let httpServer: http.Server
+  let app: Application;
+  let httpServer: http.Server;
   beforeAll(async () => {
-    const app = new App();
-    httpServer = app.listen();
-    server = app.getServer();
+    ({server: app, httpServer} = await initApp());
   });
-  afterAll(async () => {
+  afterAll(() => {
     httpServer.close();
-  })
+  });
 
   describe(`get()`, () => {
     test(`Should return code 200 when pass query string`, async () => {
-      const res = await request(server).get(`/api/search?query=test-query-string`);
+      const res = await request(app).get(`/api/search?query=test-query-string`);
       expect(res.status).toBe(200);
     });
     test(`Should return code 200 when pass empty query string`, async () => {
-      const res = await request(server).get(`/api/search?query=`);
+      const res = await request(app).get(`/api/search?query=`);
       expect(res.status).toBe(200);
     });
     test(`Should return code 400 when don't pass query param`, async () => {
-      const res = await request(server).get(`/api/search`);
+      const res = await request(app).get(`/api/search`);
       expect(res.status).toBe(400);
-    })
+    });
     test(`Should return array when pass query string`, async () => {
-      const res = await request(server).get(`/api/search?query=%D1%84`);
-      expect(Array.isArray(res.body)).toBe(true);
-    })
+      const res = await request(app).get(`/api/search?query=%D1%84`);
+      expect(Array.isArray(res.body.items)).toBe(true);
+    });
     test(`Should return empty array when pass empty query string`, async () => {
-      const res = await request(server).get(`/api/search?query=`);
-      expect(res.body.length).toBe(0);
-    })
+      const res = await request(app).get(`/api/search?query=`);
+      expect((res.body as ArticleSearchCollection).items.length).toBe(0);
+    });
   });
 });

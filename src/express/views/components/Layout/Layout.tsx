@@ -6,8 +6,6 @@ export interface LayoutProps {
   wrapperMode?: WrapperMode;
   header: ReactNode;
   footer: ReactNode;
-  addScripts?: boolean;
-  fixScroll?: boolean;
 }
 
 const wrapperCssClasses: {[key in WrapperMode]: string} = {
@@ -21,14 +19,13 @@ export const Layout: FunctionComponent<LayoutProps> = ({
   header,
   children,
   footer,
-  fixScroll,
-  addScripts,
 }) => (
   <html lang="ru">
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
-      <meta name="Description" content="Личный блог Типотека" />
+      <meta name="description" content="Личный блог Типотека" />
+      <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
       <title>Типотека</title>
       <link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" crossOrigin="anonymous" />
       <link rel="preload" href="/fonts/Inter-Medium.woff2" as="font" crossOrigin="anonymous" />
@@ -47,8 +44,8 @@ export const Layout: FunctionComponent<LayoutProps> = ({
         {children}
         {footer}
       </div>
-      {fixScroll ? <script src="js/vendor.js" /> : null}
-      {addScripts ? <script src="js/main.js" /> : null}
+      <script src="js/vendor.js" />
+      <script src="js/main.js" />
     </body>
   </html>
 );

@@ -1,12 +1,14 @@
 import {Router} from "express";
-import {searchController} from "../controllers";
 import {HttpCode} from "../../../constants-es6";
+import {SearchController} from "../controllers/search.controller";
 
-const searchRouter = Router();
+export const searchRouter = (searchController: SearchController): Router => {
+  const router = Router();
 
-searchRouter.get(``, async (req, res) => {
-  const {status = HttpCode.OK, payload} = await searchController.findArticleByMatch(req.query?.query as string);
-  return res.status(status).send(payload);
-});
+  router.get(``, async (req, res) => {
+    const {status = HttpCode.OK, payload} = await searchController.findArticleByMatch(req.query?.query as string);
+    return res.status(status).send(payload);
+  });
 
-export {searchRouter};
+  return router;
+};

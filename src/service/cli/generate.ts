@@ -3,12 +3,9 @@ import {Article} from "../../types/article";
 import {ArticleComment} from "../../types/article-comment";
 import {ExitCode, MockFilePath, MockTextsFilePath} from "../../constants-es6";
 import chalk from "chalk";
-import {nanoid} from "nanoid";
 import {promises} from "fs";
 import {getRandomInt, shuffle} from "../../utils";
 import {Category} from "../../types/category";
-import {transliterate} from "../../shared/transliterate";
-import {CategoryId} from "../../types/category-id";
 import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
 import {
   getAnnounce,
@@ -19,10 +16,9 @@ import {
   getTitle,
 } from "./generate-database-mock/values-generators";
 import {CommentRestrict, CommentTextRestrict} from "./generate-database-mock/constants/mocks-restrictions";
+import {getNumericalId} from "../../shared/get-id";
 
 const DEFAULT_COUNT = 10;
-const validArticleId = `-H91UO1mzYQSeSGK2rxWC`;
-const validCommentId = `-ZyTZtrsZjjBq8k5Bskzjb`;
 
 function generateMocks(
   count: number,
@@ -34,13 +30,13 @@ function generateMocks(
   return Array(count)
     .fill(undefined)
     .map(() => ({
-      id: getId(),
+      id: getNumericalId(),
       announce: getAnnounce(sentences),
-      category: getCategories(categories),
+      categories: getCategories(categories),
       createdDate: getDate(Date.now()),
       fullText: getFullText(sentences),
       title: getTitle(titles),
-      comments: getComments(comments),
+      comments: getComments(comments).map(comment => ({...comment, id: getNumericalId()})),
     }));
 }
 
@@ -54,9 +50,9 @@ function generateMocksForTests(
   return Array(count)
     .fill(undefined)
     .map((value, index) => ({
-      id: getIdForTests(index),
+      id: getNumericalId(),
       announce: getAnnounce(sentences),
-      category: getCategories(categories),
+      categories: getCategories(categories),
       createdDate: getDate(Date.now()),
       fullText: getFullText(sentences),
       title: getTitle(titles),
@@ -116,26 +112,20 @@ async function getTextsForMocks(
   ]);
 }
 
-function getId(): string {
-  return nanoid();
-}
-
-function getIdForTests(index: number): string {
-  return index ? nanoid() : validArticleId;
-}
-
 function getCommentsForTests(commentsSentences: string[], forceCreateComments: boolean): ArticleComment[] {
   return Array(forceCreateComments ? CommentRestrict.max + 1 : CommentRestrict.max)
     .fill(undefined)
     .map<ArticleComment>((value, index) => ({
-      id: index ? nanoid() : validCommentId,
+      id: getNumericalId(),
       text: shuffle(commentsSentences)
         .slice(CommentTextRestrict.min, getRandomInt(CommentTextRestrict.min + 1, CommentTextRestrict.max))
         .join(` `),
+      articleId: 1,
+      createdDate: getDate(Date.now()),
     }))
     .slice(CommentRestrict.min, getRandomInt(CommentRestrict.min, CommentRestrict.max));
 }
 
-function generateCategoriesMocks(categoriesNames: CategoryId[]): Category[] {
-  return categoriesNames.map(categoryName => ({id: transliterate(categoryName), label: categoryName}));
+function generateCategoriesMocks(categoriesNames: string[]): Category[] {
+  return categoriesNames.map((categoryName, index) => ({id: index + 1, label: categoryName}));
 }

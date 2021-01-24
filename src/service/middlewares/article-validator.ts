@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response} from "express";
-import {Article} from "../../types/article";
+import {IArticleId, NewArticle} from "../../types/article";
 import {ArticleValidationResponse} from "../../types/article-validation-response";
-import {ValidationError} from "../errors/validation-error";
+import {ValidationError} from "../../shared/errors/validation-error";
 import {HttpCode} from "../../constants-es6";
 
 const TITLE_RESTRICTIONS = [30, 250];
@@ -27,8 +27,8 @@ export function existingArticleValidator(req: Request, res: Response, next: Next
 }
 
 function getArticleValidationResponse(
-  article: Partial<Article>,
-  skipFields: (keyof Article)[] = [],
+  article: Partial<NewArticle & IArticleId>,
+  skipFields: (keyof (NewArticle & IArticleId))[] = [],
 ): ArticleValidationResponse {
   const validationResponse: ArticleValidationResponse = {};
 
@@ -49,8 +49,8 @@ function getArticleValidationResponse(
   if (!article.createdDate) {
     validationResponse.createdDate = {state: ValidationError.REQUIRED};
   }
-  if (!article?.category?.length) {
-    validationResponse.category = {state: ValidationError.REQUIRED};
+  if (!article?.categories?.length) {
+    validationResponse.categories = {state: ValidationError.REQUIRED};
   }
   if (!article.announce) {
     validationResponse.announce = {

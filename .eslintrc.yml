@@ -16,6 +16,7 @@ plugins:
   - "react"
 ignorePatterns:
   - "*.tsx"
+  - "src/express/static/**"
 rules:
   comma-dangle:
     - warn
@@ -26,7 +27,7 @@ rules:
     - error
     - as-needed
   new-cap:
-    - warn
+    - off
   "@typescript-eslint/no-unused-vars":
     - warn
   "@typescript-eslint/explicit-function-return-type":
@@ -34,3 +35,8 @@ rules:
   "@typescript-eslint/no-use-before-define":
     - error
     - functions: false
+  "@typescript-eslint/no-misused-promises":
+    - off
+#    - checks:
+#        - conditional
+#        - void-return

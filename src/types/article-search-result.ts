@@ -1,6 +1,7 @@
+import {ArticleId} from "./article-id";
+
 export interface ArticleSearchResult {
-  id: string;
+  id: ArticleId;
   title: string;
   createdDate: Date;
-  link: string;
 }

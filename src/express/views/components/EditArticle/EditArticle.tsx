@@ -1,15 +1,15 @@
 import React, {FunctionComponent} from "react";
-import {Article} from "../../../../types/article";
+import type {Article} from "../../../../types/article";
 import {ARTICLE_FORM_FIELDS} from "../../../../constants-es6";
-import {ArticleValidationResponse} from "../../../../types/article-validation-response";
+import type {ArticleValidationResponse} from "../../../../types/article-validation-response";
 import {FormValidationBlock} from "../Form/FormValidationBlock";
 import {FormValidationMessage} from "../Form/FormValidationMessage";
-import {ValidationError} from "../../../../service/errors/validation-error";
-import {ValidationMessage} from "../../../../types/validation-message";
+import {ValidationError} from "../../../../shared/errors/validation-error";
+import type {ValidationMessage} from "../../../../types/validation-message";
 import {LayoutFilled} from "../Layout/LayoutFilled";
 import {FieldValidationBlock} from "../Form/FieldVlidationBlock";
 import {CategoriesSelect} from "./CategoriesSelect";
-import {Category} from "../../../../types/category";
+import type {Category} from "../../../../types/category";
 
 interface EditArticleProps {
   article?: Partial<Article>;
@@ -30,20 +30,20 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
           title: "",
           announce: "",
           fullText: "",
-          category: [],
+          categories: [],
         }
       : {
           title: article.title,
           announce: article.announce,
           fullText: article.fullText,
-          category: article.category,
+          categories: article.categories,
         };
 
   return (
-    <LayoutFilled fixScroll={true} addScripts={true}>
+    <LayoutFilled>
       <main>
-        <section className="modal modal--flex">
-          <div className="popup popup--new-publication popup--flex">
+        <section>
+          <div className="popup popup--new-publication popup--anti">
             <div className="new-publication">
               <form action={endPoint} method="POST" encType="multipart/form-data">
                 <div className="new-publication__header">
@@ -58,7 +58,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                           defaultValue={getInitialDate()}
                           name={ARTICLE_FORM_FIELDS.createdDate.name}
                           id="new-publication-date"
-                          placeholder="21.03.2019"
+                          placeholder="2019-03-21"
                         />
                       </div>
                     </div>
@@ -67,9 +67,9 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                     Опубликовать
                   </button>
                 </div>
-                <button type="button" className="popup__button button button--popup-close" aria-label="Закрыть окно">
+                <a type="button" className="popup__button button button--popup-close" aria-label="Закрыть окно">
                   Закрыть окно
-                </button>
+                </a>
                 <div className="new-publication__form form">
                   {Object.keys(articleValidationResponse).length ? (
                     <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
@@ -107,8 +107,9 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                       <label>
                         <input
                           id="image-name-field"
+                          name={ARTICLE_FORM_FIELDS.Upload.name}
                           type="text"
-                          placeholder={ARTICLE_FORM_FIELDS.Image.label}
+                          placeholder={ARTICLE_FORM_FIELDS.Upload.label}
                           readOnly
                         />
                       </label>
@@ -116,6 +117,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                         <label>
                           <input
                             className="visually-hidden"
+                            style={{width: "1px"}}
                             name={ARTICLE_FORM_FIELDS.Image.name}
                             type="file"
                             disabled
@@ -129,7 +131,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                     </div>
                     <CategoriesSelect
                       availableCategories={availableCategories}
-                      selectedCategories={articleProps.category}
+                      selectedCategories={articleProps.categories}
                       inputName={ARTICLE_FORM_FIELDS.category.name}
                     />
                   </div>
@@ -137,7 +139,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                     <div className="form__field form__field--publication-text">
                       <label>
                         <textarea
-                          rows={2}
+                          rows={5}
                           placeholder={ARTICLE_FORM_FIELDS.announce.label}
                           name={ARTICLE_FORM_FIELDS.announce.name}
                           value={articleProps.announce}
@@ -159,7 +161,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                       <label>
                         <textarea
                           name={ARTICLE_FORM_FIELDS.fullText.name}
-                          rows={5}
+                          rows={10}
                           placeholder={ARTICLE_FORM_FIELDS.fullText.label}
                           value={articleProps.fullText}
                           onChange={() => {}}

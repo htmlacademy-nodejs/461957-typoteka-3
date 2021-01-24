@@ -1,0 +1,46 @@
+import {DataTypes, HasManyAddAssociationMixin, Model, ModelCtor, Sequelize} from "sequelize";
+import {TableName} from "../constants/table-name";
+import {IAnnounce, IArticleId, ICreatedDate, IFullText, ITitle} from "../../../../types/article";
+import {modelOptions} from "./constants/model-options";
+import {ICategoryEntity} from "./category";
+import {CategoryId} from "../../../../types/category-id";
+
+type PredefinedArticle = IArticleId & ITitle & ICreatedDate & IAnnounce & IFullText;
+type ArticleCreationAttributes = ITitle & ICreatedDate & IAnnounce & IFullText;
+export type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes> & {
+  setCategories(categoryIds: CategoryId[]): Promise<HasManyAddAssociationMixin<ICategoryEntity, CategoryId[]>>;
+};
+export type IArticleModel = ModelCtor<IArticleEntity>;
+
+export const defineArticle = (sequelize: Sequelize): IArticleModel =>
+  sequelize.define<IArticleEntity>(
+    `Article`,
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false,
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      createdDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      announce: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      fullText: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+    },
+    {
+      ...modelOptions,
+      tableName: TableName.ARTICLES,
+    },
+  );

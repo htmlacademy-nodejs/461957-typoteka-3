@@ -8,15 +8,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "alwaysStrict": true,
-    "jsx": "react",
-    "lib": [
-      "es2019"
-    ]
+    "lib": ["es2019"],
+    "jsx": "react"
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "src/**/*"
-  ]
+  "exclude": ["node_modules"]
 }

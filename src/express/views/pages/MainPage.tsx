@@ -5,22 +5,22 @@ import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {HotList} from "../components/HotList/HotList";
 import {LastList} from "../components/LastList/LastList";
 import {PreviewList} from "../components/PreviewList/PreviewList";
-import {Article} from "../../../types/article";
-import {Category} from "../../../types/category";
+import {Pagination} from "../components/Pagination/Pagination";
+import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
+import {CategoryWithLink} from "../../../types/category-with-link";
+import {IArticlePreview} from "../../../types/interfaces/article-preview";
 
 interface MainPageProps {
-  articles?: Article[];
-  availableCategories: Category[];
+  articles?: IArticlePreview[];
+  categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[];
+  categoriesWithLinks: CategoryWithLink[];
 }
 
-export const MainPage: FunctionComponent<MainPageProps> = ({articles, availableCategories: availableCategories}) => {
-  const categoriesForFilter = availableCategories
-    .map((category, index) => ({
-      title: category.label,
-      link: category.id,
-      count: index + 1,
-    }))
-    .sort((a, b) => b.count - a.count);
+export const MainPage: FunctionComponent<MainPageProps> = ({
+  articles,
+  categoriesWithLinksAndNumbers,
+  categoriesWithLinks,
+}) => {
   const hotList = [
     {
       title: `Билл Гейтс впервые за два года возглавил рейтинг самых богатых людей мира по версии Bloomberg`,
@@ -68,12 +68,17 @@ export const MainPage: FunctionComponent<MainPageProps> = ({articles, availableC
     <LayoutFilled>
       <main className="main-page">
         <Greeting />
-        <CategoriesList categories={categoriesForFilter} />
+        <section className="main-page__theme-list">
+          <CategoriesList categories={categoriesWithLinksAndNumbers} />
+        </section>
         <div className="main-page__section-flex">
           <HotList listOfHot={hotList} />
           <LastList listOfLast={lastList} />
         </div>
-        <PreviewList previews={articles} availableCategories={availableCategories} />
+        <PreviewList previews={articles} categories={categoriesWithLinks} />
+        <div className="preview__toggle-wrapper">
+          <Pagination parentCssClass={"preview"} min={1} max={5} current={1} hasNext={true} hasPrev={false} />
+        </div>
       </main>
     </LayoutFilled>
   );
