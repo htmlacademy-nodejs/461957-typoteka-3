@@ -75,10 +75,9 @@ export const MainPage: FunctionComponent<MainPageProps> = ({
           <HotList listOfHot={hotList} />
           <LastList listOfLast={lastList} />
         </div>
-        <PreviewList previews={articles} categories={categoriesWithLinks} />
-        <div className="preview__toggle-wrapper">
+        <PreviewList previews={articles} categories={categoriesWithLinks}>
           <Pagination parentCssClass={"preview"} min={1} max={5} current={1} hasNext={true} hasPrev={false} />
-        </div>
+        </PreviewList>
       </main>
     </LayoutFilled>
   );
