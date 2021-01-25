@@ -85,7 +85,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
   const offset = getOffsetFromPage(page);
   const categoryId = parseInt(req.params.id, 10);
   try {
-    const [{articles, category}, categories] = await Promise.all([
+    const [{items: articles, totalCount, category}, categories] = await Promise.all([
       dataProviderService.getArticlesByCategoryId({offset, categoryId}),
       dataProviderService.getCategoriesWithNumbers(),
     ]);
@@ -103,7 +103,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
       categories: preparedCategories,
       articles,
       selectedCategoryId: category.id,
-      total: preparedCategories.find(item => item.id === category.id).count,
+      total: totalCount,
       page: getCurrentPage(offset),
       prefix: `?`,
     });

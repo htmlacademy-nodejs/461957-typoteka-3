@@ -10,6 +10,7 @@ import {CommentsService} from "../data-access/services/comments.service";
 import {IArticlePlain} from "../../../types/interfaces/article-plain";
 import {ArticleId} from "../../../types/article-id";
 import {IPaginationOptions} from "../../../types/interfaces/pagination-options";
+import {ICollection} from "../../../types/interfaces/collection";
 
 const DEFAULT_LIMIT = 8;
 
@@ -21,20 +22,20 @@ export class ArticlesController {
   ) {}
 
   public async getArticles({}: IPaginationOptions & {areCommentsRequired: false}): Promise<
-    ControllerResponse<(IArticlePlain & ICategories)[]>
+    ControllerResponse<ICollection<IArticlePlain & ICategories>>
   >;
   public async getArticles({}: IPaginationOptions & {areCommentsRequired: true}): Promise<
-    ControllerResponse<(IArticlePlain & ICategories & IComments)[]>
+    ControllerResponse<ICollection<IArticlePlain & ICategories & IComments>>
   >;
   public async getArticles({
     offset = 0,
     limit = DEFAULT_LIMIT,
     areCommentsRequired,
   }: IPaginationOptions & {areCommentsRequired: boolean}): Promise<
-    ControllerResponse<(IArticlePlain & ICategories)[] | (IArticlePlain & ICategories & IComments)[]>
+    ControllerResponse<ICollection<IArticlePlain & ICategories> | ICollection<IArticlePlain & ICategories & IComments>>
   > {
     try {
-      const plainArticles = await this.articlesService.findAll({limit, offset});
+      const {items: plainArticles, totalCount} = await this.articlesService.findAll({limit, offset});
       if (plainArticles === null) {
         return {status: HttpCode.INTERNAL_SERVER_ERROR};
       }
@@ -51,9 +52,19 @@ export class ArticlesController {
             comments: await this.commentsService.findByArticleId(article.id),
           })),
         );
-        return {payload: articlesWithComments};
+        return {
+          payload: {
+            items: articlesWithComments,
+            totalCount,
+          },
+        };
       } else {
-        return {payload: plainArticlesWithCategories};
+        return {
+          payload: {
+            items: plainArticlesWithCategories,
+            totalCount,
+          },
+        };
       }
     } catch (e) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
@@ -78,7 +89,7 @@ export class ArticlesController {
     limit = DEFAULT_LIMIT,
     categoryId,
   }: IPaginationOptions & {categoryId: CategoryId}): Promise<ControllerResponse<ArticlesByCategory>> {
-    const [plainArticles, category] = await Promise.all([
+    const [{items: plainArticles, totalCount}, category] = await Promise.all([
       this.articlesService.findByCategoryId({offset, limit, categoryId}),
       this.categoriesService.findOneById(categoryId),
     ]);
@@ -93,9 +104,9 @@ export class ArticlesController {
     );
     return {
       payload: {
-        articles: plainArticlesWithCategories,
+        items: plainArticlesWithCategories,
         category,
-        itemsCount: plainArticlesWithCategories.length,
+        totalCount,
       },
     };
   }

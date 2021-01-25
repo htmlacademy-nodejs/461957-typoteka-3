@@ -16,7 +16,13 @@ export const CategoriesList: FunctionComponent<Props> = ({categories, selectedCa
         .sort((a, b) => a.label.localeCompare(b.label))
         .map(theme => (
           <li className="themes__item" key={theme.link}>
-            <CategoryLink id={theme.id} label={theme.label} count={theme.count} link={theme.link} isActive={theme.id === selectedCategoryId} />
+            <CategoryLink
+              id={theme.id}
+              label={theme.label}
+              count={theme.count}
+              link={theme.link}
+              isActive={theme.id === selectedCategoryId}
+            />
           </li>
         ))}
     </ul>

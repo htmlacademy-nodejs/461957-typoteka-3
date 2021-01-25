@@ -12,6 +12,7 @@ import {Category} from "../../types/category";
 import {IArticlePreview} from "../../types/interfaces/article-preview";
 import {ArticleId} from "../../types/article-id";
 import {IPaginationOptions} from "../../types/interfaces/pagination-options";
+import {ICollection} from "../../types/interfaces/collection";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -21,17 +22,20 @@ export class DataProviderService {
     this.requestService = axios;
   }
 
-  public async getArticles({offset, limit}: Partial<IPaginationOptions>): Promise<IArticlePreview[]> {
-    let response: AxiosResponse<IArticlePreview[]>;
+  public async getArticles({offset, limit}: Partial<IPaginationOptions>): Promise<ICollection<IArticlePreview>> {
+    let response: AxiosResponse<ICollection<IArticlePreview>>;
     try {
-      response = await this.requestService.get<IArticlePreview[]>(this.apiEndPoint + APIRoutes.ARTICLES, {
+      response = await this.requestService.get<ICollection<IArticlePreview>>(this.apiEndPoint + APIRoutes.ARTICLES, {
         params: {offset, limit},
       });
     } catch (e) {
       console.error(`error`, e);
     }
     if (response && response.status === 200) {
-      return response.data.map(transformDate);
+      return {
+        items: response.data.items.map(transformDate),
+        totalCount: response.data.totalCount,
+      };
     } else {
       console.error(response.data);
       return null;
@@ -95,8 +99,8 @@ export class DataProviderService {
     if (response && response.status === 200) {
       return {
         category: response.data.category,
-        articles: response.data.articles.map(transformDate),
-        itemsCount: response.data.itemsCount,
+        items: response.data.items.map(transformDate),
+        totalCount: response.data.totalCount,
       };
     } else {
       console.error(response.data);
@@ -105,7 +109,7 @@ export class DataProviderService {
   }
 
   public async getComments(quantityOfArticles: number): Promise<ArticleComment[]> {
-    const articlesList = await this.getArticles({limit: 100, offset: 0});
+    const {items: articlesList} = await this.getArticles({limit: 100, offset: 0});
     if (articlesList === null) {
       return null;
     }

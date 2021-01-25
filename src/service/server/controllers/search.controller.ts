@@ -15,7 +15,7 @@ export class SearchController {
         payload: {
           query,
           items: [],
-          itemsCount: 0,
+          totalCount: 0,
         },
       };
     }
@@ -27,7 +27,7 @@ export class SearchController {
       payload: {
         query,
         items: matches,
-        itemsCount: matches.length,
+        totalCount: matches.length,
       },
     };
   }

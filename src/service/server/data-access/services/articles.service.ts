@@ -6,11 +6,12 @@ import {CategoryId} from "../../../../types/category-id";
 import {ArticleId} from "../../../../types/article-id";
 import {IArticlePlain} from "../../../../types/interfaces/article-plain";
 import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
+import {ICollection} from "../../../../types/interfaces/collection";
 
 export class ArticlesService {
   constructor(private readonly ArticleModel: IArticleModel) {}
 
-  public async findAll({limit, offset}: IPaginationOptions): Promise<IArticlePlain[]> {
+  public async findAll({limit, offset}: IPaginationOptions): Promise<ICollection<IArticlePlain>> {
     const attributes: FindAttributeOptions = [
       `announce`,
       [`full_text`, `fullText`],
@@ -33,9 +34,13 @@ export class ArticlesService {
       offset: offset ?? undefined,
       order: [[`createdDate`, `DESC`]],
     });
-    return articles
-      .map(item => item.get({plain: true}))
-      .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)}));
+    const count = await this.ArticleModel.count();
+    return {
+      items: articles
+        .map(item => item.get({plain: true}))
+        .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)})),
+      totalCount: count,
+    };
   }
 
   // public async findPage({limit, offset}: {limit: number; offset: number}): Promise<Article[]> {}
@@ -71,7 +76,7 @@ export class ArticlesService {
     limit,
     offset,
     categoryId,
-  }: IPaginationOptions & {categoryId: CategoryId}): Promise<IArticlePlain[]> {
+  }: IPaginationOptions & {categoryId: CategoryId}): Promise<ICollection<IArticlePlain>> {
     const attributes: FindAttributeOptions = [
       `announce`,
       [`full_text`, `fullText`],
@@ -105,9 +110,26 @@ export class ArticlesService {
       offset: offset ?? undefined,
       order: [[`createdDate`, `DESC`]],
     });
-    return articles
+    const count = await this.ArticleModel.count({
+      attributes: [[Sequelize.fn(`COUNT`, Sequelize.col(`categories.id`)), `count`]],
+      include: {
+        association: TableName.CATEGORIES,
+        attributes: [],
+        through: {
+          attributes: [],
+        },
+        where: {
+          id: categoryId,
+        },
+      },
+    });
+    const preparedArticles = articles
       .map(item => item.get({plain: true}))
       .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)}));
+    return {
+      totalCount: count,
+      items: preparedArticles,
+    };
   }
 
   public async create({announce, createdDate, fullText, title, categories}: NewArticle): Promise<true | null> {

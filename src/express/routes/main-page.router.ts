@@ -16,7 +16,7 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
   const page = getPageFromReqQuery(req);
   const offset = getOffsetFromPage(page);
   try {
-    const [articles, categories] = await Promise.all([
+    const [{items: articles, totalCount}, categories] = await Promise.all([
       dataProviderService.getArticles({offset}),
       dataProviderService.getCategoriesWithNumbers(),
     ]);
@@ -33,7 +33,7 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       articles,
       categoriesWithLinks,
       categoriesWithLinksAndNumbers,
-      total: 100,
+      total: totalCount,
       page: getCurrentPage(offset),
       prefix: `?`,
     });
