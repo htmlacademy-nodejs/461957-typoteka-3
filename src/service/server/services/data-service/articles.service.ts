@@ -9,7 +9,7 @@ import {IArticlePlain} from "../../../../types/interfaces/article-plain";
 export class ArticlesService {
   constructor(private readonly ArticleModel: IArticleModel) {}
 
-  public async findAll(): Promise<IArticlePlain[]> {
+  public async findAll({limit, offset}: {limit: number; offset: number}): Promise<IArticlePlain[]> {
     const attributes: FindAttributeOptions = [
       `announce`,
       [`full_text`, `fullText`],
@@ -24,9 +24,13 @@ export class ArticlesService {
         {
           association: TableName.COMMENTS,
           attributes: [],
+          duplicating: false,
         },
       ],
       group: [`Article.id`],
+      limit: limit ?? undefined,
+      offset: offset ?? undefined,
+      order: [[`createdDate`, `DESC`]],
     });
     return articles
       .map(item => item.get({plain: true}))

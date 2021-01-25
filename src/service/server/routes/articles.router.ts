@@ -9,12 +9,16 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
   const router = Router();
 
   router.get(`/`, async (req, res) => {
-    const count = Number(req.query?.count as string);
-    // TODO: implement pagination
+    const rawLimit = parseInt(req.query?.limit as string, 10);
+    const rawOffset = parseInt(req.query?.offset as string, 10);
+    const limit = isNaN(rawLimit) ? undefined : rawLimit;
+    const offset = isNaN(rawOffset) ? undefined : rawOffset;
     const areCommentsRequired = Boolean(req.query?.comments);
-    const {status = HttpCode.OK, payload} = await articlesController.getArticles(
-      areCommentsRequired ? areCommentsRequired : undefined,
-    );
+    const {status = HttpCode.OK, payload} = await articlesController.getArticles({
+      limit,
+      offset,
+      areCommentsRequired: areCommentsRequired ? areCommentsRequired : undefined,
+    });
     return res.status(status).send(payload);
   });
   router.get(`/:id`, async (req, res) => {

@@ -10,6 +10,14 @@ import {CommentsService} from "../services/data-service/comments.service";
 import {IArticlePlain} from "../../../types/interfaces/article-plain";
 import {ArticleId} from "../../../types/article-id";
 
+interface IGetArticlesProps {
+  offset: number;
+  limit: number;
+  areCommentsRequired: boolean;
+}
+
+const DEFAULT_LIMIT = 8;
+
 export class ArticlesController {
   constructor(
     private readonly articlesService: ArticlesService,
@@ -17,15 +25,21 @@ export class ArticlesController {
     private readonly commentsService: CommentsService,
   ) {}
 
-  public async getArticles(areCommentsRequired: false): Promise<ControllerResponse<(IArticlePlain & ICategories)[]>>;
-  public async getArticles(
-    areCommentsRequired: true,
-  ): Promise<ControllerResponse<(IArticlePlain & ICategories & IComments)[]>>;
-  public async getArticles(
-    areCommentsRequired: boolean,
-  ): Promise<ControllerResponse<(IArticlePlain & ICategories)[] | (IArticlePlain & ICategories & IComments)[]>> {
+  public async getArticles({}: IGetArticlesProps & {areCommentsRequired: false}): Promise<
+    ControllerResponse<(IArticlePlain & ICategories)[]>
+  >;
+  public async getArticles({}: IGetArticlesProps & {areCommentsRequired: true}): Promise<
+    ControllerResponse<(IArticlePlain & ICategories & IComments)[]>
+  >;
+  public async getArticles({
+    offset = 0,
+    limit = DEFAULT_LIMIT,
+    areCommentsRequired,
+  }: IGetArticlesProps): Promise<
+    ControllerResponse<(IArticlePlain & ICategories)[] | (IArticlePlain & ICategories & IComments)[]>
+  > {
     try {
-      const plainArticles = await this.articlesService.findAll();
+      const plainArticles = await this.articlesService.findAll({limit, offset});
       if (plainArticles === null) {
         return {status: HttpCode.INTERNAL_SERVER_ERROR};
       }
