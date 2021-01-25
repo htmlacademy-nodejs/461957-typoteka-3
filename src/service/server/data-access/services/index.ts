@@ -1,9 +1,9 @@
 import {CategoriesService} from "./categories.service";
-import {ICategoryModel} from "../../data-access/models/category";
-import {IArticleModel} from "../../data-access/models/article";
+import {ICategoryModel} from "../models/category";
+import {IArticleModel} from "../models/article";
 import {SearchService} from "./search.service";
 import {ArticlesService} from "./articles.service";
-import {ICommentModel} from "../../data-access/models/comment";
+import {ICommentModel} from "../models/comment";
 import {CommentsService} from "./comments.service";
 
 export const categoriesServiceFactory = (CategoryModel: ICategoryModel): CategoriesService =>

@@ -1,4 +1,4 @@
-import {IArticleModel} from "../../data-access/models/article";
+import {IArticleModel} from "../models/article";
 import {Model, Sequelize} from "sequelize";
 import {ArticleSearchResult} from "../../../../types/article-search-result";
 

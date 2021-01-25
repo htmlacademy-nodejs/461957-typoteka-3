@@ -1,7 +1,7 @@
 import {HttpCode} from "../../../constants-es6";
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticleSearchCollection} from "../../../types/article-search-collection";
-import {SearchService} from "../services/data-service/search.service";
+import {SearchService} from "../data-access/services/search.service";
 
 export class SearchController {
   constructor(private searchService: SearchService) {}

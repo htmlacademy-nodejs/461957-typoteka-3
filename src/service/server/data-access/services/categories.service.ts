@@ -1,8 +1,8 @@
 import {Model, Op, Sequelize} from "sequelize";
-import {ICategoryModel} from "../../data-access/models/category";
+import {ICategoryModel} from "../models/category";
 import {Category} from "../../../../types/category";
 import {CategoryWithNumbers} from "../../../../types/category-with-numbers";
-import {TableName} from "../../data-access/constants/table-name";
+import {TableName} from "../constants/table-name";
 import {ArticleId} from "../../../../types/article-id";
 import {CategoryId} from "../../../../types/category-id";
 

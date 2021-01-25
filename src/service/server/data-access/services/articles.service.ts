@@ -1,6 +1,6 @@
-import {IArticleModel} from "../../data-access/models/article";
+import {IArticleModel} from "../models/article";
 import {NewArticle} from "../../../../types/article";
-import {TableName} from "../../data-access/constants/table-name";
+import {TableName} from "../constants/table-name";
 import Sequelize, {FindAttributeOptions, Model} from "sequelize";
 import {CategoryId} from "../../../../types/category-id";
 import {ArticleId} from "../../../../types/article-id";

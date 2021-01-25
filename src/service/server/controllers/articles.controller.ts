@@ -4,9 +4,9 @@ import {Article, ICategories, IComments, NewArticle} from "../../../types/articl
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
-import {ArticlesService} from "../services/data-service/articles.service";
-import {CategoriesService} from "../services/data-service/categories.service";
-import {CommentsService} from "../services/data-service/comments.service";
+import {ArticlesService} from "../data-access/services/articles.service";
+import {CategoriesService} from "../data-access/services/categories.service";
+import {CommentsService} from "../data-access/services/comments.service";
 import {IArticlePlain} from "../../../types/interfaces/article-plain";
 import {ArticleId} from "../../../types/article-id";
 import {IPaginationOptions} from "../../../types/interfaces/pagination-options";
