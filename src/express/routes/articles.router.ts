@@ -105,7 +105,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
       selectedCategoryId: category.id,
       total: totalCount,
       page: getCurrentPage(offset),
-      prefix: `?`,
+      prefix: `${ClientRoutes.ARTICLES.CATEGORY}/${category.id}?`,
     });
   } catch (e) {
     return next(
