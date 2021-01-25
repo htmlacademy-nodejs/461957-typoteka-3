@@ -5,11 +5,12 @@ import Sequelize, {FindAttributeOptions, Model} from "sequelize";
 import {CategoryId} from "../../../../types/category-id";
 import {ArticleId} from "../../../../types/article-id";
 import {IArticlePlain} from "../../../../types/interfaces/article-plain";
+import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
 
 export class ArticlesService {
   constructor(private readonly ArticleModel: IArticleModel) {}
 
-  public async findAll({limit, offset}: {limit: number; offset: number}): Promise<IArticlePlain[]> {
+  public async findAll({limit, offset}: IPaginationOptions): Promise<IArticlePlain[]> {
     const attributes: FindAttributeOptions = [
       `announce`,
       [`full_text`, `fullText`],
@@ -66,7 +67,11 @@ export class ArticlesService {
     return {...plainArticle, commentsCount: parseInt(`${plainArticle.commentsCount}`, 10)};
   }
 
-  public async findByCategoryId(categoryId: CategoryId): Promise<IArticlePlain[]> {
+  public async findByCategoryId({
+    limit,
+    offset,
+    categoryId,
+  }: IPaginationOptions & {categoryId: CategoryId}): Promise<IArticlePlain[]> {
     const attributes: FindAttributeOptions = [
       `announce`,
       [`full_text`, `fullText`],
@@ -81,6 +86,7 @@ export class ArticlesService {
         {
           association: TableName.COMMENTS,
           attributes: [],
+          duplicating: false,
         },
         {
           association: TableName.CATEGORIES,
@@ -91,9 +97,13 @@ export class ArticlesService {
           where: {
             id: categoryId,
           },
+          duplicating: false,
         },
       ],
       group: [`Article.id`],
+      limit: limit ?? undefined,
+      offset: offset ?? undefined,
+      order: [[`createdDate`, `DESC`]],
     });
     return articles
       .map(item => item.get({plain: true}))

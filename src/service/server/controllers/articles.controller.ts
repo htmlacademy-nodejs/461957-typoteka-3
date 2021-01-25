@@ -9,12 +9,7 @@ import {CategoriesService} from "../services/data-service/categories.service";
 import {CommentsService} from "../services/data-service/comments.service";
 import {IArticlePlain} from "../../../types/interfaces/article-plain";
 import {ArticleId} from "../../../types/article-id";
-
-interface IGetArticlesProps {
-  offset: number;
-  limit: number;
-  areCommentsRequired: boolean;
-}
+import {IPaginationOptions} from "../../../types/interfaces/pagination-options";
 
 const DEFAULT_LIMIT = 8;
 
@@ -25,17 +20,17 @@ export class ArticlesController {
     private readonly commentsService: CommentsService,
   ) {}
 
-  public async getArticles({}: IGetArticlesProps & {areCommentsRequired: false}): Promise<
+  public async getArticles({}: IPaginationOptions & {areCommentsRequired: false}): Promise<
     ControllerResponse<(IArticlePlain & ICategories)[]>
   >;
-  public async getArticles({}: IGetArticlesProps & {areCommentsRequired: true}): Promise<
+  public async getArticles({}: IPaginationOptions & {areCommentsRequired: true}): Promise<
     ControllerResponse<(IArticlePlain & ICategories & IComments)[]>
   >;
   public async getArticles({
     offset = 0,
     limit = DEFAULT_LIMIT,
     areCommentsRequired,
-  }: IGetArticlesProps): Promise<
+  }: IPaginationOptions & {areCommentsRequired: boolean}): Promise<
     ControllerResponse<(IArticlePlain & ICategories)[] | (IArticlePlain & ICategories & IComments)[]>
   > {
     try {
@@ -78,9 +73,13 @@ export class ArticlesController {
     }
   }
 
-  public async getArticlesByCategory(categoryId: CategoryId): Promise<ControllerResponse<ArticlesByCategory>> {
+  public async getArticlesByCategory({
+    offset = 0,
+    limit = DEFAULT_LIMIT,
+    categoryId,
+  }: IPaginationOptions & {categoryId: CategoryId}): Promise<ControllerResponse<ArticlesByCategory>> {
     const [plainArticles, category] = await Promise.all([
-      this.articlesService.findByCategoryId(categoryId),
+      this.articlesService.findByCategoryId({offset, limit, categoryId}),
       this.categoriesService.findOneById(categoryId),
     ]);
     if (plainArticles === null) {

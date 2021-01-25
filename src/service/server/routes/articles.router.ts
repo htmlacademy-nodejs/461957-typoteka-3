@@ -4,15 +4,13 @@ import {newArticleValidator, newCommentValidator} from "../../middlewares";
 import {ArticleComment} from "../../../types/article-comment";
 import {Article, NewArticle} from "../../../types/article";
 import {ArticlesController} from "../controllers/articles.controller";
+import {getPaginationFromReqQuery} from "./unilities/get-pagination-from-req-query";
 
 export const articleRouter = (articlesController: ArticlesController): Router => {
   const router = Router();
 
   router.get(`/`, async (req, res) => {
-    const rawLimit = parseInt(req.query?.limit as string, 10);
-    const rawOffset = parseInt(req.query?.offset as string, 10);
-    const limit = isNaN(rawLimit) ? undefined : rawLimit;
-    const offset = isNaN(rawOffset) ? undefined : rawOffset;
+    const {limit, offset} = getPaginationFromReqQuery(req);
     const areCommentsRequired = Boolean(req.query?.comments);
     const {status = HttpCode.OK, payload} = await articlesController.getArticles({
       limit,
