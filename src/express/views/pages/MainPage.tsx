@@ -5,21 +5,25 @@ import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {HotList} from "../components/HotList/HotList";
 import {LastList} from "../components/LastList/LastList";
 import {PreviewList} from "../components/PreviewList/PreviewList";
-import {Pagination} from "../components/Pagination/Pagination";
 import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
 import {CategoryWithLink} from "../../../types/category-with-link";
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
+import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
 
-interface MainPageProps {
+interface MainPageProps extends IPaginationProps {
   articles?: IArticlePreview[];
   categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[];
   categoriesWithLinks: CategoryWithLink[];
+  prefix: string;
 }
 
 export const MainPage: FunctionComponent<MainPageProps> = ({
   articles,
   categoriesWithLinksAndNumbers,
   categoriesWithLinks,
+  page,
+  total,
+  prefix,
 }) => {
   const hotList = [
     {
@@ -76,7 +80,7 @@ export const MainPage: FunctionComponent<MainPageProps> = ({
           <LastList listOfLast={lastList} />
         </div>
         <PreviewList previews={articles} categories={categoriesWithLinks}>
-          <Pagination parentCssClass={"preview"} min={1} max={5} current={1} hasNext={true} hasPrev={false} />
+          <PaginationController page={page} total={total} prefix={prefix} />
         </PreviewList>
       </main>
     </LayoutFilled>

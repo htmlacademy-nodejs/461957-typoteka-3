@@ -11,6 +11,7 @@ import {CategoryId} from "../../types/category-id";
 import {Category} from "../../types/category";
 import {IArticlePreview} from "../../types/interfaces/article-preview";
 import {ArticleId} from "../../types/article-id";
+import {IPaginationOptions} from "../../types/interfaces/pagination-options";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -20,11 +21,11 @@ export class DataProviderService {
     this.requestService = axios;
   }
 
-  public async getArticles(count?: number): Promise<IArticlePreview[]> {
+  public async getArticles({offset, limit}: Partial<IPaginationOptions>): Promise<IArticlePreview[]> {
     let response: AxiosResponse<IArticlePreview[]>;
     try {
       response = await this.requestService.get<IArticlePreview[]>(this.apiEndPoint + APIRoutes.ARTICLES, {
-        params: {count},
+        params: {offset, limit},
       });
     } catch (e) {
       console.error(`error`, e);
@@ -75,12 +76,18 @@ export class DataProviderService {
     }
   }
 
-  public async getArticlesByCategoryId(categoryId: CategoryId): Promise<ArticlesByCategory> {
+  public async getArticlesByCategoryId({
+    offset,
+    limit,
+    categoryId,
+  }: Partial<IPaginationOptions> & {categoryId: CategoryId}): Promise<ArticlesByCategory> {
     let response: AxiosResponse<ArticlesByCategory>;
     try {
       response = await this.requestService.get<ArticlesByCategory>(
-        this.apiEndPoint + APIRoutes.CATEGORIES + `/` + categoryId.toString(10),
-        {},
+        `${this.apiEndPoint + APIRoutes.CATEGORIES}/${categoryId.toString(10)}`,
+        {
+          params: {offset, limit},
+        },
       );
     } catch (e) {
       console.error(`Failed to load articles by categoryId "${categoryId}"`, e);
@@ -98,7 +105,7 @@ export class DataProviderService {
   }
 
   public async getComments(quantityOfArticles: number): Promise<ArticleComment[]> {
-    const articlesList = await this.getArticles();
+    const articlesList = await this.getArticles({limit: 100, offset: 0});
     if (articlesList === null) {
       return null;
     }

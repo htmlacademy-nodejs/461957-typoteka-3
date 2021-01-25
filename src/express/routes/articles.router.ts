@@ -13,6 +13,7 @@ import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-cat
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
 import type {ArticleFromBrowser} from "../../types/article-from-browser";
 import {NewArticle} from "../../types/article";
+import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -80,10 +81,12 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
 });
 
 articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: NextFunction) => {
+  const page = getPageFromReqQuery(req);
+  const offset = getOffsetFromPage(page);
   const categoryId = parseInt(req.params.id, 10);
   try {
     const [{articles, category}, categories] = await Promise.all([
-      dataProviderService.getArticlesByCategoryId(categoryId),
+      dataProviderService.getArticlesByCategoryId({offset, categoryId}),
       dataProviderService.getCategoriesWithNumbers(),
     ]);
     const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
@@ -100,6 +103,9 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
       categories: preparedCategories,
       articles,
       selectedCategoryId: category.id,
+      total: preparedCategories.find(item => item.id === category.id).count,
+      page: getCurrentPage(offset),
+      prefix: `?`,
     });
   } catch (e) {
     return next(

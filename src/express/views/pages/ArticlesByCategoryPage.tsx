@@ -5,13 +5,14 @@ import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-an
 import {PreviewList} from "../components/PreviewList/PreviewList";
 import {CategoryId} from "../../../types/category-id";
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
-import {Pagination} from "../components/Pagination/Pagination";
+import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
 
-interface Props {
+interface Props extends IPaginationProps {
   pageTitle: string;
   categories: CategoryWithLinksAndNumbers[];
   articles: IArticlePreview[];
   selectedCategoryId?: CategoryId;
+  prefix: string;
 }
 
 export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
@@ -19,6 +20,9 @@ export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
   categories,
   articles,
   selectedCategoryId,
+  total,
+  page,
+  prefix,
 }) => {
   return (
     <LayoutFilled>
@@ -29,7 +33,7 @@ export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
         </section>
         <section className="articles-category__list preview">
           <PreviewList previews={articles} categories={categories}>
-            <Pagination parentCssClass={"preview"} min={1} max={5} current={1} hasNext={true} hasPrev={false} />
+            <PaginationController page={page} total={total} prefix={prefix} />
           </PreviewList>
         </section>
       </main>

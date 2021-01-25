@@ -8,15 +8,16 @@ import {resolveCategoriesLinks} from "../utils/resolve-categories-links";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
 import {CategoryWithLink} from "../../types/category-with-link";
+import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
 
 export const mainPageRouter = Router();
 
-const articlesNumber = 8;
-
 mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
+  const page = getPageFromReqQuery(req);
+  const offset = getOffsetFromPage(page);
   try {
     const [articles, categories] = await Promise.all([
-      dataProviderService.getArticles(articlesNumber),
+      dataProviderService.getArticles({offset}),
       dataProviderService.getCategoriesWithNumbers(),
     ]);
     if (articles === null && categories === null) {
@@ -32,6 +33,9 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       articles,
       categoriesWithLinks,
       categoriesWithLinksAndNumbers,
+      total: 100,
+      page: getCurrentPage(offset),
+      prefix: `?`,
     });
   } catch (e) {
     return next(new SSRError({message: `Failed to load articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
