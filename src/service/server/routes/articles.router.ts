@@ -4,17 +4,19 @@ import {newArticleValidator, newCommentValidator} from "../../middlewares";
 import {ArticleComment} from "../../../types/article-comment";
 import {Article, NewArticle} from "../../../types/article";
 import {ArticlesController} from "../controllers/articles.controller";
+import {getPaginationFromReqQuery} from "./unilities/get-pagination-from-req-query";
 
 export const articleRouter = (articlesController: ArticlesController): Router => {
   const router = Router();
 
   router.get(`/`, async (req, res) => {
-    const count = Number(req.query?.count as string);
-    // TODO: implement pagination
+    const {limit, offset} = getPaginationFromReqQuery(req);
     const areCommentsRequired = Boolean(req.query?.comments);
-    const {status = HttpCode.OK, payload} = await articlesController.getArticles(
-      areCommentsRequired ? areCommentsRequired : undefined,
-    );
+    const {status = HttpCode.OK, payload} = await articlesController.getArticles({
+      limit,
+      offset,
+      areCommentsRequired: areCommentsRequired ? areCommentsRequired : undefined,
+    });
     return res.status(status).send(payload);
   });
   router.get(`/:id`, async (req, res) => {

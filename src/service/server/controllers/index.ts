@@ -6,7 +6,7 @@ import {
   categoriesServiceFactory,
   commentsServiceFactory,
   searchServiceFactory,
-} from "../services/data-service";
+} from "../data-access/services";
 import {ICategoryModel} from "../data-access/models/category";
 import {IArticleModel} from "../data-access/models/article";
 import {ICommentModel} from "../data-access/models/comment";

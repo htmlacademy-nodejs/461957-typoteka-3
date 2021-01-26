@@ -1,7 +1,7 @@
-import {ICommentModel} from "../../data-access/models/comment";
+import {ICommentModel} from "../models/comment";
 import {ArticleId} from "../../../../types/article-id";
 import {ArticleComment, CommentId} from "../../../../types/article-comment";
-import {CommentProperty} from "../../data-access/constants/property-name";
+import {CommentProperty} from "../constants/property-name";
 
 export class CommentsService {
   constructor(private readonly CommentsModel: ICommentModel) {}

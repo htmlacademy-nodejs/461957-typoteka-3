@@ -16,7 +16,7 @@ interface PreviewListProps {
   categories: CategoryWithLink[];
 }
 
-export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, previews}) => {
+export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, previews, children}) => {
   return (
     <section className="main-page__list preview">
       <h2 className="visually-hidden">Список превью статей</h2>
@@ -33,6 +33,7 @@ export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, pr
           </li>
         ))}
       </ul>
+      <div className="preview__toggle-wrapper">{children}</div>
     </section>
   );
 };

@@ -4,11 +4,15 @@ import {Article, ICategories, IComments, NewArticle} from "../../../types/articl
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
-import {ArticlesService} from "../services/data-service/articles.service";
-import {CategoriesService} from "../services/data-service/categories.service";
-import {CommentsService} from "../services/data-service/comments.service";
+import {ArticlesService} from "../data-access/services/articles.service";
+import {CategoriesService} from "../data-access/services/categories.service";
+import {CommentsService} from "../data-access/services/comments.service";
 import {IArticlePlain} from "../../../types/interfaces/article-plain";
 import {ArticleId} from "../../../types/article-id";
+import {IPaginationOptions} from "../../../types/interfaces/pagination-options";
+import {ICollection} from "../../../types/interfaces/collection";
+
+const DEFAULT_LIMIT = 8;
 
 export class ArticlesController {
   constructor(
@@ -17,15 +21,21 @@ export class ArticlesController {
     private readonly commentsService: CommentsService,
   ) {}
 
-  public async getArticles(areCommentsRequired: false): Promise<ControllerResponse<(IArticlePlain & ICategories)[]>>;
-  public async getArticles(
-    areCommentsRequired: true,
-  ): Promise<ControllerResponse<(IArticlePlain & ICategories & IComments)[]>>;
-  public async getArticles(
-    areCommentsRequired: boolean,
-  ): Promise<ControllerResponse<(IArticlePlain & ICategories)[] | (IArticlePlain & ICategories & IComments)[]>> {
+  public async getArticles({}: IPaginationOptions & {areCommentsRequired: false}): Promise<
+    ControllerResponse<ICollection<IArticlePlain & ICategories>>
+  >;
+  public async getArticles({}: IPaginationOptions & {areCommentsRequired: true}): Promise<
+    ControllerResponse<ICollection<IArticlePlain & ICategories & IComments>>
+  >;
+  public async getArticles({
+    offset = 0,
+    limit = DEFAULT_LIMIT,
+    areCommentsRequired,
+  }: IPaginationOptions & {areCommentsRequired: boolean}): Promise<
+    ControllerResponse<ICollection<IArticlePlain & ICategories> | ICollection<IArticlePlain & ICategories & IComments>>
+  > {
     try {
-      const plainArticles = await this.articlesService.findAll();
+      const {items: plainArticles, totalCount} = await this.articlesService.findAll({limit, offset});
       if (plainArticles === null) {
         return {status: HttpCode.INTERNAL_SERVER_ERROR};
       }
@@ -42,9 +52,19 @@ export class ArticlesController {
             comments: await this.commentsService.findByArticleId(article.id),
           })),
         );
-        return {payload: articlesWithComments};
+        return {
+          payload: {
+            items: articlesWithComments,
+            totalCount,
+          },
+        };
       } else {
-        return {payload: plainArticlesWithCategories};
+        return {
+          payload: {
+            items: plainArticlesWithCategories,
+            totalCount,
+          },
+        };
       }
     } catch (e) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
@@ -64,9 +84,13 @@ export class ArticlesController {
     }
   }
 
-  public async getArticlesByCategory(categoryId: CategoryId): Promise<ControllerResponse<ArticlesByCategory>> {
-    const [plainArticles, category] = await Promise.all([
-      this.articlesService.findByCategoryId(categoryId),
+  public async getArticlesByCategory({
+    offset = 0,
+    limit = DEFAULT_LIMIT,
+    categoryId,
+  }: IPaginationOptions & {categoryId: CategoryId}): Promise<ControllerResponse<ArticlesByCategory>> {
+    const [{items: plainArticles, totalCount}, category] = await Promise.all([
+      this.articlesService.findByCategoryId({offset, limit, categoryId}),
       this.categoriesService.findOneById(categoryId),
     ]);
     if (plainArticles === null) {
@@ -80,9 +104,9 @@ export class ArticlesController {
     );
     return {
       payload: {
-        articles: plainArticlesWithCategories,
+        items: plainArticlesWithCategories,
         category,
-        itemsCount: plainArticlesWithCategories.length,
+        totalCount,
       },
     };
   }

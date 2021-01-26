@@ -1,41 +1,37 @@
 import React, {FunctionComponent} from "react";
+import {PAGE_QUERY_PARAM} from "../../../../constants-es6";
 
 interface PaginationProps {
-  parentCssClass?: string;
   hasPrev: boolean;
   hasNext: boolean;
   current: number;
   min: number;
   max: number;
+  last: number;
+  prefix: string;
 }
 
-export const Pagination: FunctionComponent<PaginationProps> = ({
-  parentCssClass,
-  hasPrev,
-  hasNext,
-  min,
-  max,
-  current,
-}) => {
+export const Pagination: FunctionComponent<PaginationProps> = ({hasPrev, hasNext, min, max, current, prefix, last}) => {
   return (
-    <ul
-      className={"pagination " + (parentCssClass ? `${parentCssClass}__pagination` : "")}
-      style={{justifyContent: `center`}}>
+    <ul className={"pagination preview__pagination"} style={{justifyContent: `center`}}>
       {hasPrev && (
         <li>
           <a
-            className="pagination__button button button--backwards button--disabled"
-            href="#"
-            aria-label="Страница назад">
-            Назад
+            className="pagination__button button button--backwards"
+            href={getLink(1, prefix)}
+            aria-label="Первая страница">
+            Первая страница
           </a>
         </li>
       )}
-      {getNumbers(min, max, current)}
+      {getNumbers(min, max, current, prefix)}
       {hasNext && (
         <li>
-          <a className="pagination__button button button--forward" href="#" aria-label="Страница вперед">
-            Вперед
+          <a
+            className="pagination__button button button--forward"
+            href={getLink(last, prefix)}
+            aria-label="Последняя страница">
+            Последняя страница
           </a>
         </li>
       )}
@@ -43,16 +39,21 @@ export const Pagination: FunctionComponent<PaginationProps> = ({
   );
 };
 
-function getNumbers(min: number, max: number, current: number): JSX.Element[] {
+function getNumbers(min: number, max: number, current: number, prefix: string): JSX.Element[] {
   const length = new Array(max + 1 - min).fill(undefined);
   return length.map((item, index) => {
     const currentValue = min + index;
     return (
       <li
         className={"pagination__item " + (currentValue === current ? "pagination__item--active" : "")}
+        style={{pointerEvents: currentValue === current ? `none` : `auto`}}
         key={currentValue}>
-        <a href="#">{currentValue}</a>
+        <a href={getLink(currentValue, prefix)}>{currentValue}</a>
       </li>
     );
   });
+}
+
+function getLink(pageNumber: number, prefix: string): string {
+  return `${prefix}${PAGE_QUERY_PARAM}=${pageNumber}`;
 }

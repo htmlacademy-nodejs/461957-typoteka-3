@@ -1,7 +1,6 @@
 import type {ArticleSearchResult} from "./article-search-result";
-import {Collection} from "./collection";
+import {ICollection} from "./interfaces/collection";
 
-export interface ArticleSearchCollection extends Collection {
-  items: ArticleSearchResult[];
+export interface ArticleSearchCollection extends ICollection<ArticleSearchResult> {
   query: string;
 }

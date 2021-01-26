@@ -1,7 +1,7 @@
 import {HttpCode} from "../../../constants-es6";
 import {ControllerResponse} from "../../../types/controller-response";
 import {CategoryWithNumbers} from "../../../types/category-with-numbers";
-import {CategoriesService} from "../services/data-service/categories.service";
+import {CategoriesService} from "../data-access/services/categories.service";
 import {Category} from "../../../types/category";
 
 export class CategoriesController {

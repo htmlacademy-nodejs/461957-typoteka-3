@@ -32,7 +32,7 @@ searchRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) =>
     return streamPage(res, SearchPage, {
       matches,
       query: searchResult.query,
-      itemsCount: searchResult.itemsCount,
+      itemsCount: searchResult.totalCount,
       endPoint: ClientRoutes.SEARCH.INDEX,
     });
   } catch (e) {

@@ -10,7 +10,7 @@ export const adminPublicationsRouter = Router();
 
 adminPublicationsRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const articles = await dataProviderService.getArticles();
+    const {items: articles} = await dataProviderService.getArticles({limit: undefined, offset: undefined});
     if (articles === null) {
       return next(new SSRError({message: `Failed to get Admin articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
