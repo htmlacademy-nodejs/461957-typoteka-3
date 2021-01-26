@@ -35,8 +35,11 @@ describe(`Articles router`, () => {
   beforeAll(async () => {
     ({server: app, httpServer} = await initApp());
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const {body: articles} = await request(app).get(`/api/articles/?count=100`);
+    /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+    const {
+      body: {items: articles},
+    } = await request(app).get(`/api/articles/?count=100`);
+    /* eslint-enable @typescript-eslint/no-unsafe-assignment */
     validArticleId = (articles as Article[])[0].id;
     articleWithCommentsId = findIdOfArticleWithComments(articles as (IArticleId & ICommentsCount)[]);
   });
@@ -51,12 +54,12 @@ describe(`Articles router`, () => {
     });
     test(`Should return an array`, async () => {
       const res = await request(app).get(`/api/articles/?count=100`);
-      expect(Array.isArray(res.body)).toBe(true);
+      expect(Array.isArray(res.body.items)).toBe(true);
     });
-    // TODO: Turn on after pagination implementations
-    test.skip(`Should return an array given length`, async () => {
-      const res = await request(app).get(`/api/articles/?count=3`);
-      expect(res.body.length).toBe(3);
+    test(`Should return an array given length`, async () => {
+      const res = await request(app).get(`/api/articles/?limit=3`);
+      console.log(`res.body`, res.body);
+      expect(res.body.items.length).toBe(3);
     });
   });
 
