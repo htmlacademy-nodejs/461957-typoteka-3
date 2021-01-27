@@ -72,7 +72,7 @@ export const ARTICLE_FORM_FIELDS = {
     name: `createdDate`,
     label: `Дата`,
   },
-  category: {
+  categories: {
     name: `categories`,
     label: `Категории`,
   },

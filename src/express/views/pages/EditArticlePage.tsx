@@ -132,7 +132,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                     <CategoriesSelect
                       availableCategories={availableCategories}
                       selectedCategories={articleProps.categories}
-                      inputName={ARTICLE_FORM_FIELDS.category.name}
+                      inputName={ARTICLE_FORM_FIELDS.categories.name}
                     />
                   </div>
                   <div className="form__wrapper form__wrapper--text">
