@@ -3,8 +3,6 @@ import {ARTICLE_FORM_FIELDS} from "../../../constants-es6";
 import type {ArticleValidationResponse} from "../../../types/article-validation-response";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {FormValidationMessage} from "../components/Form/FormValidationMessage";
-import {ValidationError} from "../../../shared/errors/validation-error";
-import type {ValidationMessage} from "../../../types/validation-message";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {FieldValidationBlock} from "../components/Form/FieldVlidationBlock";
 import {CategoriesSelect} from "../components/EditArticle/CategoriesSelect";
@@ -75,8 +73,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                     <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
                       {Object.entries(articleValidationResponse).map(([key, validation]) => (
                         <FormValidationMessage key={key}>
-                          <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong>{" "}
-                          {getValidationMessageText(key, validation)}
+                          <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong> {validation}
                         </FormValidationMessage>
                       ))}
                     </FormValidationBlock>
@@ -95,10 +92,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                       {articleValidationResponse[ARTICLE_FORM_FIELDS.title.name] ? (
                         <FieldValidationBlock>
                           <FormValidationMessage>
-                            {getValidationMessageText(
-                              ARTICLE_FORM_FIELDS.title.label,
-                              articleValidationResponse[ARTICLE_FORM_FIELDS.title.name],
-                            )}
+                            {articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]}
                           </FormValidationMessage>
                         </FieldValidationBlock>
                       ) : null}
@@ -107,7 +101,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                       <label>
                         <input
                           id="image-name-field"
-                          name={ARTICLE_FORM_FIELDS.Upload.name}
+                          // name={ARTICLE_FORM_FIELDS.Upload.name}
                           type="text"
                           placeholder={ARTICLE_FORM_FIELDS.Upload.label}
                           readOnly
@@ -149,10 +143,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                       {articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name] ? (
                         <FieldValidationBlock>
                           <FormValidationMessage>
-                            {getValidationMessageText(
-                              ARTICLE_FORM_FIELDS.announce.label,
-                              articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name],
-                            )}
+                            {articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]}
                           </FormValidationMessage>
                         </FieldValidationBlock>
                       ) : null}
@@ -170,10 +161,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                       {articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name] ? (
                         <FieldValidationBlock>
                           <FormValidationMessage>
-                            {getValidationMessageText(
-                              ARTICLE_FORM_FIELDS.fullText.label,
-                              articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name],
-                            )}
+                            {articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]}
                           </FormValidationMessage>
                         </FieldValidationBlock>
                       ) : null}
@@ -188,13 +176,6 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
     </LayoutFilled>
   );
 };
-
-function getValidationMessageText(key: string, validation: ValidationMessage): string {
-  if (validation.state === ValidationError.INVALID) {
-    return validation.message;
-  }
-  return `Обязательное поле` + (validation.message ? `. ${validation.message}` : ``);
-}
 
 function getInitialDate(): string {
   return new Date().toISOString().substr(0, 10);

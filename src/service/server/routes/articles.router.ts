@@ -1,10 +1,12 @@
 import {Router} from "express";
 import {HttpCode} from "../../../constants-es6";
-import {newArticleValidator, newCommentValidator} from "../../middlewares";
+import {newCommentValidator} from "../../middlewares";
 import {ArticleComment} from "../../../types/article-comment";
-import {Article, NewArticle} from "../../../types/article";
+import {IArticleId} from "../../../types/article";
 import {ArticlesController} from "../controllers/articles.controller";
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
+import {validateArticle, validateNewArticle} from "../validators/validate-article";
+import {IArticleCreating} from "../../../types/interfaces/article-creating";
 
 export const articleRouter = (articlesController: ArticlesController): Router => {
   const router = Router();
@@ -47,16 +49,24 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
     const {status = HttpCode.OK, payload} = await articlesController.getComment(articleId, commentId);
     return res.status(status).send(payload);
   });
-  router.post(`/`, newArticleValidator, async (req, res) => {
-    const newArticle = req.body as NewArticle;
-    const {status = HttpCode.OK, payload} = await articlesController.createNewArticle(newArticle);
-    res.status(status).send(payload);
+  router.post(`/`, async (req, res) => {
+    try {
+      const newArticle = await validateNewArticle(req.body);
+      const {status = HttpCode.OK, payload} = await articlesController.createNewArticle(newArticle);
+      res.status(status).send(payload);
+    } catch (e) {
+      res.status(HttpCode.BAD_REQUEST).send(e);
+    }
   });
-  router.put(`/:id`, newArticleValidator, async (req, res) => {
-    const articleId = parseInt(req.params.id, 10);
-    const articleContent = req.body as Article;
-    const {status = HttpCode.OK, payload} = await articlesController.updateArticle(articleId, articleContent);
-    res.status(status).send(payload);
+  router.put(`/:id`, async (req, res) => {
+    try {
+      const articleId = parseInt(req.params.id, 10);
+      const articleContent = await validateArticle(req.body as IArticleCreating & IArticleId);
+      const {status = HttpCode.OK, payload} = await articlesController.updateArticle(articleId, articleContent);
+      res.status(status).send(payload);
+    } catch (e) {
+      res.status(HttpCode.BAD_REQUEST).send(e);
+    }
   });
   router.delete(`/:id`, async (req, res) => {
     const articleId = parseInt(req.params.id, 10);

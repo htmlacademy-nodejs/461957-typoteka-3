@@ -4,6 +4,7 @@ import {ValidationError} from "../../shared/errors/validation-error";
 import {CommentValidationResponse} from "../../types/comment-validation-response";
 import {ArticleComment} from "../../types/article-comment";
 
+// TODO: replace with `joi`
 export function newCommentValidator(req: Request, res: Response, next: NextFunction): void {
   const commentValidationResponse = getCommentValidationResponse(req.body);
   if (!commentValidationResponse) {
