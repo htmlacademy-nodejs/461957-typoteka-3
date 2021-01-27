@@ -3,7 +3,14 @@ import {IAnnounce, ICategoriesWithLinks, ICommentsCount, ICreatedDate, ILink, IT
 
 interface PreviewProps extends ICommentsCount, ITitle, IAnnounce, ICreatedDate, ILink, ICategoriesWithLinks {}
 
-export const Preview: FunctionComponent<PreviewProps> = ({categories, createdDate, title, announce, commentsCount, link}) => {
+export const Preview: FunctionComponent<PreviewProps> = ({
+  categories,
+  createdDate,
+  title,
+  announce,
+  commentsCount,
+  link,
+}) => {
   const categoriesList = categories.map(categoryItem => (
     <li className="preview__breadcrumbs-item" key={categoryItem.id}>
       <a className="preview__breadcrumbs-link" href={categoryItem.link}>
