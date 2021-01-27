@@ -1,5 +1,5 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
-import type {Article, ICreatedDate, NewArticle} from "../../types/article";
+import type {Article, ICreatedDate} from "../../types/article";
 import {ENV} from "../../shared/env/env";
 import {APIRoutes, HttpCode} from "../../constants-es6";
 import type {ArticleComment} from "../../types/article-comment";
@@ -13,6 +13,7 @@ import {IArticlePreview} from "../../types/interfaces/article-preview";
 import {ArticleId} from "../../types/article-id";
 import {IPaginationOptions} from "../../types/interfaces/pagination-options";
 import {ICollection} from "../../types/interfaces/collection";
+import {IArticleCreating} from "../../types/interfaces/article-creating";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -43,7 +44,7 @@ export class DataProviderService {
     }
   }
 
-  public async createArticle(newArticle: NewArticle): Promise<void | ArticleValidationResponse> {
+  public async createArticle(newArticle: IArticleCreating): Promise<void | ArticleValidationResponse> {
     let response: AxiosResponse<void | ArticleValidationResponse>;
     try {
       response = await this.requestService.post<ArticleValidationResponse>(

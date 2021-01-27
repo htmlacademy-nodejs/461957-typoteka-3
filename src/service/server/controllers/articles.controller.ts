@@ -11,6 +11,7 @@ import {IArticlePlain} from "../../../types/interfaces/article-plain";
 import {ArticleId} from "../../../types/article-id";
 import {IPaginationOptions} from "../../../types/interfaces/pagination-options";
 import {ICollection} from "../../../types/interfaces/collection";
+import {IArticleCreating} from "../../../types/interfaces/article-creating";
 
 const DEFAULT_LIMIT = 8;
 
@@ -140,7 +141,7 @@ export class ArticlesController {
     }
   }
 
-  public async createNewArticle(newArticle: NewArticle): Promise<ControllerResponse<void>> {
+  public async createNewArticle(newArticle: IArticleCreating): Promise<ControllerResponse<void>> {
     try {
       await this.articlesService.create(newArticle);
       return {status: HttpCode.CREATED};

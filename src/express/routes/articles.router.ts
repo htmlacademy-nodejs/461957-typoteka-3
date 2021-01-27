@@ -12,10 +12,10 @@ import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
 import type {ArticleFromBrowser} from "../../types/article-from-browser";
-import {NewArticle} from "../../types/article";
 import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
 import {getArticleLink} from "../helpers/link-resolver";
 import {filterSelectedCategories} from "../utils/filter-selected-categories";
+import {IArticleCreating} from "../../types/interfaces/article-creating";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -35,7 +35,7 @@ articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunctio
 });
 
 articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res: Response, next: NextFunction) => {
-  const newArticle: NewArticle = {
+  const newArticle: IArticleCreating = {
     ...(req.body as ArticleFromBrowser),
     categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
   };

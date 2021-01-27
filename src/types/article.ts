@@ -1,6 +1,6 @@
 import type {ArticleComment, CommentId} from "./article-comment";
 import {ArticleId} from "./article-id";
-import {Category} from "./category";
+import {Category, ICategoryId} from "./category";
 import {CategoryWithLink} from "./category-with-link";
 import {CategoryWithLinksAndNumbers} from "./category-with-links-and-numbers";
 
@@ -26,6 +26,10 @@ export interface IFullText {
 
 export interface ICategories {
   categories: Category[];
+}
+
+export interface ICategoriesIds {
+  categories: ICategoryId[];
 }
 
 export interface ICommentsCount {

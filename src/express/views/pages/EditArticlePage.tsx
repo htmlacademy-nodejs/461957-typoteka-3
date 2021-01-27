@@ -1,5 +1,4 @@
 import React, {FunctionComponent} from "react";
-import type {Article} from "../../../types/article";
 import {ARTICLE_FORM_FIELDS} from "../../../constants-es6";
 import type {ArticleValidationResponse} from "../../../types/article-validation-response";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
@@ -10,9 +9,10 @@ import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {FieldValidationBlock} from "../components/Form/FieldVlidationBlock";
 import {CategoriesSelect} from "../components/EditArticle/CategoriesSelect";
 import type {Category} from "../../../types/category";
+import {IArticleCreating} from "../../../types/interfaces/article-creating";
 
 interface EditArticleProps {
-  article?: Partial<Article>;
+  article?: Partial<IArticleCreating>;
   endPoint: string;
   availableCategories: Category[];
   articleValidationResponse?: ArticleValidationResponse;

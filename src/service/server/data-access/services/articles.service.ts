@@ -7,6 +7,7 @@ import {ArticleId} from "../../../../types/article-id";
 import {IArticlePlain} from "../../../../types/interfaces/article-plain";
 import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
 import {ICollection} from "../../../../types/interfaces/collection";
+import {IArticleCreating} from "../../../../types/interfaces/article-creating";
 
 export class ArticlesService {
   constructor(private readonly ArticleModel: IArticleModel) {}
@@ -132,7 +133,7 @@ export class ArticlesService {
     };
   }
 
-  public async create({announce, createdDate, fullText, title, categories}: NewArticle): Promise<void> {
+  public async create({announce, createdDate, fullText, title, categories}: IArticleCreating): Promise<void> {
     const createdArticle = await this.ArticleModel.create({
       createdDate,
       announce,
