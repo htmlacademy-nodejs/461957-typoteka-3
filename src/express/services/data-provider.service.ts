@@ -38,6 +38,7 @@ export class DataProviderService {
       };
     } else {
       console.error(response.data);
+      // TODO: replace with Promise.reject()
       return null;
     }
   }
@@ -77,6 +78,7 @@ export class DataProviderService {
       return transformDate(response.data);
     } else {
       console.error(response.data);
+      // TODO: replace with Promise.reject()
       return null;
     }
   }
@@ -105,6 +107,7 @@ export class DataProviderService {
       };
     } else {
       console.error(response.data);
+      // TODO: replace with Promise.reject()
       return null;
     }
   }
@@ -112,12 +115,14 @@ export class DataProviderService {
   public async getComments(quantityOfArticles: number): Promise<ArticleComment[]> {
     const {items: articlesList} = await this.getArticles({limit: 100, offset: 0});
     if (articlesList === null) {
+      // TODO: replace with Promise.reject()
       return null;
     }
     const comments = await Promise.all(
       articlesList.slice(0, quantityOfArticles).map(article => this.getArticleComments(article.id)),
     );
     if (comments === null) {
+      // TODO: replace with Promise.reject()
       return null;
     }
     return comments.flat(1);
@@ -161,6 +166,7 @@ export class DataProviderService {
       return response.data;
     } else {
       console.error(`search request status`, response.data);
+      // TODO: replace with Promise.reject()
       return null;
     }
   }
@@ -179,6 +185,7 @@ export class DataProviderService {
       return response.data;
     } else {
       console.error(response.data);
+      // TODO: replace with Promise.reject()
       return null;
     }
   }

@@ -23,5 +23,6 @@ function getCommentValidationResponse(comment: Partial<ArticleComment>): Comment
   if (Object.keys(validationResponse).length) {
     return validationResponse;
   }
+  // TODO: replace with Promise.reject()
   return null;
 }
