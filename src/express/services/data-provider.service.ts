@@ -125,10 +125,7 @@ export class DataProviderService {
 
   public async getCategories(): Promise<Category[]> {
     try {
-      const response: AxiosResponse<Category[]> = await this.requestService.get<Category[]>(
-        this.apiEndPoint + APIRoutes.CATEGORIES,
-        {},
-      );
+      const response = await this.requestService.get<Category[]>(this.apiEndPoint + APIRoutes.CATEGORIES, {});
       return response.data;
     } catch (e) {
       console.error(`Failed to load categories`);
@@ -137,16 +134,15 @@ export class DataProviderService {
   }
 
   public async getCategoriesWithNumbers(): Promise<CategoryWithNumbers[]> {
-    let response: AxiosResponse<CategoryWithNumbers[]>;
     try {
-      response = await this.requestService.get<CategoryWithNumbers[]>(
+      const response = await this.requestService.get<CategoryWithNumbers[]>(
         this.apiEndPoint + APIRoutes.CATEGORIES_STATISTICS,
         {},
       );
       return response.data;
     } catch (e) {
-      console.error(`error`, e);
-      return null;
+      console.error(`Failed to load categories with statistics`);
+      return Promise.reject(e);
     }
   }
 

@@ -21,10 +21,8 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       dataProviderService.getArticles({offset}),
       dataProviderService.getCategoriesWithNumbers(),
     ]);
-    if (articles === null && categories === null) {
-      return next(
-        new SSRError({message: `Failed to load articles or categories`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}),
-      );
+    if (articles === null) {
+      return next(new SSRError({message: `Failed to load articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
     const categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(
       categories,
@@ -39,6 +37,11 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       prefix: `?`,
     });
   } catch (e) {
-    return next(new SSRError({message: `Failed to load articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    return next(
+      new SSRError({
+        message: `Failed to load articles or categories with statistics`,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+      }),
+    );
   }
 });
