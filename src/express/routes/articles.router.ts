@@ -14,6 +14,7 @@ import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-n
 import type {ArticleFromBrowser} from "../../types/article-from-browser";
 import {NewArticle} from "../../types/article";
 import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
+import {getArticleLink} from "../helpers/link-resolver";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -101,7 +102,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
     return streamPage(res, ArticlesByCategoryPage, {
       pageTitle: category.label,
       categories: preparedCategories,
-      articles,
+      articles: articles.map(item => ({...item, link: getArticleLink(item.id)})),
       selectedCategoryId: category.id,
       total: totalCount,
       page: getCurrentPage(offset),

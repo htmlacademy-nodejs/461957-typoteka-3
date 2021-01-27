@@ -1,19 +1,10 @@
 import React, {FunctionComponent} from "react";
-import {CategoryWithLink} from "../../../../types/category-with-link";
-import {IAnnounce, ICommentsCount, ICreatedDate, ITitle} from "../../../../types/article";
+import {IAnnounce, ICategoriesWithLinks, ICommentsCount, ICreatedDate, ILink, ITitle} from "../../../../types/article";
 
-interface PreviewProps extends ICommentsCount, ITitle, IAnnounce, ICreatedDate {
-  selectedCategories: CategoryWithLink[];
-}
+interface PreviewProps extends ICommentsCount, ITitle, IAnnounce, ICreatedDate, ILink, ICategoriesWithLinks {}
 
-export const Preview: FunctionComponent<PreviewProps> = ({
-  selectedCategories,
-  createdDate,
-  title,
-  announce,
-  commentsCount,
-}) => {
-  const categories = selectedCategories.map(categoryItem => (
+export const Preview: FunctionComponent<PreviewProps> = ({categories, createdDate, title, announce, commentsCount, link}) => {
+  const categoriesList = categories.map(categoryItem => (
     <li className="preview__breadcrumbs-item" key={categoryItem.id}>
       <a className="preview__breadcrumbs-link" href={categoryItem.link}>
         {categoryItem.label}
@@ -24,7 +15,7 @@ export const Preview: FunctionComponent<PreviewProps> = ({
   return (
     <>
       <ul className="preview__breadcrumbs" style={{flexWrap: "wrap"}}>
-        {categories}
+        {categoriesList}
       </ul>
       {/*TODO: show picture*/}
       {false && (
@@ -43,7 +34,7 @@ export const Preview: FunctionComponent<PreviewProps> = ({
         {createdDate.toLocaleString()}
       </time>
       <h3 className="preview__name">
-        <a className="preview__name-link" href="#">
+        <a className="preview__name-link" href={link}>
           {title}
         </a>
       </h3>

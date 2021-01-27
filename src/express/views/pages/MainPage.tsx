@@ -9,9 +9,10 @@ import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-an
 import {CategoryWithLink} from "../../../types/category-with-link";
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
 import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
+import {ILink} from "../../../types/article";
 
 interface MainPageProps extends IPaginationProps {
-  articles?: IArticlePreview[];
+  articles?: (IArticlePreview & ILink)[];
   categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[];
   categoriesWithLinks: CategoryWithLink[];
   prefix: string;

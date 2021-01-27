@@ -9,6 +9,7 @@ import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-cat
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
 import {CategoryWithLink} from "../../types/category-with-link";
 import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
+import {getArticleLink} from "../helpers/link-resolver";
 
 export const mainPageRouter = Router();
 
@@ -30,7 +31,7 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
     );
     const categoriesWithLinks: CategoryWithLink[] = resolveCategoriesLinks(categories);
     return streamPage(res, MainPage, {
-      articles,
+      articles: articles.map(item => ({...item, link: getArticleLink(item.id)})),
       categoriesWithLinks,
       categoriesWithLinksAndNumbers,
       total: totalCount,

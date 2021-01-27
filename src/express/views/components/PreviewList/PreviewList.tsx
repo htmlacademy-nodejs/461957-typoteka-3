@@ -1,18 +1,18 @@
 import React, {FunctionComponent} from "react";
 import {Preview} from "../Preview/Preview";
 import {CategoryWithLink} from "../../../../types/category-with-link";
-import {IArticlePreview} from "../../../../types/interfaces/article-preview";
-
-interface IHasId {
-  id: number;
-}
-
-interface IHasLink {
-  link: string;
-}
+import {
+  IAnnounce,
+  IArticleId,
+  ICategories,
+  ICommentsCount,
+  ICreatedDate,
+  ILink,
+  ITitle,
+} from "../../../../types/article";
 
 interface PreviewListProps {
-  previews: IArticlePreview[];
+  previews: (ICommentsCount & ITitle & IAnnounce & ICreatedDate & ILink & ICategories & IArticleId)[];
   categories: CategoryWithLink[];
 }
 
@@ -25,10 +25,11 @@ export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, pr
           <li className="preview__item" key={preview.id}>
             <Preview
               announce={preview.announce}
-              selectedCategories={resolveCategoriesLabels(categories, preview.categories)}
+              categories={resolveCategoriesLabels(categories, preview.categories)}
               commentsCount={preview.commentsCount}
               createdDate={preview.createdDate}
               title={preview.title}
+              link={preview.link}
             />
           </li>
         ))}
@@ -38,7 +39,7 @@ export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, pr
   );
 };
 
-function resolveCategoriesLabels<T extends IHasId & IHasLink, J extends IHasId>(
+function resolveCategoriesLabels<T extends IArticleId & ILink, J extends IArticleId>(
   availableCategories: T[],
   selectedCategories: J[],
 ): T[] {

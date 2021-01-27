@@ -1,6 +1,7 @@
 import type {ArticleComment, CommentId} from "./article-comment";
 import {ArticleId} from "./article-id";
 import {Category} from "./category";
+import {CategoryWithLink} from "./category-with-link";
 
 export interface IArticleId {
   id: ArticleId;
@@ -36,6 +37,14 @@ export interface ICommentsIds {
 
 export interface IComments {
   comments: ArticleComment[];
+}
+
+export interface ILink {
+  link: string;
+}
+
+export interface ICategoriesWithLinks {
+  categories: CategoryWithLink[];
 }
 
 export interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategories {}

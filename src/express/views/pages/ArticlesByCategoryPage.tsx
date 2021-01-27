@@ -6,11 +6,12 @@ import {PreviewList} from "../components/PreviewList/PreviewList";
 import {CategoryId} from "../../../types/category-id";
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
 import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
+import {ILink} from "../../../types/article";
 
 interface Props extends IPaginationProps {
   pageTitle: string;
   categories: CategoryWithLinksAndNumbers[];
-  articles: IArticlePreview[];
+  articles: (IArticlePreview & ILink)[];
   selectedCategoryId?: CategoryId;
   prefix: string;
 }
