@@ -30,7 +30,10 @@ export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
       <main className="articles-category">
         <h1>{pageTitle}</h1>
         <section className="articles-category__theme-list">
-          <CategoriesList categories={categories} selectedCategoryId={selectedCategoryId} />
+          <h2 className="visually-hidden">Список тем</h2>
+          <ul className="themes">
+            <CategoriesList categories={categories} selectedCategoryId={selectedCategoryId} />
+          </ul>
         </section>
         <section className="articles-category__list preview">
           <PreviewList previews={articles} categories={categories}>

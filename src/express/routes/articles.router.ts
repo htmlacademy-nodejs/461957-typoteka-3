@@ -15,6 +15,7 @@ import type {ArticleFromBrowser} from "../../types/article-from-browser";
 import {NewArticle} from "../../types/article";
 import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
 import {getArticleLink} from "../helpers/link-resolver";
+import {filterSelectedCategories} from "../utils/filter-selected-categories";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -122,11 +123,23 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
 articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunction) => {
   const articleId = parseInt(req.params.id, 10);
   try {
-    const article = await dataProviderService.getArticleById(articleId);
+    const [article, categories] = await Promise.all([
+      dataProviderService.getArticleById(articleId),
+      dataProviderService.getCategoriesWithNumbers(),
+    ]);
     if (article === null) {
       return next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
     }
-    return streamPage(res, ArticlePage, {article});
+    const categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(
+      categories,
+    );
+    return streamPage(res, ArticlePage, {
+      categories: filterSelectedCategories(categoriesWithLinksAndNumbers, article.categories),
+      createdDate: article.createdDate,
+      title: article.title,
+      previousPageUrl: req.header(`referer`),
+      fullText: article.fullText,
+    });
   } catch (e) {
     return next(
       new SSRError({

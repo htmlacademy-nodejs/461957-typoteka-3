@@ -74,7 +74,10 @@ export const MainPage: FunctionComponent<MainPageProps> = ({
       <main className="main-page">
         <Greeting />
         <section className="main-page__theme-list">
-          <CategoriesList categories={categoriesWithLinksAndNumbers} />
+          <h2 className="visually-hidden">Список тем</h2>
+          <ul className="themes">
+            <CategoriesList categories={categoriesWithLinksAndNumbers} />
+          </ul>
         </section>
         <div className="main-page__section-flex">
           <HotList listOfHot={hotList} />

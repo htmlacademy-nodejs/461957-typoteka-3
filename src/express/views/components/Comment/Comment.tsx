@@ -4,9 +4,9 @@ import type {ArticleComment} from "../../../../types/article-comment";
 interface CommentProps extends Partial<ArticleComment> {}
 
 export const Comment: FunctionComponent<CommentProps> = ({text}) => (
-  <>
+  <li className="comments__comment">
     <div className="comments__avatar avatar">
-      <img src="img/avatar-1.png" alt="аватар пользователя" />
+      <img src="https://via.placeholder.com/50x50.webp" alt="аватар пользователя" />
     </div>
     <div className="comments__text">
       <div className="comments__head">
@@ -17,5 +17,5 @@ export const Comment: FunctionComponent<CommentProps> = ({text}) => (
       </div>
       <p className="comments__message">{text}</p>
     </div>
-  </>
+  </li>
 );
