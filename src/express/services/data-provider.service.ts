@@ -42,26 +42,27 @@ export class DataProviderService {
     }
   }
 
-  public async createArticle(newArticle: NewArticle): Promise<true | null | ArticleValidationResponse> {
-    let response: AxiosResponse<Article | ArticleValidationResponse>;
+  public async createArticle(newArticle: NewArticle): Promise<void | ArticleValidationResponse> {
+    let response: AxiosResponse<void | ArticleValidationResponse>;
     try {
       response = await this.requestService.post<ArticleValidationResponse>(
         this.apiEndPoint + APIRoutes.ARTICLES,
         newArticle,
       );
+      if (response && response?.status === HttpCode.CREATED) {
+        return Promise.resolve();
+      }
+      return Promise.reject(`Error during creation the new article`);
     } catch (e) {
       console.error(`Error during creation the new article`);
       /* eslint-disable @typescript-eslint/no-unsafe-member-access */
       if (e?.response?.status === HttpCode.BAD_REQUEST) {
+        console.error(`Invalid article`);
         return e?.response?.data as ArticleValidationResponse;
       }
       /* eslint-enable @typescript-eslint/no-unsafe-member-access */
-    }
-    if (response && response?.status === HttpCode.CREATED) {
-      return true;
-    } else {
-      console.error(response);
-      return null;
+      console.error(`Error during creation the new article`);
+      return Promise.reject(`Error during creation the new article`);
     }
   }
 
@@ -123,13 +124,15 @@ export class DataProviderService {
   }
 
   public async getCategories(): Promise<Category[]> {
-    let response: AxiosResponse<Category[]>;
     try {
-      response = await this.requestService.get<Category[]>(this.apiEndPoint + APIRoutes.CATEGORIES, {});
+      const response: AxiosResponse<Category[]> = await this.requestService.get<Category[]>(
+        this.apiEndPoint + APIRoutes.CATEGORIES,
+        {},
+      );
       return response.data;
     } catch (e) {
-      console.error(`error`, e);
-      return null;
+      console.error(`Failed to load categories`);
+      return Promise.reject(e);
     }
   }
 

@@ -132,7 +132,7 @@ export class ArticlesService {
     };
   }
 
-  public async create({announce, createdDate, fullText, title, categories}: NewArticle): Promise<true | null> {
+  public async create({announce, createdDate, fullText, title, categories}: NewArticle): Promise<void> {
     const createdArticle = await this.ArticleModel.create({
       createdDate,
       announce,
@@ -140,7 +140,7 @@ export class ArticlesService {
       title,
     });
     await createdArticle.setCategories(categories.map(item => item.id));
-    return createdDate ? true : null;
+    return createdDate ? Promise.resolve() : Promise.reject(`Failed to create new article`);
   }
 
   public async drop(id: ArticleId): Promise<boolean> {

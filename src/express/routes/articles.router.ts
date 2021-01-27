@@ -23,22 +23,12 @@ export const articlesRouter = Router();
 articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const categories = await dataProviderService.getCategories();
-    if (categories === null) {
-      return next(
-        new SSRError({
-          message: `Failed to request categories`,
-          statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-        }),
-      );
-    }
     return streamPage(res, EditArticlePage, {endPoint: ClientRoutes.ARTICLES.ADD, availableCategories: categories});
   } catch (e) {
-    console.log(e);
     return next(
       new SSRError({
-        message: `Failed to create an article`,
-        statusCode: HttpCode.BAD_REQUEST,
-        errorPayload: e as Error,
+        message: `Failed to get categories`,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
       }),
     );
   }
@@ -50,28 +40,30 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
     categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
   };
   try {
-    const response: true | ArticleValidationResponse = await dataProviderService.createArticle(newArticle);
-    if (response === true) {
+    const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.createArticle(
+      newArticle,
+    );
+    if (!articleValidationResponse) {
       return res.redirect(ClientRoutes.ADMIN.INDEX);
     } else {
-      const categories = await dataProviderService.getCategories();
-      if (categories === null) {
+      try {
+        const categories = await dataProviderService.getCategories();
+        return streamPage(res, EditArticlePage, {
+          article: newArticle,
+          endPoint: ClientRoutes.ARTICLES.ADD,
+          articleValidationResponse,
+          availableCategories: categories,
+        });
+      } catch (e) {
         return next(
           new SSRError({
-            message: `Failed to create an article`,
+            message: `Failed to load categories`,
             statusCode: HttpCode.BAD_REQUEST,
           }),
         );
       }
-      return streamPage(res, EditArticlePage, {
-        article: newArticle,
-        endPoint: ClientRoutes.ARTICLES.ADD,
-        articleValidationResponse: response,
-        availableCategories: categories,
-      });
     }
   } catch (e) {
-    console.log(e);
     return next(
       new SSRError({
         message: `Failed to create an article`,

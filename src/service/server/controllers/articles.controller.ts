@@ -140,12 +140,13 @@ export class ArticlesController {
     }
   }
 
-  public async createNewArticle(newArticle: NewArticle): Promise<ControllerResponse<true | null>> {
-    const savedArticle = await this.articlesService.create(newArticle);
-    if (savedArticle === null) {
+  public async createNewArticle(newArticle: NewArticle): Promise<ControllerResponse<void>> {
+    try {
+      await this.articlesService.create(newArticle);
+      return {status: HttpCode.CREATED};
+    } catch (e) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    return {status: HttpCode.CREATED, payload: savedArticle};
   }
 
   public async updateArticle(id: ArticleId, article: NewArticle): Promise<ControllerResponse<Article>> {
