@@ -1,15 +1,15 @@
 import React, {FunctionComponent} from "react";
-import type {Article} from "../../../../types/article";
-import {ARTICLE_FORM_FIELDS} from "../../../../constants-es6";
-import type {ArticleValidationResponse} from "../../../../types/article-validation-response";
-import {FormValidationBlock} from "../Form/FormValidationBlock";
-import {FormValidationMessage} from "../Form/FormValidationMessage";
-import {ValidationError} from "../../../../shared/errors/validation-error";
-import type {ValidationMessage} from "../../../../types/validation-message";
-import {LayoutFilled} from "../Layout/LayoutFilled";
-import {FieldValidationBlock} from "../Form/FieldVlidationBlock";
-import {CategoriesSelect} from "./CategoriesSelect";
-import type {Category} from "../../../../types/category";
+import type {Article} from "../../../types/article";
+import {ARTICLE_FORM_FIELDS} from "../../../constants-es6";
+import type {ArticleValidationResponse} from "../../../types/article-validation-response";
+import {FormValidationBlock} from "../components/Form/FormValidationBlock";
+import {FormValidationMessage} from "../components/Form/FormValidationMessage";
+import {ValidationError} from "../../../shared/errors/validation-error";
+import type {ValidationMessage} from "../../../types/validation-message";
+import {LayoutFilled} from "../components/Layout/LayoutFilled";
+import {FieldValidationBlock} from "../components/Form/FieldVlidationBlock";
+import {CategoriesSelect} from "../components/EditArticle/CategoriesSelect";
+import type {Category} from "../../../types/category";
 
 interface EditArticleProps {
   article?: Partial<Article>;
@@ -18,7 +18,7 @@ interface EditArticleProps {
   articleValidationResponse?: ArticleValidationResponse;
 }
 
-export const EditArticle: FunctionComponent<EditArticleProps> = ({
+export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   article,
   endPoint,
   availableCategories,

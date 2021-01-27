@@ -6,7 +6,7 @@ import {dataProviderService} from "../services";
 import {ArticlePage} from "../views/pages/ArticlePage";
 import multer from "multer";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
-import {EditArticle} from "../views/components/EditArticle/EditArticle";
+import {EditArticlePage} from "../views/pages/EditArticlePage";
 import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
 import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
@@ -31,7 +31,7 @@ articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunctio
         }),
       );
     }
-    return streamPage(res, EditArticle, {endPoint: ClientRoutes.ARTICLES.ADD, availableCategories: categories});
+    return streamPage(res, EditArticlePage, {endPoint: ClientRoutes.ARTICLES.ADD, availableCategories: categories});
   } catch (e) {
     console.log(e);
     return next(
@@ -63,7 +63,7 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
           }),
         );
       }
-      return streamPage(res, EditArticle, {
+      return streamPage(res, EditArticlePage, {
         article: newArticle,
         endPoint: ClientRoutes.ARTICLES.ADD,
         articleValidationResponse: response,
@@ -163,7 +163,7 @@ articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFu
         new SSRError({message: `Failed to get article or categories`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}),
       );
     }
-    return streamPage(res, EditArticle, {
+    return streamPage(res, EditArticlePage, {
       article,
       endPoint: `${ClientRoutes.ARTICLES.INDEX}/${articleId}`,
       availableCategories: categories,
