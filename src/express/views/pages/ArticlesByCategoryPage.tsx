@@ -26,7 +26,7 @@ export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
   prefix,
 }) => {
   return (
-    <LayoutFilled>
+    <LayoutFilled pageTitle={pageTitle}>
       <main className="articles-category">
         <h1>{pageTitle}</h1>
         <section className="articles-category__theme-list">

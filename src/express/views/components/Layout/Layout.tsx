@@ -6,6 +6,7 @@ export interface LayoutProps {
   wrapperMode?: WrapperMode;
   header: ReactNode;
   footer: ReactNode;
+  pageTitle?: string;
 }
 
 const wrapperCssClasses: {[key in WrapperMode]: string} = {
@@ -14,19 +15,14 @@ const wrapperCssClasses: {[key in WrapperMode]: string} = {
   error: "wrapper-color",
 };
 
-export const Layout: FunctionComponent<LayoutProps> = ({
-  wrapperMode,
-  header,
-  children,
-  footer,
-}) => (
+export const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, children, footer, pageTitle}) => (
   <html lang="ru">
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <meta name="description" content="Личный блог Типотека" />
       <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
-      <title>Типотека</title>
+      <title>{pageTitle ? `${pageTitle} | Типотека` : `Типотека`}</title>
       <link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" crossOrigin="anonymous" />
       <link rel="preload" href="/fonts/Inter-Medium.woff2" as="font" crossOrigin="anonymous" />
       <link rel="preload" href="/fonts/SFProDisplay-Regular.woff2" as="font" crossOrigin="anonymous" />

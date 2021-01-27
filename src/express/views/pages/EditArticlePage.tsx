@@ -40,7 +40,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
         };
 
   return (
-    <LayoutFilled>
+    <LayoutFilled pageTitle={`Новая публикация`}>
       <main>
         <section>
           <div className="popup popup--new-publication popup--anti">

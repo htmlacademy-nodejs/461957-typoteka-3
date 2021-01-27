@@ -20,7 +20,7 @@ export const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps
   });
 
   return (
-    <LayoutAdmin>
+    <LayoutAdmin pageTitle={`Мои записи`}>
       <main className="main-page main-page--padding">
         <section className="main-page__notes notes">
           <h1 className="notes__title">Мои записи</h1>

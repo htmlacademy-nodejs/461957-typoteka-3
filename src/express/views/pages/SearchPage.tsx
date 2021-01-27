@@ -13,15 +13,14 @@ export const SearchPage: FunctionComponent<SearchPageProps> = ({query, matches =
   const isEmpty = query && itemsCount === 0;
 
   return (
-    <LayoutFilled>
+    <LayoutFilled pageTitle={`Поиск`}>
       <main>
         <section className="search-page">
           <div
             className={"search-page__wrapper" + (isEmpty ? " search-page__wrapper--empty" : "")}
-            style={{minHeight: `610px`, height: `auto`}}
-          >
+            style={{minHeight: `610px`, height: `auto`}}>
             <h1>Поиск</h1>
-            <div className="search search-page__form" style={{ paddingBottom: "20px" }}>
+            <div className="search search-page__form" style={{paddingBottom: "20px"}}>
               <form action={endPoint} method="get">
                 <label>
                   <input type="text" name="query" placeholder="Что ищем?" defaultValue={query} />

@@ -15,7 +15,7 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   previousPageUrl,
   fullText,
 }) => (
-  <LayoutFilled>
+  <LayoutFilled pageTitle={title}>
     <main>
       <section className="post">
         <h1 className="visually-hidden">Пост</h1>

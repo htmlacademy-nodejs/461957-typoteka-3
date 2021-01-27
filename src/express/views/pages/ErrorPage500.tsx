@@ -6,7 +6,7 @@ import {Header500} from "../components/Header/Header500";
 interface ErrorPageProps {}
 
 export const ErrorPage500: FunctionComponent<ErrorPageProps> = ({}) => (
-  <Layout header={<Header500 />} wrapperMode={"error"} footer={<Footer />}>
+  <Layout pageTitle={`Ошибка`} header={<Header500 />} wrapperMode={"error"} footer={<Footer />}>
     <h1 className="visually-hidden">Ошибка 500</h1>
     <section className="error error--500">
       <h2 className="error__title title title--big">Что-то пошло не так</h2>
