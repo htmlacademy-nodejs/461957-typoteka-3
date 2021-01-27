@@ -4,7 +4,7 @@ import {newArticleValidator, newCommentValidator} from "../../middlewares";
 import {ArticleComment} from "../../../types/article-comment";
 import {Article, NewArticle} from "../../../types/article";
 import {ArticlesController} from "../controllers/articles.controller";
-import {getPaginationFromReqQuery} from "./unilities/get-pagination-from-req-query";
+import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
 
 export const articleRouter = (articlesController: ArticlesController): Router => {
   const router = Router();
