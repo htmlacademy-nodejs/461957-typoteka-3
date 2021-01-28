@@ -68,6 +68,33 @@ export class DataProviderService {
     }
   }
 
+  public async updateArticle(
+    articleId: ArticleId,
+    updatingArticle: IArticleCreating,
+  ): Promise<void | ArticleValidationResponse> {
+    let response: AxiosResponse<void | ArticleValidationResponse>;
+    try {
+      response = await this.requestService.put<ArticleValidationResponse>(
+        `${this.apiEndPoint}/${APIRoutes.EDIT_ARTICLE}/${articleId}`,
+        updatingArticle,
+      );
+      if (response && response?.status === HttpCode.OK) {
+        return Promise.resolve();
+      }
+      return Promise.reject(`Error during updating the article #${articleId}`);
+    } catch (e) {
+      console.error(`Error during updating the article #${articleId}`);
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+        console.error(`Invalid article`);
+        return e?.response?.data as ArticleValidationResponse;
+      }
+      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+      console.error(`Error during updating the article #${articleId}`);
+      return Promise.reject(`Error during updating the article #${articleId}`);
+    }
+  }
+
   public async getArticleById(id: ArticleId): Promise<Article> {
     let response: AxiosResponse<Article>;
     try {

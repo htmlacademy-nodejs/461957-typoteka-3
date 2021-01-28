@@ -74,6 +74,49 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
   }
 });
 
+articlesRouter.post(`/edit/:id`, [multerMiddleware.none()], async (req: Request, res: Response, next: NextFunction) => {
+  const articleId = parseInt(req.params.id, 10);
+  const updatingArticle: IArticleCreating = {
+    ...(req.body as ArticleFromBrowser),
+    categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
+  };
+  try {
+    const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.updateArticle(
+      articleId,
+      updatingArticle,
+    );
+    if (!articleValidationResponse) {
+      return res.redirect(ClientRoutes.ADMIN.INDEX);
+    } else {
+      try {
+        const categories = await dataProviderService.getCategories();
+        return streamPage(res, EditArticlePage, {
+          article: updatingArticle,
+          endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
+          articleValidationResponse,
+          availableCategories: categories,
+          isUpdating: true,
+        });
+      } catch (e) {
+        return next(
+          new SSRError({
+            message: `Failed to load categories`,
+            statusCode: HttpCode.BAD_REQUEST,
+          }),
+        );
+      }
+    }
+  } catch (e) {
+    return next(
+      new SSRError({
+        message: `Failed to update the article #${articleId}`,
+        statusCode: HttpCode.BAD_REQUEST,
+        errorPayload: e as Error,
+      }),
+    );
+  }
+});
+
 articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: NextFunction) => {
   const page = getPageFromReqQuery(req);
   const offset = getOffsetFromPage(page);
@@ -157,8 +200,9 @@ articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFu
     }
     return streamPage(res, EditArticlePage, {
       article,
-      endPoint: `${ClientRoutes.ARTICLES.INDEX}/${articleId}`,
+      endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
       availableCategories: categories,
+      isUpdating: true,
     });
   } catch (e) {
     return next(
