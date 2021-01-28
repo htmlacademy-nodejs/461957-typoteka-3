@@ -1,22 +1,20 @@
 import {agent as request} from "supertest";
 import {Application} from "express";
 import * as http from "http";
-import {Article, IArticleId, ICommentsCount, NewArticle} from "../../../types/article";
+import {Article, IArticleId, ICommentsCount} from "../../../types/article";
 import {ArticleComment, CommentId, NewArticleComment} from "../../../types/article-comment";
 import {ArticleId} from "../../../types/article-id";
 import {initApp} from "./tests-boilerplate/init-app";
+import {IArticleCreating} from "../../../types/interfaces/article-creating";
 
 let validArticleId: ArticleId;
 let articleWithCommentsId: ArticleId;
-const invalidArticleId = `-1`;
+const invalidArticleId = `999999999999999999999999999999999999`;
 let validCommentId: CommentId;
 const invalidCommentId = `-1`;
-const validNewArticle: NewArticle = {
+const validNewArticle: IArticleCreating = {
   announce: `Игры и программирование разные вещи. Не стоит идти в программисты, если вам нравится только игры.  1938 году.`,
-  categories: [
-    {id: 1, label: `1`},
-    {id: 3, label: `3`},
-  ],
+  categories: [{id: 1}, {id: 3}],
   createdDate: new Date(Date.now()),
   fullText: `Освоить вёрстку несложно.`,
   title: `Как собрать камни бесконечности`,
