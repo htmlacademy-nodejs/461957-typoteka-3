@@ -167,7 +167,7 @@ export class ArticlesService {
         },
         {
           where: {
-            id: 1,
+            id,
           },
         },
       );
