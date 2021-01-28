@@ -12,11 +12,15 @@ export const CategoriesSelect: FunctionComponent<CategoriesSelectProps> = ({
   availableCategories,
   selectedCategories,
 }) => (
-  // TODO: Select selected categories
   <div className="new-publication__category-wrapper">
     {availableCategories.map(category => (
       <div className="new-publication__checkbox" key={category.id} style={{display: `flex`}}>
-        <input type="checkbox" name={inputName + `[` + category.id + `]`} id={`checkbox` + `[` + category.id + `]`} />
+        <input
+          type="checkbox"
+          defaultChecked={selectedCategories.map(item => item.id).includes(category.id)}
+          name={inputName + `[` + category.id + `]`}
+          id={`checkbox` + `[` + category.id + `]`}
+        />
         <label htmlFor={`checkbox` + `[` + category.id + `]`}>{category.label}</label>
       </div>
     ))}
