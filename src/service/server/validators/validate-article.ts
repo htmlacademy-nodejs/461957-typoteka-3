@@ -1,26 +1,11 @@
-import {articleSchema, newArticleSchema} from "./schemas";
+import {newArticleSchema} from "./schemas";
 import {ValidationError, ValidationErrorItem} from "joi";
 import {ArticleValidationResponse} from "../../../types/article-validation-response";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
-import {IArticleId} from "../../../types/article";
 
 export async function validateNewArticle(newArticle: IArticleCreating): Promise<IArticleCreating> {
   try {
     return (await newArticleSchema.validateAsync(newArticle, {abortEarly: false})) as IArticleCreating;
-  } catch (e) {
-    if (e instanceof ValidationError) {
-      throw getValidationDictionary(e.details);
-    } else {
-      throw e;
-    }
-  }
-}
-
-export async function validateArticle(
-  newArticle: IArticleCreating & IArticleId,
-): Promise<IArticleCreating & IArticleId> {
-  try {
-    return (await articleSchema.validateAsync(newArticle, {abortEarly: false})) as IArticleCreating & IArticleId;
   } catch (e) {
     if (e instanceof ValidationError) {
       throw getValidationDictionary(e.details);

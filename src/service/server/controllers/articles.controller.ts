@@ -1,6 +1,6 @@
 import {HttpCode} from "../../../constants-es6";
 import {ArticleComment, CommentId} from "../../../types/article-comment";
-import {Article, IArticleId, ICategories, IComments} from "../../../types/article";
+import {Article, ICategories, IComments} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
@@ -150,10 +150,7 @@ export class ArticlesController {
     }
   }
 
-  public async updateArticle(
-    id: ArticleId,
-    article: IArticleCreating & IArticleId,
-  ): Promise<ControllerResponse<Article>> {
+  public async updateArticle(id: ArticleId, article: IArticleCreating): Promise<ControllerResponse<Article>> {
     try {
       const isSuccess = await this.articlesService.update(id, article);
       if (!isSuccess) {

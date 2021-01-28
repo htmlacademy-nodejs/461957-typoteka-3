@@ -1,5 +1,4 @@
 import {IArticleModel} from "../models/article";
-import {IArticleId} from "../../../../types/article";
 import {TableName} from "../constants/table-name";
 import Sequelize, {FindAttributeOptions, Model} from "sequelize";
 import {CategoryId} from "../../../../types/category-id";
@@ -156,7 +155,7 @@ export class ArticlesService {
 
   public async update(
     id: ArticleId,
-    {announce, createdDate, fullText, title, categories}: IArticleCreating & IArticleId,
+    {announce, createdDate, fullText, title, categories}: IArticleCreating,
   ): Promise<boolean> {
     try {
       await this.ArticleModel.update(

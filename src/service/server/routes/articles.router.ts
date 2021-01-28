@@ -2,10 +2,9 @@ import {Router} from "express";
 import {HttpCode} from "../../../constants-es6";
 import {newCommentValidator} from "../../middlewares";
 import {ArticleComment} from "../../../types/article-comment";
-import {IArticleId} from "../../../types/article";
 import {ArticlesController} from "../controllers/articles.controller";
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
-import {validateArticle, validateNewArticle} from "../validators/validate-article";
+import {validateNewArticle} from "../validators/validate-article";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
 
 export const articleRouter = (articlesController: ArticlesController): Router => {
@@ -61,7 +60,7 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
   router.put(`/:id`, async (req, res) => {
     try {
       const articleId = parseInt(req.params.id, 10);
-      const articleContent = await validateArticle(req.body as IArticleCreating & IArticleId);
+      const articleContent = await validateNewArticle(req.body as IArticleCreating);
       const {status = HttpCode.OK, payload} = await articlesController.updateArticle(articleId, articleContent);
       res.status(status).send(payload);
     } catch (e) {
