@@ -12,8 +12,8 @@ export const newArticleSchema = Joi.object<Article>({
     .required()
     .messages({
       "any.required": `Обязательное поле`,
-      "string.max": `Максимальная длина ${MAX_FULLTEXT_LENGTH} символов`,
       "string.empty": `Поле не может быть пустым`,
+      "string.max": `Максимальная длина ${MAX_FULLTEXT_LENGTH} символов`,
     }),
   announce: Joi.string()
     .min(ANNOUNCE_RESTRICTIONS[0])
@@ -21,6 +21,7 @@ export const newArticleSchema = Joi.object<Article>({
     .required()
     .messages({
       "any.required": `Обязательное поле`,
+      "string.empty": `Поле не может быть пустым`,
       "string.min": `Минимальная длина ${ANNOUNCE_RESTRICTIONS[0]} символов`,
       "string.max": `Максимальная длина ${ANNOUNCE_RESTRICTIONS[1]} символов`,
     }),
@@ -30,6 +31,7 @@ export const newArticleSchema = Joi.object<Article>({
     .required()
     .messages({
       "any.required": `Обязательное поле`,
+      "string.empty": `Поле не может быть пустым`,
       "string.min": `Минимальная длина ${TITLE_RESTRICTIONS[0]} символов`,
       "string.max": `Максимальная длина ${TITLE_RESTRICTIONS[1]} символов`,
     }),
