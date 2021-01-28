@@ -14,6 +14,7 @@ interface EditArticleProps {
   endPoint: string;
   availableCategories: Category[];
   articleValidationResponse?: ArticleValidationResponse;
+  isUpdating?: boolean;
 }
 
 export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
@@ -21,6 +22,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   endPoint,
   availableCategories,
   articleValidationResponse = {},
+  isUpdating,
 }) => {
   const articleProps =
     article === undefined
@@ -29,23 +31,24 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
           announce: "",
           fullText: "",
           categories: [],
+          createdDate: undefined,
         }
       : {
           title: article.title,
           announce: article.announce,
           fullText: article.fullText,
           categories: article.categories,
+          createdDate: article.createdDate,
         };
-
   return (
-    <LayoutFilled pageTitle={`Новая публикация`}>
+    <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`}>
       <main>
         <section>
           <div className="popup popup--new-publication popup--anti">
             <div className="new-publication">
               <form action={endPoint} method="POST" encType="multipart/form-data">
                 <div className="new-publication__header">
-                  <h1>Новая публикация</h1>
+                  <h1>{isUpdating ? `Редактирование публикации` : `Новая публикация`}</h1>
                   <div className="new-publication__date-form">
                     <h3>Дата публикации</h3>
                     <div className="new-publication__date-form-division">
@@ -53,10 +56,10 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                         <label htmlFor="new-publication-date" aria-label={ARTICLE_FORM_FIELDS.createdDate.label} />
                         <input
                           type="text"
-                          defaultValue={getInitialDate()}
+                          defaultValue={getInitialDate(article.createdDate)}
                           name={ARTICLE_FORM_FIELDS.createdDate.name}
                           id="new-publication-date"
-                          placeholder="2019-03-21"
+                          placeholder={getInitialDate(article.createdDate)}
                         />
                       </div>
                     </div>
@@ -177,6 +180,6 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   );
 };
 
-function getInitialDate(): string {
-  return new Date().toISOString().substr(0, 10);
+function getInitialDate(date?: Date): string {
+  return (date ? date : new Date()).toISOString().split("T", 1)[0];
 }

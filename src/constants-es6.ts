@@ -38,6 +38,7 @@ export const MockTextsFilePath = {
 export const APIRoutes = {
   API: `/api`,
   ARTICLES: `/articles`,
+  EDIT_ARTICLE: `/articles`,
   COMMENTS: `/comments`,
   CATEGORIES: `/categories`,
   CATEGORIES_STATISTICS: `/categories-statistics`,
