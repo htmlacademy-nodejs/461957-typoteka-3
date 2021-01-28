@@ -141,19 +141,16 @@ export class DataProviderService {
   }
 
   public async getComments(quantityOfArticles: number): Promise<ArticleComment[]> {
-    const {items: articlesList} = await this.getArticles({limit: 100, offset: 0});
-    if (articlesList === null) {
-      // TODO: replace with Promise.reject()
-      return null;
+    try {
+      const {items: articlesList} = await this.getArticles({limit: 100, offset: 0});
+      const comments = await Promise.all(
+        articlesList.slice(0, quantityOfArticles).map(article => this.getArticleComments(article.id)),
+      );
+      return comments.flat(1);
+    } catch (e) {
+      console.error(`Failed to load articles or comments`);
+      return Promise.reject(e);
     }
-    const comments = await Promise.all(
-      articlesList.slice(0, quantityOfArticles).map(article => this.getArticleComments(article.id)),
-    );
-    if (comments === null) {
-      // TODO: replace with Promise.reject()
-      return null;
-    }
-    return comments.flat(1);
   }
 
   public async getCategories(): Promise<Category[]> {
@@ -199,26 +196,20 @@ export class DataProviderService {
     }
   }
 
-  private async getArticleComments(articleId: ArticleId): Promise<ArticleComment[]> {
-    let response: AxiosResponse<ArticleComment[]>;
+  public async getArticleComments(articleId: ArticleId): Promise<ArticleComment[]> {
     try {
-      response = await this.requestService.get<ArticleComment[]>(
+      const response = await this.requestService.get<ArticleComment[]>(
         `${this.apiEndPoint + APIRoutes.ARTICLES}/${articleId}${APIRoutes.COMMENTS}`,
         {},
       );
+      return response.data.map(transformDate);
     } catch (e) {
-      console.error(`error`, e);
-    }
-    if (response && response.status === HttpCode.OK) {
-      return response.data;
-    } else {
-      console.error(response.data);
-      // TODO: replace with Promise.reject()
-      return null;
+      console.error(`Failed to load comments`);
+      return Promise.reject(e);
     }
   }
 }
 
-function transformDate<T extends ICreatedDate>(article: T): T {
-  return {...article, createdDate: new Date(Date.parse((article.createdDate as unknown) as string))};
+function transformDate<T extends ICreatedDate>(item: T): T {
+  return {...item, createdDate: new Date(Date.parse((item.createdDate as unknown) as string))};
 }

@@ -158,9 +158,10 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
 articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunction) => {
   const articleId = parseInt(req.params.id, 10);
   try {
-    const [article, categories] = await Promise.all([
+    const [article, categories, comments] = await Promise.all([
       dataProviderService.getArticleById(articleId),
       dataProviderService.getCategoriesWithNumbers(),
+      dataProviderService.getArticleComments(articleId),
     ]);
     if (article === null) {
       return next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
@@ -174,6 +175,7 @@ articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunctio
       title: article.title,
       previousPageUrl: req.header(`referer`),
       fullText: article.fullText,
+      comments,
     });
   } catch (e) {
     return next(

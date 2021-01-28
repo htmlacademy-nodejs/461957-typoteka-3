@@ -30,10 +30,16 @@ export class CommentsService {
 
   public async findByArticleId(articleId: ArticleId): Promise<ArticleComment[]> {
     const comments = await this.CommentsModel.findAll({
-      attributes: [CommentProperty.ID, CommentProperty.TEXT],
+      attributes: [
+        CommentProperty.ID,
+        CommentProperty.TEXT,
+        [CommentProperty.CREATEDDATE, `createdDate`],
+        [CommentProperty.ARTICLEID, `articleId`],
+      ],
       where: {
         articleId,
       },
+      order: [[`createdDate`, `ASC`]],
     });
     return comments.map(item => item.get({plain: true}));
   }

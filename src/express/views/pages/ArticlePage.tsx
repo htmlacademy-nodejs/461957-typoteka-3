@@ -1,10 +1,10 @@
 import React, {FunctionComponent} from "react";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
-import type {ICategoriesWithLinksAndNumbers, ICreatedDate, IFullText, ITitle} from "../../../types/article";
+import type {ICategoriesWithLinksAndNumbers, IComments, ICreatedDate, IFullText, ITitle} from "../../../types/article";
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CommentsList} from "../components/CommentsList/CommentsList";
 
-interface ArticlePageProps extends ITitle, ICreatedDate, ICategoriesWithLinksAndNumbers, IFullText {
+interface ArticlePageProps extends ITitle, ICreatedDate, ICategoriesWithLinksAndNumbers, IFullText, IComments {
   previousPageUrl: string;
 }
 
@@ -14,6 +14,7 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   categories,
   previousPageUrl,
   fullText,
+  comments,
 }) => (
   <LayoutFilled pageTitle={title}>
     <main>
@@ -43,7 +44,7 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
             </div>
           </div>
           <div className="post__wrapper post__wrapper--comments">
-            <CommentsList parentCssClass={"post"} />
+            <CommentsList parentCssClass={"post"} comments={comments} />
           </div>
         </section>
       </section>
