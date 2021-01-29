@@ -71,9 +71,8 @@ export class DataProviderService {
     articleId: ArticleId,
     updatingArticle: IArticleCreating,
   ): Promise<void | ArticleValidationResponse> {
-    let response: AxiosResponse<void | ArticleValidationResponse>;
     try {
-      response = await this.requestService.put<ArticleValidationResponse>(
+      const response = await this.requestService.put<ArticleValidationResponse>(
         `${this.apiEndPoint}/${APIRoutes.EDIT_ARTICLE}/${articleId}`,
         updatingArticle,
       );
@@ -82,7 +81,6 @@ export class DataProviderService {
       }
       return Promise.reject(`Error during updating the article #${articleId}`);
     } catch (e) {
-      console.error(`Error during updating the article #${articleId}`);
       /* eslint-disable @typescript-eslint/no-unsafe-member-access */
       if (e?.response?.status === HttpCode.BAD_REQUEST) {
         console.error(`Invalid article`);
@@ -109,27 +107,21 @@ export class DataProviderService {
     limit,
     categoryId,
   }: Partial<IPaginationOptions> & {categoryId: CategoryId}): Promise<ArticlesByCategory> {
-    let response: AxiosResponse<ArticlesByCategory>;
     try {
-      response = await this.requestService.get<ArticlesByCategory>(
-        `${this.apiEndPoint + APIRoutes.CATEGORIES}/${categoryId.toString(10)}`,
+      const response = await this.requestService.get<ArticlesByCategory>(
+        `${this.apiEndPoint + APIRoutes.CATEGORIES}/${categoryId}`,
         {
           params: {offset, limit},
         },
       );
-    } catch (e) {
-      console.error(`Failed to load articles by categoryId "${categoryId}"`, e);
-    }
-    if (response && response.status === 200) {
       return {
         category: response.data.category,
         items: response.data.items.map(transformDate),
         totalCount: response.data.totalCount,
       };
-    } else {
-      console.error(response.data);
-      // TODO: replace with Promise.reject()
-      return null;
+    } catch (e) {
+      console.error(`Failed to load articles by categoryId "${categoryId}"`);
+      return Promise.reject(e);
     }
   }
 
@@ -170,22 +162,16 @@ export class DataProviderService {
   }
 
   public async search(query: string): Promise<ArticleSearchCollection> {
-    let response: AxiosResponse<ArticleSearchCollection>;
     try {
-      response = await this.requestService.get<ArticleSearchCollection>(this.apiEndPoint + APIRoutes.SEARCH, {
+      const response = await this.requestService.get<ArticleSearchCollection>(this.apiEndPoint + APIRoutes.SEARCH, {
         params: {
           query,
         },
       });
-    } catch (e) {
-      console.error(`search request`, e);
-    }
-    if (response && response.status === HttpCode.OK) {
       return response.data;
-    } else {
-      console.error(`search request status`, response.data);
-      // TODO: replace with Promise.reject()
-      return null;
+    } catch (e) {
+      console.error(`Failed to load search response`);
+      return Promise.reject(e);
     }
   }
 
@@ -217,10 +203,9 @@ export class DataProviderService {
       }
       return Promise.reject(`Error during creation the new comment`);
     } catch (e) {
-      console.error(`Error during creation the new comment`);
       /* eslint-disable @typescript-eslint/no-unsafe-member-access */
       if (e?.response?.status === HttpCode.BAD_REQUEST) {
-        console.error(`Invalid article`);
+        console.error(`Invalid comment`);
         return e?.response?.data as CommentValidationResponse;
       }
       /* eslint-enable @typescript-eslint/no-unsafe-member-access */

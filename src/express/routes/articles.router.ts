@@ -127,14 +127,6 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
       dataProviderService.getCategoriesWithNumbers(),
     ]);
     const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
-    if (articles === null) {
-      return next(
-        new SSRError({
-          message: `Failed to get articles by category id or failed to get categories`,
-          statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-        }),
-      );
-    }
     return streamPage(res, ArticlesByCategoryPage, {
       pageTitle: category.label,
       categories: preparedCategories,

@@ -11,14 +11,6 @@ export const categoriesRouter = Router();
 categoriesRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const categories = await dataProviderService.getCategories();
-    if (categories === null) {
-      return next(
-        new SSRError({
-          message: `Failed to request categories`,
-          statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-        }),
-      );
-    }
     const editableCategories: CategoryEditableProps[] = categories.map(category => ({
       label: category.label,
       endPoint: category.id.toString(10),
@@ -29,7 +21,7 @@ categoriesRouter.get(`/`, async (req: Request, res: Response, next: NextFunction
     return next(
       new SSRError({
         message: `Failed to get categories`,
-        statusCode: HttpCode.NOT_FOUND,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
         errorPayload: e as Error,
       }),
     );
