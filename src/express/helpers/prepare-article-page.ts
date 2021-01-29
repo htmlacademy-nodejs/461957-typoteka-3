@@ -24,7 +24,7 @@ export async function prepareArticlePage({articleId}: Props): Promise<IPreparedP
       categories: filterSelectedCategories(categoriesWithLinksAndNumbers, article.categories),
       createdDate: article.createdDate,
       title: article.title,
-      previousPageUrl: ``,
+      previousPageUrl: undefined,
       fullText: article.fullText,
       newCommentEndPoint: `${ClientRoutes.COMMENTS}/${articleId}`,
       comments,

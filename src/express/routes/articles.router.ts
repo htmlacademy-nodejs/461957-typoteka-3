@@ -159,7 +159,7 @@ articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunctio
   const articleId = parseInt(req.params.id, 10);
   try {
     const {page: articlePage, props} = await prepareArticlePage({articleId});
-    return streamPage(res, articlePage, {...props});
+    return streamPage(res, articlePage, {...props, previousPageUrl: req.header(`referer`)});
   } catch (e) {
     return next(
       new SSRError({
