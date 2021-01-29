@@ -4,14 +4,14 @@ import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-cat
 import {ArticlePage, ArticlePageProps} from "../views/pages/ArticlePage";
 import {filterSelectedCategories} from "../utils/filter-selected-categories";
 import {ArticleId} from "../../types/article-id";
-import {IControllerResult} from "../../types/interfaces/controller-result";
+import {IPreparedPage} from "../../types/interfaces/prepared-page";
 import {ClientRoutes} from "../../constants-es6";
 
 interface Props {
   articleId: ArticleId;
 }
 
-export async function prepareArticlePage({articleId}: Props): Promise<IControllerResult<ArticlePageProps>> {
+export async function prepareArticlePage({articleId}: Props): Promise<IPreparedPage<ArticlePageProps>> {
   const [article, categories, comments] = await Promise.all([
     dataProviderService.getArticleById(articleId),
     dataProviderService.getCategoriesWithNumbers(),
