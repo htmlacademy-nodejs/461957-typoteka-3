@@ -1,5 +1,4 @@
 import {getRandomInt, shuffle} from "../../../utils";
-import {NewArticleComment} from "../../../types/article-comment";
 import {
   AnnounceRestrict,
   CategoriesRestrict,
@@ -10,6 +9,7 @@ import {
 } from "./constants/mocks-restrictions";
 import {DAYS_IN_MONTH, MS_IN_DAY} from "../../../constants-es6";
 import {Category} from "../../../types/category";
+import {ICommentCreating} from "../../../types/interfaces/comment-creating";
 
 const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
 
@@ -45,10 +45,10 @@ export function getTitle(titles: string[]): string {
   return titles[getRandomInt(0, titles.length - 1)].slice(0, TitleRestrict.maxLength);
 }
 
-export function getComments(commentsSentences: string[]): NewArticleComment[] {
+export function getComments(commentsSentences: string[]): ICommentCreating[] {
   return Array(CommentRestrict.max)
     .fill(undefined)
-    .map<NewArticleComment>(() => ({
+    .map<ICommentCreating>(() => ({
       createdDate: getDate(Date.now()),
       articleId: 1,
       text: getCommentText(commentsSentences),

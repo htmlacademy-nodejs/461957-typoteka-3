@@ -1,3 +1,5 @@
+import {ICommentCreating} from "./interfaces/comment-creating";
+import {ICommentId} from "./interfaces/comment-id";
 import {ArticleId} from "./article-id";
 
 export interface NewArticleComment {
@@ -6,8 +8,6 @@ export interface NewArticleComment {
   createdDate: Date;
 }
 
-export interface ArticleComment extends NewArticleComment {
-  id: CommentId;
-}
+export interface ArticleComment extends ICommentCreating, ICommentId {}
 
 export type CommentId = number;

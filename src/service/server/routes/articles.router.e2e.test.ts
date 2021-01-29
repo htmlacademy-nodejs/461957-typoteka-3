@@ -2,10 +2,11 @@ import {agent as request} from "supertest";
 import {Application} from "express";
 import * as http from "http";
 import {Article, IArticleId, ICommentsCount} from "../../../types/article";
-import {ArticleComment, CommentId, NewArticleComment} from "../../../types/article-comment";
+import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {ArticleId} from "../../../types/article-id";
 import {initApp} from "./tests-boilerplate/init-app";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
+import {ICommentCreating} from "../../../types/interfaces/comment-creating";
 
 let validArticleId: ArticleId;
 let articleWithCommentsId: ArticleId;
@@ -20,7 +21,7 @@ const validNewArticle: IArticleCreating = {
   title: `Как собрать камни бесконечности`,
 };
 const invalidNewArticle = {...validNewArticle, categories: 10};
-const validNewComment: NewArticleComment = {
+const validNewComment: ICommentCreating = {
   text: `Comment`,
   createdDate: new Date(),
   articleId: 1,

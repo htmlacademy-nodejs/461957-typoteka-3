@@ -61,7 +61,3 @@ export interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, 
 export interface Article extends NewArticle, IArticleId {
   comments: ArticleComment[];
 }
-
-export interface ArticleWithComments extends NewArticle {
-  comments: ArticleComment[];
-}
