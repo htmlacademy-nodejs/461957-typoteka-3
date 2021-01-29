@@ -1,4 +1,5 @@
 import {IArticleId} from "./article";
 import {IArticleCreating} from "./interfaces/article-creating";
+import {ValidationResponse} from "./validation-response";
 
-export type ArticleValidationResponse = Partial<Record<keyof (IArticleCreating & IArticleId), string>>;
+export type ArticleValidationResponse = ValidationResponse<IArticleCreating & IArticleId>;

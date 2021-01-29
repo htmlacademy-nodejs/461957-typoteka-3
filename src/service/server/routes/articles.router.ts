@@ -1,11 +1,9 @@
 import {Router} from "express";
 import {HttpCode} from "../../../constants-es6";
-import {newCommentValidator} from "../../middlewares";
-import {ArticleComment} from "../../../types/article-comment";
 import {ArticlesController} from "../controllers/articles.controller";
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
 import {validateNewArticle} from "../validators/validate-article";
-import {IArticleCreating} from "../../../types/interfaces/article-creating";
+import {validateNewComment} from "../validators/validate-new-comment";
 
 export const articleRouter = (articlesController: ArticlesController): Router => {
   const router = Router();
@@ -36,10 +34,11 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
     const {status = HttpCode.OK, payload} = await articlesController.deleteCommentById(articleId, commentId);
     res.status(status).send(payload);
   });
-  router.post(`/:id/comments/`, newCommentValidator, async (req, res) => {
+  router.post(`/:id/comments/`, async (req, res) => {
     const articleId = parseInt(req.params.id, 10);
     try {
-      const {status = HttpCode.OK, payload} = await articlesController.createComment(articleId, req.body);
+      const newComment = await validateNewComment(req.body);
+      const {status = HttpCode.OK, payload} = await articlesController.createComment(articleId, newComment);
       res.status(status).send(payload);
     } catch (e) {
       res.status(HttpCode.BAD_REQUEST).send(e);
@@ -63,7 +62,7 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
   router.put(`/:id`, async (req, res) => {
     try {
       const articleId = parseInt(req.params.id, 10);
-      const articleContent = await validateNewArticle(req.body as IArticleCreating);
+      const articleContent = await validateNewArticle(req.body);
       const {status = HttpCode.OK, payload} = await articlesController.updateArticle(articleId, articleContent);
       res.status(status).send(payload);
     } catch (e) {
