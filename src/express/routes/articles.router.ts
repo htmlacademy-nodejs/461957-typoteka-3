@@ -79,6 +79,7 @@ articlesRouter.post(`/edit/:id`, [multerMiddleware.none()], async (req: Request,
   const updatingArticle: IArticleCreating = {
     ...(req.body as ArticleFromBrowser),
     categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
+    createdDate: parseDateFromFrontend((req.body as ArticleFromBrowser).createdDate as unknown),
   };
   try {
     const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.updateArticle(
@@ -216,3 +217,7 @@ articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFu
     );
   }
 });
+
+function parseDateFromFrontend(date: unknown): Date {
+  return new Date(Date.parse(date as string));
+}
