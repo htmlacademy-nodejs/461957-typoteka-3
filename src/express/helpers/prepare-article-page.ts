@@ -26,7 +26,7 @@ export async function prepareArticlePage({articleId}: Props): Promise<IPreparedP
       title: article.title,
       previousPageUrl: ``,
       fullText: article.fullText,
-      newCommentEndPoint: `${ClientRoutes.ARTICLES.INDEX}/${articleId}`,
+      newCommentEndPoint: `${ClientRoutes.COMMENTS}/${articleId}`,
       comments,
     },
   };

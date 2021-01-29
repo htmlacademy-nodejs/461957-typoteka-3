@@ -14,6 +14,8 @@ import {ArticleId} from "../../types/article-id";
 import {IPaginationOptions} from "../../types/interfaces/pagination-options";
 import {ICollection} from "../../types/interfaces/collection";
 import {IArticleCreating} from "../../types/interfaces/article-creating";
+import {ICommentCreating} from "../../types/interfaces/comment-creating";
+import {CommentValidationResponse} from "../../types/comment-validation-response";
 
 export class DataProviderService {
   private requestService: AxiosStatic;
@@ -96,18 +98,12 @@ export class DataProviderService {
   }
 
   public async getArticleById(id: ArticleId): Promise<Article> {
-    let response: AxiosResponse<Article>;
     try {
-      response = await this.requestService.get<Article>(`${this.apiEndPoint + APIRoutes.ARTICLES}/${id}`, {});
-    } catch (e) {
-      console.error(`Failed to load article by id "${id}"`, e);
-    }
-    if (response && response.status === 200) {
+      const response = await this.requestService.get<Article>(`${this.apiEndPoint + APIRoutes.ARTICLES}/${id}`, {});
       return transformDate(response.data);
-    } else {
-      console.error(response.data);
-      // TODO: replace with Promise.reject()
-      return null;
+    } catch (e) {
+      console.error(`Failed to load article by id "${id}"`);
+      return Promise.reject(e);
     }
   }
 
@@ -206,6 +202,33 @@ export class DataProviderService {
     } catch (e) {
       console.error(`Failed to load comments`);
       return Promise.reject(e);
+    }
+  }
+
+  public async createComment(
+    articleId: ArticleId,
+    comment: ICommentCreating,
+  ): Promise<void | CommentValidationResponse> {
+    let response: AxiosResponse<void | CommentValidationResponse>;
+    try {
+      response = await this.requestService.post<CommentValidationResponse>(
+        `${this.apiEndPoint}/${APIRoutes.ARTICLES}/${articleId}/comments`,
+        comment,
+      );
+      if (response && response?.status === HttpCode.CREATED) {
+        return Promise.resolve();
+      }
+      return Promise.reject(`Error during creation the new comment`);
+    } catch (e) {
+      console.error(`Error during creation the new comment`);
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+        console.error(`Invalid article`);
+        return e?.response?.data as CommentValidationResponse;
+      }
+      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+      console.error(`Error during creation the new comment`);
+      return Promise.reject(`Error during creation the new comment`);
     }
   }
 }

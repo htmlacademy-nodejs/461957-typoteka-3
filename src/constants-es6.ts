@@ -62,6 +62,7 @@ export const ClientRoutes = {
   REGISTRATION: `/register`,
   SIGN_IN: `/login`,
   CATEGORIES: `/categories`,
+  COMMENTS: `/comments`,
 };
 export const HttpMethod = {
   GET: `GET`,
