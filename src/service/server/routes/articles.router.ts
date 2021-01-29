@@ -1,9 +1,9 @@
 import {Router} from "express";
-import {HttpCode} from "../../../constants-es6";
+import {APIRoutes, HttpCode} from "../../../constants-es6";
 import {ArticlesController} from "../controllers/articles.controller";
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
-import {validateNewArticle} from "../validators/validate-article";
-import {validateNewComment} from "../validators/validate-new-comment";
+import {validateNewArticle} from "../validators";
+import {commentsRouter} from "./comments.router";
 
 export const articleRouter = (articlesController: ArticlesController): Router => {
   const router = Router();
@@ -21,33 +21,6 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
   router.get(`/:id`, async (req, res) => {
     const id = parseInt(req.params.id, 10);
     const {status = HttpCode.OK, payload} = await articlesController.getArticleById(id);
-    return res.status(status).send(payload);
-  });
-  router.get(`/:id/comments/`, async (req, res) => {
-    const id = parseInt(req.params.id, 10);
-    const {status = HttpCode.OK, payload} = await articlesController.getCommentsByArticleId(id);
-    return res.status(status).send(payload);
-  });
-  router.delete(`/:articleId/comments/:commentId`, async (req, res) => {
-    const articleId = parseInt(req.params.articleId, 10);
-    const commentId = parseInt(req.params.commentId, 10);
-    const {status = HttpCode.OK, payload} = await articlesController.deleteCommentById(articleId, commentId);
-    res.status(status).send(payload);
-  });
-  router.post(`/:id/comments/`, async (req, res) => {
-    const articleId = parseInt(req.params.id, 10);
-    try {
-      const newComment = await validateNewComment(req.body);
-      const {status = HttpCode.OK, payload} = await articlesController.createComment(articleId, newComment);
-      res.status(status).send(payload);
-    } catch (e) {
-      res.status(HttpCode.BAD_REQUEST).send(e);
-    }
-  });
-  router.get(`/:articleId/comments/:commentId`, async (req, res) => {
-    const articleId = parseInt(req.params.articleId, 10);
-    const commentId = parseInt(req.params.commentId, 10);
-    const {status = HttpCode.OK, payload} = await articlesController.getComment(articleId, commentId);
     return res.status(status).send(payload);
   });
   router.post(`/`, async (req, res) => {
@@ -74,6 +47,8 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
     const {status = HttpCode.OK, payload} = await articlesController.deleteArticle(articleId);
     res.status(status).send(payload);
   });
+
+  router.use(`/:id` + APIRoutes.COMMENTS, commentsRouter(articlesController));
 
   return router;
 };
