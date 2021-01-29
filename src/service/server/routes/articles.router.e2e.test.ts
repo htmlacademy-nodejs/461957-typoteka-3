@@ -22,11 +22,13 @@ const validNewArticle: IArticleCreating = {
 };
 const invalidNewArticle = {...validNewArticle, categories: 10};
 const validNewComment: ICommentCreating = {
-  text: `Comment`,
+  text: `Comment234234234234234`,
   createdDate: new Date(),
   articleId: 1,
 };
-const invalidNewComment = {};
+const invalidNewComment = {
+  text: `Comment234234234234234`,
+};
 
 describe(`Articles router`, () => {
   let app: Application;
