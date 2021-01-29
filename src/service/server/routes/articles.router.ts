@@ -4,8 +4,12 @@ import {ArticlesController} from "../controllers/articles.controller";
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
 import {validateNewArticle} from "../validators";
 import {commentsRouter} from "./comments.router";
+import {CommentsController} from "../controllers/comments.controller";
 
-export const articleRouter = (articlesController: ArticlesController): Router => {
+export const articleRouter = (
+  articlesController: ArticlesController,
+  commentsController: CommentsController,
+): Router => {
   const router = Router();
 
   router.get(`/`, async (req, res) => {
@@ -48,7 +52,7 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
     res.status(status).send(payload);
   });
 
-  router.use(`/:id` + APIRoutes.COMMENTS, commentsRouter(articlesController));
+  router.use(`/:id` + APIRoutes.COMMENTS, commentsRouter(commentsController));
 
   return router;
 };

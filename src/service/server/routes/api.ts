@@ -2,7 +2,12 @@ import {searchRouter} from "./search.router";
 import {APIRoutes} from "../../../constants-es6";
 import {articleRouter} from "./articles.router";
 import {categoriesRouter} from "./categories.router";
-import {articlesControllerFactory, categoriesControllerFactory, searchControllerFactory} from "../controllers";
+import {
+  articlesControllerFactory,
+  categoriesControllerFactory,
+  commentsControllerFactory,
+  searchControllerFactory,
+} from "../controllers";
 import {Router} from "express";
 import {categoriesStatisticsRouter} from "./categories-statistics.router";
 import {ICategoryModel} from "../data-access/models/category";
@@ -26,8 +31,9 @@ export const apiRouter = ({
   });
   const categoriesController = categoriesControllerFactory({CategoryModel});
   const searchController = searchControllerFactory({ArticleModel});
+  const commentsController = commentsControllerFactory({CommentModel});
 
-  router.use(APIRoutes.ARTICLES, articleRouter(articlesController));
+  router.use(APIRoutes.ARTICLES, articleRouter(articlesController, commentsController));
   router.use(APIRoutes.CATEGORIES, categoriesRouter(articlesController, categoriesController));
   router.use(APIRoutes.CATEGORIES_STATISTICS, categoriesStatisticsRouter(categoriesController));
   router.use(APIRoutes.SEARCH, searchRouter(searchController));
