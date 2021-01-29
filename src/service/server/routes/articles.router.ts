@@ -38,9 +38,12 @@ export const articleRouter = (articlesController: ArticlesController): Router =>
   });
   router.post(`/:id/comments/`, newCommentValidator, async (req, res) => {
     const articleId = parseInt(req.params.id, 10);
-    const commentText = (req.body as ArticleComment)?.text;
-    const {status = HttpCode.OK, payload} = await articlesController.createComment(articleId, commentText);
-    return res.status(status).send(payload);
+    try {
+      const {status = HttpCode.OK, payload} = await articlesController.createComment(articleId, req.body);
+      res.status(status).send(payload);
+    } catch (e) {
+      res.status(HttpCode.BAD_REQUEST).send(e);
+    }
   });
   router.get(`/:articleId/comments/:commentId`, async (req, res) => {
     const articleId = parseInt(req.params.articleId, 10);

@@ -12,6 +12,7 @@ import {ArticleId} from "../../../types/article-id";
 import {IPaginationOptions} from "../../../types/interfaces/pagination-options";
 import {ICollection} from "../../../types/interfaces/collection";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
+import {ICommentCreating} from "../../../types/interfaces/comment-creating";
 
 const DEFAULT_LIMIT = 8;
 
@@ -170,11 +171,15 @@ export class ArticlesController {
     return {status: HttpCode.OK};
   }
 
-  public async createComment(articleId: ArticleId, commentText: string): Promise<ControllerResponse<ArticleComment>> {
-    const savedComment = await this.commentsService.create(articleId, commentText);
-    if (savedComment === null) {
+  public async createComment(
+    articleId: ArticleId,
+    comment: ICommentCreating,
+  ): Promise<ControllerResponse<ArticleComment>> {
+    try {
+      await this.commentsService.create(articleId, comment);
+      return {status: HttpCode.CREATED};
+    } catch (e) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    return {status: HttpCode.CREATED, payload: savedComment};
   }
 }
