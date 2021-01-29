@@ -26,23 +26,20 @@ export class DataProviderService {
   }
 
   public async getArticles({offset, limit}: Partial<IPaginationOptions>): Promise<ICollection<IArticlePreview>> {
-    let response: AxiosResponse<ICollection<IArticlePreview>>;
     try {
-      response = await this.requestService.get<ICollection<IArticlePreview>>(this.apiEndPoint + APIRoutes.ARTICLES, {
-        params: {offset, limit},
-      });
-    } catch (e) {
-      console.error(`error`, e);
-    }
-    if (response && response.status === 200) {
+      const response = await this.requestService.get<ICollection<IArticlePreview>>(
+        this.apiEndPoint + APIRoutes.ARTICLES,
+        {
+          params: {offset, limit},
+        },
+      );
       return {
         items: response.data.items.map(transformDate),
         totalCount: response.data.totalCount,
       };
-    } else {
-      console.error(response.data);
-      // TODO: replace with Promise.reject()
-      return null;
+    } catch (e) {
+      console.error(`Failed to load articles`);
+      return Promise.reject(e);
     }
   }
 

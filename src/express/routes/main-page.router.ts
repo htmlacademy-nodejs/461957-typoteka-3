@@ -21,9 +21,6 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       dataProviderService.getArticles({offset}),
       dataProviderService.getCategoriesWithNumbers(),
     ]);
-    if (articles === null) {
-      return next(new SSRError({message: `Failed to load articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
-    }
     const categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(
       categories,
     );
