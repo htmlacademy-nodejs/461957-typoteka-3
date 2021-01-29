@@ -11,12 +11,6 @@ export const commentsRouter = (commentsController: CommentsController): Router =
     const {status = HttpCode.OK, payload} = await commentsController.getCommentsByArticleId(id);
     return res.status(status).send(payload);
   });
-  router.delete(`/:commentId`, async (req, res) => {
-    const articleId = parseInt(req.params.id, 10);
-    const commentId = parseInt(req.params.commentId, 10);
-    const {status = HttpCode.OK, payload} = await commentsController.deleteCommentById(articleId, commentId);
-    res.status(status).send(payload);
-  });
   router.post(`/`, async (req, res) => {
     const articleId = parseInt(req.params.id, 10);
     try {
@@ -32,6 +26,12 @@ export const commentsRouter = (commentsController: CommentsController): Router =
     const commentId = parseInt(req.params.commentId, 10);
     const {status = HttpCode.OK, payload} = await commentsController.getComment(articleId, commentId);
     return res.status(status).send(payload);
+  });
+  router.delete(`/:commentId`, async (req, res) => {
+    const articleId = parseInt(req.params.id, 10);
+    const commentId = parseInt(req.params.commentId, 10);
+    const {status = HttpCode.OK, payload} = await commentsController.deleteCommentById(articleId, commentId);
+    res.status(status).send(payload);
   });
 
   return router;
