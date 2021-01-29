@@ -3,7 +3,6 @@ import {streamPage} from "../utils/stream-page";
 import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services";
-import {ArticlePage} from "../views/pages/ArticlePage";
 import multer from "multer";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import {EditArticlePage} from "../views/pages/EditArticlePage";
@@ -14,8 +13,8 @@ import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-n
 import type {ArticleFromBrowser} from "../../types/article-from-browser";
 import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
 import {getArticleLink} from "../helpers/link-resolver";
-import {filterSelectedCategories} from "../utils/filter-selected-categories";
 import {IArticleCreating} from "../../types/interfaces/article-creating";
+import {prepareArticlePage} from "../helpers/prepare-article-page";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -159,30 +158,13 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
 articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunction) => {
   const articleId = parseInt(req.params.id, 10);
   try {
-    const [article, categories, comments] = await Promise.all([
-      dataProviderService.getArticleById(articleId),
-      dataProviderService.getCategoriesWithNumbers(),
-      dataProviderService.getArticleComments(articleId),
-    ]);
-    if (article === null) {
-      return next(new SSRError({message: `Failed to get article`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
-    }
-    const categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(
-      categories,
-    );
-    return streamPage(res, ArticlePage, {
-      categories: filterSelectedCategories(categoriesWithLinksAndNumbers, article.categories),
-      createdDate: article.createdDate,
-      title: article.title,
-      previousPageUrl: req.header(`referer`),
-      fullText: article.fullText,
-      comments,
-    });
+    const {page: articlePage, props} = await prepareArticlePage({articleId});
+    return streamPage(res, articlePage, {...props});
   } catch (e) {
     return next(
       new SSRError({
         message: `Failed to get article`,
-        statusCode: HttpCode.NOT_FOUND,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
         errorPayload: e as Error,
       }),
     );
@@ -196,11 +178,6 @@ articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFu
       dataProviderService.getArticleById(articleId),
       dataProviderService.getCategories(),
     ]);
-    if (article === null && categories === null) {
-      return next(
-        new SSRError({message: `Failed to get article or categories`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}),
-      );
-    }
     return streamPage(res, EditArticlePage, {
       article,
       endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
@@ -210,8 +187,8 @@ articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFu
   } catch (e) {
     return next(
       new SSRError({
-        message: `Failed to get article`,
-        statusCode: HttpCode.NOT_FOUND,
+        message: `Failed to get article or categories`,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
         errorPayload: e as Error,
       }),
     );

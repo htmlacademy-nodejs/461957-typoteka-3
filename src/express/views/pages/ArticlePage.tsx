@@ -4,7 +4,7 @@ import type {ICategoriesWithLinksAndNumbers, IComments, ICreatedDate, IFullText,
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CommentsList} from "../components/CommentsList/CommentsList";
 
-interface ArticlePageProps extends ITitle, ICreatedDate, ICategoriesWithLinksAndNumbers, IFullText, IComments {
+export interface ArticlePageProps extends ITitle, ICreatedDate, ICategoriesWithLinksAndNumbers, IFullText, IComments {
   previousPageUrl: string;
 }
 
