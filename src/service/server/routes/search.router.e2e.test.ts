@@ -3,6 +3,7 @@ import {Application} from "express";
 import http from "http";
 import {ArticleSearchCollection} from "../../../types/article-search-collection";
 import {initApp} from "./tests-boilerplate/init-app";
+import {ICollection} from "../../../types/interfaces/collection";
 
 describe(`Search router`, () => {
   let app: Application;
@@ -29,7 +30,7 @@ describe(`Search router`, () => {
     });
     test(`Should return array when pass query string`, async () => {
       const res = await request(app).get(`/api/search?query=%D1%84`);
-      expect(Array.isArray(res.body.items)).toBe(true);
+      expect(Array.isArray((res.body as ICollection<any>).items)).toBe(true);
     });
     test(`Should return empty array when pass empty query string`, async () => {
       const res = await request(app).get(`/api/search?query=`);
