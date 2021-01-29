@@ -4,10 +4,13 @@ import type {ICategoriesWithLinksAndNumbers, IComments, ICreatedDate, IFullText,
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CommentsList} from "../components/CommentsList/CommentsList";
 import {CommentForm} from "../components/CommentForm/CommentForm";
+import {CommentValidationResponse} from "../../../types/comment-validation-response";
+import {CommentValidationErrors} from "../components/CommentValidationErrors/CommentValidationErrors";
 
 export interface ArticlePageProps extends ITitle, ICreatedDate, ICategoriesWithLinksAndNumbers, IFullText, IComments {
   previousPageUrl: string;
   newCommentEndPoint: string;
+  commentValidationResponse?: CommentValidationResponse;
 }
 
 export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
@@ -18,6 +21,7 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   fullText,
   comments,
   newCommentEndPoint,
+  commentValidationResponse,
 }) => (
   <LayoutFilled pageTitle={title}>
     <main>
@@ -50,6 +54,9 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
             <CommentsList parentCssClass={"post"} comments={comments}>
               <>
                 <CommentForm endPoint={newCommentEndPoint} />
+                {commentValidationResponse && (
+                  <CommentValidationErrors validationResponse={commentValidationResponse} />
+                )}
               </>
             </CommentsList>
           </div>

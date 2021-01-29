@@ -99,6 +99,12 @@ export const ARTICLE_FORM_FIELDS = {
     label: `Фотография`,
   },
 } as const;
+export const COMMENT_FORM_FIELDS = {
+  text: {
+    name: `text`,
+    label: `Сообщение`,
+  },
+};
 export const TableNames = {
   USERS: `users`,
   PERMISSIONS: `permissions`,
