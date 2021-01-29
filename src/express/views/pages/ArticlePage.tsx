@@ -3,9 +3,11 @@ import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import type {ICategoriesWithLinksAndNumbers, IComments, ICreatedDate, IFullText, ITitle} from "../../../types/article";
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CommentsList} from "../components/CommentsList/CommentsList";
+import {CommentForm} from "../components/CommentForm/CommentForm";
 
 export interface ArticlePageProps extends ITitle, ICreatedDate, ICategoriesWithLinksAndNumbers, IFullText, IComments {
   previousPageUrl: string;
+  newCommentEndPoint: string;
 }
 
 export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
@@ -15,6 +17,7 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   previousPageUrl,
   fullText,
   comments,
+  newCommentEndPoint,
 }) => (
   <LayoutFilled pageTitle={title}>
     <main>
@@ -44,7 +47,11 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
             </div>
           </div>
           <div className="post__wrapper post__wrapper--comments">
-            <CommentsList parentCssClass={"post"} comments={comments} />
+            <CommentsList parentCssClass={"post"} comments={comments}>
+              <>
+                <CommentForm endPoint={newCommentEndPoint} />
+              </>
+            </CommentsList>
           </div>
         </section>
       </section>
