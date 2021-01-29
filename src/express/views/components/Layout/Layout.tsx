@@ -27,6 +27,7 @@ export const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, chi
       <link rel="preload" href="/fonts/Inter-Medium.woff2" as="font" crossOrigin="anonymous" />
       <link rel="preload" href="/fonts/SFProDisplay-Regular.woff2" as="font" crossOrigin="anonymous" />
       <link rel="stylesheet" href="/css/style.min.css" />
+      <link rel="stylesheet" href="/css/custom.css" />
       <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png" />
