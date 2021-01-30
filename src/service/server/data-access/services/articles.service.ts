@@ -1,5 +1,4 @@
 import {IArticleModel} from "../models/article";
-import {NewArticle} from "../../../../types/article";
 import {TableName} from "../constants/table-name";
 import Sequelize, {FindAttributeOptions, Model} from "sequelize";
 import {CategoryId} from "../../../../types/category-id";
@@ -7,6 +6,7 @@ import {ArticleId} from "../../../../types/article-id";
 import {IArticlePlain} from "../../../../types/interfaces/article-plain";
 import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
 import {ICollection} from "../../../../types/interfaces/collection";
+import {IArticleCreating} from "../../../../types/interfaces/article-creating";
 
 export class ArticlesService {
   constructor(private readonly ArticleModel: IArticleModel) {}
@@ -132,7 +132,7 @@ export class ArticlesService {
     };
   }
 
-  public async create({announce, createdDate, fullText, title, categories}: NewArticle): Promise<true | null> {
+  public async create({announce, createdDate, fullText, title, categories}: IArticleCreating): Promise<void> {
     const createdArticle = await this.ArticleModel.create({
       createdDate,
       announce,
@@ -140,7 +140,7 @@ export class ArticlesService {
       title,
     });
     await createdArticle.setCategories(categories.map(item => item.id));
-    return createdDate ? true : null;
+    return createdDate ? Promise.resolve() : Promise.reject(`Failed to create new article`);
   }
 
   public async drop(id: ArticleId): Promise<boolean> {
@@ -155,7 +155,7 @@ export class ArticlesService {
 
   public async update(
     id: ArticleId,
-    {announce, createdDate, fullText, title, categories}: NewArticle,
+    {announce, createdDate, fullText, title, categories}: IArticleCreating,
   ): Promise<boolean> {
     try {
       await this.ArticleModel.update(
@@ -167,7 +167,7 @@ export class ArticlesService {
         },
         {
           where: {
-            id: 1,
+            id,
           },
         },
       );
@@ -180,7 +180,6 @@ export class ArticlesService {
       await updatedArticle.setCategories(categories.map(item => item.id));
       return !!updatedArticle;
     } catch (e) {
-      console.log(e);
       return Promise.reject(`Not found`);
     }
   }

@@ -3,6 +3,7 @@ import {
   adminPublicationsRouter,
   articlesRouter,
   categoriesRouter,
+  commentsRouter,
   mainPageRouter,
   registrationRouter,
   searchRouter,
@@ -27,6 +28,7 @@ export function runApp(): void {
   app.use(ClientRoutes.CATEGORIES, categoriesRouter);
   app.use(ClientRoutes.ARTICLES.INDEX, articlesRouter);
   app.use(ClientRoutes.REGISTRATION, registrationRouter);
+  app.use(ClientRoutes.COMMENTS, commentsRouter);
   app.use(`*`, notFoundMiddleware);
 
   app.use(errorHandlerMiddleware);

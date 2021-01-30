@@ -8,7 +8,7 @@ interface Props {
 
 export const RegistrationPage: FunctionComponent<Props> = ({endPoint}) => {
   return (
-    <LayoutFilled>
+    <LayoutFilled pageTitle={`Регистрация`}>
       <main>
         <h1 className="visually-hidden">Регистрация пользователя</h1>
         <section>

@@ -1,6 +1,5 @@
 import {HttpCode} from "../../../constants-es6";
-import {ArticleComment, CommentId} from "../../../types/article-comment";
-import {Article, ICategories, IComments, NewArticle} from "../../../types/article";
+import {Article, ICategories, IComments} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
@@ -11,6 +10,7 @@ import {IArticlePlain} from "../../../types/interfaces/article-plain";
 import {ArticleId} from "../../../types/article-id";
 import {IPaginationOptions} from "../../../types/interfaces/pagination-options";
 import {ICollection} from "../../../types/interfaces/collection";
+import {IArticleCreating} from "../../../types/interfaces/article-creating";
 
 const DEFAULT_LIMIT = 8;
 
@@ -58,14 +58,13 @@ export class ArticlesController {
             totalCount,
           },
         };
-      } else {
-        return {
-          payload: {
-            items: plainArticlesWithCategories,
-            totalCount,
-          },
-        };
       }
+      return {
+        payload: {
+          items: plainArticlesWithCategories,
+          totalCount,
+        },
+      };
     } catch (e) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
@@ -111,44 +110,16 @@ export class ArticlesController {
     };
   }
 
-  public async getCommentsByArticleId(id: ArticleId): Promise<ControllerResponse<ArticleComment[]>> {
+  public async createNewArticle(newArticle: IArticleCreating): Promise<ControllerResponse<void>> {
     try {
-      const articleComments = await this.commentsService.findByArticleId(id);
-      return {payload: articleComments};
+      await this.articlesService.create(newArticle);
+      return {status: HttpCode.CREATED};
     } catch (e) {
-      return {status: HttpCode.NOT_FOUND};
-    }
-  }
-
-  public async deleteCommentById(
-    articleId: ArticleId,
-    commentId: CommentId,
-  ): Promise<ControllerResponse<ArticleComment>> {
-    const articleComments = await this.commentsService.drop(articleId, commentId);
-    if (!articleComments) {
-      return {status: HttpCode.NOT_FOUND};
-    }
-    return {status: HttpCode.OK};
-  }
-
-  public async getComment(articleId: ArticleId, commentId: CommentId): Promise<ControllerResponse<ArticleComment>> {
-    try {
-      const comment = await this.commentsService.findByArticleIdAndCommentId(articleId, commentId);
-      return {payload: comment};
-    } catch (e) {
-      return {status: HttpCode.NOT_FOUND};
-    }
-  }
-
-  public async createNewArticle(newArticle: NewArticle): Promise<ControllerResponse<true | null>> {
-    const savedArticle = await this.articlesService.create(newArticle);
-    if (savedArticle === null) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
-    return {status: HttpCode.CREATED, payload: savedArticle};
   }
 
-  public async updateArticle(id: ArticleId, article: NewArticle): Promise<ControllerResponse<Article>> {
+  public async updateArticle(id: ArticleId, article: IArticleCreating): Promise<ControllerResponse<Article>> {
     try {
       const isSuccess = await this.articlesService.update(id, article);
       if (!isSuccess) {
@@ -166,13 +137,5 @@ export class ArticlesController {
       return {status: HttpCode.NOT_FOUND};
     }
     return {status: HttpCode.OK};
-  }
-
-  public async createComment(articleId: ArticleId, commentText: string): Promise<ControllerResponse<ArticleComment>> {
-    const savedComment = await this.commentsService.create(articleId, commentText);
-    if (savedComment === null) {
-      return {status: HttpCode.INTERNAL_SERVER_ERROR};
-    }
-    return {status: HttpCode.CREATED, payload: savedComment};
   }
 }

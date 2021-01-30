@@ -13,15 +13,14 @@ export const AdminCommentsPage: FunctionComponent<AdminCommentsPageProps> = (pro
     return (
       <li
         className={"publication__list-item" + (isLastElement ? "  publication__list-item--last" : "")}
-        key={comment.id}
-      >
+        key={comment.id}>
         <PublicationComment text={comment.text} />
       </li>
     );
   });
 
   return (
-    <LayoutAdmin>
+    <LayoutAdmin pageTitle={`Комментарии`}>
       <main className="main-page main-page--padding">
         <section className="main-page__publication publication">
           <h1 className="publication__title">Комментарии</h1>

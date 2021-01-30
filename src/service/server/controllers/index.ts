@@ -10,6 +10,7 @@ import {
 import {ICategoryModel} from "../data-access/models/category";
 import {IArticleModel} from "../data-access/models/article";
 import {ICommentModel} from "../data-access/models/comment";
+import {CommentsController} from "./comments.controller";
 
 export const articlesControllerFactory = ({
   ArticleModel,
@@ -31,3 +32,6 @@ export const categoriesControllerFactory = ({CategoryModel}: {CategoryModel: ICa
 
 export const searchControllerFactory = ({ArticleModel}: {ArticleModel: IArticleModel}): SearchController =>
   new SearchController(searchServiceFactory(ArticleModel));
+
+export const commentsControllerFactory = ({CommentModel}: {CommentModel: ICommentModel}): CommentsController =>
+  new CommentsController(commentsServiceFactory(CommentModel));

@@ -9,9 +9,10 @@ import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-an
 import {CategoryWithLink} from "../../../types/category-with-link";
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
 import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
+import {ILink} from "../../../types/article";
 
 interface MainPageProps extends IPaginationProps {
-  articles?: IArticlePreview[];
+  articles?: (IArticlePreview & ILink)[];
   categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[];
   categoriesWithLinks: CategoryWithLink[];
   prefix: string;
@@ -73,7 +74,10 @@ export const MainPage: FunctionComponent<MainPageProps> = ({
       <main className="main-page">
         <Greeting />
         <section className="main-page__theme-list">
-          <CategoriesList categories={categoriesWithLinksAndNumbers} />
+          <h2 className="visually-hidden">Список тем</h2>
+          <ul className="themes">
+            <CategoriesList categories={categoriesWithLinksAndNumbers} />
+          </ul>
         </section>
         <div className="main-page__section-flex">
           <HotList listOfHot={hotList} />

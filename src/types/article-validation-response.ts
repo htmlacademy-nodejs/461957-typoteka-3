@@ -1,4 +1,5 @@
-import {IArticleId, NewArticle} from "./article";
-import type {ValidationMessage} from "./validation-message";
+import {IArticleId} from "./article";
+import {IArticleCreating} from "./interfaces/article-creating";
+import {ValidationResponse} from "./validation-response";
 
-export type ArticleValidationResponse = Partial<Record<keyof (NewArticle & IArticleId), ValidationMessage>>;
+export type ArticleValidationResponse = ValidationResponse<IArticleCreating & IArticleId>;

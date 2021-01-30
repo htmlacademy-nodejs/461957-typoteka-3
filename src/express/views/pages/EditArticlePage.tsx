@@ -1,28 +1,28 @@
 import React, {FunctionComponent} from "react";
-import type {Article} from "../../../../types/article";
-import {ARTICLE_FORM_FIELDS} from "../../../../constants-es6";
-import type {ArticleValidationResponse} from "../../../../types/article-validation-response";
-import {FormValidationBlock} from "../Form/FormValidationBlock";
-import {FormValidationMessage} from "../Form/FormValidationMessage";
-import {ValidationError} from "../../../../shared/errors/validation-error";
-import type {ValidationMessage} from "../../../../types/validation-message";
-import {LayoutFilled} from "../Layout/LayoutFilled";
-import {FieldValidationBlock} from "../Form/FieldVlidationBlock";
-import {CategoriesSelect} from "./CategoriesSelect";
-import type {Category} from "../../../../types/category";
+import {ARTICLE_FORM_FIELDS} from "../../../constants-es6";
+import type {ArticleValidationResponse} from "../../../types/article-validation-response";
+import {FormValidationBlock} from "../components/Form/FormValidationBlock";
+import {FormValidationMessage} from "../components/Form/FormValidationMessage";
+import {LayoutFilled} from "../components/Layout/LayoutFilled";
+import {FieldValidationBlock} from "../components/Form/FieldVlidationBlock";
+import {CategoriesSelect} from "../components/EditArticle/CategoriesSelect";
+import type {Category} from "../../../types/category";
+import {IArticleCreating} from "../../../types/interfaces/article-creating";
 
 interface EditArticleProps {
-  article?: Partial<Article>;
+  article?: Partial<IArticleCreating>;
   endPoint: string;
   availableCategories: Category[];
   articleValidationResponse?: ArticleValidationResponse;
+  isUpdating?: boolean;
 }
 
-export const EditArticle: FunctionComponent<EditArticleProps> = ({
+export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   article,
   endPoint,
   availableCategories,
   articleValidationResponse = {},
+  isUpdating,
 }) => {
   const articleProps =
     article === undefined
@@ -31,23 +31,24 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
           announce: "",
           fullText: "",
           categories: [],
+          createdDate: undefined,
         }
       : {
           title: article.title,
           announce: article.announce,
           fullText: article.fullText,
           categories: article.categories,
+          createdDate: article.createdDate,
         };
-
   return (
-    <LayoutFilled>
+    <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`}>
       <main>
         <section>
           <div className="popup popup--new-publication popup--anti">
             <div className="new-publication">
               <form action={endPoint} method="POST" encType="multipart/form-data">
                 <div className="new-publication__header">
-                  <h1>Новая публикация</h1>
+                  <h1>{isUpdating ? `Редактирование публикации` : `Новая публикация`}</h1>
                   <div className="new-publication__date-form">
                     <h3>Дата публикации</h3>
                     <div className="new-publication__date-form-division">
@@ -55,10 +56,10 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                         <label htmlFor="new-publication-date" aria-label={ARTICLE_FORM_FIELDS.createdDate.label} />
                         <input
                           type="text"
-                          defaultValue={getInitialDate()}
+                          defaultValue={getInitialDate(article.createdDate)}
                           name={ARTICLE_FORM_FIELDS.createdDate.name}
                           id="new-publication-date"
-                          placeholder="2019-03-21"
+                          placeholder={getInitialDate(article.createdDate)}
                         />
                       </div>
                     </div>
@@ -75,8 +76,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                     <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
                       {Object.entries(articleValidationResponse).map(([key, validation]) => (
                         <FormValidationMessage key={key}>
-                          <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong>{" "}
-                          {getValidationMessageText(key, validation)}
+                          <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong> {validation}
                         </FormValidationMessage>
                       ))}
                     </FormValidationBlock>
@@ -95,10 +95,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                       {articleValidationResponse[ARTICLE_FORM_FIELDS.title.name] ? (
                         <FieldValidationBlock>
                           <FormValidationMessage>
-                            {getValidationMessageText(
-                              ARTICLE_FORM_FIELDS.title.label,
-                              articleValidationResponse[ARTICLE_FORM_FIELDS.title.name],
-                            )}
+                            {articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]}
                           </FormValidationMessage>
                         </FieldValidationBlock>
                       ) : null}
@@ -107,7 +104,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                       <label>
                         <input
                           id="image-name-field"
-                          name={ARTICLE_FORM_FIELDS.Upload.name}
+                          // name={ARTICLE_FORM_FIELDS.Upload.name}
                           type="text"
                           placeholder={ARTICLE_FORM_FIELDS.Upload.label}
                           readOnly
@@ -132,7 +129,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                     <CategoriesSelect
                       availableCategories={availableCategories}
                       selectedCategories={articleProps.categories}
-                      inputName={ARTICLE_FORM_FIELDS.category.name}
+                      inputName={ARTICLE_FORM_FIELDS.categories.name}
                     />
                   </div>
                   <div className="form__wrapper form__wrapper--text">
@@ -149,10 +146,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                       {articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name] ? (
                         <FieldValidationBlock>
                           <FormValidationMessage>
-                            {getValidationMessageText(
-                              ARTICLE_FORM_FIELDS.announce.label,
-                              articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name],
-                            )}
+                            {articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]}
                           </FormValidationMessage>
                         </FieldValidationBlock>
                       ) : null}
@@ -170,10 +164,7 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
                       {articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name] ? (
                         <FieldValidationBlock>
                           <FormValidationMessage>
-                            {getValidationMessageText(
-                              ARTICLE_FORM_FIELDS.fullText.label,
-                              articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name],
-                            )}
+                            {articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]}
                           </FormValidationMessage>
                         </FieldValidationBlock>
                       ) : null}
@@ -189,13 +180,6 @@ export const EditArticle: FunctionComponent<EditArticleProps> = ({
   );
 };
 
-function getValidationMessageText(key: string, validation: ValidationMessage): string {
-  if (validation.state === ValidationError.INVALID) {
-    return validation.message;
-  }
-  return `Обязательное поле` + (validation.message ? `. ${validation.message}` : ``);
-}
-
-function getInitialDate(): string {
-  return new Date().toISOString().substr(0, 10);
+function getInitialDate(date?: Date): string {
+  return (date ? date : new Date()).toISOString().split("T", 1)[0];
 }

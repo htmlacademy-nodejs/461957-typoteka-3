@@ -2,6 +2,7 @@ import {ICommentModel} from "../models/comment";
 import {ArticleId} from "../../../../types/article-id";
 import {ArticleComment, CommentId} from "../../../../types/article-comment";
 import {CommentProperty} from "../constants/property-name";
+import {ICommentCreating} from "../../../../types/interfaces/comment-creating";
 
 export class CommentsService {
   constructor(private readonly CommentsModel: ICommentModel) {}
@@ -30,21 +31,34 @@ export class CommentsService {
 
   public async findByArticleId(articleId: ArticleId): Promise<ArticleComment[]> {
     const comments = await this.CommentsModel.findAll({
-      attributes: [CommentProperty.ID, CommentProperty.TEXT],
+      attributes: [
+        CommentProperty.ID,
+        CommentProperty.TEXT,
+        [CommentProperty.CREATEDDATE, `createdDate`],
+        [CommentProperty.ARTICLEID, `articleId`],
+      ],
       where: {
         articleId,
       },
+      order: [[`createdDate`, `ASC`]],
     });
     return comments.map(item => item.get({plain: true}));
   }
 
-  public async create(articleId: ArticleId, text: string): Promise<ArticleComment> {
-    const comment = await this.CommentsModel.create({
-      articleId,
-      createdDate: new Date(),
-      text,
-    });
-    return comment.get();
+  public async create(articleId: ArticleId, {text, createdDate}: ICommentCreating): Promise<void> {
+    try {
+      const comment = await this.CommentsModel.create({
+        articleId,
+        createdDate,
+        text,
+      });
+      if (comment.get()) {
+        return Promise.resolve();
+      }
+      return Promise.reject(`Failed to create comment`);
+    } catch (e) {
+      return Promise.reject(`Failed to create comment`);
+    }
   }
 
   public async drop(articleId: ArticleId, commentId: CommentId): Promise<boolean> {

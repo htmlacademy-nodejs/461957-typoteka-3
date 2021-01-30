@@ -1,8 +1,10 @@
-import React from "react";
+import React, {FunctionComponent} from "react";
 import {Logo} from "../Logo/Logo";
 import {ClientRoutes} from "../../../../constants-es6";
 
-export function Header() {
+interface Props {}
+
+export const Header: FunctionComponent<Props> = ({}) => {
   return (
     <header className="header">
       <Logo />
@@ -20,7 +22,11 @@ export function Header() {
           </li>
         </ul>
       </nav>
-      <a className="header__search button button--search" href={ClientRoutes.SEARCH.INDEX} aria-label="поиск по сайту" />
+      <a
+        className="header__search button button--search"
+        href={ClientRoutes.SEARCH.INDEX}
+        aria-label="поиск по сайту"
+      />
     </header>
   );
-}
+};

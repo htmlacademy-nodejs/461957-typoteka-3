@@ -11,18 +11,14 @@ export const searchRouter = Router();
 searchRouter.get(`/`, (req: Request, res: Response, next: NextFunction) => {
   if (!req.query?.query) {
     return streamPage(res, SearchPage);
-  } else {
-    return next();
   }
+  return next();
 });
 
 searchRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   const query = req.query.query as string;
   try {
     const searchResult = await dataProviderService.search(query);
-    if (searchResult === null) {
-      return next(new SSRError({message: `Search failed`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
-    }
     const matches: SearchResultProps[] = searchResult.items.map(match => ({
       text: match.title,
       match: query,
@@ -39,7 +35,7 @@ searchRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) =>
     return next(
       new SSRError({
         message: `Search failed`,
-        statusCode: HttpCode.NOT_FOUND,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
         errorPayload: e as Error,
       }),
     );

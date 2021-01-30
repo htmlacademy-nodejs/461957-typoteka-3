@@ -10,14 +10,19 @@ interface Props {
 
 export const CategoriesPage: FunctionComponent<Props> = ({newCategoryEndPoint, categories}) => {
   return (
-    <LayoutFilled>
+    <LayoutFilled pageTitle={"Категории"}>
       <main className="main-page main-page--padding">
         <section className="main-page__category category">
           <h1 className="category__title">Категории</h1>
           <NewCategory endPoint={newCategoryEndPoint} />
           <ul className="category__list">
             {categories.map(category => (
-              <CategoryEditable label={category.label} endPoint={category.endPoint} id={category.id} key={category.label} />
+              <CategoryEditable
+                label={category.label}
+                endPoint={category.endPoint}
+                id={category.id}
+                key={category.label}
+              />
             ))}
           </ul>
         </section>

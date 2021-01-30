@@ -9,6 +9,7 @@ import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-cat
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
 import {CategoryWithLink} from "../../types/category-with-link";
 import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
+import {getArticleLink} from "../helpers/link-resolver";
 
 export const mainPageRouter = Router();
 
@@ -20,17 +21,12 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       dataProviderService.getArticles({offset}),
       dataProviderService.getCategoriesWithNumbers(),
     ]);
-    if (articles === null && categories === null) {
-      return next(
-        new SSRError({message: `Failed to load articles or categories`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}),
-      );
-    }
     const categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(
       categories,
     );
     const categoriesWithLinks: CategoryWithLink[] = resolveCategoriesLinks(categories);
     return streamPage(res, MainPage, {
-      articles,
+      articles: articles.map(item => ({...item, link: getArticleLink(item.id)})),
       categoriesWithLinks,
       categoriesWithLinksAndNumbers,
       total: totalCount,
@@ -38,6 +34,11 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       prefix: `?`,
     });
   } catch (e) {
-    return next(new SSRError({message: `Failed to load articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
+    return next(
+      new SSRError({
+        message: `Failed to load articles or categories with statistics`,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+      }),
+    );
   }
 });

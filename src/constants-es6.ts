@@ -38,6 +38,7 @@ export const MockTextsFilePath = {
 export const APIRoutes = {
   API: `/api`,
   ARTICLES: `/articles`,
+  EDIT_ARTICLE: `/articles`,
   COMMENTS: `/comments`,
   CATEGORIES: `/categories`,
   CATEGORIES_STATISTICS: `/categories-statistics`,
@@ -53,6 +54,7 @@ export const ClientRoutes = {
     INDEX: `/articles`,
     ADD: `/articles/add`,
     CATEGORY: `/articles/category`,
+    EDIT: `/articles/edit`,
   },
   SEARCH: {
     INDEX: `/search`,
@@ -60,6 +62,7 @@ export const ClientRoutes = {
   REGISTRATION: `/register`,
   SIGN_IN: `/login`,
   CATEGORIES: `/categories`,
+  COMMENTS: `/comments`,
 };
 export const HttpMethod = {
   GET: `GET`,
@@ -72,7 +75,7 @@ export const ARTICLE_FORM_FIELDS = {
     name: `createdDate`,
     label: `Дата`,
   },
-  category: {
+  categories: {
     name: `categories`,
     label: `Категории`,
   },
@@ -97,6 +100,12 @@ export const ARTICLE_FORM_FIELDS = {
     label: `Фотография`,
   },
 } as const;
+export const COMMENT_FORM_FIELDS = {
+  text: {
+    name: `text`,
+    label: `Сообщение`,
+  },
+};
 export const TableNames = {
   USERS: `users`,
   PERMISSIONS: `permissions`,

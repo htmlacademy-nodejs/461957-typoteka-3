@@ -11,9 +11,6 @@ export const adminPublicationsRouter = Router();
 adminPublicationsRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {items: articles} = await dataProviderService.getArticles({limit: undefined, offset: undefined});
-    if (articles === null) {
-      return next(new SSRError({message: `Failed to get Admin articles`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
-    }
     return streamPage(res, AdminPublicationsPage, {articles});
   } catch (e) {
     return next(
@@ -29,9 +26,6 @@ adminPublicationsRouter.get(`/`, async (req: Request, res: Response, next: NextF
 adminPublicationsRouter.get(ClientRoutes.ADMIN.COMMENTS, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const listOfComments = await dataProviderService.getComments(3);
-    if (listOfComments === null) {
-      return next(new SSRError({message: `Failed to get Admin comments`, statusCode: HttpCode.INTERNAL_SERVER_ERROR}));
-    }
     return streamPage(res, AdminCommentsPage, {listOfComments});
   } catch (e) {
     return next(

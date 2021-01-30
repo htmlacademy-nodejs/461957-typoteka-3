@@ -5,7 +5,7 @@ import {ErrorPage500} from "../views/pages/ErrorPage500";
 import type {NextFunction, Request, Response} from "express";
 
 export function errorHandlerMiddleware(err: SSRError, req: Request, res: Response, next: NextFunction): void {
-  console.error(err);
+  console.error(err.statusCode, err.message);
   if (!err.statusCode) {
     err.statusCode = 500;
   }

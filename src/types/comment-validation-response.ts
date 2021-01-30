@@ -1,4 +1,4 @@
-import type {ArticleComment} from "./article-comment";
-import type {ValidationMessage} from "./validation-message";
+import {ICommentCreating} from "./interfaces/comment-creating";
+import {ValidationResponse} from "./validation-response";
 
-export type CommentValidationResponse = Partial<Record<keyof ArticleComment, ValidationMessage>>;
+export type CommentValidationResponse = ValidationResponse<ICommentCreating>;

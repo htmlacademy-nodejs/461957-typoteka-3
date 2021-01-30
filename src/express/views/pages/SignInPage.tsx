@@ -8,7 +8,7 @@ interface Props {
 
 export const SignInPage: FunctionComponent<Props> = ({endPoint}) => {
   return (
-    <LayoutFilled>
+    <LayoutFilled pageTitle={`Вход`}>
       <main>
         <h1 className="visually-hidden">Войти</h1>
         <section>
