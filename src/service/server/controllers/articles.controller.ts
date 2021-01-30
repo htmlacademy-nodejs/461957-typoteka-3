@@ -58,14 +58,13 @@ export class ArticlesController {
             totalCount,
           },
         };
-      } else {
-        return {
-          payload: {
-            items: plainArticlesWithCategories,
-            totalCount,
-          },
-        };
       }
+      return {
+        payload: {
+          items: plainArticlesWithCategories,
+          totalCount,
+        },
+      };
     } catch (e) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }

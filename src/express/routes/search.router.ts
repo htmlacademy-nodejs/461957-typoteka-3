@@ -11,9 +11,8 @@ export const searchRouter = Router();
 searchRouter.get(`/`, (req: Request, res: Response, next: NextFunction) => {
   if (!req.query?.query) {
     return streamPage(res, SearchPage);
-  } else {
-    return next();
   }
+  return next();
 });
 
 searchRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {

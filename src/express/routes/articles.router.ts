@@ -44,23 +44,22 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
     );
     if (!articleValidationResponse) {
       return res.redirect(ClientRoutes.ADMIN.INDEX);
-    } else {
-      try {
-        const categories = await dataProviderService.getCategories();
-        return streamPage(res, EditArticlePage, {
-          article: newArticle,
-          endPoint: ClientRoutes.ARTICLES.ADD,
-          articleValidationResponse,
-          availableCategories: categories,
-        });
-      } catch (e) {
-        return next(
-          new SSRError({
-            message: `Failed to load categories`,
-            statusCode: HttpCode.BAD_REQUEST,
-          }),
-        );
-      }
+    }
+    try {
+      const categories = await dataProviderService.getCategories();
+      return streamPage(res, EditArticlePage, {
+        article: newArticle,
+        endPoint: ClientRoutes.ARTICLES.ADD,
+        articleValidationResponse,
+        availableCategories: categories,
+      });
+    } catch (e) {
+      return next(
+        new SSRError({
+          message: `Failed to load categories`,
+          statusCode: HttpCode.BAD_REQUEST,
+        }),
+      );
     }
   } catch (e) {
     return next(
@@ -87,24 +86,23 @@ articlesRouter.post(`/edit/:id`, [multerMiddleware.none()], async (req: Request,
     );
     if (!articleValidationResponse) {
       return res.redirect(ClientRoutes.ADMIN.INDEX);
-    } else {
-      try {
-        const categories = await dataProviderService.getCategories();
-        return streamPage(res, EditArticlePage, {
-          article: updatingArticle,
-          endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
-          articleValidationResponse,
-          availableCategories: categories,
-          isUpdating: true,
-        });
-      } catch (e) {
-        return next(
-          new SSRError({
-            message: `Failed to load categories`,
-            statusCode: HttpCode.BAD_REQUEST,
-          }),
-        );
-      }
+    }
+    try {
+      const categories = await dataProviderService.getCategories();
+      return streamPage(res, EditArticlePage, {
+        article: updatingArticle,
+        endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
+        articleValidationResponse,
+        availableCategories: categories,
+        isUpdating: true,
+      });
+    } catch (e) {
+      return next(
+        new SSRError({
+          message: `Failed to load categories`,
+          statusCode: HttpCode.BAD_REQUEST,
+        }),
+      );
     }
   } catch (e) {
     return next(

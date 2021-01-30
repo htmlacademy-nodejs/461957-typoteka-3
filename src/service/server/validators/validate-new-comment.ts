@@ -9,8 +9,7 @@ export async function validateNewComment(newComment: ICommentCreating): Promise<
   } catch (e) {
     if (e instanceof ValidationError) {
       throw getValidationDictionary<ICommentCreating>(e.details);
-    } else {
-      throw e;
     }
+    throw e;
   }
 }

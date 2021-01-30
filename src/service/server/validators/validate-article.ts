@@ -9,8 +9,7 @@ export async function validateNewArticle(newArticle: IArticleCreating): Promise<
   } catch (e) {
     if (e instanceof ValidationError) {
       throw getValidationDictionary<IArticleCreating>(e.details);
-    } else {
-      throw e;
     }
+    throw e;
   }
 }

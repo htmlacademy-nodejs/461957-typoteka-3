@@ -18,14 +18,13 @@ commentsRouter.post(`/:id`, [multerMiddleware.none()], async (req: Request, res:
     const commentValidationResponse = await dataProviderService.createComment(articleId, comment);
     if (!commentValidationResponse) {
       return res.redirect(`${ClientRoutes.ARTICLES.INDEX}/${articleId}`);
-    } else {
-      const {page: articlePage, props} = await prepareArticlePage({articleId});
-      return streamPage(res, articlePage, {
-        ...props,
-        commentValidationResponse,
-        previousPageUrl: req.header(`referer`),
-      });
     }
+    const {page: articlePage, props} = await prepareArticlePage({articleId});
+    return streamPage(res, articlePage, {
+      ...props,
+      commentValidationResponse,
+      previousPageUrl: req.header(`referer`),
+    });
   } catch (e) {
     return next(
       new SSRError({
