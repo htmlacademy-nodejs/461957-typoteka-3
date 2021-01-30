@@ -6,11 +6,14 @@ import {
   categoriesServiceFactory,
   commentsServiceFactory,
   searchServiceFactory,
+  usersServiceFactory,
 } from "../data-access/services";
 import {ICategoryModel} from "../data-access/models/category";
 import {IArticleModel} from "../data-access/models/article";
 import {ICommentModel} from "../data-access/models/comment";
 import {CommentsController} from "./comments.controller";
+import {UsersController} from "./users.controller";
+import {IUserModel} from "../data-access/models/user";
 
 export const articlesControllerFactory = ({
   ArticleModel,
@@ -35,3 +38,6 @@ export const searchControllerFactory = ({ArticleModel}: {ArticleModel: IArticleM
 
 export const commentsControllerFactory = ({CommentModel}: {CommentModel: ICommentModel}): CommentsController =>
   new CommentsController(commentsServiceFactory(CommentModel));
+
+export const usersControllerFactory = ({UserModel}: {UserModel: IUserModel}): UsersController =>
+  new UsersController(usersServiceFactory(UserModel));

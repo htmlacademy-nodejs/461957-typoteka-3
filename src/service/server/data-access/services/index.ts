@@ -5,6 +5,8 @@ import {SearchService} from "./search.service";
 import {ArticlesService} from "./articles.service";
 import {ICommentModel} from "../models/comment";
 import {CommentsService} from "./comments.service";
+import {UsersService} from "./users.service";
+import {IUserModel} from "../models/user";
 
 export const categoriesServiceFactory = (CategoryModel: ICategoryModel): CategoriesService =>
   new CategoriesService(CategoryModel);
@@ -16,3 +18,5 @@ export const articlesServiceFactory = (ArticleModel: IArticleModel): ArticlesSer
 
 export const commentsServiceFactory = (CommentsModel: ICommentModel): CommentsService =>
   new CommentsService(CommentsModel);
+
+export const usersServiceFactory = (UserModel: IUserModel): UsersService => new UsersService(UserModel);
