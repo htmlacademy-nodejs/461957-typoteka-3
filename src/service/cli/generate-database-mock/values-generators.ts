@@ -66,3 +66,7 @@ export function getCommentText(sentences: string[]): string {
 export function getDate(currentDate: number): Date {
   return new Date(currentDate - 1 - getRandomInt(0, THREE_MONTHS_DURATION));
 }
+
+export function getRandomItem<T>(items: T[]): T {
+  return items[getRandomInt(0, items.length - 1)];
+}

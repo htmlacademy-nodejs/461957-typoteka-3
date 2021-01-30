@@ -43,6 +43,7 @@ export const APIRoutes = {
   CATEGORIES: `/categories`,
   CATEGORIES_STATISTICS: `/categories-statistics`,
   SEARCH: `/search`,
+  USERS: `/users`,
 };
 export const ClientRoutes = {
   INDEX: `/`,
@@ -123,6 +124,10 @@ export const LogLevel = {
   INFO: `info`,
   DEBUG: `debug`,
   TRACE: `trace`,
+} as const;
+export const ROLE_ID = {
+  ADMIN: 1,
+  AUTHOR: 2,
 } as const;
 export const PAGE_SIZE = 8;
 export const PAGE_QUERY_PARAM = `page`;

@@ -34,3 +34,8 @@ export const CommentProperty: Record<Uppercase<keyof ArticleComment>, string> = 
   ARTICLEID: `article_id`,
   TEXT: `text`,
 };
+
+export const UserProperty = {
+  ID: `id`,
+  ROLE_ID: `roleId`,
+};

@@ -9,9 +9,9 @@ const MOCK_ARTICLES_COUNT = 10;
 
 export async function initApp(): Promise<{server: Application; httpServer: http.Server}> {
   const connection = await connectToDatabaseInMemory();
-  const {CategoryModel, ArticleModel, CommentModel} = defineDatabaseModels(connection);
+  const {CategoryModel, ArticleModel, CommentModel, UserModel, RoleModel} = defineDatabaseModels(connection);
   await connection.sync({force: true});
-  await fillDb(MOCK_ARTICLES_COUNT, {ArticleModel, CategoryModel, CommentModel});
+  await fillDb(MOCK_ARTICLES_COUNT, {ArticleModel, CategoryModel, CommentModel, UserModel, RoleModel});
 
   const apiService = new ApiService();
   apiService.init(connection);
