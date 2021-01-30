@@ -104,7 +104,7 @@ async function createUsers(
 ): Promise<IUserEntity[]> {
   const adminUser: IUserCreating = {
     avatar: ``,
-    email: getRandomItem(payload.emails),
+    email: `admin-email@gmail.com`,
     firstName: getRandomItem(payload.firstNames),
     lastName: getRandomItem(payload.lastNames),
     roleId: ROLE_ID.ADMIN,
@@ -117,7 +117,7 @@ async function createUsers(
     roleId: ROLE_ID.AUTHOR,
   }));
   users.unshift(adminUser);
-  return UserModel.bulkCreate(users);
+  return UserModel.bulkCreate(filterUniqEmails(users));
 }
 
 async function createRoles(RoleModel: IRoleModel): Promise<IRoleEntity[]> {
@@ -132,4 +132,13 @@ async function createRoles(RoleModel: IRoleModel): Promise<IRoleEntity[]> {
     },
   ];
   return RoleModel.bulkCreate(roles);
+}
+
+function filterUniqEmails<T extends {email: string}>(items: T[]): T[] {
+  const emails = items.map(item => item.email);
+  const uniqueEmails = new Set(emails);
+  if (uniqueEmails.size === emails.length) {
+    return items;
+  }
+  return [...uniqueEmails].map(email => items.find(item => item.email === email));
 }
