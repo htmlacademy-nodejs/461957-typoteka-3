@@ -31,7 +31,7 @@ describe(`Articles router`, () => {
     /* eslint-enable @typescript-eslint/no-unsafe-assignment */
     validArticleId = (articles as Article[])[0].id;
   });
-  afterEach(() => {
+  afterAll(() => {
     httpServer.close();
   });
 
