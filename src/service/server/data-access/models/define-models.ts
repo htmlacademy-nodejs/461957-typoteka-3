@@ -4,7 +4,7 @@ import {defineArticle, IArticleModel} from "./article";
 import {defineComment, ICommentModel} from "./comment";
 import {defineIntermediateModel} from "./intermediate";
 import {TableName} from "../constants/table-name";
-import {ArticleCategoryProperty, ArticleProperty, CommentProperty} from "../constants/property-name";
+import {ArticleCategoryProperty, ArticleProperty, CommentProperty, UserProperty} from "../constants/property-name";
 import {defineUser, IUserModel} from "./user";
 import {defineRole, IRoleModel} from "./role";
 
@@ -24,6 +24,9 @@ export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
   const UserModel = defineUser(connection);
 
   const ArticleCategoryModel = defineIntermediateModel(connection, TableName.ARTICLES_CATEGORIES);
+
+  RoleModel.hasMany(UserModel);
+  UserModel.belongsTo(RoleModel, {foreignKey: UserProperty.ROLE_ID});
 
   ArticleModel.hasMany(CommentModel, {as: ArticleProperty.COMMENTS, foreignKey: CommentProperty.ARTICLEID});
   CommentModel.belongsTo(ArticleModel, {foreignKey: CommentProperty.ARTICLEID});
