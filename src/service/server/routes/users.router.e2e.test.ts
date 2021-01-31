@@ -4,9 +4,24 @@ import * as http from "http";
 import {initApp} from "./tests-boilerplate/init-app";
 import {UserId} from "../../../types/user-id";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
+import {IUserCreating} from "../../../types/interfaces/user-creating";
 
 const validUserId: UserId = 2;
 const invalidUserId = `-1`;
+const validNewUser: IUserCreating = {
+  email: `zaberkirder8@usgs.gov`,
+  firstName: `Lowe`,
+  lastName: `Tennant`,
+  avatar: ``,
+  roleId: 2,
+};
+const invalidNewUser = {
+  email: `zaberkirder8@usgs`,
+  firstName: `1233*((*()__`,
+  lastName: `!@#$%^&*(`,
+  roleId: -1,
+};
+const existingEmail = `existing-email@gmail.com`;
 
 describe(`Users router`, () => {
   let app: Application;
@@ -18,7 +33,7 @@ describe(`Users router`, () => {
     httpServer.close();
   });
 
-  describe(`GET comment by id`, () => {
+  describe(`GET user by id`, () => {
     test(`Should return code 404 when request invalid id`, async () => {
       const res = await request(app).get(`/api/users/${invalidUserId}`);
       expect(res.status).toBe(404);
@@ -34,6 +49,31 @@ describe(`Users router`, () => {
       expect(responseKeys).toContain(`firstName`);
       expect(responseKeys).toContain(`lastName`);
       expect(responseKeys).toContain(`avatar`);
+    });
+  });
+
+  describe(`POST user`, () => {
+    test(`Should return code 201 when create new user`, async () => {
+      const res = await request(app).post(`/api/users/`).send(validNewUser);
+      expect(res.status).toBe(201);
+    });
+    test(`Should return code 400 when create new user with existing email`, async () => {
+      await request(app)
+        .post(`/api/users/`)
+        .send({...validNewUser, email: existingEmail});
+      const res = await request(app)
+        .post(`/api/users/`)
+        .send({...validNewUser, email: existingEmail});
+      expect(res.status).toBe(400);
+    });
+    test(`Should validate fields`, async () => {
+      const res = await request(app).post(`/api/users/`).send(invalidNewUser);
+      const responseKeys = Object.keys(res.body as IUserPreview);
+      expect(responseKeys).toContain(`email`);
+      expect(responseKeys).toContain(`firstName`);
+      expect(responseKeys).toContain(`lastName`);
+      expect(responseKeys).toContain(`avatar`);
+      expect(responseKeys).toContain(`roleId`);
     });
   });
 });
