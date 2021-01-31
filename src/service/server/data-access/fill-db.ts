@@ -18,6 +18,7 @@ import {IUserEntity, IUserModel} from "./models/user";
 import {IUserCreating} from "../../../types/interfaces/user-creating";
 import {IRoleEntity, IRoleModel} from "./models/role";
 import {IRole} from "../../../types/interfaces/role";
+import {getId} from "../../../shared/get-id";
 
 export async function fillDb(
   articlesNumber: number,
@@ -108,6 +109,7 @@ async function createUsers(
     firstName: getRandomItem(payload.firstNames),
     lastName: getRandomItem(payload.lastNames),
     roleId: ROLE_ID.ADMIN,
+    password: getId(),
   };
   const users = new Array(10).fill(undefined).map<IUserCreating>(() => ({
     avatar: ``,
@@ -115,6 +117,7 @@ async function createUsers(
     firstName: getRandomItem(payload.firstNames),
     lastName: getRandomItem(payload.lastNames),
     roleId: ROLE_ID.AUTHOR,
+    password: getId(),
   }));
   users.unshift(adminUser);
   return UserModel.bulkCreate(filterUniqEmails(users));

@@ -4,22 +4,26 @@ import * as http from "http";
 import {initApp} from "./tests-boilerplate/init-app";
 import {UserId} from "../../../types/user-id";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
-import {IUserCreating} from "../../../types/interfaces/user-creating";
+import {IUserCreatingDoublePasswords} from "../../../types/interfaces/user-creating";
 
 const validUserId: UserId = 2;
 const invalidUserId = `-1`;
-const validNewUser: IUserCreating = {
+const validNewUser: IUserCreatingDoublePasswords = {
   email: `zaberkirder8@usgs.gov`,
   firstName: `Lowe`,
   lastName: `Tennant`,
   avatar: ``,
   roleId: 2,
+  password: `hzgdghdglhdgklgz`,
+  passwordRepeated: `hzgdghdglhdgklgz`,
 };
 const invalidNewUser = {
   email: `zaberkirder8@usgs`,
   firstName: `1233*((*()__`,
   lastName: `!@#$%^&*(`,
   roleId: -1,
+  password: `123`,
+  passwordRepeated: `1234`,
 };
 const existingEmail = `existing-email@gmail.com`;
 
@@ -68,12 +72,14 @@ describe(`Users router`, () => {
     });
     test(`Should validate fields`, async () => {
       const res = await request(app).post(`/api/users/`).send(invalidNewUser);
-      const responseKeys = Object.keys(res.body as IUserPreview);
+      const responseKeys = Object.keys(res.body as IUserCreatingDoublePasswords);
       expect(responseKeys).toContain(`email`);
       expect(responseKeys).toContain(`firstName`);
       expect(responseKeys).toContain(`lastName`);
       expect(responseKeys).toContain(`avatar`);
       expect(responseKeys).toContain(`roleId`);
+      expect(responseKeys).toContain(`password`);
+      expect(responseKeys).toContain(`passwordRepeated`);
     });
   });
 });

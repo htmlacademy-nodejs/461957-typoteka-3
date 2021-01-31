@@ -26,8 +26,8 @@ export class UsersService {
     return user.get();
   }
 
-  public async create({roleId, lastName, firstName, email, avatar}: IUserCreating): Promise<void> {
-    const createdUser = await this.UserModel.create({roleId, lastName, firstName, email, avatar});
+  public async create({roleId, lastName, firstName, email, avatar, password}: IUserCreating): Promise<void> {
+    const createdUser = await this.UserModel.create({roleId, lastName, firstName, email, avatar, password});
     return createdUser ? Promise.resolve() : Promise.reject(`Failed to create new user`);
   }
 

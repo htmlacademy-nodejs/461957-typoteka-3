@@ -40,6 +40,10 @@ export const defineUser = (sequelize: Sequelize): IUserModel =>
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      password: {
+        type: DataTypes.STRING(60),
+        allowNull: false,
+      },
     },
     {
       ...modelOptions,
