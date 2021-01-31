@@ -4,6 +4,7 @@ import {UserProperty} from "../constants/property-name";
 import {IUserPreview} from "../../../../types/interfaces/user-preview";
 import {IUserCreating} from "../../../../types/interfaces/user-creating";
 import {FindAttributeOptions} from "sequelize";
+import {hash} from "bcrypt";
 
 const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.ID,
@@ -11,6 +12,8 @@ const userPreviewAttributes: FindAttributeOptions = [
   [UserProperty.LAST_NAME, `lastName`],
   UserProperty.AVATAR,
 ];
+
+const SALT_ROUNDS = 10;
 
 export class UsersService {
   constructor(private readonly UserModel: IUserModel) {}
@@ -27,7 +30,15 @@ export class UsersService {
   }
 
   public async create({roleId, lastName, firstName, email, avatar, password}: IUserCreating): Promise<void> {
-    const createdUser = await this.UserModel.create({roleId, lastName, firstName, email, avatar, password});
+    const passwordsHash = await hash(password, SALT_ROUNDS);
+    const createdUser = await this.UserModel.create({
+      roleId,
+      lastName,
+      firstName,
+      email,
+      avatar,
+      password: passwordsHash,
+    });
     return createdUser ? Promise.resolve() : Promise.reject(`Failed to create new user`);
   }
 

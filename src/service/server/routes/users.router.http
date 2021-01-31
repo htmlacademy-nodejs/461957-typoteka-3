@@ -7,9 +7,11 @@ POST http://localhost:3000/api/users/
 Content-Type: application/json
 
 {
-  "email": "zaberkirder8@usgs.gov",
+  "email": "zaberkird1er81@usgs.gov",
   "firstName": "Lowe",
   "lastName": "Tennant",
   "avatar": "",
-  "roleId": 2
+  "roleId": 2,
+  "password": "123456",
+  "passwordRepeated": "123456"
 }
