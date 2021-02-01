@@ -31,6 +31,14 @@ export class UsersController {
     }
   }
 
+  public async login({email, password}: {email: string; password: string}): Promise<ControllerResponse<void>> {
+    try {
+      return Promise.resolve({});
+    } catch (e) {
+      return Promise.reject();
+    }
+  }
+
   private async checkIfEmailIsFree(email: string): Promise<boolean> {
     try {
       await this.usersService.findByEmail(email);

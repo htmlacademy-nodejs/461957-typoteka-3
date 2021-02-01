@@ -15,3 +15,12 @@ Content-Type: application/json
   "password": "123456",
   "passwordRepeated": "123456"
 }
+
+### Login
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "email": "zaberkird1er81@usgs.gov",
+  "password": "123456"
+}
