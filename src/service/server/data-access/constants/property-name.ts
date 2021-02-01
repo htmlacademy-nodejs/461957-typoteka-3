@@ -42,4 +42,5 @@ export const UserProperty = {
   LAST_NAME: `last_name`,
   AVATAR: `avatar`,
   ROLE_ID: `roleId`,
+  PASSWORD: `password`,
 };

@@ -1,6 +1,6 @@
 import {UsersService} from "../data-access/services/users.service";
 import {UserId} from "../../../types/user-id";
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode, LoginStatus} from "../../../constants-es6";
 import {ControllerResponse} from "../../../types/controller-response";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
 import {IUserCreating} from "../../../types/interfaces/user-creating";
@@ -31,11 +31,18 @@ export class UsersController {
     }
   }
 
-  public async login({email, password}: {email: string; password: string}): Promise<ControllerResponse<void>> {
+  public async login({email, password}: {email: string; password: string}): Promise<ControllerResponse<IUserPreview>> {
     try {
-      return Promise.resolve({});
+      const {status, payload} = await this.usersService.login({email, password});
+      if (status === LoginStatus.UNKNOWN_EMAIL) {
+        return Promise.reject({email: `Пользователь с таким email не найден`});
+      }
+      if (status === LoginStatus.INVALID_PASSWORD) {
+        return Promise.reject({email: `Неправильно введен логин или пароль`});
+      }
+      return {payload};
     } catch (e) {
-      return Promise.reject();
+      return Promise.reject(`Failed to login`);
     }
   }
 

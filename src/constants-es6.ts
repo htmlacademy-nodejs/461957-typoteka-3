@@ -131,3 +131,8 @@ export const ROLE_ID = {
 } as const;
 export const PAGE_SIZE = 8;
 export const PAGE_QUERY_PARAM = `page`;
+export const LoginStatus = {
+  UNKNOWN_EMAIL: `unknownEmail`,
+  INVALID_PASSWORD: `invalidPassword`,
+  SUCCESS: `success`,
+} as const;
