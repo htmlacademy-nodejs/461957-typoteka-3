@@ -18,8 +18,8 @@ import {ICommentCreating} from "../../types/interfaces/comment-creating";
 import {CommentValidationResponse} from "../../types/comment-validation-response";
 
 export class DataProviderService {
-  private requestService: AxiosStatic;
-  private apiEndPoint = ENV.API_HOST + `:` + ENV.PORT + APIRoutes.API;
+  private readonly requestService: AxiosStatic;
+  private readonly apiEndPoint = ENV.API_HOST + `:` + ENV.PORT + APIRoutes.API;
 
   constructor() {
     this.requestService = axios;

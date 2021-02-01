@@ -7,7 +7,7 @@ import {IUserCreating} from "../../../types/interfaces/user-creating";
 import {ValidationResponse} from "../../../types/validation-response";
 
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   public async getOne(userId: UserId): Promise<ControllerResponse<IUserPreview>> {
     try {

@@ -5,7 +5,7 @@ import {CategoriesService} from "../data-access/services/categories.service";
 import {Category} from "../../../types/category";
 
 export class CategoriesController {
-  constructor(private categoriesService: CategoriesService) {}
+  constructor(private readonly categoriesService: CategoriesService) {}
 
   public async getCategories(): Promise<ControllerResponse<Category[]>> {
     const categories = await this.categoriesService.findAll();

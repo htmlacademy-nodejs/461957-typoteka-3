@@ -4,7 +4,7 @@ import {ArticleSearchCollection} from "../../../types/article-search-collection"
 import {SearchService} from "../data-access/services/search.service";
 
 export class SearchController {
-  constructor(private searchService: SearchService) {}
+  constructor(private readonly searchService: SearchService) {}
 
   public async findArticleByMatch(query: string): Promise<ControllerResponse<ArticleSearchCollection>> {
     if (query === undefined) {

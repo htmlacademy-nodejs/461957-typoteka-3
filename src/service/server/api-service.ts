@@ -12,7 +12,7 @@ import {DatabaseModels} from "./data-access/models/define-models";
 import {Sequelize} from "sequelize";
 
 export class ApiService {
-  private logger = getLogger();
+  private readonly logger = getLogger();
 
   public app: Application;
 
