@@ -6,7 +6,7 @@ import {UserCreatingFromForm} from "../../../types/interfaces/user-creating";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {FormValidationMessage} from "../components/Form/FormValidationMessage";
 import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
-import {FieldValidationBlock} from "../components/Form/FieldVlidationBlock";
+import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
 
 interface Props {
   user?: Partial<UserCreatingFromForm>;
@@ -59,13 +59,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   required
                 />
               </label>
-              {userValidationResponse[NEW_USER_FORM_FIELDS.email.name] ? (
-                <FieldValidationBlock>
-                  <FormValidationMessage>
-                    {userValidationResponse[NEW_USER_FORM_FIELDS.email.name]}
-                  </FormValidationMessage>
-                </FieldValidationBlock>
-              ) : null}
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.email.name]} />
             </div>
             <div className="form__field">
               <label>
@@ -77,13 +71,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   required
                 />
               </label>
-              {userValidationResponse[NEW_USER_FORM_FIELDS.firstName.name] ? (
-                <FieldValidationBlock>
-                  <FormValidationMessage>
-                    {userValidationResponse[NEW_USER_FORM_FIELDS.firstName.name]}
-                  </FormValidationMessage>
-                </FieldValidationBlock>
-              ) : null}
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.firstName.name]} />
             </div>
             <div className="form__field">
               <label>
@@ -94,13 +82,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   placeholder={NEW_USER_FORM_FIELDS.lastName.label}
                 />
               </label>
-              {userValidationResponse[NEW_USER_FORM_FIELDS.lastName.name] ? (
-                <FieldValidationBlock>
-                  <FormValidationMessage>
-                    {userValidationResponse[NEW_USER_FORM_FIELDS.lastName.name]}
-                  </FormValidationMessage>
-                </FieldValidationBlock>
-              ) : null}
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.lastName.name]} />
             </div>
             <div className="form__field">
               <label>
@@ -112,13 +94,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   required
                 />
               </label>
-              {userValidationResponse[NEW_USER_FORM_FIELDS.password.name] ? (
-                <FieldValidationBlock>
-                  <FormValidationMessage>
-                    {userValidationResponse[NEW_USER_FORM_FIELDS.password.name]}
-                  </FormValidationMessage>
-                </FieldValidationBlock>
-              ) : null}
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.password.name]} />
             </div>
             <div className="form__field">
               <label>
@@ -130,13 +106,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   required
                 />
               </label>
-              {userValidationResponse[NEW_USER_FORM_FIELDS.passwordRepeated.name] ? (
-                <FieldValidationBlock>
-                  <FormValidationMessage>
-                    {userValidationResponse[NEW_USER_FORM_FIELDS.passwordRepeated.name]}
-                  </FormValidationMessage>
-                </FieldValidationBlock>
-              ) : null}
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.passwordRepeated.name]} />
             </div>
             <div className="form__image-loader">
               <a className="form__avatar avatar">
@@ -151,13 +121,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                 />
                 Загрузить фото профиля
               </label>
-              {userValidationResponse[NEW_USER_FORM_FIELDS.avatar.name] ? (
-                <FieldValidationBlock>
-                  <FormValidationMessage>
-                    {userValidationResponse[NEW_USER_FORM_FIELDS.avatar.name]}
-                  </FormValidationMessage>
-                </FieldValidationBlock>
-              ) : null}
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.avatar.name]} />
             </div>
             <button className="form__submit-btn form__submit-btn--register button button--colored" type="submit">
               Зарегистрироваться

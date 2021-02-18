@@ -22,7 +22,7 @@ export const newUserSchema = Joi.object<IUserCreatingDoublePasswords>({
     .required()
     .messages({
       "any.required": `Обязательное поле`,
-      "string.pattern.base": `Запишите имя на латинице или кириллице`,
+      "string.pattern.base": `Запишите фамилию на латинице или кириллице`,
     }),
   [NEW_USER_FORM_FIELDS.password.name]: Joi.string()
     .required()
