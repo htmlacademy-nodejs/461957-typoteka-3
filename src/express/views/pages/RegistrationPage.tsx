@@ -14,7 +14,7 @@ interface Props {
   userValidationResponse?: UserValidationResponse;
 }
 
-export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse, user}) => {
+export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user}) => {
   const userFields =
     user === undefined
       ? {
@@ -80,6 +80,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   name={NEW_USER_FORM_FIELDS.lastName.name}
                   defaultValue={userFields.lastName}
                   placeholder={NEW_USER_FORM_FIELDS.lastName.label}
+                  required
                 />
               </label>
               <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.lastName.name]} />
