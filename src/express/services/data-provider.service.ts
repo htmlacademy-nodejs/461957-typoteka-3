@@ -16,6 +16,8 @@ import {ICollection} from "../../types/interfaces/collection";
 import {IArticleCreating} from "../../types/interfaces/article-creating";
 import {ICommentCreating} from "../../types/interfaces/comment-creating";
 import {CommentValidationResponse} from "../../types/comment-validation-response";
+import {IUserCreatingDoublePasswords} from "../../types/interfaces/user-creating";
+import {UserValidationResponse} from "../../types/user-validation-response";
 
 export class DataProviderService {
   private readonly requestService: AxiosStatic;
@@ -40,6 +42,25 @@ export class DataProviderService {
     } catch (e) {
       console.error(`Failed to load articles`);
       return Promise.reject(e);
+    }
+  }
+
+  public async createUser(newUser: IUserCreatingDoublePasswords): Promise<void | UserValidationResponse> {
+    let response: AxiosResponse<void | UserValidationResponse>;
+    try {
+      response = await this.requestService.post<UserValidationResponse>(this.apiEndPoint + APIRoutes.USERS, newUser);
+      if (response && response?.status === HttpCode.CREATED) {
+        return Promise.resolve();
+      }
+      return Promise.reject(`Error during creation the new user`);
+    } catch (e) {
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+        console.error(`Invalid user`);
+        return e?.response?.data as UserValidationResponse;
+      }
+      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+      return Promise.reject(`Error during creation the new article`);
     }
   }
 

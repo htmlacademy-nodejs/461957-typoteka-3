@@ -13,3 +13,5 @@ export interface IUserCreating extends IRoleId {
 export interface IUserCreatingDoublePasswords extends IUserCreating {
   passwordRepeated: string;
 }
+
+export type UserCreatingFromForm = Omit<IUserCreatingDoublePasswords, `roleId`>;
