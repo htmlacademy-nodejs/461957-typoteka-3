@@ -38,7 +38,7 @@ export class UsersController {
         return Promise.reject({email: `Пользователь с таким email не найден`});
       }
       if (status === LoginStatus.INVALID_PASSWORD) {
-        return Promise.reject({email: `Неправильно введен логин или пароль`});
+        return Promise.reject({password: `Неправильно введен логин или пароль`});
       }
       return {payload};
     } catch (e) {

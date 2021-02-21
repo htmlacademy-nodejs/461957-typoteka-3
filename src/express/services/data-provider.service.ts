@@ -18,6 +18,8 @@ import {ICommentCreating} from "../../types/interfaces/comment-creating";
 import {CommentValidationResponse} from "../../types/comment-validation-response";
 import {IUserCreatingDoublePasswords} from "../../types/interfaces/user-creating";
 import {UserValidationResponse} from "../../types/user-validation-response";
+import {ILogin} from "../../types/interfaces/login";
+import {SignInValidationResponse} from "../../types/sign-in-validation-response";
 
 export class DataProviderService {
   private readonly requestService: AxiosStatic;
@@ -59,8 +61,25 @@ export class DataProviderService {
         console.error(`Invalid user`);
         return e?.response?.data as UserValidationResponse;
       }
-      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
       return Promise.reject(`Error during creation the new article`);
+    }
+  }
+
+  public async signIn(signIn: ILogin): Promise<void | SignInValidationResponse> {
+    let response: AxiosResponse<void | SignInValidationResponse>;
+    try {
+      response = await this.requestService.post<SignInValidationResponse>(this.apiEndPoint + APIRoutes.LOGIN, signIn);
+      if (response && response?.status === HttpCode.OK) {
+        return Promise.resolve();
+      }
+      return Promise.reject(`Error during sign in`);
+    } catch (e) {
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+        console.error(`Invalid user`);
+        return e?.response?.data as SignInValidationResponse;
+      }
+      return Promise.reject(`Error during sign in`);
     }
   }
 
@@ -82,7 +101,6 @@ export class DataProviderService {
         console.error(`Invalid article`);
         return e?.response?.data as ArticleValidationResponse;
       }
-      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
       console.error(`Error during creation the new article`);
       return Promise.reject(`Error during creation the new article`);
     }
@@ -107,7 +125,6 @@ export class DataProviderService {
         console.error(`Invalid article`);
         return e?.response?.data as ArticleValidationResponse;
       }
-      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
       console.error(`Error during updating the article #${articleId}`);
       return Promise.reject(`Error during updating the article #${articleId}`);
     }
@@ -229,7 +246,6 @@ export class DataProviderService {
         console.error(`Invalid comment`);
         return e?.response?.data as CommentValidationResponse;
       }
-      /* eslint-enable @typescript-eslint/no-unsafe-member-access */
       console.error(`Error during creation the new comment`);
       return Promise.reject(`Error during creation the new comment`);
     }

@@ -34,7 +34,7 @@ registrationRouter.post(`/`, [multerMiddleware.none()], async (req: Request, res
     return next(
       new SSRError({
         message: `Failed to create a user`,
-        statusCode: HttpCode.BAD_REQUEST,
+        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
         errorPayload: e as Error,
       }),
     );

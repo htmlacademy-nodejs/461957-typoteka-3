@@ -29,7 +29,7 @@ export const usersRouter = (usersController: UsersController): Router => {
       const {status = HttpCode.OK, payload} = await usersController.login({email, password});
       return res.status(status).send(payload);
     } catch (e) {
-      return res.status(HttpCode.FORBIDDEN).send(e);
+      return res.status(HttpCode.BAD_REQUEST).send(e);
     }
   });
 
