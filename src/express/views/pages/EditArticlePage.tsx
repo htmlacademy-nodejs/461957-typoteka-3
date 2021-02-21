@@ -61,16 +61,18 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
             Закрыть окно
           </a>
           <div className="new-publication__form form">
-            {Object.keys(articleValidationResponse).length ? (
-              <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
-                {Object.entries(articleValidationResponse).map(([key, validation]) => (
-                  <FormValidationMessage key={key}>
-                    <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong> {validation}
-                  </FormValidationMessage>
-                ))}
-              </FormValidationBlock>
-            ) : null}
             <div className="form__wrapper form__wrapper--intro">
+              {Object.keys(articleValidationResponse).length ? (
+                <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
+                  {Object.entries(articleValidationResponse).map(([key, validation]) => (
+                    <li>
+                      <FormValidationMessage key={key}>
+                        <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong> {validation}
+                      </FormValidationMessage>
+                    </li>
+                  ))}
+                </FormValidationBlock>
+              ) : null}
               <div className="form__field">
                 <label>
                   <input
@@ -81,8 +83,8 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                     required
                   />
                 </label>
-                <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]} />
               </div>
+              <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]} />
               <div className="form__field form__field--post-image">
                 <label>
                   <input
@@ -126,8 +128,8 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                     onChange={() => {}}
                   />
                 </label>
-                <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]} />
               </div>
+              <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]} />
               <div className="form__field form__field--publication-text">
                 <label>
                   <textarea
@@ -138,8 +140,8 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                     onChange={() => {}}
                   />
                 </label>
-                <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
               </div>
+              <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
             </div>
           </div>
         </form>

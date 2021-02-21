@@ -26,9 +26,11 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
             {Object.keys(signInValidationResponse).length ? (
               <FormValidationBlock title={"При входе произошли ошибки:"}>
                 {Object.entries(signInValidationResponse).map(([key, validation]) => (
-                  <FormValidationMessage key={key}>
-                    <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
-                  </FormValidationMessage>
+                  <li>
+                    <FormValidationMessage key={key}>
+                      <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
+                    </FormValidationMessage>
+                  </li>
                 ))}
               </FormValidationBlock>
             ) : null}

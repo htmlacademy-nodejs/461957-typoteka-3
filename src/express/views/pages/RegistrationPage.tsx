@@ -41,9 +41,11 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
           {Object.keys(userValidationResponse).length ? (
             <FormValidationBlock title={"При регистрации произошли ошибки:"}>
               {Object.entries(userValidationResponse).map(([key, validation]) => (
-                <FormValidationMessage key={key}>
-                  <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
-                </FormValidationMessage>
+                <li>
+                  <FormValidationMessage key={key}>
+                    <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
+                  </FormValidationMessage>
+                </li>
               ))}
             </FormValidationBlock>
           ) : null}
@@ -59,8 +61,8 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   required
                 />
               </label>
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.email.name]} />
             </div>
+            <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.email.name]} />
             <div className="form__field">
               <label>
                 <input
@@ -71,8 +73,8 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   required
                 />
               </label>
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.firstName.name]} />
             </div>
+            <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.firstName.name]} />
             <div className="form__field">
               <label>
                 <input
@@ -83,8 +85,8 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   required
                 />
               </label>
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.lastName.name]} />
             </div>
+            <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.lastName.name]} />
             <div className="form__field">
               <label>
                 <input
@@ -95,8 +97,8 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   required
                 />
               </label>
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.password.name]} />
             </div>
+            <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.password.name]} />
             <div className="form__field">
               <label>
                 <input
@@ -107,8 +109,8 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   required
                 />
               </label>
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.passwordRepeated.name]} />
             </div>
+            <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.passwordRepeated.name]} />
             <div className="form__image-loader">
               <a className="form__avatar avatar">
                 <img src="img/icons/smile.svg" alt={NEW_USER_FORM_FIELDS.avatar.label} />
@@ -122,8 +124,8 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                 />
                 Загрузить фото профиля
               </label>
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.avatar.name]} />
             </div>
+            <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.avatar.name]} />
             <button className="form__submit-btn form__submit-btn--register button button--colored" type="submit">
               Зарегистрироваться
             </button>
