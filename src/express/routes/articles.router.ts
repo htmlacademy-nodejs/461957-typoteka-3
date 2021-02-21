@@ -48,7 +48,7 @@ articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res:
     try {
       const categories = await dataProviderService.getCategories();
       return streamPage(res, EditArticlePage, {
-        article: newArticle,
+        article: {...newArticle, createdDate: parseDateFromFrontend(newArticle.createdDate)},
         endPoint: ClientRoutes.ARTICLES.ADD,
         articleValidationResponse,
         availableCategories: categories,

@@ -25,22 +25,13 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   articleValidationResponse = {},
   isUpdating,
 }) => {
-  const articleProps =
-    article === undefined
-      ? {
-          title: "",
-          announce: "",
-          fullText: "",
-          categories: [],
-          createdDate: undefined,
-        }
-      : {
-          title: article.title,
-          announce: article.announce,
-          fullText: article.fullText,
-          categories: article.categories,
-          createdDate: article.createdDate,
-        };
+  const articleProps = {
+    title: article?.title ?? ``,
+    announce: article?.announce ?? ``,
+    fullText: article?.fullText ?? ``,
+    categories: article?.categories ?? [],
+    createdDate: article?.createdDate ?? new Date(),
+  };
   return (
     <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`}>
       <EditArticleWrapper>
@@ -54,10 +45,10 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   <label htmlFor="new-publication-date" aria-label={ARTICLE_FORM_FIELDS.createdDate.label} />
                   <input
                     type="text"
-                    defaultValue={getInitialDate(article.createdDate)}
+                    defaultValue={getInitialDate(articleProps.createdDate)}
                     name={ARTICLE_FORM_FIELDS.createdDate.name}
                     id="new-publication-date"
-                    placeholder={getInitialDate(article.createdDate)}
+                    placeholder={getInitialDate(articleProps.createdDate)}
                   />
                 </div>
               </div>
@@ -157,6 +148,6 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   );
 };
 
-function getInitialDate(date?: Date): string {
-  return (date ? date : new Date()).toISOString().split("T", 1)[0];
+function getInitialDate(date: Date): string {
+  return date.toISOString().split("T", 1)[0];
 }
