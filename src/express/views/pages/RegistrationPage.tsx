@@ -41,8 +41,8 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
           {Object.keys(userValidationResponse).length ? (
             <FormValidationBlock title={"При регистрации произошли ошибки:"}>
               {Object.entries(userValidationResponse).map(([key, validation]) => (
-                <li>
-                  <FormValidationMessage key={key}>
+                <li key={key}>
+                  <FormValidationMessage>
                     <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
                   </FormValidationMessage>
                 </li>

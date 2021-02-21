@@ -65,8 +65,8 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               {Object.keys(articleValidationResponse).length ? (
                 <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
                   {Object.entries(articleValidationResponse).map(([key, validation]) => (
-                    <li>
-                      <FormValidationMessage key={key}>
+                    <li key={key}>
+                      <FormValidationMessage>
                         <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong> {validation}
                       </FormValidationMessage>
                     </li>
