@@ -35,7 +35,7 @@ describe(`Comments router`, () => {
     validArticleId = (articles as Article[])[0].id;
     articleWithCommentsId = findIdOfArticleWithComments(articles as (IArticleId & ICommentsCount)[]);
   });
-  afterEach(() => {
+  afterAll(() => {
     httpServer.close();
   });
 

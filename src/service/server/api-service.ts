@@ -12,7 +12,7 @@ import {DatabaseModels} from "./data-access/models/define-models";
 import {Sequelize} from "sequelize";
 
 export class ApiService {
-  private logger = getLogger();
+  private readonly logger = getLogger();
 
   public app: Application;
 
@@ -28,8 +28,8 @@ export class ApiService {
   }
 
   public init(connection: Sequelize): void {
-    const {CategoryModel, ArticleModel, CommentModel} = defineDatabaseModels(connection);
-    this.configureRoutes({ArticleModel, CategoryModel, CommentModel});
+    const {CategoryModel, ArticleModel, CommentModel, UserModel, RoleModel} = defineDatabaseModels(connection);
+    this.configureRoutes({ArticleModel, CategoryModel, CommentModel, UserModel, RoleModel});
   }
 
   public getServer(): Application {
@@ -49,8 +49,8 @@ export class ApiService {
     middlewares.forEach(middleware => this.app.use(middleware));
   }
 
-  private configureRoutes({CategoryModel, ArticleModel, CommentModel}: DatabaseModels): void {
-    this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleModel, CommentModel}));
+  private configureRoutes({CategoryModel, ArticleModel, CommentModel, UserModel}: DatabaseModels): void {
+    this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleModel, CommentModel, UserModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);
       this.logger.error(messageConstructor(req.context.id, `'${req.url}' not found`));

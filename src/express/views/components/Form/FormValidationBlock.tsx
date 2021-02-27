@@ -5,7 +5,7 @@ export interface FormValidationBlockProps {
 }
 
 export const FormValidationBlock: FunctionComponent<FormValidationBlockProps> = ({title, children}) => (
-  <div className="form__validation-error">
+  <div className="form__validation-block">
     {title ? <p className="form__error-message">{title}</p> : null}
     <ul className="form__errors">{children}</ul>
   </div>

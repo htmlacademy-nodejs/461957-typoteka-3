@@ -20,14 +20,13 @@ export const cliAction: CliAction = {
     }
     try {
       const connection = await connectToDatabase();
-      const {CategoryModel, ArticleModel, CommentModel} = defineDatabaseModels(connection);
+      const {CategoryModel, ArticleModel, CommentModel, UserModel, RoleModel} = defineDatabaseModels(connection);
       await connection.sync({force: true});
-      await fillDb(mockCount, {ArticleModel, CategoryModel, CommentModel});
+      await fillDb(mockCount, {ArticleModel, CategoryModel, CommentModel, UserModel, RoleModel});
       await connection.close();
     } catch (e) {
       logger.error((e as Error).message);
       process.exit(1);
     }
-    logger.info(`Connection to database established`);
   },
 };

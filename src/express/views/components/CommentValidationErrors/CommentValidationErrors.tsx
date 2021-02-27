@@ -11,9 +11,11 @@ interface Props {
 export const CommentValidationErrors: FunctionComponent<Props> = ({validationResponse}) => (
   <FormValidationBlock title={"При сохранении комментария произошли ошибки:"}>
     {Object.entries(validationResponse).map(([key, validation]) => (
-      <FormValidationMessage key={key}>
-        <strong>{COMMENT_FORM_FIELDS[key]?.label}:</strong> {validation}
-      </FormValidationMessage>
+      <li key={key}>
+        <FormValidationMessage>
+          <strong>{COMMENT_FORM_FIELDS[key]?.label}:</strong> {validation}
+        </FormValidationMessage>
+      </li>
     ))}
   </FormValidationBlock>
 );

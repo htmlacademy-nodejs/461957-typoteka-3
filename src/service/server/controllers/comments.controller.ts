@@ -6,7 +6,7 @@ import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {ICommentCreating} from "../../../types/interfaces/comment-creating";
 
 export class CommentsController {
-  constructor(private commentsService: CommentsService) {}
+  constructor(private readonly commentsService: CommentsService) {}
 
   public async getCommentsByArticleId(id: ArticleId): Promise<ControllerResponse<ArticleComment[]>> {
     try {

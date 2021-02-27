@@ -3,4 +3,6 @@ export const TableName = {
   ARTICLES: `articles`,
   COMMENTS: `comments`,
   ARTICLES_CATEGORIES: `articles_categories`,
+  USERS: `users`,
+  ROLES: `roles`,
 };

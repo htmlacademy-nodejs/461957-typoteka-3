@@ -1,3 +1,30 @@
 .comments__text p {
   word-break: break-all;
 }
+.header,
+.footer {
+  justify-content: space-between;
+  max-width: 1000px;
+  width: auto;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.form__validation-error {
+  margin-top: 4px;
+  margin-bottom: 14px;
+  padding: 4px 20px 10px;
+  line-height: 1;
+  margin-right: auto;
+  width: max-content;
+}
+
+.form__errors {
+  /*padding-left: 0;*/
+}
+
+.form__validation-block {
+  background-color: #ffeded;
+  border-radius: 15px;
+  padding: 14px 20px 16px;
+}

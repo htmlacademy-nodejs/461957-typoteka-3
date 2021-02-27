@@ -43,6 +43,8 @@ export const APIRoutes = {
   CATEGORIES: `/categories`,
   CATEGORIES_STATISTICS: `/categories-statistics`,
   SEARCH: `/search`,
+  USERS: `/users`,
+  LOGIN: `/users/login`,
 };
 export const ClientRoutes = {
   INDEX: `/`,
@@ -100,6 +102,32 @@ export const ARTICLE_FORM_FIELDS = {
     label: `Фотография`,
   },
 } as const;
+export const NEW_USER_FORM_FIELDS = {
+  email: {
+    name: `email`,
+    label: `Электронная почта`,
+  },
+  password: {
+    name: `password`,
+    label: `Пароль`,
+  },
+  passwordRepeated: {
+    name: `passwordRepeated`,
+    label: `Повтор пароля`,
+  },
+  firstName: {
+    name: `firstName`,
+    label: `Имя`,
+  },
+  lastName: {
+    name: `lastName`,
+    label: `Фамилия`,
+  },
+  avatar: {
+    name: `avatar`,
+    label: `Фото профиля`,
+  },
+} as const;
 export const COMMENT_FORM_FIELDS = {
   text: {
     name: `text`,
@@ -124,5 +152,14 @@ export const LogLevel = {
   DEBUG: `debug`,
   TRACE: `trace`,
 } as const;
+export const ROLE_ID = {
+  ADMIN: 1,
+  AUTHOR: 2,
+} as const;
 export const PAGE_SIZE = 8;
 export const PAGE_QUERY_PARAM = `page`;
+export const LoginStatus = {
+  UNKNOWN_EMAIL: `unknownEmail`,
+  INVALID_PASSWORD: `invalidPassword`,
+  SUCCESS: `success`,
+} as const;
