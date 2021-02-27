@@ -140,8 +140,11 @@ async function createRoles(RoleModel: IRoleModel): Promise<IRoleEntity[]> {
 function filterUniqEmails<T extends {email: string}>(items: T[]): T[] {
   const emails = items.map(item => item.email);
   const uniqueEmails = new Set(emails);
-  if (uniqueEmails.size === emails.length) {
-    return items;
-  }
-  return [...uniqueEmails].map(email => items.find(item => item.email === email));
+  return items.reduce((accumulator, item) => {
+    if (!uniqueEmails.has(item.email)) {
+      uniqueEmails.add(item.email);
+      accumulator.push(item);
+    }
+    return accumulator;
+  }, [] as T[]);
 }
