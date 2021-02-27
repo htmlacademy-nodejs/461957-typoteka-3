@@ -37,6 +37,8 @@ rules:
     - functions: false
   "@typescript-eslint/no-misused-promises":
     - off
-#    - checks:
-#        - conditional
-#        - void-return
+  #    - checks:
+  #        - conditional
+  #        - void-return
+  "@typescript-eslint/prefer-readonly":
+    - error
