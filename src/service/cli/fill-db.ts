@@ -28,6 +28,5 @@ export const cliAction: CliAction = {
       logger.error((e as Error).message);
       process.exit(1);
     }
-    logger.info(`Connection to database established`);
   },
 };
