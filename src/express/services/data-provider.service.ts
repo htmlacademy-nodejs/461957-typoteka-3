@@ -75,7 +75,7 @@ export class DataProviderService {
       return Promise.reject(`Error during sign in`);
     } catch (e) {
       /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+      if (e?.response?.status === HttpCode.FORBIDDEN) {
         console.error(`Invalid user`);
         return e?.response?.data as SignInValidationResponse;
       }
