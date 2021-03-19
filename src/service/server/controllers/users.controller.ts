@@ -5,6 +5,9 @@ import {ControllerResponse} from "../../../types/controller-response";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
 import {IUserCreating} from "../../../types/interfaces/user-creating";
 import {ValidationResponse} from "../../../types/validation-response";
+import {IAuthorizationSuccess} from "../../../types/interfaces/authorization-result";
+import {ILogin} from "../../../types/interfaces/login";
+import {makeAuthTokens} from "../auth/make-auth-tokens";
 
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -31,7 +34,7 @@ export class UsersController {
     }
   }
 
-  public async login({email, password}: {email: string; password: string}): Promise<ControllerResponse<IUserPreview>> {
+  public async login({email, password}: ILogin): Promise<ControllerResponse<IAuthorizationSuccess>> {
     try {
       const {state, user} = await this.usersService.login({email, password});
       if (state === LoginStatus.UNKNOWN_EMAIL) {
@@ -40,7 +43,13 @@ export class UsersController {
       if (state === LoginStatus.INVALID_PASSWORD) {
         return Promise.reject({password: `Неправильно введен логин или пароль`});
       }
-      return {payload: user};
+      const {accessToken, refreshToken} = makeAuthTokens(user);
+      return {
+        payload: {
+          isSuccess: true,
+          payload: {accessToken, refreshToken},
+        },
+      };
     } catch (e) {
       return Promise.reject(`Failed to login`);
     }
