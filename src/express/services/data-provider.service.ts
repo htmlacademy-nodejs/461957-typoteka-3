@@ -20,6 +20,7 @@ import {IUserCreatingDoublePasswords} from "../../types/interfaces/user-creating
 import {UserValidationResponse} from "../../types/user-validation-response";
 import {ILogin} from "../../types/interfaces/login";
 import {SignInValidationResponse} from "../../types/sign-in-validation-response";
+import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
 
 export class DataProviderService {
   private readonly requestService: AxiosStatic;
@@ -65,19 +66,28 @@ export class DataProviderService {
     }
   }
 
-  public async signIn(signIn: ILogin): Promise<void | SignInValidationResponse> {
-    let response: AxiosResponse<void | SignInValidationResponse>;
+  public async signIn(signIn: ILogin): Promise<IAuthorizationSuccess | IAuthorizationFailed> {
+    let response: AxiosResponse<IAuthorizationSuccess>;
     try {
-      response = await this.requestService.post<SignInValidationResponse>(this.apiEndPoint + APIRoutes.LOGIN, signIn);
+      response = await this.requestService.post<IAuthorizationSuccess>(this.apiEndPoint + APIRoutes.LOGIN, signIn);
       if (response && response?.status === HttpCode.OK) {
-        return Promise.resolve();
+        return Promise.resolve({
+          isSuccess: true,
+          payload: {
+            accessToken: response.data.payload.accessToken,
+            refreshToken: response.data.payload.refreshToken,
+          },
+        });
       }
       return Promise.reject(`Error during sign in`);
     } catch (e) {
       /* eslint-disable @typescript-eslint/no-unsafe-member-access */
       if (e?.response?.status === HttpCode.FORBIDDEN) {
         console.error(`Invalid user`);
-        return e?.response?.data as SignInValidationResponse;
+        return {
+          isSuccess: false,
+          payload: e?.response?.data as SignInValidationResponse,
+        };
       }
       return Promise.reject(`Error during sign in`);
     }
