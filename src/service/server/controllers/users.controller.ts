@@ -33,14 +33,14 @@ export class UsersController {
 
   public async login({email, password}: {email: string; password: string}): Promise<ControllerResponse<IUserPreview>> {
     try {
-      const {status, payload} = await this.usersService.login({email, password});
-      if (status === LoginStatus.UNKNOWN_EMAIL) {
+      const {state, user} = await this.usersService.login({email, password});
+      if (state === LoginStatus.UNKNOWN_EMAIL) {
         return Promise.reject({email: `Пользователь с таким email не найден`});
       }
-      if (status === LoginStatus.INVALID_PASSWORD) {
+      if (state === LoginStatus.INVALID_PASSWORD) {
         return Promise.reject({password: `Неправильно введен логин или пароль`});
       }
-      return {payload};
+      return {payload: user};
     } catch (e) {
       return Promise.reject(`Failed to login`);
     }

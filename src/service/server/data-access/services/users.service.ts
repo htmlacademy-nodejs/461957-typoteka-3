@@ -7,6 +7,7 @@ import {FindAttributeOptions} from "sequelize";
 import {compare, hash} from "bcrypt";
 import {ILoginResult} from "../../../../types/interfaces/login-result";
 import {LoginStatus} from "../../../../constants-es6";
+import {ILogin} from "../../../../types/interfaces/login";
 
 const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.ID,
@@ -55,22 +56,22 @@ export class UsersService {
     return user.get();
   }
 
-  public async login({email, password}: {email: string; password: string}): Promise<ILoginResult> {
+  public async login({email, password}: ILogin): Promise<ILoginResult> {
     let user: IUserPreview;
     try {
       user = await this.findByEmail(email);
     } catch (e) {
-      return {status: LoginStatus.UNKNOWN_EMAIL};
+      return {state: LoginStatus.UNKNOWN_EMAIL};
     }
     try {
       const isPasswordValid = await this.checkPassword({userId: user.id, password});
       if (!isPasswordValid) {
-        return {status: LoginStatus.INVALID_PASSWORD};
+        return {state: LoginStatus.INVALID_PASSWORD};
       }
     } catch (e) {
-      return {status: LoginStatus.UNKNOWN_EMAIL};
+      return {state: LoginStatus.UNKNOWN_EMAIL};
     }
-    return {status: LoginStatus.SUCCESS, payload: user};
+    return {state: LoginStatus.SUCCESS, user};
   }
 
   public async checkPassword({userId, password}: {userId: UserId; password: string}): Promise<boolean> {

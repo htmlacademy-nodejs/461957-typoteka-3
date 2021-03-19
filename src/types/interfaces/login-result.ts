@@ -3,6 +3,6 @@ import {ValueOf} from "../value-of";
 import {LoginStatus} from "../../constants-es6";
 
 export interface ILoginResult {
-  status: ValueOf<typeof LoginStatus>;
-  payload?: IUserPreview;
+  state: ValueOf<typeof LoginStatus>;
+  user?: IUserPreview;
 }
