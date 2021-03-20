@@ -21,6 +21,7 @@ import {UserValidationResponse} from "../../types/user-validation-response";
 import {ILogin} from "../../types/interfaces/login";
 import {SignInValidationResponse} from "../../types/sign-in-validation-response";
 import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
+import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 
 export class DataProviderService {
   private readonly requestService: AxiosStatic;
@@ -259,6 +260,11 @@ export class DataProviderService {
       console.error(`Error during creation the new comment`);
       return Promise.reject(`Error during creation the new comment`);
     }
+  }
+
+  // TODO
+  public async refreshTokens(refreshToken: string): Promise<IAuthTokens> {
+    return Promise.resolve();
   }
 }
 

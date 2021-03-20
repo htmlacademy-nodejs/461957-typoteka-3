@@ -16,12 +16,14 @@ import * as path from "path";
 import {ENV} from "../shared/env/env";
 import {notFoundMiddleware} from "./middlewares/not-found.middleware";
 import {errorHandlerMiddleware} from "./middlewares/error-handler.middleware";
+import {getUserFromCookiesMiddleware} from "./middlewares/get-user-from-cookies.middleware";
 
 export function runApp(): void {
   const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;
   const app = express();
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, STATIC_DIR)));
+  app.use(getUserFromCookiesMiddleware);
 
   app.use(ClientRoutes.INDEX, mainPageRouter);
   app.use(ClientRoutes.SIGN_IN, signInRouter);
