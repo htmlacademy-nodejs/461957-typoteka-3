@@ -6,8 +6,8 @@ import {dataProviderService} from "../services";
 import {SSRError} from "../errors/ssr-error";
 import {ILogin} from "../../types/interfaces/login";
 import multer from "multer";
-import {COOKIE_TOKEN} from "../constants/cookie-token.constant";
 import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
+import {setAuthCookie} from "../helpers/cookie.helper";
 
 const multerMiddleware = multer();
 export const signInRouter = Router();
@@ -25,7 +25,7 @@ signInRouter.post(`/`, [multerMiddleware.none()], async (req: Request, res: Resp
       signIn,
     );
     if (signInValidationResponse.isSuccess) {
-      res.cookie(COOKIE_TOKEN, JSON.stringify(signInValidationResponse), {httpOnly: true});
+      setAuthCookie(res, signInValidationResponse.payload);
       return res.redirect(ClientRoutes.INDEX);
     }
     return streamPage(res, SignInPage, {
