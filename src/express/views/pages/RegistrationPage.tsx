@@ -34,7 +34,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
           passwordRepeated: user.passwordRepeated,
         };
   return (
-    <LayoutFilled pageTitle={`Регистрация`}>
+    <LayoutFilled pageTitle={`Регистрация`} currentUser={null}>
       <RegistrationWrapper>
         <h2 className="popup__title">Регистрация</h2>
         <div className="popup__form popup__form--active form form--register">

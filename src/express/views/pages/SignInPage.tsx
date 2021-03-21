@@ -18,7 +18,7 @@ interface Props {
 export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidationResponse = {}, signIn}) => {
   const signInFields = {email: signIn?.email ?? ``};
   return (
-    <LayoutFilled pageTitle={`Вход`}>
+    <LayoutFilled pageTitle={`Вход`} currentUser={null}>
       <SignInWrapper>
         <h2 className="popup__title">Войти</h2>
         <div className="popup__form form form--log-in">
