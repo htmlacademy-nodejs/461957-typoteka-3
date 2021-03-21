@@ -262,9 +262,22 @@ export class DataProviderService {
     }
   }
 
-  // TODO
   public async refreshTokens(refreshToken: string): Promise<IAuthTokens> {
-    return Promise.resolve();
+    let response: AxiosResponse<IAuthTokens>;
+    try {
+      response = await this.requestService.post<IAuthTokens>(this.apiEndPoint + APIRoutes.REFRESH_TOKENS, {
+        refreshToken,
+      });
+      if (response && response?.status === HttpCode.OK) {
+        return Promise.resolve({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+        });
+      }
+      return Promise.reject(`Failed to refresh auth tokens`);
+    } catch (e) {
+      return Promise.reject(`Invalid refresh token`);
+    }
   }
 }
 

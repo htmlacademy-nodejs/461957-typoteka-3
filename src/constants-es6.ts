@@ -46,6 +46,7 @@ export const APIRoutes = {
   USERS: `/users`,
   AUTH: `/auth`,
   LOGIN: `/auth/login`,
+  REFRESH_TOKENS: `/auth/refresh`,
 };
 export const ClientRoutes = {
   INDEX: `/`,
