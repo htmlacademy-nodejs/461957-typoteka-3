@@ -10,8 +10,12 @@ export const signOutRouter = Router();
 signOutRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
   try {
     const refreshToken = getRefreshTokenFromCookies(req);
-    await dataProviderService.signOut(refreshToken);
     invalidateAuthCookie(res);
+    try {
+      await dataProviderService.signOut(refreshToken);
+    } catch (e) {
+      console.error(`Failed to drop refresh token`);
+    }
     return res.redirect(ClientRoutes.INDEX);
   } catch (e) {
     return next(
