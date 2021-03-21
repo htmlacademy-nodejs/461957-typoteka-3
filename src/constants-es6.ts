@@ -50,7 +50,7 @@ export const ClientRoutes = {
   INDEX: `/`,
   ADMIN: {
     INDEX: `/my`,
-    COMMENTS: `/my/comments`,
+    COMMENTS: `/comments`,
   },
   ARTICLES: {
     INDEX: `/articles`,
