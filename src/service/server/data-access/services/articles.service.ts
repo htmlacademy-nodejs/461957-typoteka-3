@@ -140,7 +140,7 @@ export class ArticlesService {
       title,
     });
     await createdArticle.setCategories(categories.map(item => item.id));
-    return createdDate ? Promise.resolve() : Promise.reject(`Failed to create new article`);
+    return createdArticle ? Promise.resolve() : Promise.reject(`Failed to create new article`);
   }
 
   public async drop(id: ArticleId): Promise<boolean> {
