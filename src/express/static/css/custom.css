@@ -5,9 +5,9 @@
 .footer {
   justify-content: space-between;
   max-width: 1000px;
-  width: auto;
   margin-left: 0;
   margin-right: 0;
+  align-self: center;
 }
 
 .form__validation-error {
