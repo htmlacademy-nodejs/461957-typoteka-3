@@ -1,13 +1,18 @@
 import React, {FunctionComponent} from "react";
 import {Layout} from "./Layout";
-import {Header} from "../Header/Header";
 import {Footer} from "../Footer/Footer";
 import {IPageTitle} from "../../../../types/interfaces/page-title";
+import {HeaderDispatcher} from "../Header/HeaderDispatcher";
+import {ICurrentUser} from "../../pages/interfaces/current-user";
 
-interface LayoutAdminProps extends IPageTitle {}
+interface LayoutAdminProps extends IPageTitle, ICurrentUser {}
 
-export const LayoutAdmin: FunctionComponent<LayoutAdminProps> = ({children, pageTitle}) => (
-  <Layout pageTitle={pageTitle} wrapperMode={"admin"} header={<Header />} footer={<Footer isLargeIndent={true} />}>
+export const LayoutAdmin: FunctionComponent<LayoutAdminProps> = ({children, pageTitle, currentUser}) => (
+  <Layout
+    pageTitle={pageTitle}
+    wrapperMode={"admin"}
+    header={<HeaderDispatcher currentUser={currentUser} />}
+    footer={<Footer isLargeIndent={true} />}>
     {children}
   </Layout>
 );
