@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from "react";
 import {HeaderAuthorized} from "./HeaderAuthorized";
 import {Header} from "./Header";
-import {ICurrentUser} from "../../pages/interfaces/current-user";
+import {ICurrentUser} from "../../interfaces/current-user";
 
 interface Props extends ICurrentUser {}
 

@@ -3,7 +3,7 @@ import {Layout} from "./Layout";
 import {Footer} from "../Footer/Footer";
 import {IPageTitle} from "../../../../types/interfaces/page-title";
 import {HeaderDispatcher} from "../Header/HeaderDispatcher";
-import {ICurrentUser} from "../../pages/interfaces/current-user";
+import {ICurrentUser} from "../../interfaces/current-user";
 
 interface LayoutAdminProps extends IPageTitle, ICurrentUser {}
 
