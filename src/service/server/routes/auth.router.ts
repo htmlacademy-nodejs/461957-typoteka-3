@@ -26,5 +26,15 @@ export const authRouter = (authController: AuthController): Router => {
     }
   });
 
+  router.post(`/sign-out`, async (req, res) => {
+    try {
+      const existingRefreshToken = (req.body as {refreshToken: string})?.refreshToken;
+      const {status = HttpCode.OK} = await authController.dropRefreshToken(existingRefreshToken);
+      return res.status(status).send();
+    } catch (e) {
+      return res.status(HttpCode.INTERNAL_SERVER_ERROR).send(e);
+    }
+  });
+
   return router;
 };

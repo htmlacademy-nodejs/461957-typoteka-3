@@ -47,6 +47,7 @@ export const APIRoutes = {
   AUTH: `/auth`,
   LOGIN: `/auth/login`,
   REFRESH_TOKENS: `/auth/refresh`,
+  LOGOUT: `/auth/sign-out`,
 };
 export const ClientRoutes = {
   INDEX: `/`,
@@ -67,6 +68,7 @@ export const ClientRoutes = {
   SIGN_IN: `/login`,
   CATEGORIES: `/categories`,
   COMMENTS: `/comments`,
+  SIGN_OUT: `/sign-out`,
 };
 export const HttpMethod = {
   GET: `GET`,

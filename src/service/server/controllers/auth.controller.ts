@@ -49,6 +49,16 @@ export class AuthController {
     }
   }
 
+  public async dropRefreshToken(refreshToken: string): Promise<ControllerResponse<void>> {
+    try {
+      await this.authService.deleteRefreshToken(refreshToken);
+      return {};
+    } catch (e) {
+      this.logger.error(`Failed to drop refresh token:  ${(e as unknown).toString()}`);
+      return Promise.reject(e);
+    }
+  }
+
   private async createNewTokens(user: IUserPreview): Promise<IAuthTokens> {
     try {
       const {accessToken, refreshToken} = makeAuthTokens(user);

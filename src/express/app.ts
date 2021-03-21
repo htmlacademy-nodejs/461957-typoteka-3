@@ -8,6 +8,7 @@ import {
   registrationRouter,
   searchRouter,
   signInRouter,
+  signOutRouter,
 } from "./routes";
 import express from "express";
 import chalk from "chalk";
@@ -33,6 +34,7 @@ export function runApp(): void {
   app.use(ClientRoutes.ARTICLES.INDEX, articlesRouter);
   app.use(ClientRoutes.REGISTRATION, registrationRouter);
   app.use(ClientRoutes.COMMENTS, commentsRouter);
+  app.use(ClientRoutes.SIGN_OUT, signOutRouter);
   app.use(`*`, notFoundMiddleware);
 
   app.use(errorHandlerMiddleware);

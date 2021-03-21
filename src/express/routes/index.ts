@@ -6,3 +6,4 @@ export {registrationRouter} from "./registration.router";
 export {searchRouter} from "./search.router";
 export {signInRouter} from "./sign-in.router";
 export {commentsRouter} from "./comments.router";
+export {signOutRouter} from "./sign-out.router";

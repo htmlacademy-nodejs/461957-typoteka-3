@@ -279,6 +279,19 @@ export class DataProviderService {
       return Promise.reject(`Invalid refresh token`);
     }
   }
+
+  public async signOut(refreshToken: string): Promise<void> {
+    let response: AxiosResponse<void>;
+    try {
+      response = await this.requestService.post<void>(this.apiEndPoint + APIRoutes.LOGOUT, {refreshToken});
+      if (response && response?.status === HttpCode.OK) {
+        return Promise.resolve();
+      }
+      return Promise.reject(`Failed to log out`);
+    } catch (e) {
+      return Promise.reject(`Failed to log out`);
+    }
+  }
 }
 
 function transformDate<T extends ICreatedDate>(item: T): T {

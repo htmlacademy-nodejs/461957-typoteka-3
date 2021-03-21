@@ -20,7 +20,7 @@ export const HeaderAuthorized: FunctionComponent<Props> = ({firstName, lastName,
             </p>
           </li>
           <li className="header__list-item">
-            <a className="header__exit" href="#">
+            <a className="header__exit" href={ClientRoutes.SIGN_OUT}>
               Выйти
             </a>
           </li>
