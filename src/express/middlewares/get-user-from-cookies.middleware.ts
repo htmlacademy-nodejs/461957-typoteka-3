@@ -1,5 +1,5 @@
 import {NextFunction, Request} from "express";
-import {getTokenFromCookies, setAuthCookie} from "../helpers/cookie.helper";
+import {getTokenFromCookies, invalidateAuthCookie, setAuthCookie} from "../helpers/cookie.helper";
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {IAccessToken} from "../../types/auth/interfaces/access-token";
 import {dataProviderService} from "../services";
@@ -12,6 +12,10 @@ export async function getUserFromCookiesMiddleware(
   next: NextFunction,
 ): Promise<void> {
   const token = getTokenFromCookies(req);
+  if (!token) {
+    next();
+    return;
+  }
   try {
     const {accessToken, refreshToken} = await checkOrRefreshTokens(token);
     setAuthCookie(res, {accessToken, refreshToken});
@@ -19,14 +23,12 @@ export async function getUserFromCookiesMiddleware(
   } catch (e) {
     console.error(`Failed to authenticate the user: \n${(e as unknown).toString()}`);
     res.locals.currentUser = null;
+    invalidateAuthCookie(res);
   }
   next();
 }
 
 async function checkOrRefreshTokens(tokens: string): Promise<IAuthTokens> {
-  if (!tokens) {
-    throw new Error(`There aren't any tokens in cookies.`);
-  }
   const {accessToken, refreshToken} = JSON.parse(tokens) as IAuthTokens;
   const accessTokenPayload = getPayloadFromToken<IAccessToken>(accessToken);
 
