@@ -44,7 +44,8 @@ export const APIRoutes = {
   CATEGORIES_STATISTICS: `/categories-statistics`,
   SEARCH: `/search`,
   USERS: `/users`,
-  LOGIN: `/users/login`,
+  AUTH: `/auth`,
+  LOGIN: `/auth/login`,
 };
 export const ClientRoutes = {
   INDEX: `/`,

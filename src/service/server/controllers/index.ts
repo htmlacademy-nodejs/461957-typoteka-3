@@ -14,6 +14,7 @@ import {ICommentModel} from "../data-access/models/comment";
 import {CommentsController} from "./comments.controller";
 import {UsersController} from "./users.controller";
 import {IUserModel} from "../data-access/models/user";
+import {AuthController} from "./auth.controller";
 
 export const articlesControllerFactory = ({
   ArticleModel,
@@ -41,3 +42,6 @@ export const commentsControllerFactory = ({CommentModel}: {CommentModel: ICommen
 
 export const usersControllerFactory = ({UserModel}: {UserModel: IUserModel}): UsersController =>
   new UsersController(usersServiceFactory(UserModel));
+
+export const authControllerFactory = ({UserModel}: {UserModel: IUserModel}): AuthController =>
+  new AuthController(usersServiceFactory(UserModel));
