@@ -4,9 +4,18 @@ import {IAuthorizationSuccess} from "../../../types/interfaces/authorization-res
 import {ILogin} from "../../../types/interfaces/login";
 import {makeAuthTokens} from "../auth/make-auth-tokens";
 import {AuthService} from "../data-access/services/auth.service";
+import {IAuthTokens} from "../../../types/interfaces/auth-tokens";
+import {IUserPreview} from "../../../types/interfaces/user-preview";
+import {verifyAuthToken} from "../auth/verify-auth-token";
+import {getLogger} from "../../logger";
+import {Logger} from "pino";
 
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  private readonly logger: Logger;
+
+  constructor(private readonly authService: AuthService) {
+    this.logger = getLogger();
+  }
 
   public async login({email, password}: ILogin): Promise<ControllerResponse<IAuthorizationSuccess>> {
     try {
@@ -17,7 +26,7 @@ export class AuthController {
       if (state === LoginStatus.INVALID_PASSWORD) {
         return Promise.reject({password: `Неправильно введен логин или пароль`});
       }
-      const {accessToken, refreshToken} = makeAuthTokens(user);
+      const {accessToken, refreshToken} = await this.createNewTokens(user);
       return {
         payload: {
           isSuccess: true,
@@ -26,6 +35,28 @@ export class AuthController {
       };
     } catch (e) {
       return Promise.reject(`Failed to login`);
+    }
+  }
+
+  public async refresh(existingToken: string): Promise<ControllerResponse<IAuthTokens>> {
+    try {
+      const user = await verifyAuthToken(existingToken);
+      await this.authService.deleteRefreshToken(existingToken);
+      const {accessToken, refreshToken} = await this.createNewTokens(user);
+      return {payload: {accessToken, refreshToken}};
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
+  private async createNewTokens(user: IUserPreview): Promise<IAuthTokens> {
+    try {
+      const {accessToken, refreshToken} = makeAuthTokens(user);
+      await this.authService.saveRefreshToken(refreshToken, user.id);
+      return {accessToken, refreshToken};
+    } catch (e) {
+      this.logger.error(`Failed to save refresh token: ${(e as unknown).toString()}`);
+      return Promise.reject(`Failed to save refresh token`);
     }
   }
 }

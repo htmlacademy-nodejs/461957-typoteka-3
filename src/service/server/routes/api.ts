@@ -18,17 +18,20 @@ import {IArticleModel} from "../data-access/models/article";
 import {ICommentModel} from "../data-access/models/comment";
 import {IUserModel} from "../data-access/models/user";
 import {authRouter} from "./auth.router";
+import {IRefreshTokenModel} from "../data-access/models/refresh-tokens";
 
 export const apiRouter = ({
   CategoryModel,
   ArticleModel,
   CommentModel,
   UserModel,
+  RefreshTokenModel,
 }: {
   CategoryModel: ICategoryModel;
   ArticleModel: IArticleModel;
   CommentModel: ICommentModel;
   UserModel: IUserModel;
+  RefreshTokenModel: IRefreshTokenModel;
 }): Router => {
   const router = Router();
   const articlesController = articlesControllerFactory({
@@ -40,7 +43,7 @@ export const apiRouter = ({
   const searchController = searchControllerFactory({ArticleModel});
   const commentsController = commentsControllerFactory({CommentModel});
   const usersController = usersControllerFactory({UserModel});
-  const authController = authControllerFactory({UserModel});
+  const authController = authControllerFactory({UserModel, RefreshTokenModel});
 
   router.use(APIRoutes.ARTICLES, articleRouter(articlesController, commentsController));
   router.use(APIRoutes.CATEGORIES, categoriesRouter(articlesController, categoriesController));

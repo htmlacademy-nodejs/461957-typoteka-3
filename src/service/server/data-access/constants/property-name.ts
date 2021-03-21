@@ -44,3 +44,8 @@ export const UserProperty = {
   ROLE_ID: `roleId`,
   PASSWORD: `password`,
 };
+
+export const RefreshTokenProperty = {
+  TOKEN: `token`,
+  USER_ID: `userId`,
+} as const;

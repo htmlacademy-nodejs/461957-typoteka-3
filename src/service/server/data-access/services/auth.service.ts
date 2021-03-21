@@ -7,6 +7,7 @@ import {UserId} from "../../../../types/user-id";
 import {UserProperty} from "../constants/property-name";
 import {compare} from "bcrypt";
 import {FindAttributeOptions} from "sequelize";
+import {IRefreshTokenModel} from "../models/refresh-tokens";
 
 const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.ID,
@@ -16,7 +17,7 @@ const userPreviewAttributes: FindAttributeOptions = [
 ];
 
 export class AuthService {
-  constructor(private readonly UserModel: IUserModel) {}
+  constructor(private readonly UserModel: IUserModel, private readonly RefreshTokenModel: IRefreshTokenModel) {}
 
   public async login({email, password}: ILogin): Promise<ILoginResult> {
     let user: IUserPreview;
@@ -36,6 +37,23 @@ export class AuthService {
     return {state: LoginStatus.SUCCESS, user};
   }
 
+  public async saveRefreshToken(token: string, userId: UserId): Promise<void> {
+    const savedToken = await this.RefreshTokenModel.create({token, userId});
+    return savedToken ? Promise.resolve() : Promise.reject(`Failed to save token`);
+  }
+
+  public async deleteRefreshToken(token: string): Promise<void> {
+    const deletedToken = await this.RefreshTokenModel.destroy({
+      where: {
+        token,
+      },
+    });
+    if (!deletedToken) {
+      return Promise.reject(`Failed to delete token`);
+    }
+    return Promise.resolve();
+  }
+
   private async checkPassword({userId, password}: {userId: UserId; password: string}): Promise<boolean> {
     const savedHash = await this.UserModel.findOne({
       attributes: [UserProperty.PASSWORD],
@@ -47,7 +65,7 @@ export class AuthService {
     return await compare(password, savedHash.get().password);
   }
 
-  private async findByEmail(email: string): Promise<IUserPreview> {
+  public async findByEmail(email: string): Promise<IUserPreview> {
     const user = await this.UserModel.findOne({
       attributes: userPreviewAttributes,
       where: {

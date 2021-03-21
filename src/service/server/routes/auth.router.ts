@@ -16,5 +16,15 @@ export const authRouter = (authController: AuthController): Router => {
     }
   });
 
+  router.post(`/refresh`, async (req, res) => {
+    try {
+      const existingRefreshToken = (req.body as {refreshToken: string})?.refreshToken;
+      const {status = HttpCode.OK, payload} = await authController.refresh(existingRefreshToken);
+      return res.status(status).send(payload);
+    } catch (e) {
+      return res.status(HttpCode.FORBIDDEN).send(e);
+    }
+  });
+
   return router;
 };

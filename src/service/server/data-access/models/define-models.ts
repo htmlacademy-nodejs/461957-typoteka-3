@@ -7,6 +7,7 @@ import {TableName} from "../constants/table-name";
 import {ArticleCategoryProperty, ArticleProperty, CommentProperty, UserProperty} from "../constants/property-name";
 import {defineUser, IUserModel} from "./user";
 import {defineRole, IRoleModel} from "./role";
+import {defineRefreshToken, IRefreshTokenModel} from "./refresh-tokens";
 
 export interface DatabaseModels {
   CategoryModel: ICategoryModel;
@@ -14,6 +15,7 @@ export interface DatabaseModels {
   CommentModel: ICommentModel;
   UserModel: IUserModel;
   RoleModel: IRoleModel;
+  RefreshTokenModel: IRefreshTokenModel;
 }
 
 export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
@@ -22,6 +24,7 @@ export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
   const CommentModel = defineComment(connection);
   const RoleModel = defineRole(connection);
   const UserModel = defineUser(connection);
+  const RefreshTokenModel = defineRefreshToken(connection);
 
   const ArticleCategoryModel = defineIntermediateModel(connection, TableName.ARTICLES_CATEGORIES);
 
@@ -46,5 +49,6 @@ export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
     CommentModel,
     UserModel,
     RoleModel,
+    RefreshTokenModel,
   };
 }
