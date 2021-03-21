@@ -1,19 +1,24 @@
-import {NextFunction, Request, Response} from "express";
+import {NextFunction, Request} from "express";
 import {getTokenFromCookies, setAuthCookie} from "../helpers/cookie.helper";
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {IAccessToken} from "../../types/auth/interfaces/access-token";
 import {dataProviderService} from "../services";
 import {IUserPreview} from "../../types/interfaces/user-preview";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
 
-export async function getUserFromCookiesMiddleware(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getUserFromCookiesMiddleware(
+  req: Request,
+  res: IResponseExtended,
+  next: NextFunction,
+): Promise<void> {
   const token = getTokenFromCookies(req);
   try {
     const {accessToken, refreshToken} = await checkOrRefreshTokens(token);
     setAuthCookie(res, {accessToken, refreshToken});
-    res.locals.user = getUserFromToken(accessToken);
+    res.locals.currentUser = getUserFromToken(accessToken);
   } catch (e) {
     console.error(`Failed to authenticate the user: \n${(e as unknown).toString()}`);
-    res.locals.user = {};
+    res.locals.currentUser = null;
   }
   next();
 }
@@ -57,7 +62,7 @@ async function refreshTokens(refreshToken: string): Promise<IAuthTokens> {
     const {accessToken, refreshToken: newRefreshToken} = await dataProviderService.refreshTokens(refreshToken);
     return {accessToken, refreshToken: newRefreshToken};
   } catch (e) {
-    return Promise.reject(`Failed to refresh tokens: \n${e}`);
+    return Promise.reject(`Failed to refresh tokens: \n${(e as unknown).toString()}`);
   }
 }
 
