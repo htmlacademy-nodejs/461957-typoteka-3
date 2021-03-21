@@ -23,9 +23,9 @@ export const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, chi
       <meta name="description" content="Личный блог Типотека" />
       <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
       <title>{pageTitle ? `${pageTitle} | Типотека` : `Типотека`}</title>
-      <link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" crossOrigin="anonymous" />
-      <link rel="preload" href="/fonts/Inter-Medium.woff2" as="font" crossOrigin="anonymous" />
-      <link rel="preload" href="/fonts/SFProDisplay-Regular.woff2" as="font" crossOrigin="anonymous" />
+      <link href="/fonts/Inter-Regular.woff2" as="font" crossOrigin="anonymous" />
+      <link href="/fonts/Inter-Medium.woff2" as="font" crossOrigin="anonymous" />
+      <link href="/fonts/SFProDisplay-Regular.woff2" as="font" crossOrigin="anonymous" />
       <link rel="stylesheet" href="/css/style.min.css" />
       <link rel="stylesheet" href="/css/custom.css" />
       <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png" />
