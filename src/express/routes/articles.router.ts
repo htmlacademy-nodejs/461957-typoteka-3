@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response, Router} from "express";
+import {NextFunction, Request, Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
@@ -15,14 +15,19 @@ import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers
 import {getArticleLink} from "../helpers/link-resolver";
 import {IArticleCreating} from "../../types/interfaces/article-creating";
 import {prepareArticlePage} from "../helpers/prepare-article-page";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
 
-articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunction) => {
+articlesRouter.get(`/add`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
   try {
     const categories = await dataProviderService.getCategories();
-    return streamPage(res, EditArticlePage, {endPoint: ClientRoutes.ARTICLES.ADD, availableCategories: categories});
+    return streamPage(res, EditArticlePage, {
+      endPoint: ClientRoutes.ARTICLES.ADD,
+      availableCategories: categories,
+      currentUser: res.locals.currentUser,
+    });
   } catch (e) {
     return next(
       new SSRError({
@@ -33,89 +38,99 @@ articlesRouter.get(`/add`, async (req: Request, res: Response, next: NextFunctio
   }
 });
 
-articlesRouter.post(`/add`, [multerMiddleware.none()], async (req: Request, res: Response, next: NextFunction) => {
-  const newArticle: IArticleCreating = {
-    ...(req.body as ArticleFromBrowser),
-    categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
-  };
-  try {
-    const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.createArticle(
-      newArticle,
-    );
-    if (!articleValidationResponse) {
-      return res.redirect(ClientRoutes.ADMIN.INDEX);
-    }
+articlesRouter.post(
+  `/add`,
+  [multerMiddleware.none()],
+  async (req: Request, res: IResponseExtended, next: NextFunction) => {
+    const newArticle: IArticleCreating = {
+      ...(req.body as ArticleFromBrowser),
+      categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
+    };
     try {
-      const categories = await dataProviderService.getCategories();
-      return streamPage(res, EditArticlePage, {
-        article: {...newArticle, createdDate: parseDateFromFrontend(newArticle.createdDate)},
-        endPoint: ClientRoutes.ARTICLES.ADD,
-        articleValidationResponse,
-        availableCategories: categories,
-      });
+      const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.createArticle(
+        newArticle,
+      );
+      if (!articleValidationResponse) {
+        return res.redirect(ClientRoutes.ADMIN.INDEX);
+      }
+      try {
+        const categories = await dataProviderService.getCategories();
+        return streamPage(res, EditArticlePage, {
+          article: {...newArticle, createdDate: parseDateFromFrontend(newArticle.createdDate)},
+          endPoint: ClientRoutes.ARTICLES.ADD,
+          articleValidationResponse,
+          availableCategories: categories,
+          currentUser: res.locals.currentUser,
+        });
+      } catch (e) {
+        return next(
+          new SSRError({
+            message: `Failed to load categories`,
+            statusCode: HttpCode.BAD_REQUEST,
+          }),
+        );
+      }
     } catch (e) {
       return next(
         new SSRError({
-          message: `Failed to load categories`,
+          message: `Failed to create an article`,
           statusCode: HttpCode.BAD_REQUEST,
+          errorPayload: e as Error,
         }),
       );
     }
-  } catch (e) {
-    return next(
-      new SSRError({
-        message: `Failed to create an article`,
-        statusCode: HttpCode.BAD_REQUEST,
-        errorPayload: e as Error,
-      }),
-    );
-  }
-});
+  },
+);
 
-articlesRouter.post(`/edit/:id`, [multerMiddleware.none()], async (req: Request, res: Response, next: NextFunction) => {
-  const articleId = parseInt(req.params.id, 10);
-  const updatingArticle: IArticleCreating = {
-    ...(req.body as ArticleFromBrowser),
-    categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
-    createdDate: parseDateFromFrontend((req.body as ArticleFromBrowser).createdDate as unknown),
-  };
-  try {
-    const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.updateArticle(
-      articleId,
-      updatingArticle,
-    );
-    if (!articleValidationResponse) {
-      return res.redirect(ClientRoutes.ADMIN.INDEX);
-    }
+articlesRouter.post(
+  `/edit/:id`,
+  [multerMiddleware.none()],
+  async (req: Request, res: IResponseExtended, next: NextFunction) => {
+    const articleId = parseInt(req.params.id, 10);
+    const updatingArticle: IArticleCreating = {
+      ...(req.body as ArticleFromBrowser),
+      categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
+      createdDate: parseDateFromFrontend((req.body as ArticleFromBrowser).createdDate as unknown),
+    };
     try {
-      const categories = await dataProviderService.getCategories();
-      return streamPage(res, EditArticlePage, {
-        article: updatingArticle,
-        endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
-        articleValidationResponse,
-        availableCategories: categories,
-        isUpdating: true,
-      });
+      const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.updateArticle(
+        articleId,
+        updatingArticle,
+      );
+      if (!articleValidationResponse) {
+        return res.redirect(ClientRoutes.ADMIN.INDEX);
+      }
+      try {
+        const categories = await dataProviderService.getCategories();
+        return streamPage(res, EditArticlePage, {
+          article: updatingArticle,
+          endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
+          articleValidationResponse,
+          availableCategories: categories,
+          isUpdating: true,
+          currentUser: res.locals.currentUser,
+        });
+      } catch (e) {
+        return next(
+          new SSRError({
+            message: `Failed to load categories`,
+            statusCode: HttpCode.BAD_REQUEST,
+          }),
+        );
+      }
     } catch (e) {
       return next(
         new SSRError({
-          message: `Failed to load categories`,
+          message: `Failed to update the article #${articleId}`,
           statusCode: HttpCode.BAD_REQUEST,
+          errorPayload: e as Error,
         }),
       );
     }
-  } catch (e) {
-    return next(
-      new SSRError({
-        message: `Failed to update the article #${articleId}`,
-        statusCode: HttpCode.BAD_REQUEST,
-        errorPayload: e as Error,
-      }),
-    );
-  }
-});
+  },
+);
 
-articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: NextFunction) => {
+articlesRouter.get(`/category/:id`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
   const page = getPageFromReqQuery(req);
   const offset = getOffsetFromPage(page);
   const categoryId = parseInt(req.params.id, 10);
@@ -133,6 +148,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
       total: totalCount,
       page: getCurrentPage(offset),
       prefix: `${ClientRoutes.ARTICLES.CATEGORY}/${category.id}?`,
+      currentUser: res.locals.currentUser,
     });
   } catch (e) {
     return next(
@@ -145,10 +161,10 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: Response, next: Ne
   }
 });
 
-articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunction) => {
+articlesRouter.get(`/:id`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
   const articleId = parseInt(req.params.id, 10);
   try {
-    const {page: articlePage, props} = await prepareArticlePage({articleId});
+    const {page: articlePage, props} = await prepareArticlePage({articleId, currentUser: res.locals.currentUser});
     return streamPage(res, articlePage, {...props, previousPageUrl: req.header(`referer`)});
   } catch (e) {
     return next(
@@ -161,7 +177,7 @@ articlesRouter.get(`/:id`, async (req: Request, res: Response, next: NextFunctio
   }
 });
 
-articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFunction) => {
+articlesRouter.get(`/edit/:id`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
   const articleId = parseInt(req.params.id, 10);
   try {
     const [article, categories] = await Promise.all([
@@ -173,6 +189,7 @@ articlesRouter.get(`/edit/:id`, async (req: Request, res: Response, next: NextFu
       endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
       availableCategories: categories,
       isUpdating: true,
+      currentUser: res.locals.currentUser,
     });
   } catch (e) {
     return next(

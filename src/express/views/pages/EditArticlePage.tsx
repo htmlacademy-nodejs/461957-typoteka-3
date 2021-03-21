@@ -9,8 +9,9 @@ import type {Category} from "../../../types/category";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
 import {EditArticleWrapper} from "../components/EditArticleWrapper/EditArticleWrapper";
+import {ICurrentUser} from "../interfaces/current-user";
 
-interface EditArticleProps {
+interface EditArticleProps extends ICurrentUser {
   article?: Partial<IArticleCreating>;
   endPoint: string;
   availableCategories: Category[];
@@ -24,6 +25,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   availableCategories,
   articleValidationResponse = {},
   isUpdating,
+  currentUser,
 }) => {
   const articleProps = {
     title: article?.title ?? ``,
@@ -33,7 +35,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
     createdDate: article?.createdDate ?? new Date(),
   };
   return (
-    <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`}>
+    <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`} currentUser={currentUser}>
       <EditArticleWrapper>
         <form action={endPoint} method="POST" encType="multipart/form-data">
           <div className="new-publication__header">

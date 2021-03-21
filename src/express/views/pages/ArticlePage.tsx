@@ -6,8 +6,15 @@ import {CommentsList} from "../components/CommentsList/CommentsList";
 import {CommentForm} from "../components/CommentForm/CommentForm";
 import {CommentValidationResponse} from "../../../types/comment-validation-response";
 import {CommentValidationErrors} from "../components/CommentValidationErrors/CommentValidationErrors";
+import {ICurrentUser} from "../interfaces/current-user";
 
-export interface ArticlePageProps extends ITitle, ICreatedDate, ICategoriesWithLinksAndNumbers, IFullText, IComments {
+export interface ArticlePageProps
+  extends ITitle,
+    ICreatedDate,
+    ICategoriesWithLinksAndNumbers,
+    IFullText,
+    IComments,
+    ICurrentUser {
   previousPageUrl: string;
   newCommentEndPoint: string;
   commentValidationResponse?: CommentValidationResponse;
@@ -22,8 +29,9 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   comments,
   newCommentEndPoint,
   commentValidationResponse,
+  currentUser,
 }) => (
-  <LayoutFilled pageTitle={title}>
+  <LayoutFilled pageTitle={title} currentUser={currentUser}>
     <main>
       <section className="post">
         <h1 className="visually-hidden">Пост</h1>

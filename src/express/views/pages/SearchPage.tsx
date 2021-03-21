@@ -1,19 +1,26 @@
 import React, {FunctionComponent} from "react";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {SearchResult, SearchResultProps} from "../components/SearchResult/SearchResult";
+import {ICurrentUser} from "../interfaces/current-user";
 
-export interface SearchPageProps {
+export interface SearchPageProps extends ICurrentUser {
   query?: string;
   matches?: SearchResultProps[];
   itemsCount?: number;
   endPoint: string;
 }
 
-export const SearchPage: FunctionComponent<SearchPageProps> = ({query, matches = [], itemsCount, endPoint}) => {
+export const SearchPage: FunctionComponent<SearchPageProps> = ({
+  query,
+  matches = [],
+  itemsCount,
+  endPoint,
+  currentUser,
+}) => {
   const isEmpty = query && itemsCount === 0;
 
   return (
-    <LayoutFilled pageTitle={`Поиск`}>
+    <LayoutFilled pageTitle={`Поиск`} currentUser={currentUser}>
       <main>
         <section className="search-page">
           <div

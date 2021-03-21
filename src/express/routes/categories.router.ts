@@ -1,14 +1,15 @@
-import {NextFunction, Request, Response, Router} from "express";
+import {NextFunction, Request, Router} from "express";
 import {streamPage} from "../utils/stream-page";
 import {CategoriesPage} from "../views/pages/CategoriesPage";
 import {dataProviderService} from "../services";
 import {HttpCode} from "../../constants-es6";
 import {SSRError} from "../errors/ssr-error";
 import {CategoryEditableProps} from "../views/components/CategoryEditable/CategoryEditable";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
 
 export const categoriesRouter = Router();
 
-categoriesRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
+categoriesRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
   try {
     const categories = await dataProviderService.getCategories();
     const editableCategories: CategoryEditableProps[] = categories.map(category => ({
@@ -16,7 +17,11 @@ categoriesRouter.get(`/`, async (req: Request, res: Response, next: NextFunction
       endPoint: category.id.toString(10),
       id: category.id,
     }));
-    return streamPage(res, CategoriesPage, {newCategoryEndPoint: `#`, categories: editableCategories});
+    return streamPage(res, CategoriesPage, {
+      newCategoryEndPoint: `#`,
+      categories: editableCategories,
+      currentUser: res.locals.currentUser,
+    });
   } catch (e) {
     return next(
       new SSRError({

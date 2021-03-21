@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response, Router} from "express";
+import {NextFunction, Request, Router} from "express";
 import {HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
@@ -10,10 +10,11 @@ import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-n
 import {CategoryWithLink} from "../../types/category-with-link";
 import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
 import {getArticleLink} from "../helpers/link-resolver";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
 
 export const mainPageRouter = Router();
 
-mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) => {
+mainPageRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
   const page = getPageFromReqQuery(req);
   const offset = getOffsetFromPage(page);
   try {
@@ -32,6 +33,7 @@ mainPageRouter.get(`/`, async (req: Request, res: Response, next: NextFunction) 
       total: totalCount,
       page: getCurrentPage(offset),
       prefix: `?`,
+      currentUser: res.locals.currentUser,
     });
   } catch (e) {
     return next(

@@ -2,8 +2,9 @@ import React, {FunctionComponent} from "react";
 import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
 import type {ArticleComment} from "../../../types/article-comment";
 import {PublicationComment} from "../components/PublicationComment/PublicationComment";
+import {ICurrentUser} from "../interfaces/current-user";
 
-interface AdminCommentsPageProps {
+interface AdminCommentsPageProps extends ICurrentUser {
   listOfComments: ArticleComment[];
 }
 
@@ -20,7 +21,7 @@ export const AdminCommentsPage: FunctionComponent<AdminCommentsPageProps> = (pro
   });
 
   return (
-    <LayoutAdmin pageTitle={`Комментарии`}>
+    <LayoutAdmin pageTitle={`Комментарии`} currentUser={props.currentUser}>
       <main className="main-page main-page--padding">
         <section className="main-page__publication publication">
           <h1 className="publication__title">Комментарии</h1>
