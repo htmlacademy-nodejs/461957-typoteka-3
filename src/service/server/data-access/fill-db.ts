@@ -18,7 +18,9 @@ import {IUserEntity, IUserModel} from "./models/user";
 import {IUserCreating} from "../../../types/interfaces/user-creating";
 import {IRoleEntity, IRoleModel} from "./models/role";
 import {IRole} from "../../../types/interfaces/role";
-import {getId} from "../../../shared/get-id";
+import {hashSync} from "bcrypt";
+
+const SALT_ROUNDS = 10;
 
 export async function fillDb(
   articlesNumber: number,
@@ -109,16 +111,19 @@ async function createUsers(
     firstName: getRandomItem(payload.firstNames),
     lastName: getRandomItem(payload.lastNames),
     roleId: ROLE_ID.ADMIN,
-    password: getId(),
+    password: hashSync(`admin-email@gmail.com`, SALT_ROUNDS),
   };
-  const users = new Array(10).fill(undefined).map<IUserCreating>(() => ({
-    avatar: ``,
-    email: getRandomItem(payload.emails),
-    firstName: getRandomItem(payload.firstNames),
-    lastName: getRandomItem(payload.lastNames),
-    roleId: ROLE_ID.AUTHOR,
-    password: getId(),
-  }));
+  const users = new Array(10).fill(undefined).map<IUserCreating>(() => {
+    const email = getRandomItem(payload.emails);
+    return {
+      avatar: ``,
+      email,
+      firstName: getRandomItem(payload.firstNames),
+      lastName: getRandomItem(payload.lastNames),
+      roleId: ROLE_ID.AUTHOR,
+      password: hashSync(email, SALT_ROUNDS),
+    };
+  });
   users.unshift(adminUser);
   return UserModel.bulkCreate(filterUniqEmails(users));
 }
