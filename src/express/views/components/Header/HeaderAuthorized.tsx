@@ -27,7 +27,7 @@ export const HeaderAuthorized: FunctionComponent<Props> = ({firstName, lastName,
         </ul>
       </nav>
       <a className="header__avatar avatar">
-        <img src={avatar ?? "https://via.placeholder.com/50x50.webp"} alt="аватар пользователя" />
+        <img src={avatar ? avatar : "https://via.placeholder.com/50x50.webp"} alt="аватар пользователя" />
       </a>
       <a
         className="header__search button button--search"
