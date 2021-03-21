@@ -4,10 +4,7 @@ import {UserProperty} from "../constants/property-name";
 import {IUserPreview} from "../../../../types/interfaces/user-preview";
 import {IUserCreating} from "../../../../types/interfaces/user-creating";
 import {FindAttributeOptions} from "sequelize";
-import {compare, hash} from "bcrypt";
-import {ILoginResult} from "../../../../types/interfaces/login-result";
-import {LoginStatus} from "../../../../constants-es6";
-import {ILogin} from "../../../../types/interfaces/login";
+import {hash} from "bcrypt";
 
 const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.ID,
@@ -54,34 +51,5 @@ export class UsersService {
       rejectOnEmpty: true,
     });
     return user.get();
-  }
-
-  public async login({email, password}: ILogin): Promise<ILoginResult> {
-    let user: IUserPreview;
-    try {
-      user = await this.findByEmail(email);
-    } catch (e) {
-      return {state: LoginStatus.UNKNOWN_EMAIL};
-    }
-    try {
-      const isPasswordValid = await this.checkPassword({userId: user.id, password});
-      if (!isPasswordValid) {
-        return {state: LoginStatus.INVALID_PASSWORD};
-      }
-    } catch (e) {
-      return {state: LoginStatus.UNKNOWN_EMAIL};
-    }
-    return {state: LoginStatus.SUCCESS, user};
-  }
-
-  public async checkPassword({userId, password}: {userId: UserId; password: string}): Promise<boolean> {
-    const savedHash = await this.UserModel.findOne({
-      attributes: [UserProperty.PASSWORD],
-      where: {
-        id: userId,
-      },
-      rejectOnEmpty: true,
-    });
-    return await compare(password, savedHash.get().password);
   }
 }

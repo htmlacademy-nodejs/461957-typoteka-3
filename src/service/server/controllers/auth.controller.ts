@@ -1,16 +1,16 @@
-import {UsersService} from "../data-access/services/users.service";
 import {LoginStatus} from "../../../constants-es6";
 import {ControllerResponse} from "../../../types/controller-response";
 import {IAuthorizationSuccess} from "../../../types/interfaces/authorization-result";
 import {ILogin} from "../../../types/interfaces/login";
 import {makeAuthTokens} from "../auth/make-auth-tokens";
+import {AuthService} from "../data-access/services/auth.service";
 
 export class AuthController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly authService: AuthService) {}
 
   public async login({email, password}: ILogin): Promise<ControllerResponse<IAuthorizationSuccess>> {
     try {
-      const {state, user} = await this.usersService.login({email, password});
+      const {state, user} = await this.authService.login({email, password});
       if (state === LoginStatus.UNKNOWN_EMAIL) {
         return Promise.reject({email: `Пользователь с таким email не найден`});
       }

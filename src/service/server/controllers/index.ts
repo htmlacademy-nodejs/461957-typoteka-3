@@ -3,6 +3,7 @@ import {CategoriesController} from "./categories.controller";
 import {SearchController} from "./search.controller";
 import {
   articlesServiceFactory,
+  authServiceFactory,
   categoriesServiceFactory,
   commentsServiceFactory,
   searchServiceFactory,
@@ -44,4 +45,4 @@ export const usersControllerFactory = ({UserModel}: {UserModel: IUserModel}): Us
   new UsersController(usersServiceFactory(UserModel));
 
 export const authControllerFactory = ({UserModel}: {UserModel: IUserModel}): AuthController =>
-  new AuthController(usersServiceFactory(UserModel));
+  new AuthController(authServiceFactory(UserModel));

@@ -7,6 +7,7 @@ import {ICommentModel} from "../models/comment";
 import {CommentsService} from "./comments.service";
 import {UsersService} from "./users.service";
 import {IUserModel} from "../models/user";
+import {AuthService} from "./auth.service";
 
 export const categoriesServiceFactory = (CategoryModel: ICategoryModel): CategoriesService =>
   new CategoriesService(CategoryModel);
@@ -20,3 +21,5 @@ export const commentsServiceFactory = (CommentsModel: ICommentModel): CommentsSe
   new CommentsService(CommentsModel);
 
 export const usersServiceFactory = (UserModel: IUserModel): UsersService => new UsersService(UserModel);
+
+export const authServiceFactory = (UserModel: IUserModel): AuthService => new AuthService(UserModel);
