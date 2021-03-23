@@ -3,7 +3,7 @@ import {HttpCode} from "../../../constants-es6";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
 import {verify} from "jsonwebtoken";
 
-export async function verifyAuthToken(token: string): Promise<IUserPreview> {
+export async function verifyRefreshToken(token: string): Promise<IUserPreview> {
   return new Promise((resolve, reject) => {
     verify(token, ENV.JWT_REFRESH_SECRET, (err, userData) => {
       if (err) {

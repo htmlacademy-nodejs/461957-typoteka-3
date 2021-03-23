@@ -6,7 +6,7 @@ import {makeAuthTokens} from "../auth/make-auth-tokens";
 import {AuthService} from "../data-access/services/auth.service";
 import {IAuthTokens} from "../../../types/interfaces/auth-tokens";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
-import {verifyAuthToken} from "../auth/verify-auth-token";
+import {verifyRefreshToken} from "../auth/verify-refresh-token";
 import {getLogger} from "../../logger";
 import {Logger} from "pino";
 
@@ -40,7 +40,7 @@ export class AuthController {
 
   public async refresh(existingToken: string): Promise<ControllerResponse<IAuthTokens>> {
     try {
-      const user = await verifyAuthToken(existingToken);
+      const user = await verifyRefreshToken(existingToken);
       await this.authService.deleteRefreshToken(existingToken);
       const {accessToken, refreshToken} = await this.createNewTokens(user);
       return {payload: {accessToken, refreshToken}};
