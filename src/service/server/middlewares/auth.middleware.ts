@@ -13,9 +13,10 @@ export async function authMiddleware(req: RequestExtended, res: Response, next: 
       req.context = new Context();
     }
     req.context.user = user;
+    logger.debug(`Valid access token`);
     next();
   } catch (e) {
-    logger.debug(`Failed to verify access token`);
+    logger.debug(`Failed to verify access token, ${e as number}`);
     res.status(e).send();
   }
 }
