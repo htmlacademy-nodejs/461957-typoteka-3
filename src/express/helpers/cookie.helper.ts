@@ -10,12 +10,21 @@ export function invalidateAuthCookie(res: Response): void {
   res.cookie(COOKIE_TOKEN, null, {httpOnly: true, maxAge: 0});
 }
 
-export function getTokenFromCookies(req: Request): string {
+export function getAuthTokenFromCookies(req: Request): string {
   return (req?.cookies as Record<string, string>)[COOKIE_TOKEN];
 }
 
+export function getAccessTokenFromCookies(req: Request): string {
+  const plainCookie = getAuthTokenFromCookies(req);
+  if (!plainCookie) {
+    return null;
+  }
+  const {accessToken} = JSON.parse(plainCookie) as IAuthTokens;
+  return accessToken;
+}
+
 export function getRefreshTokenFromCookies(req: Request): string | null {
-  const plainCookie = getTokenFromCookies(req);
+  const plainCookie = getAuthTokenFromCookies(req);
   if (!plainCookie) {
     return null;
   }

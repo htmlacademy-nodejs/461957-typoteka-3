@@ -94,12 +94,16 @@ export class DataProviderService {
     }
   }
 
-  public async createArticle(newArticle: IArticleCreating): Promise<void | ArticleValidationResponse> {
+  public async createArticle(
+    newArticle: IArticleCreating,
+    authToken: string,
+  ): Promise<void | ArticleValidationResponse> {
     let response: AxiosResponse<void | ArticleValidationResponse>;
     try {
       response = await this.requestService.post<ArticleValidationResponse>(
         this.apiEndPoint + APIRoutes.ARTICLES,
         newArticle,
+        getAuthHeader(authToken),
       );
       if (response && response?.status === HttpCode.CREATED) {
         return Promise.resolve();
@@ -120,11 +124,13 @@ export class DataProviderService {
   public async updateArticle(
     articleId: ArticleId,
     updatingArticle: IArticleCreating,
+    authToken: string,
   ): Promise<void | ArticleValidationResponse> {
     try {
       const response = await this.requestService.put<ArticleValidationResponse>(
         `${this.apiEndPoint}/${APIRoutes.EDIT_ARTICLE}/${articleId}`,
         updatingArticle,
+        getAuthHeader(authToken),
       );
       if (response && response?.status === HttpCode.OK) {
         return Promise.resolve();
@@ -174,7 +180,9 @@ export class DataProviderService {
     }
   }
 
-  public async getComments(quantityOfArticles: number): Promise<ArticleComment[]> {
+  // TODO: Search by author id
+  // TODO: Made single request
+  public async getComments(quantityOfArticles: number, authToken: string): Promise<ArticleComment[]> {
     try {
       const {items: articlesList} = await this.getArticles({limit: 100, offset: 0});
       const comments = await Promise.all(
@@ -240,12 +248,14 @@ export class DataProviderService {
   public async createComment(
     articleId: ArticleId,
     comment: ICommentCreating,
+    authToken: string,
   ): Promise<void | CommentValidationResponse> {
     let response: AxiosResponse<void | CommentValidationResponse>;
     try {
       response = await this.requestService.post<CommentValidationResponse>(
         `${this.apiEndPoint}/${APIRoutes.ARTICLES}/${articleId}/comments`,
         comment,
+        getAuthHeader(authToken),
       );
       if (response && response?.status === HttpCode.CREATED) {
         return Promise.resolve();
@@ -280,10 +290,14 @@ export class DataProviderService {
     }
   }
 
-  public async signOut(refreshToken: string): Promise<void> {
+  public async signOut(refreshToken: string, authToken: string): Promise<void> {
     let response: AxiosResponse<void>;
     try {
-      response = await this.requestService.post<void>(this.apiEndPoint + APIRoutes.LOGOUT, {refreshToken});
+      response = await this.requestService.post<void>(
+        this.apiEndPoint + APIRoutes.LOGOUT,
+        {refreshToken},
+        getAuthHeader(authToken),
+      );
       if (response && response?.status === HttpCode.OK) {
         return Promise.resolve();
       }
@@ -296,4 +310,11 @@ export class DataProviderService {
 
 function transformDate<T extends ICreatedDate>(item: T): T {
   return {...item, createdDate: new Date(Date.parse((item.createdDate as unknown) as string))};
+}
+
+function getAuthHeader(token: string): Record<string, Record<string, string>> {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  return {headers};
 }

@@ -16,6 +16,7 @@ import {getArticleLink} from "../helpers/link-resolver";
 import {IArticleCreating} from "../../types/interfaces/article-creating";
 import {prepareArticlePage} from "../helpers/prepare-article-page";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
+import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
@@ -49,6 +50,7 @@ articlesRouter.post(
     try {
       const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.createArticle(
         newArticle,
+        getAccessTokenFromCookies(req),
       );
       if (!articleValidationResponse) {
         return res.redirect(ClientRoutes.ADMIN.INDEX);
@@ -96,6 +98,7 @@ articlesRouter.post(
       const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.updateArticle(
         articleId,
         updatingArticle,
+        getAccessTokenFromCookies(req),
       );
       if (!articleValidationResponse) {
         return res.redirect(ClientRoutes.ADMIN.INDEX);

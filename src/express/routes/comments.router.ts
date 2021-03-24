@@ -7,6 +7,7 @@ import {ICommentCreating} from "../../types/interfaces/comment-creating";
 import {prepareArticlePage} from "../helpers/prepare-article-page";
 import multer from "multer";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
+import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 
 const multerMiddleware = multer();
 export const commentsRouter = Router();
@@ -19,7 +20,11 @@ commentsRouter.post(
     const {text} = req.body as ICommentCreating;
     const comment: ICommentCreating = {text, createdDate: new Date(), articleId};
     try {
-      const commentValidationResponse = await dataProviderService.createComment(articleId, comment);
+      const commentValidationResponse = await dataProviderService.createComment(
+        articleId,
+        comment,
+        getAccessTokenFromCookies(req),
+      );
       if (!commentValidationResponse) {
         return res.redirect(`${ClientRoutes.ARTICLES.INDEX}/${articleId}`);
       }

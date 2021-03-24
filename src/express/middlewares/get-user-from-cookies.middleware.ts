@@ -1,5 +1,5 @@
 import {NextFunction, Request} from "express";
-import {getTokenFromCookies, invalidateAuthCookie, setAuthCookie} from "../helpers/cookie.helper";
+import {getAuthTokenFromCookies, invalidateAuthCookie, setAuthCookie} from "../helpers/cookie.helper";
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {IAccessToken} from "../../types/auth/interfaces/access-token";
 import {dataProviderService} from "../services";
@@ -11,7 +11,7 @@ export async function getUserFromCookiesMiddleware(
   res: IResponseExtended,
   next: NextFunction,
 ): Promise<void> {
-  const token = getTokenFromCookies(req);
+  const token = getAuthTokenFromCookies(req);
   if (!token) {
     next();
     return;
