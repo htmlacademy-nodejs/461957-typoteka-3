@@ -9,20 +9,27 @@ import {UserValidationResponse} from "../../types/user-validation-response";
 import multer from "multer";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {RoleId} from "../../shared/constants/role-id";
+import csrf from "csurf";
 
+const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
 export const registrationRouter = Router();
 
-registrationRouter.get(`/`, (req: Request, res: IResponseExtended) => {
-  streamPage(res, RegistrationPage, {endPoint: ClientRoutes.REGISTRATION});
+registrationRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended) => {
+  streamPage(res, RegistrationPage, {endPoint: ClientRoutes.REGISTRATION, csrf: req.csrfToken()});
 });
 
 registrationRouter.post(
   `/`,
-  [multerMiddleware.none()],
+  [multerMiddleware.none(), csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const newUser: IUserCreatingDoublePasswords = {
-      ...(req.body as UserCreatingFromForm),
+      password: (req.body as UserCreatingFromForm).password,
+      email: (req.body as UserCreatingFromForm).email,
+      passwordRepeated: (req.body as UserCreatingFromForm).passwordRepeated,
+      lastName: (req.body as UserCreatingFromForm).lastName,
+      firstName: (req.body as UserCreatingFromForm).firstName,
+      avatar: (req.body as UserCreatingFromForm).avatar,
       roleId: RoleId.AUTHOR,
     };
     try {
@@ -34,6 +41,7 @@ registrationRouter.post(
         endPoint: ClientRoutes.REGISTRATION,
         userValidationResponse: newUserValidationResponse,
         user: newUser,
+        csrf: req.csrfToken(),
       });
     } catch (e) {
       return next(

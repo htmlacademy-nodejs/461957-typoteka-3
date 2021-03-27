@@ -8,13 +8,15 @@ import {prepareArticlePage} from "../helpers/prepare-article-page";
 import multer from "multer";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
+import csrf from "csurf";
 
+const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
 export const commentsRouter = Router();
 
 commentsRouter.post(
   `/:id`,
-  [multerMiddleware.none()],
+  [multerMiddleware.none(), csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const articleId = parseInt(req.params.id, 10);
     const {text} = req.body as ICommentCreating;
@@ -28,7 +30,11 @@ commentsRouter.post(
       if (!commentValidationResponse) {
         return res.redirect(`${ClientRoutes.ARTICLES.INDEX}/${articleId}`);
       }
-      const {page: articlePage, props} = await prepareArticlePage({articleId, currentUser: res.locals.currentUser});
+      const {page: articlePage, props} = await prepareArticlePage({
+        articleId,
+        currentUser: res.locals.currentUser,
+        csrf: req.csrfToken(),
+      });
       return streamPage(res, articlePage, {
         ...props,
         commentValidationResponse,

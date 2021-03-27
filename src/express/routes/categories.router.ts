@@ -7,12 +7,14 @@ import {SSRError} from "../errors/ssr-error";
 import {CategoryEditableProps} from "../views/components/CategoryEditable/CategoryEditable";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {isAuthorUserMiddleware} from "../middlewares";
+import csrf from "csurf";
 
+const csrfProtection = csrf({cookie: true});
 export const categoriesRouter = Router();
 
 categoriesRouter.get(
   `/`,
-  [isAuthorUserMiddleware],
+  [isAuthorUserMiddleware, csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     try {
       const categories = await dataProviderService.getCategories();
@@ -20,11 +22,13 @@ categoriesRouter.get(
         label: category.label,
         endPoint: category.id.toString(10),
         id: category.id,
+        csrf: req.csrfToken(),
       }));
       return streamPage(res, CategoriesPage, {
         newCategoryEndPoint: `#`,
         categories: editableCategories,
         currentUser: res.locals.currentUser,
+        csrf: req.csrfToken(),
       });
     } catch (e) {
       return next(

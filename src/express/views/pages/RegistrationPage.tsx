@@ -7,14 +7,16 @@ import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {FormValidationMessage} from "../components/Form/FormValidationMessage";
 import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {ICsrfInput} from "../interfaces/csrf-input";
 
-interface Props {
+interface Props extends ICsrfInput {
   user?: Partial<UserCreatingFromForm>;
   endPoint: string;
   userValidationResponse?: UserValidationResponse;
 }
 
-export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user}) => {
+export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user, csrf}) => {
   const userFields =
     user === undefined
       ? {
@@ -129,6 +131,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
             <button className="form__submit-btn form__submit-btn--register button button--colored" type="submit">
               Зарегистрироваться
             </button>
+            <CsrfHiddenInput csrf={csrf} />
           </form>
         </div>
       </RegistrationWrapper>

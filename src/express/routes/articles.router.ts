@@ -179,10 +179,14 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: IResponseExtended,
   }
 });
 
-articlesRouter.get(`/:id`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
+articlesRouter.get(`/:id`, [csrfProtection], async (req: Request, res: IResponseExtended, next: NextFunction) => {
   const articleId = parseInt(req.params.id, 10);
   try {
-    const {page: articlePage, props} = await prepareArticlePage({articleId, currentUser: res.locals.currentUser});
+    const {page: articlePage, props} = await prepareArticlePage({
+      articleId,
+      currentUser: res.locals.currentUser,
+      csrf: req.csrfToken(),
+    });
     return streamPage(res, articlePage, {...props, previousPageUrl: req.header(`referer`)});
   } catch (e) {
     return next(

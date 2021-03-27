@@ -8,14 +8,16 @@ import {SignInValidationResponse} from "../../../types/sign-in-validation-respon
 import {ILogin} from "../../../types/interfaces/login";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {FormValidationMessage} from "../components/Form/FormValidationMessage";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {ICsrfInput} from "../interfaces/csrf-input";
 
-interface Props {
+interface Props extends ICsrfInput {
   endPoint: string;
   signInValidationResponse?: Partial<SignInValidationResponse>;
   signIn?: Omit<ILogin, "password">;
 }
 
-export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidationResponse = {}, signIn}) => {
+export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidationResponse = {}, signIn, csrf}) => {
   const signInFields = {email: signIn?.email ?? ``};
   return (
     <LayoutFilled pageTitle={`Вход`} currentUser={null}>
@@ -60,6 +62,7 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
             <button className="form__submit-btn form__submit-btn--log-in button button--colored" type="submit">
               Войти
             </button>
+            <CsrfHiddenInput csrf={csrf} />
           </form>
         </div>
       </SignInWrapper>

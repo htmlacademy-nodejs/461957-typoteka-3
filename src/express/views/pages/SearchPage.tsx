@@ -2,8 +2,10 @@ import React, {FunctionComponent} from "react";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {SearchResult, SearchResultProps} from "../components/SearchResult/SearchResult";
 import {ICurrentUser} from "../interfaces/current-user";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {ICsrfInput} from "../interfaces/csrf-input";
 
-export interface SearchPageProps extends ICurrentUser {
+export interface SearchPageProps extends ICurrentUser, ICsrfInput {
   query?: string;
   matches?: SearchResultProps[];
   itemsCount?: number;
@@ -15,6 +17,7 @@ export const SearchPage: FunctionComponent<SearchPageProps> = ({
   matches = [],
   itemsCount,
   endPoint,
+  csrf,
   currentUser,
 }) => {
   const isEmpty = query && itemsCount === 0;
@@ -35,6 +38,7 @@ export const SearchPage: FunctionComponent<SearchPageProps> = ({
                 <button className="search__button button button--transparent" type="submit">
                   Найти
                 </button>
+                <CsrfHiddenInput csrf={csrf} />
               </form>
               {matches.map(match => (
                 <SearchResult

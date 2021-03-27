@@ -105,10 +105,6 @@ export const ARTICLE_FORM_FIELDS = {
     name: `upload`,
     label: `Фотография`,
   },
-  csrf: {
-    name: `_csrf`,
-    label: `_csrf`,
-  },
 } as const;
 export const NEW_USER_FORM_FIELDS = {
   email: {

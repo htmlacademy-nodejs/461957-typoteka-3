@@ -7,12 +7,17 @@ import {ArticleId} from "../../types/article-id";
 import {IPreparedPage} from "../../types/interfaces/prepared-page";
 import {ClientRoutes} from "../../constants-es6";
 import {ICurrentUser} from "../views/interfaces/current-user";
+import {ICsrfInput} from "../views/interfaces/csrf-input";
 
-interface Props extends ICurrentUser {
+interface Props extends ICurrentUser, ICsrfInput {
   articleId: ArticleId;
 }
 
-export async function prepareArticlePage({articleId, currentUser}: Props): Promise<IPreparedPage<ArticlePageProps>> {
+export async function prepareArticlePage({
+  articleId,
+  currentUser,
+  csrf,
+}: Props): Promise<IPreparedPage<ArticlePageProps>> {
   const [article, categories, comments] = await Promise.all([
     dataProviderService.getArticleById(articleId),
     dataProviderService.getCategoriesWithNumbers(),
@@ -30,6 +35,7 @@ export async function prepareArticlePage({articleId, currentUser}: Props): Promi
       newCommentEndPoint: `${ClientRoutes.COMMENTS}/${articleId}`,
       comments,
       currentUser,
+      csrf,
     },
   };
 }

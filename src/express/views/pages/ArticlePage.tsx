@@ -7,6 +7,7 @@ import {CommentForm} from "../components/CommentForm/CommentForm";
 import {CommentValidationResponse} from "../../../types/comment-validation-response";
 import {CommentValidationErrors} from "../components/CommentValidationErrors/CommentValidationErrors";
 import {ICurrentUser} from "../interfaces/current-user";
+import {ICsrfInput} from "../interfaces/csrf-input";
 
 export interface ArticlePageProps
   extends ITitle,
@@ -14,7 +15,8 @@ export interface ArticlePageProps
     ICategoriesWithLinksAndNumbers,
     IFullText,
     IComments,
-    ICurrentUser {
+    ICurrentUser,
+    ICsrfInput {
   previousPageUrl: string;
   newCommentEndPoint: string;
   commentValidationResponse?: CommentValidationResponse;
@@ -30,6 +32,7 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   newCommentEndPoint,
   commentValidationResponse,
   currentUser,
+  csrf,
 }) => (
   <LayoutFilled pageTitle={title} currentUser={currentUser}>
     <main>
@@ -61,7 +64,7 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
           <div className="post__wrapper post__wrapper--comments">
             <CommentsList parentCssClass={"post"} comments={comments}>
               <>
-                <CommentForm endPoint={newCommentEndPoint} />
+                <CommentForm endPoint={newCommentEndPoint} csrf={csrf} />
                 {commentValidationResponse && (
                   <CommentValidationErrors validationResponse={commentValidationResponse} />
                 )}

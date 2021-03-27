@@ -10,14 +10,15 @@ import {IArticleCreating} from "../../../types/interfaces/article-creating";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
 import {EditArticleWrapper} from "../components/EditArticleWrapper/EditArticleWrapper";
 import {ICurrentUser} from "../interfaces/current-user";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {ICsrfInput} from "../interfaces/csrf-input";
 
-interface EditArticleProps extends ICurrentUser {
+interface EditArticleProps extends ICurrentUser, ICsrfInput {
   article?: Partial<IArticleCreating>;
   endPoint: string;
   availableCategories: Category[];
   articleValidationResponse?: ArticleValidationResponse;
   isUpdating?: boolean;
-  csrf: string;
 }
 
 export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
@@ -148,7 +149,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
             </div>
           </div>
-          <input type="hidden" name={ARTICLE_FORM_FIELDS.csrf.name} value={csrf} />
+          <CsrfHiddenInput csrf={csrf} />
         </form>
       </EditArticleWrapper>
     </LayoutFilled>

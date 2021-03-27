@@ -6,17 +6,23 @@ import {dataProviderService} from "../services";
 import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
+import csrf from "csurf";
 
+const csrfProtection = csrf({cookie: true});
 export const searchRouter = Router();
 
-searchRouter.get(`/`, (req: Request, res: IResponseExtended, next: NextFunction) => {
+searchRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended, next: NextFunction) => {
   if (!req.query?.query) {
-    return streamPage(res, SearchPage, {currentUser: res.locals.currentUser, endPoint: ClientRoutes.SEARCH.INDEX});
+    return streamPage(res, SearchPage, {
+      currentUser: res.locals.currentUser,
+      endPoint: ClientRoutes.SEARCH.INDEX,
+      csrf: req.csrfToken(),
+    });
   }
   return next();
 });
 
-searchRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
+searchRouter.get(`/`, [csrfProtection], async (req: Request, res: IResponseExtended, next: NextFunction) => {
   const query = req.query.query as string;
   try {
     const searchResult = await dataProviderService.search(query);
@@ -32,6 +38,7 @@ searchRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextFun
       itemsCount: searchResult.totalCount,
       endPoint: ClientRoutes.SEARCH.INDEX,
       currentUser: res.locals.currentUser,
+      csrf: req.csrfToken(),
     });
   } catch (e) {
     return next(
