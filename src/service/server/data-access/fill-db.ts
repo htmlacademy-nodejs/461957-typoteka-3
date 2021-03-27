@@ -1,4 +1,4 @@
-import {MockTextsFilePath, ROLE_ID} from "../../../constants-es6";
+import {MockTextsFilePath} from "../../../constants-es6";
 import {ICategoryEntity, ICategoryModel} from "./models/category";
 import {IArticleEntity, IArticleModel} from "./models/article";
 import {
@@ -19,6 +19,7 @@ import {IUserCreating} from "../../../types/interfaces/user-creating";
 import {IRoleEntity, IRoleModel} from "./models/role";
 import {IRole} from "../../../types/interfaces/role";
 import {hashSync} from "bcrypt";
+import {RoleId} from "../../../shared/constants/role-id";
 
 const SALT_ROUNDS = 10;
 
@@ -105,38 +106,52 @@ async function createUsers(
   UserModel: IUserModel,
   payload: {firstNames: string[]; lastNames: string[]; emails: string[]},
 ): Promise<IUserEntity[]> {
-  const adminUser: IUserCreating = {
+  const admin: IUserCreating = {
     avatar: ``,
     email: `admin-email@gmail.com`,
     firstName: getRandomItem(payload.firstNames),
     lastName: getRandomItem(payload.lastNames),
-    roleId: ROLE_ID.ADMIN,
+    roleId: RoleId.ADMIN,
     password: hashSync(`admin-email@gmail.com`, SALT_ROUNDS),
   };
-  const users = new Array(10).fill(undefined).map<IUserCreating>(() => {
+  const authors = new Array(10).fill(undefined).map<IUserCreating>(() => {
     const email = getRandomItem(payload.emails);
     return {
       avatar: ``,
       email,
       firstName: getRandomItem(payload.firstNames),
       lastName: getRandomItem(payload.lastNames),
-      roleId: ROLE_ID.AUTHOR,
+      roleId: RoleId.AUTHOR,
       password: hashSync(email, SALT_ROUNDS),
     };
   });
-  users.unshift(adminUser);
-  return UserModel.bulkCreate(filterUniqEmails(users));
+  const readers = new Array(10).fill(undefined).map<IUserCreating>(() => {
+    const email = getRandomItem(payload.emails);
+    return {
+      avatar: ``,
+      email,
+      firstName: getRandomItem(payload.firstNames),
+      lastName: getRandomItem(payload.lastNames),
+      roleId: RoleId.READER,
+      password: hashSync(email, SALT_ROUNDS),
+    };
+  });
+  return UserModel.bulkCreate(filterUniqEmails([admin, ...authors, ...readers]));
 }
 
 async function createRoles(RoleModel: IRoleModel): Promise<IRoleEntity[]> {
-  const roles: [IRole, IRole] = [
+  const roles: [IRole, IRole, IRole] = [
     {
-      id: 1,
+      id: RoleId.ADMIN,
       title: `ADMIN`,
     },
     {
-      id: 2,
+      id: RoleId.AUTHOR,
       title: `AUTHOR`,
+    },
+    {
+      id: RoleId.READER,
+      title: `READER`,
     },
   ];
   return RoleModel.bulkCreate(roles);

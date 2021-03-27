@@ -1,4 +1,3 @@
-import {Role} from "../role";
 import {IRoleId} from "./role-id";
 
 export interface IUserCreating extends IRoleId {
@@ -7,7 +6,6 @@ export interface IUserCreating extends IRoleId {
   firstName: string;
   lastName: string;
   avatar: string;
-  roleId: Role;
 }
 
 export interface IUserCreatingDoublePasswords extends IUserCreating {

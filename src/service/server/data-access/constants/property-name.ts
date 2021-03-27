@@ -41,7 +41,7 @@ export const UserProperty = {
   FIRST_NAME: `first_name`,
   LAST_NAME: `last_name`,
   AVATAR: `avatar`,
-  ROLE_ID: `roleId`,
+  ROLE_ID: `role_id`,
   PASSWORD: `password`,
 };
 

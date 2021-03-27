@@ -156,10 +156,6 @@ export const LogLevel = {
   DEBUG: `debug`,
   TRACE: `trace`,
 } as const;
-export const ROLE_ID = {
-  ADMIN: 1,
-  AUTHOR: 2,
-} as const;
 export const PAGE_SIZE = 8;
 export const PAGE_QUERY_PARAM = `page`;
 export const LoginStatus = {

@@ -1,6 +1,7 @@
 import Joi from "joi";
-import {NEW_USER_FORM_FIELDS, ROLE_ID} from "../../../../constants-es6";
+import {NEW_USER_FORM_FIELDS} from "../../../../constants-es6";
 import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
+import {RoleId} from "../../../../shared/constants/role-id";
 
 const PASSWORD_MIN_LENGTH = 6;
 
@@ -42,5 +43,5 @@ export const newUserSchema = Joi.object<IUserCreatingDoublePasswords>({
   [NEW_USER_FORM_FIELDS.avatar.name]: Joi.string().allow(null, ``).messages({
     "any.required": `Загрузите фото профиля`,
   }),
-  roleId: Joi.valid(...Object.values(ROLE_ID)).required(),
+  roleId: Joi.valid(...Object.values(RoleId)).required(),
 });
