@@ -13,6 +13,7 @@ const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.ID,
   [UserProperty.FIRST_NAME, `firstName`],
   [UserProperty.LAST_NAME, `lastName`],
+  [UserProperty.ROLE_ID, `roleId`],
   UserProperty.AVATAR,
 ];
 
