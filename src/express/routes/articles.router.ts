@@ -17,31 +17,36 @@ import {IArticleCreating} from "../../types/interfaces/article-creating";
 import {prepareArticlePage} from "../helpers/prepare-article-page";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
+import {isAuthorUserMiddleware} from "../middlewares";
 
 const multerMiddleware = multer();
 export const articlesRouter = Router();
 
-articlesRouter.get(`/add`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
-  try {
-    const categories = await dataProviderService.getCategories();
-    return streamPage(res, EditArticlePage, {
-      endPoint: ClientRoutes.ARTICLES.ADD,
-      availableCategories: categories,
-      currentUser: res.locals.currentUser,
-    });
-  } catch (e) {
-    return next(
-      new SSRError({
-        message: `Failed to get categories`,
-        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-      }),
-    );
-  }
-});
+articlesRouter.get(
+  `/add`,
+  [isAuthorUserMiddleware],
+  async (req: Request, res: IResponseExtended, next: NextFunction) => {
+    try {
+      const categories = await dataProviderService.getCategories();
+      return streamPage(res, EditArticlePage, {
+        endPoint: ClientRoutes.ARTICLES.ADD,
+        availableCategories: categories,
+        currentUser: res.locals.currentUser,
+      });
+    } catch (e) {
+      return next(
+        new SSRError({
+          message: `Failed to get categories`,
+          statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+        }),
+      );
+    }
+  },
+);
 
 articlesRouter.post(
   `/add`,
-  [multerMiddleware.none()],
+  [isAuthorUserMiddleware, multerMiddleware.none()],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const newArticle: IArticleCreating = {
       ...(req.body as ArticleFromBrowser),
@@ -86,7 +91,7 @@ articlesRouter.post(
 
 articlesRouter.post(
   `/edit/:id`,
-  [multerMiddleware.none()],
+  [isAuthorUserMiddleware, multerMiddleware.none()],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const articleId = parseInt(req.params.id, 10);
     const updatingArticle: IArticleCreating = {
@@ -180,30 +185,34 @@ articlesRouter.get(`/:id`, async (req: Request, res: IResponseExtended, next: Ne
   }
 });
 
-articlesRouter.get(`/edit/:id`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
-  const articleId = parseInt(req.params.id, 10);
-  try {
-    const [article, categories] = await Promise.all([
-      dataProviderService.getArticleById(articleId),
-      dataProviderService.getCategories(),
-    ]);
-    return streamPage(res, EditArticlePage, {
-      article,
-      endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
-      availableCategories: categories,
-      isUpdating: true,
-      currentUser: res.locals.currentUser,
-    });
-  } catch (e) {
-    return next(
-      new SSRError({
-        message: `Failed to get article or categories`,
-        statusCode: HttpCode.INTERNAL_SERVER_ERROR,
-        errorPayload: e as Error,
-      }),
-    );
-  }
-});
+articlesRouter.get(
+  `/edit/:id`,
+  [isAuthorUserMiddleware],
+  async (req: Request, res: IResponseExtended, next: NextFunction) => {
+    const articleId = parseInt(req.params.id, 10);
+    try {
+      const [article, categories] = await Promise.all([
+        dataProviderService.getArticleById(articleId),
+        dataProviderService.getCategories(),
+      ]);
+      return streamPage(res, EditArticlePage, {
+        article,
+        endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
+        availableCategories: categories,
+        isUpdating: true,
+        currentUser: res.locals.currentUser,
+      });
+    } catch (e) {
+      return next(
+        new SSRError({
+          message: `Failed to get article or categories`,
+          statusCode: HttpCode.INTERNAL_SERVER_ERROR,
+          errorPayload: e as Error,
+        }),
+      );
+    }
+  },
+);
 
 function parseDateFromFrontend(date: unknown): Date {
   return new Date(Date.parse(date as string));

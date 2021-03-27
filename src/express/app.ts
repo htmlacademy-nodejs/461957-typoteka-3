@@ -15,9 +15,7 @@ import chalk from "chalk";
 import cookieParser from "cookie-parser";
 import * as path from "path";
 import {ENV} from "../shared/env/env";
-import {notFoundMiddleware} from "./middlewares/not-found.middleware";
-import {errorHandlerMiddleware} from "./middlewares/error-handler.middleware";
-import {getUserFromCookiesMiddleware} from "./middlewares/get-user-from-cookies.middleware";
+import {errorHandlerMiddleware, getUserFromCookiesMiddleware, notFoundMiddleware} from "./middlewares";
 
 export function runApp(): void {
   const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;

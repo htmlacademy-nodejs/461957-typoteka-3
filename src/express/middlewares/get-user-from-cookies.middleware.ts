@@ -69,11 +69,12 @@ async function refreshTokens(refreshToken: string): Promise<IAuthTokens> {
 }
 
 function getUserFromToken(accessToken: string): IUserPreview {
-  const {id, firstName, lastName, avatar} = getPayloadFromToken<IAccessToken>(accessToken);
+  const {id, firstName, lastName, avatar, roleId} = getPayloadFromToken<IAccessToken>(accessToken);
   return {
     id,
     firstName,
     lastName,
     avatar,
+    roleId,
   };
 }
