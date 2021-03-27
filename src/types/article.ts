@@ -52,6 +52,10 @@ export interface ICategoriesWithLinks {
   categories: CategoryWithLink[];
 }
 
+export interface ICsrf {
+  _csrf: string;
+}
+
 export interface ICategoriesWithLinksAndNumbers {
   categories: CategoryWithLinksAndNumbers[];
 }

@@ -18,13 +18,15 @@ import {prepareArticlePage} from "../helpers/prepare-article-page";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 import {isAuthorUserMiddleware} from "../middlewares";
+import csrf from "csurf";
 
+const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
 export const articlesRouter = Router();
 
 articlesRouter.get(
   `/add`,
-  [isAuthorUserMiddleware],
+  [isAuthorUserMiddleware, csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     try {
       const categories = await dataProviderService.getCategories();
@@ -32,6 +34,7 @@ articlesRouter.get(
         endPoint: ClientRoutes.ARTICLES.ADD,
         availableCategories: categories,
         currentUser: res.locals.currentUser,
+        csrf: req.csrfToken(),
       });
     } catch (e) {
       return next(
@@ -46,10 +49,13 @@ articlesRouter.get(
 
 articlesRouter.post(
   `/add`,
-  [isAuthorUserMiddleware, multerMiddleware.none()],
+  [isAuthorUserMiddleware, multerMiddleware.none(), csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const newArticle: IArticleCreating = {
-      ...(req.body as ArticleFromBrowser),
+      title: (req.body as ArticleFromBrowser).title,
+      announce: (req.body as ArticleFromBrowser).announce,
+      fullText: (req.body as ArticleFromBrowser).fullText,
+      createdDate: (req.body as ArticleFromBrowser).createdDate,
       categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
     };
     try {
@@ -68,6 +74,7 @@ articlesRouter.post(
           articleValidationResponse,
           availableCategories: categories,
           currentUser: res.locals.currentUser,
+          csrf: req.csrfToken(),
         });
       } catch (e) {
         return next(
@@ -91,11 +98,13 @@ articlesRouter.post(
 
 articlesRouter.post(
   `/edit/:id`,
-  [isAuthorUserMiddleware, multerMiddleware.none()],
+  [isAuthorUserMiddleware, multerMiddleware.none(), csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const articleId = parseInt(req.params.id, 10);
     const updatingArticle: IArticleCreating = {
-      ...(req.body as ArticleFromBrowser),
+      title: (req.body as ArticleFromBrowser).title,
+      announce: (req.body as ArticleFromBrowser).announce,
+      fullText: (req.body as ArticleFromBrowser).fullText,
       categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
       createdDate: parseDateFromFrontend((req.body as ArticleFromBrowser).createdDate as unknown),
     };
@@ -117,6 +126,7 @@ articlesRouter.post(
           availableCategories: categories,
           isUpdating: true,
           currentUser: res.locals.currentUser,
+          csrf: req.csrfToken(),
         });
       } catch (e) {
         return next(
@@ -187,7 +197,7 @@ articlesRouter.get(`/:id`, async (req: Request, res: IResponseExtended, next: Ne
 
 articlesRouter.get(
   `/edit/:id`,
-  [isAuthorUserMiddleware],
+  [isAuthorUserMiddleware, csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const articleId = parseInt(req.params.id, 10);
     try {
@@ -201,6 +211,7 @@ articlesRouter.get(
         availableCategories: categories,
         isUpdating: true,
         currentUser: res.locals.currentUser,
+        csrf: req.csrfToken(),
       });
     } catch (e) {
       return next(

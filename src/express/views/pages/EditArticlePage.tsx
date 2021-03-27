@@ -17,6 +17,7 @@ interface EditArticleProps extends ICurrentUser {
   availableCategories: Category[];
   articleValidationResponse?: ArticleValidationResponse;
   isUpdating?: boolean;
+  csrf: string;
 }
 
 export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
@@ -26,6 +27,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   articleValidationResponse = {},
   isUpdating,
   currentUser,
+  csrf,
 }) => {
   const articleProps = {
     title: article?.title ?? ``,
@@ -146,6 +148,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
             </div>
           </div>
+          <input type="hidden" name={ARTICLE_FORM_FIELDS.csrf.name} value={csrf} />
         </form>
       </EditArticleWrapper>
     </LayoutFilled>
