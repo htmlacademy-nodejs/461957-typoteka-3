@@ -10,7 +10,7 @@ export async function validateNewArticle(newArticle: IArticleCreating): Promise<
     return (await newArticleSchema.validateAsync(newArticle, {abortEarly: false})) as IArticleCreating;
   } catch (e) {
     if (e instanceof ValidationError) {
-      logger.debug(`Failed to validate article`);
+      logger.debug(`Failed to validate the article`);
       throw getValidationDictionary<IArticleCreating>(e.details);
     }
     logger.debug(`Unknown error during validating the article`);
