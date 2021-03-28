@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {AuthController} from "../controllers/auth.controller";
-import {validateLogin} from "../validators/validate-login";
+import {validateLogin} from "../validators";
 import {HttpCode} from "../../../constants-es6";
 
 export const authRouter = (authController: AuthController): Router => {

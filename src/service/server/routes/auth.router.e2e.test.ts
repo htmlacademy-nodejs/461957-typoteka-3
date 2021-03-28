@@ -3,43 +3,28 @@ import {agent as request} from "supertest";
 import {Application} from "express";
 import * as http from "http";
 import {initApp} from "./tests-boilerplate/init-app";
-import {IUserCreatingDoublePasswords} from "../../../types/interfaces/user-creating";
 import {ILogin} from "../../../types/interfaces/login";
 import {IAuthorizationSuccess} from "../../../types/interfaces/authorization-result";
+import {createUser} from "./tests-boilerplate/create-user";
 
-const validSignUp: ILogin = {
-  email: `zaberkirder8@usgs.gov`,
-  password: `hzgdghdglhdgklgz`,
-};
-const validUserToSignUp: IUserCreatingDoublePasswords = {
-  ...validSignUp,
-  firstName: `Lowe`,
-  lastName: `Tennant`,
-  avatar: ``,
-  roleId: 2,
-  passwordRepeated: `hzgdghdglhdgklgz`,
-};
+let validUserCredentials: ILogin;
 
-describe(`Users router`, () => {
+describe(`Auth router`, () => {
   let app: Application;
   let httpServer: http.Server;
   beforeAll(async () => {
     ({server: app, httpServer} = await initApp());
+    validUserCredentials = await createUser(app);
   });
   afterAll(() => {
     httpServer.close();
   });
 
   describe(`/login`, () => {
-    beforeAll(async () => await request(app).post(`/api/auth/login`).send(validUserToSignUp));
-
     describe(`POST user`, () => {
-      test(`Should return code 200 when sign-up successfully`, async () => {
-        const res = await request(app).post(`/api/auth/login`).send(validSignUp);
-        expect(res.status).toBe(200);
-      });
       test(`Should return access token and refresh token when sign-up successfully`, async () => {
-        const res = await request(app).post(`/api/auth/login`).send(validSignUp);
+        const res = await request(app).post(`/api/auth/login`).send(validUserCredentials);
+        expect(res.status).toBe(200);
         const responseKeys = Object.keys(res.body as IAuthorizationSuccess);
         const payloadKeys = Object.keys((res.body as IAuthorizationSuccess).payload);
         expect(responseKeys).toContain(`payload`);
@@ -51,7 +36,7 @@ describe(`Users router`, () => {
         const res = await request(app)
           .post(`/api/auth/login`)
           .send({
-            ...validSignUp,
+            ...validUserCredentials,
             password: `invalid-password`,
           });
         expect(res.status).toBe(403);
@@ -60,7 +45,7 @@ describe(`Users router`, () => {
         const res = await request(app)
           .post(`/api/auth/login`)
           .send({
-            ...validSignUp,
+            ...validUserCredentials,
             email: `non-existing-email@gmail.com`,
           });
         expect(res.status).toBe(403);
