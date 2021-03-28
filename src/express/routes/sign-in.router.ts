@@ -25,7 +25,6 @@ signInRouter.post(
   [multerMiddleware.none(), csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const signIn: ILogin = {
-      ...(req.body as ILogin),
       email: (req.body as ILogin & ICsrf).email,
       password: (req.body as ILogin & ICsrf).password,
     };
