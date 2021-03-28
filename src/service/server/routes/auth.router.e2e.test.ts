@@ -6,7 +6,6 @@ import {initApp} from "./tests-boilerplate/init-app";
 import {IUserCreatingDoublePasswords} from "../../../types/interfaces/user-creating";
 import {ILogin} from "../../../types/interfaces/login";
 import {IAuthorizationSuccess} from "../../../types/interfaces/authorization-result";
-import {IAuthTokens} from "../../../types/interfaces/auth-tokens";
 
 const validSignUp: ILogin = {
   email: `zaberkirder8@usgs.gov`,
@@ -42,7 +41,7 @@ describe(`Users router`, () => {
       test(`Should return access token and refresh token when sign-up successfully`, async () => {
         const res = await request(app).post(`/api/auth/login`).send(validSignUp);
         const responseKeys = Object.keys(res.body as IAuthorizationSuccess);
-        const payloadKeys = Object.keys((res.body as IAuthorizationSuccess).payload as IAuthTokens);
+        const payloadKeys = Object.keys((res.body as IAuthorizationSuccess).payload);
         expect(responseKeys).toContain(`payload`);
         expect(responseKeys).toContain(`isSuccess`);
         expect(payloadKeys).toContain(`accessToken`);
