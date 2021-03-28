@@ -25,7 +25,6 @@ export const defineRefreshToken = (sequelize: Sequelize): IRefreshTokenModel =>
       [RefreshTokenProperty.USER_ID]: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
         allowNull: false,
       },
     },
