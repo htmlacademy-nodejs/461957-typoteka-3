@@ -42,3 +42,5 @@ rules:
   #        - void-return
   "@typescript-eslint/prefer-readonly":
     - error
+  "no-unreachable":
+    - error

@@ -26,7 +26,7 @@ export const cliAction: CliAction = {
       await connection.close();
     } catch (e) {
       logger.error((e as Error).message);
-      process.exit(1);
+      process.exit(ExitCode.ERROR);
     }
   },
 };

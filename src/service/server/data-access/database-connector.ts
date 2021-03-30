@@ -3,6 +3,7 @@ import {databaseConnector} from "./connectors/database.connector";
 import {Sequelize} from "sequelize";
 import {ExitCode} from "../../../constants-es6";
 
+// eslint-disable-next-line consistent-return
 export async function connectToDatabase(): Promise<Sequelize> {
   const logger = getLogger();
   try {
@@ -14,7 +15,6 @@ export async function connectToDatabase(): Promise<Sequelize> {
   } catch (e) {
     logger.error(`Failed to establish a database connection,\n${(e as Error).toString()}`);
     process.exit(ExitCode.ERROR);
-    throw e;
   }
 }
 
@@ -29,6 +29,5 @@ export async function connectToDatabaseInMemory(): Promise<Sequelize> {
   } catch (e) {
     console.error(`Failed to establish a database connection,\n${(e as Error).toString()}`);
     process.exit(ExitCode.ERROR);
-    throw e;
   }
 }
