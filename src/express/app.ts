@@ -10,7 +10,7 @@ import {
   signInRouter,
   signOutRouter,
 } from "./routes";
-import express from "express";
+import express, {Express} from "express";
 import chalk from "chalk";
 import cookieParser from "cookie-parser";
 import * as path from "path";
@@ -20,10 +20,20 @@ import {errorHandlerMiddleware, getUserFromCookiesMiddleware, notFoundMiddleware
 export function runApp(): void {
   const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;
   const app = express();
+  initializeMiddlewares(app);
+  configureRoutes(app);
+  app.use(errorHandlerMiddleware);
+
+  app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
+}
+
+function initializeMiddlewares(app: Express): void {
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, STATIC_DIR)));
   app.use(getUserFromCookiesMiddleware);
+}
 
+function configureRoutes(app: Express): void {
   app.use(ClientRoutes.INDEX, mainPageRouter);
   app.use(ClientRoutes.SIGN_IN, signInRouter);
   app.use(ClientRoutes.SEARCH.INDEX, searchRouter);
@@ -34,8 +44,4 @@ export function runApp(): void {
   app.use(ClientRoutes.COMMENTS, commentsRouter);
   app.use(ClientRoutes.SIGN_OUT, signOutRouter);
   app.use(`*`, notFoundMiddleware);
-
-  app.use(errorHandlerMiddleware);
-
-  app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
 }
