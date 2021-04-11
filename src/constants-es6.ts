@@ -46,6 +46,7 @@ export const APIRoutes = {
   USERS: `/users`,
   AUTH: `/auth`,
   LOGIN: `/auth/login`,
+  GET_USER: `/auth/get-user`,
   REFRESH_TOKENS: `/auth/refresh`,
   LOGOUT: `/auth/sign-out`,
 };
@@ -70,12 +71,6 @@ export const ClientRoutes = {
   COMMENTS: `/comments`,
   SIGN_OUT: `/sign-out`,
 };
-export const HttpMethod = {
-  GET: `GET`,
-  POST: `POST`,
-  PUT: `PUT`,
-  DELETE: `DELETE`,
-} as const;
 export const ARTICLE_FORM_FIELDS = {
   createdDate: {
     name: `createdDate`,

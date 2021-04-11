@@ -32,9 +32,9 @@ function initializeMiddlewares(app: Express): void {
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, STATIC_DIR)));
   app.use(assignLogFieldsMiddleware);
-  app.use(getUserFromCookiesMiddleware);
   app.use(responseStatusCodeMiddleware);
   app.use(logRouteMiddleware);
+  app.use(getUserFromCookiesMiddleware);
 }
 
 function configureRoutes(app: Express): void {

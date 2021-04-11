@@ -16,6 +16,16 @@ export const authRouter = (authController: AuthController): Router => {
     }
   });
 
+  router.get(`/get-user`, async (req, res) => {
+    try {
+      const accessToken = req.headers[`authorization`];
+      const {status = HttpCode.OK, payload} = await authController.getUserByToken(accessToken);
+      return res.status(status).send(payload);
+    } catch (e) {
+      return res.status(HttpCode.FORBIDDEN);
+    }
+  });
+
   router.post(`/refresh`, async (req, res) => {
     try {
       const existingRefreshToken = (req.body as {refreshToken: string})?.refreshToken;

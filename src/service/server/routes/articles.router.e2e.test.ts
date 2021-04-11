@@ -48,7 +48,6 @@ describe(`Articles router`, () => {
     });
     test(`Should return an array given length`, async () => {
       const res = await request(app).get(`/api/articles/?limit=3`);
-      console.log(`res.body`, res.body);
       expect((res.body as ICollection<any>).items.length).toBe(3);
     });
   });

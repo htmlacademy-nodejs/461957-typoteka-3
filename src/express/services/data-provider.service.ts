@@ -306,6 +306,22 @@ export class DataProviderService {
       return Promise.reject(`Failed to log out`);
     }
   }
+
+  public async getUserFromToken(authToken: string): Promise<IUserPreview> {
+    let response: AxiosResponse<IUserPreview>;
+    try {
+      response = await this.requestService.get<IUserPreview>(
+        this.apiEndPoint + APIRoutes.GET_USER,
+        getAuthHeader(authToken),
+      );
+      if (response && response?.status === HttpCode.OK) {
+        return Promise.resolve(response.data);
+      }
+      return Promise.reject(`Failed to get user by accessToken`);
+    } catch (e) {
+      return Promise.reject(`Invalid accessToken token`);
+    }
+  }
 }
 
 function transformDate<T extends ICreatedDate>(item: T): T {

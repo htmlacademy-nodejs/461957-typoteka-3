@@ -9,6 +9,7 @@ import {IUserPreview} from "../../../types/interfaces/user-preview";
 import {verifyRefreshToken} from "../auth/verify-refresh-token";
 import {getLogger} from "../../logger";
 import {Logger} from "pino";
+import {verifyAccessToken} from "../auth/verify-access-token";
 
 export class AuthController {
   private readonly logger: Logger;
@@ -35,6 +36,17 @@ export class AuthController {
       };
     } catch (e) {
       return Promise.reject(`Failed to login`);
+    }
+  }
+
+  public async getUserByToken(accessToken: string): Promise<ControllerResponse<IUserPreview>> {
+    try {
+      const user = await verifyAccessToken(accessToken);
+      return {
+        payload: user,
+      };
+    } catch (e) {
+      return Promise.reject(e);
     }
   }
 
