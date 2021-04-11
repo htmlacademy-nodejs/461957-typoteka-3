@@ -16,6 +16,7 @@ import cookieParser from "cookie-parser";
 import * as path from "path";
 import {ENV} from "../shared/env/env";
 import {errorHandlerMiddleware, getUserFromCookiesMiddleware, notFoundMiddleware} from "./middlewares";
+import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "./middlewares/logger";
 
 export function runApp(): void {
   const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;
@@ -30,7 +31,10 @@ export function runApp(): void {
 function initializeMiddlewares(app: Express): void {
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, STATIC_DIR)));
+  app.use(assignLogFieldsMiddleware);
   app.use(getUserFromCookiesMiddleware);
+  app.use(responseStatusCodeMiddleware);
+  app.use(logRouteMiddleware);
 }
 
 function configureRoutes(app: Express): void {
