@@ -22,7 +22,7 @@ export const authRouter = (authController: AuthController): Router => {
       const {status = HttpCode.OK, payload} = await authController.getUserByToken(accessToken);
       return res.status(status).send(payload);
     } catch (e) {
-      return res.status(HttpCode.FORBIDDEN);
+      return res.sendStatus(HttpCode.FORBIDDEN);
     }
   });
 
