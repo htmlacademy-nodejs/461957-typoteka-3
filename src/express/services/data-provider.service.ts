@@ -22,6 +22,7 @@ import {ILogin} from "../../types/interfaces/login";
 import {SignInValidationResponse} from "../../types/sign-in-validation-response";
 import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
+import {IUserPreview} from "../../types/interfaces/user-preview";
 
 export class DataProviderService {
   private readonly requestService: AxiosStatic;
