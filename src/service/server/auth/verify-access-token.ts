@@ -2,6 +2,9 @@ import {HttpCode} from "../../../constants-es6";
 import {verify} from "jsonwebtoken";
 import {ENV} from "../../../shared/env/env";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
+import {getLogger} from "../../logger";
+
+const logger = getLogger();
 
 export async function verifyAccessToken(authorization?: string): Promise<IUserPreview> {
   if (!authorization) {
@@ -14,6 +17,7 @@ export async function verifyAccessToken(authorization?: string): Promise<IUserPr
   return new Promise((resolve, reject) => {
     verify(token, ENV.JWT_ACCESS_SECRET, (err, userData) => {
       if (err) {
+        logger.error(`Invalid access token:\n${JSON.stringify(err)}`);
         reject(HttpCode.FORBIDDEN);
       }
       resolve(userData as IUserPreview);
