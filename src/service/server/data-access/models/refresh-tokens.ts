@@ -31,5 +31,6 @@ export const defineRefreshToken = (sequelize: Sequelize): IRefreshTokenModel =>
     {
       ...modelOptions,
       tableName: TableName.REFRESH_TOKENS,
+      timestamps: true,
     },
   );
