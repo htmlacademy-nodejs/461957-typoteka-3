@@ -18,20 +18,25 @@ export async function getUserFromCookiesMiddleware(
     next();
     return;
   }
-  let {accessToken, refreshToken} = splitTokens(tokens);
+  const {accessToken, refreshToken} = splitTokens(tokens);
   let user: IUserPreview = null;
 
   try {
     user = await dataProviderService.getUserFromToken(accessToken);
-  } catch {
+  } catch (e) {
     logger.info(`Access token is invalid, requesting new tokens`);
     try {
-      ({accessToken, refreshToken} = await refreshTokens(refreshToken));
-      setAuthCookie(res, {accessToken, refreshToken});
-      user = await dataProviderService.getUserFromToken(accessToken);
-    } catch (e) {
+      const {accessToken: newAccessToken, refreshToken: newRefreshToken} = await refreshTokens(refreshToken);
+      setAuthCookie(res, {accessToken: newAccessToken, refreshToken: newRefreshToken});
+      if (accessToken === newAccessToken) {
+        logger.error(`New access token is equal to old one`);
+      } else {
+        logger.info(`New access token receiver`);
+      }
+      user = await dataProviderService.getUserFromToken(newAccessToken);
+    } catch (err) {
       invalidateAuthCookie(res);
-      logger.error(`Failed to authenticate the user: \n${(e as unknown).toString()}`);
+      logger.error(`Failed to authenticate the user: \n${(err as unknown).toString()}`);
     }
   }
   res.locals.currentUser = user;
