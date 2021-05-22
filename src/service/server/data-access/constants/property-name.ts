@@ -1,8 +1,8 @@
-import {Article} from "../../../../types/article";
+import {Article, NewArticle} from "../../../../types/article";
 import {Category} from "../../../../types/category";
 import {ArticleComment} from "../../../../types/article-comment";
 
-export const ArticleProperty: Record<Uppercase<keyof Article>, string> = {
+export const ArticleProperty: Record<Uppercase<keyof Article>, string> & Record<Uppercase<keyof NewArticle>, string> = {
   COMMENTS: `comments`,
   CATEGORIES: `categories`,
   ANNOUNCE: `announce`,
@@ -10,6 +10,7 @@ export const ArticleProperty: Record<Uppercase<keyof Article>, string> = {
   CREATEDDATE: `created_date`,
   FULLTEXT: `full_text`,
   TITLE: `title`,
+  AUTHORID: `author_id`,
 };
 
 export const CategoryProperty: Record<Uppercase<keyof Category>, string> = {

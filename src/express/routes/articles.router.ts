@@ -57,6 +57,7 @@ articlesRouter.post(
       fullText: (req.body as ArticleFromBrowser).fullText,
       createdDate: (req.body as ArticleFromBrowser).createdDate,
       categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
+      authorId: res.locals.currentUser.id,
     };
     try {
       const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.createArticle(
@@ -107,6 +108,7 @@ articlesRouter.post(
       fullText: (req.body as ArticleFromBrowser).fullText,
       categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
       createdDate: parseDateFromFrontend((req.body as ArticleFromBrowser).createdDate as unknown),
+      authorId: res.locals.currentUser.id,
     };
     try {
       const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.updateArticle(

@@ -20,6 +20,7 @@ import {IRoleEntity, IRoleModel} from "./models/role";
 import {IRole} from "../../../types/interfaces/role";
 import {hashSync} from "bcrypt";
 import {RoleId} from "../../../shared/constants/role-id";
+import {UserId} from "../../../types/user-id";
 
 const SALT_ROUNDS = 10;
 
@@ -46,9 +47,13 @@ export async function fillDb(
   ]);
 
   const createdCategories = await createCategories(CategoryModel, categories);
-  const createdArticles = await createArticles(ArticleModel, articlesNumber, {titles, comments, sentences});
   const roles = await createRoles(RoleModel);
-  const createdUsers = await createUsers(UserModel, {firstNames, lastNames, emails});
+  const users = await createUsers(UserModel, {firstNames, lastNames, emails});
+  const createdArticles = await createArticles(ArticleModel, articlesNumber, users, {
+    titles,
+    comments,
+    sentences,
+  });
   await assignCategoriesToArticles(createdArticles, createdCategories, {categories});
 }
 
@@ -72,9 +77,11 @@ async function assignCategoriesToArticles(
 async function createArticles(
   ArticleModel: IArticleModel,
   articlesCount: number,
+  users: IUserEntity[],
   payload: {titles: string[]; sentences: string[]; comments: string[]},
 ): Promise<IArticleEntity[]> {
   const articles = new Array(articlesCount).fill(undefined);
+  const authors = selectAuthorsOnly(users);
   return ArticleModel.bulkCreate(
     articles.map(() => ({
       title: getTitle(payload.titles),
@@ -83,6 +90,7 @@ async function createArticles(
       announce: getAnnounce(payload.sentences),
       categories: undefined,
       comments: getComments(payload.comments),
+      authorId: getAuthorId(authors),
     })),
     {include: [TableName.COMMENTS]},
   );
@@ -166,4 +174,14 @@ function filterUniqEmails<T extends {email: string}>(items: T[]): T[] {
     }
     return accumulator;
   }, [] as T[]);
+}
+
+function selectAuthorsOnly(users: IUserEntity[]): IUserEntity[] {
+  return users.filter(
+    user => user.getDataValue(`roleId`) === RoleId.AUTHOR || user.getDataValue(`roleId`) === RoleId.ADMIN,
+  );
+}
+
+function getAuthorId(users: IUserEntity[]): UserId {
+  return getRandomItem(users).getDataValue(`id`);
 }

@@ -3,6 +3,7 @@ import {ArticleId} from "./article-id";
 import {Category, ICategoryId} from "./category";
 import {CategoryWithLink} from "./category-with-link";
 import {CategoryWithLinksAndNumbers} from "./category-with-links-and-numbers";
+import {IAuthorId} from "./interfaces/author-id";
 
 export interface IArticleId {
   id: ArticleId;
@@ -60,8 +61,8 @@ export interface ICategoriesWithLinksAndNumbers {
   categories: CategoryWithLinksAndNumbers[];
 }
 
-export interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategories {}
+export interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategories, IAuthorId {}
 
-export interface Article extends NewArticle, IArticleId {
+export interface Article extends Omit<NewArticle, `authorId`>, IArticleId {
   comments: ArticleComment[];
 }

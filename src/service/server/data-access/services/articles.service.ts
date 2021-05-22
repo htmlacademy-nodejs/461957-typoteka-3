@@ -7,8 +7,11 @@ import {IArticlePlain} from "../../../../types/interfaces/article-plain";
 import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
 import {ICollection} from "../../../../types/interfaces/collection";
 import {IArticleCreating} from "../../../../types/interfaces/article-creating";
+import {Logger} from "pino";
+import {getLogger} from "../../../logger";
 
 export class ArticlesService {
+  private readonly logger: Logger = getLogger(); // TODO: [DI] Move to constructor
   constructor(private readonly ArticleModel: IArticleModel) {}
 
   public async findAll({limit, offset}: IPaginationOptions): Promise<ICollection<IArticlePlain>> {
@@ -132,15 +135,26 @@ export class ArticlesService {
     };
   }
 
-  public async create({announce, createdDate, fullText, title, categories}: IArticleCreating): Promise<void> {
-    const createdArticle = await this.ArticleModel.create({
-      createdDate,
-      announce,
-      fullText,
-      title,
-    });
-    await createdArticle.setCategories(categories.map(item => item.id));
-    return createdArticle ? Promise.resolve() : Promise.reject(`Failed to create new article`);
+  public async create({announce, createdDate, fullText, title, categories, authorId}: IArticleCreating): Promise<void> {
+    const errorMessage = `Failed to create new article`;
+    try {
+      const createdArticle = await this.ArticleModel.create({
+        createdDate,
+        announce,
+        fullText,
+        title,
+        authorId,
+      });
+      await createdArticle.setCategories(categories.map(item => item.id));
+      if (createdArticle) {
+        return Promise.resolve();
+      }
+      this.logger.error(errorMessage);
+      return Promise.reject(errorMessage);
+    } catch (e) {
+      this.logger.error(`${errorMessage},\n${(e as Error).toString()}`);
+      return Promise.reject(errorMessage);
+    }
   }
 
   public async drop(id: ArticleId): Promise<boolean> {
