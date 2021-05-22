@@ -26,7 +26,7 @@ export const HeaderAuthorized: FunctionComponent<Props> = ({firstName, lastName,
           </li>
         </ul>
       </nav>
-      <a className="header__avatar avatar">
+      <a className="header__avatar avatar" href={ClientRoutes.ADMIN.INDEX}>
         <img src={avatar ? avatar : "https://via.placeholder.com/50x50.webp"} alt="аватар пользователя" />
       </a>
       <a
