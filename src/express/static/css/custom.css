@@ -10,6 +10,30 @@
   align-self: center;
 }
 
+.header {
+  gap: 16px;
+}
+
+.header__burger {
+  margin: 0;
+}
+
+.header__avatar {
+  margin: 0;
+}
+
+.header__name::after, .header__nav-list p::after {
+  display: none;
+}
+
+.popup--new-publication::before {
+  right: 24%;
+}
+
+.navigation__item:first-of-type::before {
+  right: 24%;
+}
+
 .form__validation-error {
   margin-top: 4px;
   margin-bottom: 14px;
@@ -27,4 +51,30 @@
   background-color: #ffeded;
   border-radius: 15px;
   padding: 14px 20px 16px;
+}
+
+.header__navigation--open {
+  display: block;
+  box-shadow: 0 0 15px #595959;
+}
+
+.header__button-new,
+.new-publication__button {
+  width: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.header__exit {
+  margin-left: 0;
+}
+
+.header__nav-list {
+  gap: 12px
+}
+
+.header__enter,
+.header__registration {
+  margin-right: 0;
+  margin-left: 0;
 }

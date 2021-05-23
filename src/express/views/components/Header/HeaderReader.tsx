@@ -8,7 +8,7 @@ interface Props {
   avatar: string;
 }
 
-export const HeaderAuthorized: FunctionComponent<Props> = ({firstName, lastName, avatar}) => {
+export const HeaderReader: FunctionComponent<Props> = ({firstName, lastName, avatar}) => {
   return (
     <header className="header">
       <Logo />

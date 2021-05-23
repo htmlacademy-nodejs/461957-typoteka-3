@@ -1,5 +1,5 @@
 import {NextFunction, Request, Router} from "express";
-import {ClientRoutes, HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants-es6";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
@@ -35,7 +35,7 @@ adminPublicationsRouter.get(
 );
 
 adminPublicationsRouter.get(
-  ClientRoutes.ADMIN.COMMENTS,
+  `/comments`,
   [isAuthorUserMiddleware],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     try {

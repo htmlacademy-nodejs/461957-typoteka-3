@@ -1,6 +1,16 @@
 // eslint-disable-next-line
 'use strict';
 
+// header dropdown
+const dropdownToggle = document.querySelector('.header__dropdown');
+const navigation = document.querySelector('.header__navigation');
+if (dropdownToggle && navigation) {
+  const showHideClass = 'header__navigation--open'
+  dropdownToggle.addEventListener('click', () => {
+    navigation.classList.toggle(showHideClass);
+  });
+}
+
 // логика выбора даты в календаре
 
 let calendar = document.querySelector('.calendar');
