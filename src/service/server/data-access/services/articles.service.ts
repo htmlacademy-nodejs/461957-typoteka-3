@@ -143,7 +143,7 @@ export class ArticlesService {
     authorId,
   }: IPaginationOptions & {authorId: UserId}): Promise<ICollection<IArticleTitleAndDate>> {
     const attributes: FindAttributeOptions = [`title`, `id`, [`created_date`, `createdDate`]];
-    const articles = await this.ArticleModel.findAll<Model<IArticlePlain>>({
+    const {rows: articles, count: totalCount} = await this.ArticleModel.findAndCountAll<Model<IArticlePlain>>({
       attributes,
       where: {
         authorId,
@@ -154,7 +154,7 @@ export class ArticlesService {
     });
     return {
       items: articles.map(item => item.get({plain: true})),
-      totalCount: 7,
+      totalCount,
     };
   }
 
