@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from "react";
 import {Logo} from "../Logo/Logo";
 import {ClientRoutes} from "../../../../constants-es6";
+import {SearchButton} from "./Buttons/SearchButton/SearchButton";
 
 interface Props {
   firstName: string;
@@ -29,11 +30,7 @@ export const HeaderReader: FunctionComponent<Props> = ({firstName, lastName, ava
       <a className="header__avatar avatar" href={ClientRoutes.ADMIN.INDEX}>
         <img src={avatar ? avatar : "https://via.placeholder.com/50x50.webp"} alt="аватар пользователя" />
       </a>
-      <a
-        className="header__search button button--search"
-        href={ClientRoutes.SEARCH.INDEX}
-        aria-label="поиск по сайту"
-      />
+      <SearchButton />
     </header>
   );
 };

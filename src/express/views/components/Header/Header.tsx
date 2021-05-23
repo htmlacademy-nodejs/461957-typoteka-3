@@ -1,8 +1,8 @@
 import React, {FunctionComponent} from "react";
 import {Logo} from "../Logo/Logo";
-import {ClientRoutes} from "../../../../constants-es6";
 import {LogInButton} from "./Buttons/LogInButton/LogInButton";
 import {SignUpButton} from "./Buttons/SignUpButton/SignUpButton";
+import {SearchButton} from "./Buttons/SearchButton/SearchButton";
 
 interface Props {}
 
@@ -20,11 +20,7 @@ export const Header: FunctionComponent<Props> = ({}) => {
           </li>
         </ul>
       </nav>
-      <a
-        className="header__search button button--search"
-        href={ClientRoutes.SEARCH.INDEX}
-        aria-label="поиск по сайту"
-      />
+      <SearchButton />
     </header>
   );
 };
