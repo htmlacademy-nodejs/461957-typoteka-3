@@ -16,7 +16,11 @@ adminPublicationsRouter.get(
   [isAuthorUserMiddleware],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     try {
-      const {items: articles} = await dataProviderService.getArticles({limit: undefined, offset: undefined});
+      const {items: articles} = await dataProviderService.getArticlesByUser({
+        limit: undefined,
+        offset: undefined,
+        authorId: res.locals.currentUser.id,
+      });
       return streamPage(res, AdminPublicationsPage, {articles, currentUser: res.locals.currentUser});
     } catch (e) {
       return next(

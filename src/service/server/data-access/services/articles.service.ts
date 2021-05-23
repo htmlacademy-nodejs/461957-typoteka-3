@@ -9,6 +9,8 @@ import {ICollection} from "../../../../types/interfaces/collection";
 import {IArticleCreating} from "../../../../types/interfaces/article-creating";
 import {Logger} from "pino";
 import {getLogger} from "../../../logger";
+import {UserId} from "../../../../types/user-id";
+import {IArticleTitleAndDate} from "../../../../types/interfaces/article-title-and-date";
 
 export class ArticlesService {
   private readonly logger: Logger = getLogger(); // TODO: [DI] Move to constructor
@@ -132,6 +134,27 @@ export class ArticlesService {
     return {
       totalCount: count,
       items: preparedArticles,
+    };
+  }
+
+  public async findByAuthorId({
+    limit,
+    offset,
+    authorId,
+  }: IPaginationOptions & {authorId: UserId}): Promise<ICollection<IArticleTitleAndDate>> {
+    const attributes: FindAttributeOptions = [`title`, `id`, [`created_date`, `createdDate`]];
+    const articles = await this.ArticleModel.findAll<Model<IArticlePlain>>({
+      attributes,
+      where: {
+        authorId,
+      },
+      limit: limit ?? undefined,
+      offset: offset ?? undefined,
+      order: [[`createdDate`, `DESC`]],
+    });
+    return {
+      items: articles.map(item => item.get({plain: true})),
+      totalCount: 7,
     };
   }
 

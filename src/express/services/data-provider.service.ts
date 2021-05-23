@@ -23,6 +23,7 @@ import {SignInValidationResponse} from "../../types/sign-in-validation-response"
 import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {IUserPreview} from "../../types/interfaces/user-preview";
+import {UserId} from "../../types/user-id";
 
 export class DataProviderService {
   private readonly requestService: AxiosStatic;
@@ -46,6 +47,28 @@ export class DataProviderService {
       };
     } catch (e) {
       console.error(`Failed to load articles`);
+      return Promise.reject(e);
+    }
+  }
+
+  public async getArticlesByUser({
+                                   offset,
+                                   limit,
+                                   authorId,
+                                 }: Partial<IPaginationOptions> & {authorId: UserId}): Promise<ICollection<IArticlePreview>> {
+    try {
+      const response = await this.requestService.get<ICollection<IArticlePreview>>(
+        `${this.apiEndPoint + APIRoutes.ARTICLES_BY_AUTHOR}/${authorId}`,
+        {
+          params: {offset, limit},
+        },
+      );
+      return {
+        items: response.data.items.map(transformDate),
+        totalCount: response.data.totalCount,
+      };
+    } catch (e) {
+      console.error(`Failed to load articles for user`);
       return Promise.reject(e);
     }
   }

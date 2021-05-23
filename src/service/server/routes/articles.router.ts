@@ -23,6 +23,12 @@ export const articleRouter = (
     });
     return res.status(status).send(payload);
   });
+  router.get(`/author/:authorId`, async (req: Request, res: Response) => {
+    const {limit, offset} = getPaginationFromReqQuery(req);
+    const authorId = parseInt(req.params.authorId, 10);
+    const {status = HttpCode.OK, payload} = await articlesController.getArticlesByAuthorId({limit, offset, authorId});
+    return res.status(status).send(payload);
+  });
   router.get(`/:id`, async (req: Request, res: Response) => {
     const id = parseInt(req.params.id, 10);
     const {status = HttpCode.OK, payload} = await articlesController.getArticleById(id);

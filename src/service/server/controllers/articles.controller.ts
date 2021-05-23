@@ -11,6 +11,8 @@ import {ArticleId} from "../../../types/article-id";
 import {IPaginationOptions} from "../../../types/interfaces/pagination-options";
 import {ICollection} from "../../../types/interfaces/collection";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
+import {UserId} from "../../../types/user-id";
+import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-date";
 
 const DEFAULT_LIMIT = 8;
 
@@ -80,6 +82,27 @@ export class ArticlesController {
       return {payload: {...plainArticle, categories, comments}};
     } catch (e) {
       return {status: HttpCode.NOT_FOUND};
+    }
+  }
+
+  public async getArticlesByAuthorId({
+    offset = 0,
+    limit = DEFAULT_LIMIT,
+    authorId,
+  }: IPaginationOptions & {authorId: UserId}): Promise<ControllerResponse<ICollection<IArticleTitleAndDate>>> {
+    try {
+      const {items: articles, totalCount} = await this.articlesService.findByAuthorId({authorId, offset, limit});
+      if (articles === null) {
+        return {
+          payload: {
+            items: [],
+            totalCount: 0,
+          },
+        };
+      }
+      return {payload: {items: articles, totalCount}};
+    } catch (e) {
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
   }
 
