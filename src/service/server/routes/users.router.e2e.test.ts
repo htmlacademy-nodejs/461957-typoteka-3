@@ -10,7 +10,7 @@ import {IUserCreatingDoublePasswords} from "../../../types/interfaces/user-creat
 const validUserId: UserId = 2;
 const invalidUserId = `-1`;
 const validNewUser: IUserCreatingDoublePasswords = {
-  email: `zaberkirder8@usgs.gov`,
+  email: `ltennant@js.io`,
   firstName: `Lowe`,
   lastName: `Tennant`,
   avatar: ``,
