@@ -52,10 +52,10 @@ export class DataProviderService {
   }
 
   public async getArticlesByUser({
-                                   offset,
-                                   limit,
-                                   authorId,
-                                 }: Partial<IPaginationOptions> & {authorId: UserId}): Promise<ICollection<IArticlePreview>> {
+    offset,
+    limit,
+    authorId,
+  }: Partial<IPaginationOptions> & {authorId: UserId}): Promise<ICollection<IArticlePreview>> {
     try {
       const response = await this.requestService.get<ICollection<IArticlePreview>>(
         `${this.apiEndPoint + APIRoutes.ARTICLES_BY_AUTHOR}/${authorId}`,
