@@ -8,7 +8,7 @@ export const RegistrationWrapper: FunctionComponent<Props> = ({children}) => {
     <main>
       <h1 className="visually-hidden">Регистрация пользователя</h1>
       <section>
-        <div className="popup popup--registration popup--anti">
+        <div className="popup popup--registration popup--anti ms-depth-4">
           <a className="popup__button button button--popup-close" aria-label="Закрыть окно" href={ClientRoutes.INDEX}>
             Закрыть окно
           </a>

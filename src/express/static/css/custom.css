@@ -53,13 +53,19 @@
   padding: 14px 20px 16px;
 }
 
+.header__navigation {
+  left: -93px;
+}
+
 .header__navigation--open {
   display: block;
-  box-shadow: 0 0 15px #595959;
 }
 
 .header__button-new,
 .new-publication__button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: auto;
   padding-left: 20px;
   padding-right: 20px;
@@ -77,4 +83,18 @@
 .header__registration {
   margin-right: 0;
   margin-left: 0;
+}
+
+.navigation__item a {
+ display: flex;
+  align-items: center;
+  gap: 8px
+}
+
+.ms-Icon {
+  line-height: 1;
+}
+
+.navigation {
+  width: auto;
 }
