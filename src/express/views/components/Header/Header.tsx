@@ -1,6 +1,8 @@
 import React, {FunctionComponent} from "react";
 import {Logo} from "../Logo/Logo";
 import {ClientRoutes} from "../../../../constants-es6";
+import {LogInButton} from "./Buttons/LogInButton/LogInButton";
+import {SignUpButton} from "./Buttons/SignUpButton/SignUpButton";
 
 interface Props {}
 
@@ -11,14 +13,10 @@ export const Header: FunctionComponent<Props> = ({}) => {
       <nav className="header__nav">
         <ul className="header__nav-list">
           <li className="header__list-item">
-            <a className="header__registration" href={ClientRoutes.REGISTRATION}>
-              Регистрация
-            </a>
+            <SignUpButton />
           </li>
           <li className="header__list-item">
-            <a className="header__enter" href={ClientRoutes.SIGN_IN}>
-              Вход с паролем
-            </a>
+            <LogInButton />
           </li>
         </ul>
       </nav>
