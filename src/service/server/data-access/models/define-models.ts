@@ -32,7 +32,7 @@ export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
   UserModel.belongsTo(RoleModel, {foreignKey: UserProperty.ROLE_ID});
 
   UserModel.hasMany(ArticleModel, {foreignKey: ArticleProperty.AUTHORID});
-  ArticleModel.belongsTo(UserModel, {foreignKey: UserProperty.ID});
+  ArticleModel.belongsTo(UserModel, {foreignKey: ArticleProperty.AUTHORID});
 
   ArticleModel.hasMany(CommentModel, {as: ArticleProperty.COMMENTS, foreignKey: CommentProperty.ARTICLEID});
   CommentModel.belongsTo(ArticleModel, {foreignKey: CommentProperty.ARTICLEID});
