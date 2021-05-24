@@ -16,7 +16,6 @@
     "copy-static-assets": "node copy-static-assets.js",
     "lint": "eslint --ext .js,.ts src",
     "test:rest": "cross-env PORT=7777 LOG_LEVEL=error JWT_ACCESS_SECRET=YERBKFD%#ADFDS#8 JWT_REFRESH_SECRET=587%NLASD#9 JWT_ACCESS_EXPIRATION=50s JWT_REFRESH_EXPIRATION=1h jest --maxWorkers=1 src/service/server",
-    "generate-mock": "ts-node src/service/index.ts --generate",
     "generate-database-mock": "ts-node --transpile-only src/service/index.ts --fill",
     "fill-db": "npm run ts-node -- src/service/index.ts --fill-db 50 | pino-pretty",
     "nodemon": "./node_modules/.bin/nodemon",
