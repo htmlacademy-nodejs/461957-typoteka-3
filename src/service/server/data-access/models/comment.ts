@@ -31,6 +31,10 @@ export const defineComment = (sequelize: Sequelize): ICommentModel =>
         type: DataTypes.DATE,
         allowNull: false,
       },
+      authorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       ...modelOptions,

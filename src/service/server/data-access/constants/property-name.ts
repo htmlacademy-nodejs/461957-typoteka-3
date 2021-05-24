@@ -34,6 +34,7 @@ export const CommentProperty: Record<Uppercase<keyof ArticleComment>, string> = 
   CREATEDDATE: `created_date`,
   ARTICLEID: `article_id`,
   TEXT: `text`,
+  AUTHORID: `author_id`,
 };
 
 export const UserProperty = {

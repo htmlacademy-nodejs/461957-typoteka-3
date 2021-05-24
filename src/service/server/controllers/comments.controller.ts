@@ -37,12 +37,9 @@ export class CommentsController {
     }
   }
 
-  public async createComment(
-    articleId: ArticleId,
-    comment: ICommentCreating,
-  ): Promise<ControllerResponse<ArticleComment>> {
+  public async createComment(comment: ICommentCreating): Promise<ControllerResponse<ArticleComment>> {
     try {
-      await this.commentsService.create(articleId, comment);
+      await this.commentsService.create(comment);
       return {status: HttpCode.CREATED};
     } catch (e) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};

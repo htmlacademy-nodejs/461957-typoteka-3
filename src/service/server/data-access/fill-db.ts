@@ -82,6 +82,7 @@ async function createArticles(
 ): Promise<IArticleEntity[]> {
   const articles = new Array(articlesCount).fill(undefined);
   const authors = selectAuthorsOnly(users);
+  const commentatorsIds = users.map(item => ({authorId: item.getDataValue(`id`)}));
   return ArticleModel.bulkCreate(
     articles.map(() => ({
       title: getTitle(payload.titles),
@@ -89,7 +90,7 @@ async function createArticles(
       createdDate: getDate(Date.now()),
       announce: getAnnounce(payload.sentences),
       categories: undefined,
-      comments: getComments(payload.comments),
+      comments: getComments(payload.comments, commentatorsIds),
       authorId: getAuthorId(authors),
     })),
     {include: [TableName.COMMENTS]},
