@@ -269,15 +269,11 @@ export class DataProviderService {
     }
   }
 
-  public async createComment(
-    articleId: ArticleId,
-    comment: ICommentCreating,
-    authToken: string,
-  ): Promise<void | CommentValidationResponse> {
+  public async createComment(comment: ICommentCreating, authToken: string): Promise<void | CommentValidationResponse> {
     let response: AxiosResponse<void | CommentValidationResponse>;
     try {
       response = await this.requestService.post<CommentValidationResponse>(
-        `${this.apiEndPoint}/${APIRoutes.ARTICLES}/${articleId}/comments`,
+        `${this.apiEndPoint + APIRoutes.ARTICLES}/${comment.articleId}/comments`,
         comment,
         getAuthHeader(authToken),
       );

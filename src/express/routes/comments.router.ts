@@ -20,10 +20,9 @@ commentsRouter.post(
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const articleId = parseInt(req.params.id, 10);
     const {text} = req.body as ICommentCreating;
-    const comment: ICommentCreating = {text, createdDate: new Date(), articleId};
+    const comment: ICommentCreating = {text, createdDate: new Date(), articleId, authorId: res.locals.currentUser.id};
     try {
       const commentValidationResponse = await dataProviderService.createComment(
-        articleId,
         comment,
         getAccessTokenFromCookies(req),
       );
