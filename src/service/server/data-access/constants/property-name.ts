@@ -29,7 +29,7 @@ export const ArticleCategoryProperty = {
   },
 };
 
-export const CommentProperty: Record<Uppercase<keyof ArticleComment>, string> = {
+export const CommentProperty: Partial<Record<Uppercase<keyof ArticleComment>, string>> = {
   ID: `id`,
   CREATEDDATE: `created_date`,
   ARTICLEID: `article_id`,

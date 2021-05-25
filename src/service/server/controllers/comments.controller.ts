@@ -4,11 +4,12 @@ import {CommentsService} from "../data-access/services/comments.service";
 import {ArticleId} from "../../../types/article-id";
 import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {ICommentCreating} from "../../../types/interfaces/comment-creating";
+import {ICommentPreview} from "../../../types/interfaces/comment-preview";
 
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  public async getCommentsByArticleId(id: ArticleId): Promise<ControllerResponse<ArticleComment[]>> {
+  public async getCommentsByArticleId(id: ArticleId): Promise<ControllerResponse<ICommentPreview[]>> {
     try {
       const articleComments = await this.commentsService.findByArticleId(id);
       return {payload: articleComments};
