@@ -2,6 +2,7 @@ import React, {FunctionComponent} from "react";
 import {Logo} from "../Logo/Logo";
 import {ClientRoutes} from "../../../../constants-es6";
 import {FabricUIIcon} from "../FabricUIIcon/FabricIcon";
+import {Avatar} from "../Avatar/Avatar";
 
 interface Props {
   firstName: string;
@@ -22,9 +23,7 @@ export const HeaderAuthor: FunctionComponent<Props> = ({firstName, lastName, ava
           </li>
         </ul>
       </nav>
-      <span className="header__avatar avatar">
-        <img src={avatar ? avatar : "https://via.placeholder.com/50x50.webp"} alt="аватар пользователя" />
-      </span>
+      <Avatar avatar={avatar} cssClass="header__avatar" />
       <a href={ClientRoutes.ARTICLES.ADD} className="button button--colored header__button-new">
         <FabricUIIcon size="18" icon="Add" />
         Новая запись

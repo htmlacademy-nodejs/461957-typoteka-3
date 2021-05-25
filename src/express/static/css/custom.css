@@ -22,7 +22,8 @@
   margin: 0;
 }
 
-.header__name::after, .header__nav-list p::after {
+.header__name::after,
+.header__nav-list p::after {
   display: none;
 }
 
@@ -76,7 +77,7 @@
 }
 
 .header__nav-list {
-  gap: 12px
+  gap: 12px;
 }
 
 .header__enter,
@@ -86,9 +87,9 @@
 }
 
 .navigation__item a {
- display: flex;
+  display: flex;
   align-items: center;
-  gap: 8px
+  gap: 8px;
 }
 
 .ms-Icon {
@@ -97,4 +98,18 @@
 
 .navigation {
   width: auto;
+}
+
+.avatar-emoji {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: linear-gradient(#72d5fd, #2a9ef1);
+  user-select: none;
+  width: 50px;
+  height: 50px;
+  justify-content: center;
+  text-align: center;
+  font-size: 30px;
 }

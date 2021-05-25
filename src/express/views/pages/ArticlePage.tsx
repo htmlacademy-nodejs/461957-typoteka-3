@@ -64,7 +64,7 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
           <div className="post__wrapper post__wrapper--comments">
             <CommentsList parentCssClass={"post"} comments={comments}>
               <>
-                <CommentForm endPoint={newCommentEndPoint} csrf={csrf} />
+                <CommentForm endPoint={newCommentEndPoint} csrf={csrf} avatar={currentUser.avatar} />
                 {commentValidationResponse && (
                   <CommentValidationErrors validationResponse={commentValidationResponse} />
                 )}

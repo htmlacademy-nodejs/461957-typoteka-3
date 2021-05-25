@@ -34,6 +34,7 @@ export const MockTextsFilePath = {
   FIRST_NAMES: `data/first-names.txt`,
   LAST_NAMES: `data/last-names.txt`,
   EMAILS: `data/emails.txt`,
+  AVATARS: `data/avatars.txt`,
 } as const;
 export const APIRoutes = {
   API: `/api`,
