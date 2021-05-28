@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {ARTICLE_FORM_FIELDS} from "../../../constants-es6";
+import {ARTICLE_FORM_FIELDS, ClientRoutes} from "../../../constants-es6";
 import type {ArticleValidationResponse} from "../../../types/article-validation-response";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {FormValidationMessage} from "../components/Form/FormValidationMessage";
@@ -62,7 +62,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               Опубликовать
             </button>
           </div>
-          <a type="button" className="popup__button button button--popup-close" aria-label="Закрыть окно">
+          <a href={ClientRoutes.INDEX} className="popup__button button button--popup-close" aria-label="Закрыть окно">
             Закрыть окно
           </a>
           <div className="new-publication__form form">
