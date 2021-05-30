@@ -46,6 +46,7 @@ export const APIRoutes = {
   CATEGORIES_STATISTICS: `/categories-statistics`,
   SEARCH: `/search`,
   USERS: `/users`,
+  USERS_COMMENTS: `/users/comments`,
   AUTH: `/auth`,
   LOGIN: `/auth/login`,
   GET_USER: `/auth/get-user`,

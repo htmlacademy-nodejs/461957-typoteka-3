@@ -1,12 +1,13 @@
-import {Router} from "express";
+import {Request, Response, Router} from "express";
 import {UsersController} from "../controllers/users.controller";
 import {HttpCode} from "../../../constants-es6";
 import {validateNewUser} from "../validators";
+import {authMiddleware} from "../middlewares";
 
 export const usersRouter = (usersController: UsersController): Router => {
   const router = Router();
 
-  router.get(`/:id`, async (req, res) => {
+  router.get(`/id/:id`, async (req, res) => {
     const userId = parseInt(req.params.id, 10);
     const {status = HttpCode.OK, payload} = await usersController.getOne(userId);
     return res.status(status).send(payload);
@@ -20,6 +21,11 @@ export const usersRouter = (usersController: UsersController): Router => {
     } catch (e) {
       return res.status(HttpCode.BAD_REQUEST).send(e);
     }
+  });
+  router.get(`/comments`, [authMiddleware], async (req: Request, res: Response) => {
+    const accessToken = req.headers[`authorization`];
+    const {status = HttpCode.OK, payload} = await usersController.getAuthorsComments(accessToken);
+    res.status(status).send(payload);
   });
 
   return router;

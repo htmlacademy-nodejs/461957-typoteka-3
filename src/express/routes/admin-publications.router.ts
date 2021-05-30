@@ -9,6 +9,8 @@ import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 import {isAuthorUserMiddleware} from "../middlewares";
 import {getArticleLink} from "../helpers/link-resolver";
+import {ICommentByAuthor} from "../models/interfaces/comment-by-author";
+import {ICommentId} from "../../types/interfaces/comment-id";
 
 export const adminPublicationsRouter = Router();
 
@@ -40,11 +42,14 @@ adminPublicationsRouter.get(
   [isAuthorUserMiddleware],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     try {
-      const listOfComments = await dataProviderService.getComments(3, getAccessTokenFromCookies(req));
-      const comments = listOfComments.map(item => ({
+      const listOfComments = await dataProviderService.getComments(getAccessTokenFromCookies(req));
+      const comments: (ICommentByAuthor & ICommentId)[] = listOfComments.map(item => ({
         text: item.text,
         id: item.id,
         link: getArticleLink(item.articleId),
+        user: item.user,
+        articleTitle: item.articleTitle,
+        createdDate: new Date(Date.parse((item.createdDate as unknown) as string)),
       }));
       return streamPage(res, AdminCommentsPage, {comments, currentUser: res.locals.currentUser});
     } catch (e) {

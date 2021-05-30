@@ -42,7 +42,7 @@ export const apiRouter = ({
   const categoriesController = categoriesControllerFactory({CategoryModel});
   const searchController = searchControllerFactory({ArticleModel});
   const commentsController = commentsControllerFactory({CommentModel});
-  const usersController = usersControllerFactory({UserModel});
+  const usersController = usersControllerFactory({UserModel, CommentModel});
   const authController = authControllerFactory({UserModel, RefreshTokenModel});
 
   router.use(APIRoutes.ARTICLES, articleRouter(articlesController, commentsController));

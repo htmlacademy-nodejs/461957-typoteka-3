@@ -42,8 +42,13 @@ export const searchControllerFactory = ({ArticleModel}: {ArticleModel: IArticleM
 export const commentsControllerFactory = ({CommentModel}: {CommentModel: ICommentModel}): CommentsController =>
   new CommentsController(commentsServiceFactory(CommentModel));
 
-export const usersControllerFactory = ({UserModel}: {UserModel: IUserModel}): UsersController =>
-  new UsersController(usersServiceFactory(UserModel));
+export const usersControllerFactory = ({
+  UserModel,
+  CommentModel,
+}: {
+  UserModel: IUserModel;
+  CommentModel: ICommentModel;
+}): UsersController => new UsersController(usersServiceFactory(UserModel), commentsServiceFactory(CommentModel));
 
 export const authControllerFactory = ({
   UserModel,

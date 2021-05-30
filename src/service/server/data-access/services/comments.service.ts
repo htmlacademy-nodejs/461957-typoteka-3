@@ -9,6 +9,8 @@ import {FindAttributeOptions, Model} from "sequelize";
 import {ICommentPreview} from "../../../../types/interfaces/comment-preview";
 import {TableName} from "../constants/table-name";
 import {IUserPreview} from "../../../../types/interfaces/user-preview";
+import {UserId} from "../../../../types/user-id";
+import {IAuthorsComment} from "../../../../types/interfaces/authors-comment";
 
 const commentPreviewAttributes: FindAttributeOptions = [
   CommentProperty.ID,
@@ -66,17 +68,41 @@ export class CommentsService {
       });
       return comments
         .map<ICommentPreview>(item => item.get({plain: true}))
-        .map((item: ICommentPreview & {users: IUserPreview}) => ({
-          id: item.id,
-          text: item.text,
-          user: item.users,
-          createdDate: item.createdDate,
-          articleId: item.articleId,
-          authorId: item.authorId,
-        }));
+        .map((item: ICommentPreview & {users: IUserPreview}) => assignAuthorToComment(item));
     } catch (e) {
-      this.logger.error(`Failed to find comments, ${(e as Error).toString()}`);
-      return Promise.reject(`Failed to find comments, ${(e as Error).toString()}`);
+      this.logger.error(`Failed to find comments by article id, ${(e as Error).toString()}`);
+      return Promise.reject(`Failed to find comments by article id, ${(e as Error).toString()}`);
+    }
+  }
+
+  public async findByAuthorId(authorId: UserId): Promise<IAuthorsComment[]> {
+    try {
+      const comments = await this.CommentsModel.findAll<Model<IAuthorsComment>>({
+        attributes: commentPreviewAttributes,
+        where: {
+          authorId,
+        },
+        include: [
+          {
+            association: TableName.USERS,
+            attributes: userPreviewAttributes,
+          },
+          {
+            association: TableName.ARTICLES,
+            attributes: [`title`],
+          },
+        ],
+        order: [[`createdDate`, `ASC`]],
+      });
+      console.log(comments);
+      return comments
+        .map<unknown>(item => item.get({plain: true}))
+        .map((item: ICommentPreview & {users: IUserPreview; articles: {title: string}}) => {
+          return {...assignAuthorToComment(item), articleTitle: item.articles.title};
+        });
+    } catch (e) {
+      this.logger.error(`Failed to find comments by author id, ${(e as Error).toString()}`);
+      return Promise.reject(`Failed to find comments by author id, ${(e as Error).toString()}`);
     }
   }
 
@@ -108,4 +134,15 @@ export class CommentsService {
     });
     return !!deletedComment;
   }
+}
+
+function assignAuthorToComment(item: ICommentPreview & {users: IUserPreview}): ICommentPreview {
+  return {
+    id: item.id,
+    text: item.text,
+    user: item.users,
+    createdDate: item.createdDate,
+    articleId: item.articleId,
+    authorId: item.authorId,
+  };
 }

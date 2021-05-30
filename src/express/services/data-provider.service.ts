@@ -24,6 +24,7 @@ import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interface
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {IUserPreview} from "../../types/interfaces/user-preview";
 import {UserId} from "../../types/user-id";
+import {IAuthorsComment} from "../../types/interfaces/authors-comment";
 
 export class DataProviderService {
   private readonly requestService: AxiosStatic;
@@ -204,17 +205,15 @@ export class DataProviderService {
     }
   }
 
-  // TODO: Search by author id
-  // TODO: Made single request
-  public async getComments(quantityOfArticles: number, authToken: string): Promise<ArticleComment[]> {
+  public async getComments(authToken: string): Promise<IAuthorsComment[]> {
     try {
-      const {items: articlesList} = await this.getArticles({limit: 100, offset: 0});
-      const comments = await Promise.all(
-        articlesList.slice(0, quantityOfArticles).map(article => this.getArticleComments(article.id)),
+      const response = await this.requestService.get<IAuthorsComment[]>(
+        this.apiEndPoint + APIRoutes.USERS_COMMENTS,
+        getAuthHeader(authToken),
       );
-      return comments.flat(1);
+      return response.data;
     } catch (e) {
-      console.error(`Failed to load articles or comments`);
+      console.error(`Failed to load author's comments`);
       return Promise.reject(e);
     }
   }
