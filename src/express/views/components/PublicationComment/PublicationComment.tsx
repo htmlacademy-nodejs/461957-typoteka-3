@@ -1,11 +1,12 @@
 import React, {FunctionComponent} from "react";
+import {ILink} from "../../../../types/article";
 
-export interface PublicationCommentProps {
+export interface PublicationCommentProps extends ILink {
   text: string;
 }
 
-export const PublicationComment: FunctionComponent<PublicationCommentProps> = ({text}) => (
-  <>
+export const PublicationComment: FunctionComponent<PublicationCommentProps> = ({text, link}) => (
+  <a href={link}>
     <div className="publication__header">
       <img
         className="publication__list-image"
@@ -19,14 +20,12 @@ export const PublicationComment: FunctionComponent<PublicationCommentProps> = ({
         21.03.2019, 20:33
       </time>
     </div>
-    <a className="publication__item-text" href="#">
-      {text}
-    </a>
+    <span className="publication__item-text">{text}</span>
     <p className="publication__text-strong">
       «Яндекс.Метрика» запустила бесплатный сервис для оценки эффективности баннеров и видеорекламы в реальном времени
     </p>
     <button className="publication__button button button--close-item" type="button">
       <span className="visually-hidden">Закрыть строку списка</span>
     </button>
-  </>
+  </a>
 );

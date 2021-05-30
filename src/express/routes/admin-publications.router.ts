@@ -8,6 +8,7 @@ import {SSRError} from "../errors/ssr-error";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 import {isAuthorUserMiddleware} from "../middlewares";
+import {getArticleLink} from "../helpers/link-resolver";
 
 export const adminPublicationsRouter = Router();
 
@@ -40,7 +41,12 @@ adminPublicationsRouter.get(
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     try {
       const listOfComments = await dataProviderService.getComments(3, getAccessTokenFromCookies(req));
-      return streamPage(res, AdminCommentsPage, {listOfComments, currentUser: res.locals.currentUser});
+      const comments = listOfComments.map(item => ({
+        text: item.text,
+        id: item.id,
+        link: getArticleLink(item.articleId),
+      }));
+      return streamPage(res, AdminCommentsPage, {comments, currentUser: res.locals.currentUser});
     } catch (e) {
       return next(
         new SSRError({
