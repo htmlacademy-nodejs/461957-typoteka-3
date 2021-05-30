@@ -2,15 +2,11 @@ import React, {FunctionComponent} from "react";
 import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
 import {PublicationComment} from "../components/PublicationComment/PublicationComment";
 import {ICurrentUser} from "../interfaces/current-user";
-import {ILink} from "../../../types/article";
 import {ICommentId} from "../../../types/interfaces/comment-id";
-
-interface CommentProps extends ILink, ICommentId {
-  text: string;
-}
+import {ICommentByAuthor} from "../../models/interfaces/comment-by-author";
 
 interface AdminCommentsPageProps extends ICurrentUser {
-  comments: CommentProps[];
+  comments: (ICommentByAuthor & ICommentId)[];
 }
 
 export const AdminCommentsPage: FunctionComponent<AdminCommentsPageProps> = (props: AdminCommentsPageProps) => {
@@ -20,7 +16,13 @@ export const AdminCommentsPage: FunctionComponent<AdminCommentsPageProps> = (pro
       <li
         className={"publication__list-item" + (isLastElement ? "  publication__list-item--last" : "")}
         key={comment.id}>
-        <PublicationComment text={comment.text} link={comment.link} />
+        <PublicationComment
+          articleTitle={comment.articleTitle}
+          text={comment.text}
+          link={comment.link}
+          user={comment.user}
+          createdDate={comment.createdDate}
+        />
       </li>
     );
   });

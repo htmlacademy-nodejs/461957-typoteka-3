@@ -133,3 +133,21 @@
   border-color: #595959;
   opacity: 0.8;
 }
+
+.publication__list-item {
+  padding-right: 0;
+  margin-bottom: 0;
+  padding-top: 19px;
+  padding-bottom: 19px;
+}
+
+.publication__text-strong:hover {
+  color: #2f80ed;
+}
+
+.authors-comment {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: auto min-content;
+  justify-content: space-between;
+}
