@@ -63,12 +63,14 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
           </div>
           <div className="post__wrapper post__wrapper--comments">
             <CommentsList parentCssClass={"post"} comments={comments}>
-              <>
-                <CommentForm endPoint={newCommentEndPoint} csrf={csrf} avatar={currentUser.avatar} />
-                {commentValidationResponse && (
-                  <CommentValidationErrors validationResponse={commentValidationResponse} />
-                )}
-              </>
+              {currentUser ? (
+                <>
+                  <CommentForm endPoint={newCommentEndPoint} csrf={csrf} avatar={currentUser.avatar} />
+                  {commentValidationResponse && (
+                    <CommentValidationErrors validationResponse={commentValidationResponse} />
+                  )}
+                </>
+              ) : null}
             </CommentsList>
           </div>
         </section>
