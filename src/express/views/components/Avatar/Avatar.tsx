@@ -1,18 +1,36 @@
 import React, {FunctionComponent} from "react";
 
+type AvatarSize = `small` | `medium`;
+
 interface Props {
   avatar?: string;
   cssClass?: string;
+  size?: AvatarSize;
 }
 
-export const Avatar: FunctionComponent<Props> = ({avatar, cssClass}) => (
-  <div className={"avatar " + (cssClass ?? "")}>
-    {avatar ? (
-      <AvatarEmoji emoji={avatar} />
-    ) : (
-      <img src="https://via.placeholder.com/50x50.webp" alt="аватар пользователя" />
-    )}
-  </div>
-);
+const sizesPxs: Record<AvatarSize, number> = {
+  small: 20,
+  medium: 50,
+};
 
-const AvatarEmoji = ({emoji}: {emoji: string}) => <div className="avatar-emoji">{emoji}</div>;
+const sizesCssClasses: Record<AvatarSize, string> = {
+  small: `avatar-emoji__size_small`,
+  medium: `avatar-emoji__size_medium`,
+};
+
+export const Avatar: FunctionComponent<Props> = ({avatar, cssClass, size = `medium`}) => {
+  const imageSize = sizesPxs[size];
+  return (
+    <div className={cssClass ?? ""}>
+      {avatar ? (
+        <AvatarEmoji emoji={avatar} size={size} />
+      ) : (
+        <img src={`https://via.placeholder.com/${imageSize}x${imageSize}.webp`} alt="аватар пользователя" />
+      )}
+    </div>
+  );
+};
+
+const AvatarEmoji = ({emoji, size}: {emoji: string; size: AvatarSize}) => (
+  <div className={`avatar-emoji ${sizesCssClasses[size]}`}>{emoji}</div>
+);
