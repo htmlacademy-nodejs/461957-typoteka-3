@@ -4,7 +4,7 @@ import type {ArticleValidationResponse} from "../../../types/article-validation-
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {FormValidationMessage} from "../components/Form/FormValidationMessage";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
-import {CategoriesSelect} from "../components/EditArticle/CategoriesSelect";
+import {CategoriesSelect} from "../components/CategoriesSelect/CategoriesSelect";
 import type {Category} from "../../../types/category";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
@@ -12,6 +12,8 @@ import {EditArticleWrapper} from "../components/EditArticleWrapper/EditArticleWr
 import {ICurrentUser} from "../interfaces/current-user";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../interfaces/csrf-input";
+import {IconButton, PrimaryButton, Stack, TextField} from "@fluentui/react";
+import {IIconProps} from "@fluentui/react/lib/components/Icon";
 
 interface EditArticleProps extends ICurrentUser, ICsrfInput {
   article?: Partial<IArticleCreating>;
@@ -20,6 +22,8 @@ interface EditArticleProps extends ICurrentUser, ICsrfInput {
   articleValidationResponse?: ArticleValidationResponse;
   isUpdating?: boolean;
 }
+
+const closeButton: IIconProps = {iconName: "ChromeClose"};
 
 export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   article,
@@ -58,13 +62,16 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                 </div>
               </div>
             </div>
-            <button type="submit" className="new-publication__button button button--colored">
-              Опубликовать
-            </button>
+            <Stack tokens={{childrenGap: 16}} horizontal>
+              <PrimaryButton type="submit">Опубликовать</PrimaryButton>
+              <IconButton
+                href={ClientRoutes.INDEX}
+                iconProps={closeButton}
+                title="Закрыть окно"
+                ariaLabel="Закрыть окно"
+              />
+            </Stack>
           </div>
-          <a href={ClientRoutes.INDEX} className="popup__button button button--popup-close" aria-label="Закрыть окно">
-            Закрыть окно
-          </a>
           <div className="new-publication__form form">
             <div className="form__wrapper form__wrapper--intro">
               {Object.keys(articleValidationResponse).length ? (
@@ -79,15 +86,12 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                 </FormValidationBlock>
               ) : null}
               <div className="form__field">
-                <label>
-                  <input
-                    type="text"
-                    name={ARTICLE_FORM_FIELDS.title.name}
-                    placeholder={ARTICLE_FORM_FIELDS.title.label}
-                    defaultValue={articleProps.title}
-                    required
-                  />
-                </label>
+                <TextField
+                  label={ARTICLE_FORM_FIELDS.title.label}
+                  name={ARTICLE_FORM_FIELDS.title.name}
+                  defaultValue={articleProps.title}
+                  required={true}
+                />
               </div>
               <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]} />
               <div className="form__field form__field--post-image">
@@ -124,27 +128,27 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
             </div>
             <div className="form__wrapper form__wrapper--text">
               <div className="form__field form__field--publication-text">
-                <label>
-                  <textarea
-                    rows={5}
-                    placeholder={ARTICLE_FORM_FIELDS.announce.label}
-                    name={ARTICLE_FORM_FIELDS.announce.name}
-                    value={articleProps.announce}
-                    onChange={() => {}}
-                  />
-                </label>
+                <TextField
+                  multiline
+                  rows={5}
+                  label={ARTICLE_FORM_FIELDS.announce.label}
+                  name={ARTICLE_FORM_FIELDS.announce.name}
+                  value={articleProps.announce}
+                  onChange={() => {}}
+                  required
+                />
               </div>
               <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]} />
               <div className="form__field form__field--publication-text">
-                <label>
-                  <textarea
-                    name={ARTICLE_FORM_FIELDS.fullText.name}
-                    rows={10}
-                    placeholder={ARTICLE_FORM_FIELDS.fullText.label}
-                    value={articleProps.fullText}
-                    onChange={() => {}}
-                  />
-                </label>
+                <TextField
+                  multiline
+                  name={ARTICLE_FORM_FIELDS.fullText.name}
+                  rows={10}
+                  label={ARTICLE_FORM_FIELDS.fullText.label}
+                  value={articleProps.fullText}
+                  onChange={() => {}}
+                  required
+                />
               </div>
               <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
             </div>

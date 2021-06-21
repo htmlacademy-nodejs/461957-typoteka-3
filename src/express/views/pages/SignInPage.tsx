@@ -10,6 +10,7 @@ import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {FormValidationMessage} from "../components/Form/FormValidationMessage";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../interfaces/csrf-input";
+import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 
 interface Props extends ICsrfInput {
   endPoint: string;
@@ -22,49 +23,42 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
   return (
     <LayoutFilled pageTitle={`Вход`} currentUser={null}>
       <SignInWrapper>
-        <h2 className="popup__title">Войти</h2>
-        <div className="popup__form form form--log-in">
-          <form action={endPoint} method="POST" encType="multipart/form-data">
-            {Object.keys(signInValidationResponse).length ? (
-              <FormValidationBlock title={"При входе произошли ошибки:"}>
-                {Object.entries(signInValidationResponse).map(([key, validation]) => (
-                  <li key={key}>
-                    <FormValidationMessage>
-                      <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
-                    </FormValidationMessage>
-                  </li>
-                ))}
-              </FormValidationBlock>
-            ) : null}
-            <div className="form__field">
-              <label>
-                <input
-                  type="email"
-                  name={SING_IN_FORM_FIELDS.email.name}
-                  defaultValue={signInFields.email}
-                  placeholder={SING_IN_FORM_FIELDS.email.label}
-                  required
-                />
-              </label>
-            </div>
-            <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.email.name]} />
-            <div className="form__field">
-              <label>
-                <input
-                  type="password"
-                  name={SING_IN_FORM_FIELDS.password.name}
-                  placeholder={SING_IN_FORM_FIELDS.password.label}
-                  required
-                />
-              </label>
-            </div>
-            <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.password.name]} />
-            <button className="form__submit-btn form__submit-btn--log-in button button--colored" type="submit">
-              Войти
-            </button>
-            <CsrfHiddenInput csrf={csrf} />
-          </form>
-        </div>
+        <form action={endPoint} method="POST" encType="multipart/form-data">
+          {Object.keys(signInValidationResponse).length ? (
+            <FormValidationBlock title={"При входе произошли ошибки:"}>
+              {Object.entries(signInValidationResponse).map(([key, validation]) => (
+                <li key={key}>
+                  <FormValidationMessage>
+                    <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
+                  </FormValidationMessage>
+                </li>
+              ))}
+            </FormValidationBlock>
+          ) : null}
+          <Stack tokens={{childrenGap: 32}}>
+            <Stack tokens={{childrenGap: 16}}>
+              <TextField
+                type="email"
+                label={SING_IN_FORM_FIELDS.email.label}
+                name={SING_IN_FORM_FIELDS.email.name}
+                defaultValue={signInFields.email}
+                required={true}
+              />
+              <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.email.name]} />
+              <TextField
+                type="password"
+                label={SING_IN_FORM_FIELDS.password.label}
+                name={SING_IN_FORM_FIELDS.password.name}
+                required={true}
+              />
+              <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.password.name]} />
+            </Stack>
+            <Stack.Item align="end">
+              <PrimaryButton type="submit">Войти</PrimaryButton>
+            </Stack.Item>
+          </Stack>
+          <CsrfHiddenInput csrf={csrf} />
+        </form>
       </SignInWrapper>
     </LayoutFilled>
   );

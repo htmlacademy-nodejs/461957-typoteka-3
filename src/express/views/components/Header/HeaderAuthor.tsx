@@ -3,6 +3,7 @@ import {Logo} from "../Logo/Logo";
 import {ClientRoutes} from "../../../../constants-es6";
 import {FabricUIIcon} from "../FabricUIIcon/FabricIcon";
 import {Avatar} from "../Avatar/Avatar";
+import {NewArticleButton} from "./Buttons/NewArticleButton/NewArticleButton";
 
 interface Props {
   firstName: string;
@@ -24,10 +25,7 @@ export const HeaderAuthor: FunctionComponent<Props> = ({firstName, lastName, ava
         </ul>
       </nav>
       <Avatar avatar={avatar} cssClass="header__avatar" />
-      <a href={ClientRoutes.ARTICLES.ADD} className="button button--colored header__button-new">
-        <FabricUIIcon size="18" icon="Add" />
-        Новая запись
-      </a>
+      <NewArticleButton />
       <div className="header__dropdown">
         <button type="button" className="button button--burger header__burger">
           Открыть меню

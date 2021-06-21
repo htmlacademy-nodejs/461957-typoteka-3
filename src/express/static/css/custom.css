@@ -151,3 +151,17 @@
   grid-template-columns: auto min-content;
   justify-content: space-between;
 }
+
+.new-publication__header {
+  padding-right: 0;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup {
+  border-radius: 2px;
+  padding-top: 30px;
+}

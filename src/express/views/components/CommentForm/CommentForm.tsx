@@ -3,6 +3,7 @@ import {COMMENT_FORM_FIELDS} from "../../../../constants-es6";
 import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../../interfaces/csrf-input";
 import {Avatar} from "../Avatar/Avatar";
+import {PrimaryButton} from "@fluentui/react";
 
 interface Props extends ICsrfInput {
   endPoint: string;
@@ -15,9 +16,9 @@ export const CommentForm: FunctionComponent<Props> = ({endPoint, csrf, avatar}) 
     <label>
       <textarea rows={1} name={COMMENT_FORM_FIELDS.text.name} placeholder="Присоединиться к обсуждению" />
     </label>
-    <button type="submit" className="comments__button button button--colored">
+    <PrimaryButton className="comments__button" type="submit">
       Опубликовать
-    </button>
+    </PrimaryButton>
     <CsrfHiddenInput csrf={csrf} />
   </form>
 );
