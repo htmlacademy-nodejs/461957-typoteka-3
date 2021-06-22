@@ -17,6 +17,7 @@ plugins:
 ignorePatterns:
   - "*.tsx"
   - "src/express/static/**"
+  - "/run-scripts/*.js"
 rules:
   comma-dangle:
     - warn
