@@ -6,8 +6,17 @@ import {CommentsList} from "../components/CommentsList/CommentsList";
 import {CommentForm} from "../components/CommentForm/CommentForm";
 import {CommentValidationResponse} from "../../../types/comment-validation-response";
 import {CommentValidationErrors} from "../components/CommentValidationErrors/CommentValidationErrors";
+import {ICurrentUser} from "../interfaces/current-user";
+import {ICsrfInput} from "../interfaces/csrf-input";
 
-export interface ArticlePageProps extends ITitle, ICreatedDate, ICategoriesWithLinksAndNumbers, IFullText, IComments {
+export interface ArticlePageProps
+  extends ITitle,
+    ICreatedDate,
+    ICategoriesWithLinksAndNumbers,
+    IFullText,
+    IComments,
+    ICurrentUser,
+    ICsrfInput {
   previousPageUrl: string;
   newCommentEndPoint: string;
   commentValidationResponse?: CommentValidationResponse;
@@ -22,8 +31,10 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   comments,
   newCommentEndPoint,
   commentValidationResponse,
+  currentUser,
+  csrf,
 }) => (
-  <LayoutFilled pageTitle={title}>
+  <LayoutFilled pageTitle={title} currentUser={currentUser}>
     <main>
       <section className="post">
         <h1 className="visually-hidden">Пост</h1>
@@ -52,12 +63,14 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
           </div>
           <div className="post__wrapper post__wrapper--comments">
             <CommentsList parentCssClass={"post"} comments={comments}>
-              <>
-                <CommentForm endPoint={newCommentEndPoint} />
-                {commentValidationResponse && (
-                  <CommentValidationErrors validationResponse={commentValidationResponse} />
-                )}
-              </>
+              {currentUser ? (
+                <>
+                  <CommentForm endPoint={newCommentEndPoint} csrf={csrf} avatar={currentUser.avatar} />
+                  {commentValidationResponse && (
+                    <CommentValidationErrors validationResponse={commentValidationResponse} />
+                  )}
+                </>
+              ) : null}
             </CommentsList>
           </div>
         </section>

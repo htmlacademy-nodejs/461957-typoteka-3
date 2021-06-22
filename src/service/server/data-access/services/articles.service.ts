@@ -7,8 +7,13 @@ import {IArticlePlain} from "../../../../types/interfaces/article-plain";
 import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
 import {ICollection} from "../../../../types/interfaces/collection";
 import {IArticleCreating} from "../../../../types/interfaces/article-creating";
+import {Logger} from "pino";
+import {getLogger} from "../../../logger";
+import {UserId} from "../../../../types/user-id";
+import {IArticleTitleAndDate} from "../../../../types/interfaces/article-title-and-date";
 
 export class ArticlesService {
+  private readonly logger: Logger = getLogger(); // TODO: [DI] Move to constructor
   constructor(private readonly ArticleModel: IArticleModel) {}
 
   public async findAll({limit, offset}: IPaginationOptions): Promise<ICollection<IArticlePlain>> {
@@ -132,15 +137,47 @@ export class ArticlesService {
     };
   }
 
-  public async create({announce, createdDate, fullText, title, categories}: IArticleCreating): Promise<void> {
-    const createdArticle = await this.ArticleModel.create({
-      createdDate,
-      announce,
-      fullText,
-      title,
+  public async findByAuthorId({
+    limit,
+    offset,
+    authorId,
+  }: IPaginationOptions & {authorId: UserId}): Promise<ICollection<IArticleTitleAndDate>> {
+    const attributes: FindAttributeOptions = [`title`, `id`, [`created_date`, `createdDate`]];
+    const {rows: articles, count: totalCount} = await this.ArticleModel.findAndCountAll<Model<IArticlePlain>>({
+      attributes,
+      where: {
+        authorId,
+      },
+      limit: limit ?? undefined,
+      offset: offset ?? undefined,
+      order: [[`createdDate`, `DESC`]],
     });
-    await createdArticle.setCategories(categories.map(item => item.id));
-    return createdDate ? Promise.resolve() : Promise.reject(`Failed to create new article`);
+    return {
+      items: articles.map(item => item.get({plain: true})),
+      totalCount,
+    };
+  }
+
+  public async create({announce, createdDate, fullText, title, categories, authorId}: IArticleCreating): Promise<void> {
+    const errorMessage = `Failed to create new article`;
+    try {
+      const createdArticle = await this.ArticleModel.create({
+        createdDate,
+        announce,
+        fullText,
+        title,
+        authorId,
+      });
+      await createdArticle.setCategories(categories.map(item => item.id));
+      if (createdArticle) {
+        return Promise.resolve();
+      }
+      this.logger.error(errorMessage);
+      return Promise.reject(errorMessage);
+    } catch (e) {
+      this.logger.error(`${errorMessage},\n${(e as Error).toString()}`);
+      return Promise.reject(errorMessage);
+    }
   }
 
   public async drop(id: ArticleId): Promise<boolean> {

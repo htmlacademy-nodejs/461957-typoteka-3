@@ -16,6 +16,7 @@ const validNewComment: ICommentCreating = {
   text: `Comment234234234234234`,
   createdDate: new Date(),
   articleId: 1,
+  authorId: 3,
 };
 const invalidNewComment = {
   text: `Comment234234234234234`,
@@ -46,6 +47,7 @@ describe(`Comments router`, () => {
     });
     test(`Should return an array`, async () => {
       const res = await request(app).get(`/api/articles/${validArticleId}/comments/`);
+      console.log(res.body);
       expect(Array.isArray(res.body)).toBe(true);
     });
     test(`Should return an empty array when request invalid id`, async () => {

@@ -7,8 +7,9 @@ import {CategoryId} from "../../../types/category-id";
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
 import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
 import {ILink} from "../../../types/article";
+import {ICurrentUser} from "../interfaces/current-user";
 
-interface Props extends IPaginationProps {
+interface Props extends IPaginationProps, ICurrentUser {
   pageTitle: string;
   categories: CategoryWithLinksAndNumbers[];
   articles: (IArticlePreview & ILink)[];
@@ -24,9 +25,10 @@ export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
   total,
   page,
   prefix,
+  currentUser,
 }) => {
   return (
-    <LayoutFilled pageTitle={pageTitle}>
+    <LayoutFilled pageTitle={pageTitle} currentUser={currentUser}>
       <main className="articles-category">
         <h1>{pageTitle}</h1>
         <section className="articles-category__theme-list">

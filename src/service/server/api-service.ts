@@ -28,8 +28,10 @@ export class ApiService {
   }
 
   public init(connection: Sequelize): void {
-    const {CategoryModel, ArticleModel, CommentModel, UserModel, RoleModel} = defineDatabaseModels(connection);
-    this.configureRoutes({ArticleModel, CategoryModel, CommentModel, UserModel, RoleModel});
+    const {CategoryModel, ArticleModel, CommentModel, UserModel, RoleModel, RefreshTokenModel} = defineDatabaseModels(
+      connection,
+    );
+    this.configureRoutes({ArticleModel, CategoryModel, CommentModel, UserModel, RoleModel, RefreshTokenModel});
   }
 
   public getServer(): Application {
@@ -49,8 +51,14 @@ export class ApiService {
     middlewares.forEach(middleware => this.app.use(middleware));
   }
 
-  private configureRoutes({CategoryModel, ArticleModel, CommentModel, UserModel}: DatabaseModels): void {
-    this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleModel, CommentModel, UserModel}));
+  private configureRoutes({
+                            CategoryModel,
+                            ArticleModel,
+                            CommentModel,
+                            UserModel,
+                            RefreshTokenModel,
+                          }: DatabaseModels): void {
+    this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleModel, CommentModel, UserModel, RefreshTokenModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);
       this.logger.error(messageConstructor(req.context.id, `'${req.url}' not found`));

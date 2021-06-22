@@ -6,6 +6,7 @@ name: Node.js CI
 on:
   pull_request:
     types: ['opened', 'edited', 'reopened', 'synchronize']
+  workflow_dispatch:
 
 jobs:
   build:
@@ -14,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [12.x, 14.x]
 
     steps:
     - uses: actions/checkout@v2

@@ -8,19 +8,36 @@ import {
   registrationRouter,
   searchRouter,
   signInRouter,
+  signOutRouter,
 } from "./routes";
-import express from "express";
+import express, {Express} from "express";
 import chalk from "chalk";
+import cookieParser from "cookie-parser";
 import * as path from "path";
 import {ENV} from "../shared/env/env";
-import {notFoundMiddleware} from "./middlewares/not-found.middleware";
-import {errorHandlerMiddleware} from "./middlewares/error-handler.middleware";
+import {errorHandlerMiddleware, getUserFromCookiesMiddleware, notFoundMiddleware} from "./middlewares";
+import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "./middlewares/logger";
 
 export function runApp(): void {
   const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;
   const app = express();
-  app.use(express.static(path.join(__dirname, STATIC_DIR)));
+  initializeMiddlewares(app);
+  configureRoutes(app);
+  app.use(errorHandlerMiddleware);
 
+  app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
+}
+
+function initializeMiddlewares(app: Express): void {
+  app.use(cookieParser());
+  app.use(express.static(path.join(__dirname, STATIC_DIR)));
+  app.use(assignLogFieldsMiddleware);
+  app.use(responseStatusCodeMiddleware);
+  app.use(logRouteMiddleware);
+  app.use(getUserFromCookiesMiddleware);
+}
+
+function configureRoutes(app: Express): void {
   app.use(ClientRoutes.INDEX, mainPageRouter);
   app.use(ClientRoutes.SIGN_IN, signInRouter);
   app.use(ClientRoutes.SEARCH.INDEX, searchRouter);
@@ -29,9 +46,6 @@ export function runApp(): void {
   app.use(ClientRoutes.ARTICLES.INDEX, articlesRouter);
   app.use(ClientRoutes.REGISTRATION, registrationRouter);
   app.use(ClientRoutes.COMMENTS, commentsRouter);
+  app.use(ClientRoutes.SIGN_OUT, signOutRouter);
   app.use(`*`, notFoundMiddleware);
-
-  app.use(errorHandlerMiddleware);
-
-  app.listen(port, () => console.info(chalk.green(`Listen on port ${port}`)));
 }

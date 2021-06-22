@@ -10,8 +10,9 @@ import {CategoryWithLink} from "../../../types/category-with-link";
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
 import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
 import {ILink} from "../../../types/article";
+import {ICurrentUser} from "../interfaces/current-user";
 
-interface MainPageProps extends IPaginationProps {
+interface MainPageProps extends IPaginationProps, ICurrentUser {
   articles?: (IArticlePreview & ILink)[];
   categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[];
   categoriesWithLinks: CategoryWithLink[];
@@ -25,6 +26,7 @@ export const MainPage: FunctionComponent<MainPageProps> = ({
   page,
   total,
   prefix,
+  currentUser,
 }) => {
   const hotList = [
     {
@@ -70,7 +72,7 @@ export const MainPage: FunctionComponent<MainPageProps> = ({
   ];
 
   return (
-    <LayoutFilled>
+    <LayoutFilled currentUser={currentUser}>
       <main className="main-page">
         <Greeting />
         <section className="main-page__theme-list">

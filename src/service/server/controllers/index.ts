@@ -3,6 +3,7 @@ import {CategoriesController} from "./categories.controller";
 import {SearchController} from "./search.controller";
 import {
   articlesServiceFactory,
+  authServiceFactory,
   categoriesServiceFactory,
   commentsServiceFactory,
   searchServiceFactory,
@@ -14,6 +15,8 @@ import {ICommentModel} from "../data-access/models/comment";
 import {CommentsController} from "./comments.controller";
 import {UsersController} from "./users.controller";
 import {IUserModel} from "../data-access/models/user";
+import {AuthController} from "./auth.controller";
+import {IRefreshTokenModel} from "../data-access/models/refresh-tokens";
 
 export const articlesControllerFactory = ({
   ArticleModel,
@@ -39,5 +42,18 @@ export const searchControllerFactory = ({ArticleModel}: {ArticleModel: IArticleM
 export const commentsControllerFactory = ({CommentModel}: {CommentModel: ICommentModel}): CommentsController =>
   new CommentsController(commentsServiceFactory(CommentModel));
 
-export const usersControllerFactory = ({UserModel}: {UserModel: IUserModel}): UsersController =>
-  new UsersController(usersServiceFactory(UserModel));
+export const usersControllerFactory = ({
+  UserModel,
+  CommentModel,
+}: {
+  UserModel: IUserModel;
+  CommentModel: ICommentModel;
+}): UsersController => new UsersController(usersServiceFactory(UserModel), commentsServiceFactory(CommentModel));
+
+export const authControllerFactory = ({
+  UserModel,
+  RefreshTokenModel,
+}: {
+  UserModel: IUserModel;
+  RefreshTokenModel: IRefreshTokenModel;
+}): AuthController => new AuthController(authServiceFactory(UserModel, RefreshTokenModel));

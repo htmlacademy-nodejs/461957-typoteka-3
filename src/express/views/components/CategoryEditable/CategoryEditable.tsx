@@ -1,13 +1,15 @@
 import React, {FunctionComponent} from "react";
 import {CategoryId} from "../../../../types/category-id";
+import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
+import {ICsrfInput} from "../../interfaces/csrf-input";
 
-export interface CategoryEditableProps {
+export interface CategoryEditableProps extends ICsrfInput {
   label: string;
   id: CategoryId;
   endPoint: string;
 }
 
-export const CategoryEditable: FunctionComponent<CategoryEditableProps> = ({label, endPoint, id}) => {
+export const CategoryEditable: FunctionComponent<CategoryEditableProps> = ({label, endPoint, id, csrf}) => {
   return (
     <li className="category__list-item">
       <form action={endPoint} method="PATCH">
@@ -21,6 +23,7 @@ export const CategoryEditable: FunctionComponent<CategoryEditableProps> = ({labe
         <button className="category__button button button--category" type="button">
           Удалить
         </button>
+        <CsrfHiddenInput csrf={csrf} />
       </form>
     </li>
   );

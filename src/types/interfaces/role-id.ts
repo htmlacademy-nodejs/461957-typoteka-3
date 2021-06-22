@@ -1,5 +1,6 @@
-import {RoleId} from "../role-id";
+import {ValueOf} from "../value-of";
+import {RoleId} from "../../shared/constants/role-id";
 
 export interface IRoleId {
-  roleId: RoleId;
+  roleId: ValueOf<typeof RoleId>;
 }

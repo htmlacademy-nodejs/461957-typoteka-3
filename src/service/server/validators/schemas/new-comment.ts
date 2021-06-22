@@ -16,4 +16,7 @@ export const newCommentSchema = Joi.object<ICommentCreating>({
     "any.required": `Обязательное поле`,
   }),
   createdDate: Joi.date().required(),
+  authorId: Joi.number().required().messages({
+    "any.required": `Обязательное поле`,
+  }),
 });

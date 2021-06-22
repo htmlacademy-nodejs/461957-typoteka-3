@@ -34,17 +34,24 @@ export const MockTextsFilePath = {
   FIRST_NAMES: `data/first-names.txt`,
   LAST_NAMES: `data/last-names.txt`,
   EMAILS: `data/emails.txt`,
+  AVATARS: `data/avatars.txt`,
 } as const;
 export const APIRoutes = {
   API: `/api`,
   ARTICLES: `/articles`,
+  ARTICLES_BY_AUTHOR: `/articles/author`,
   EDIT_ARTICLE: `/articles`,
   COMMENTS: `/comments`,
   CATEGORIES: `/categories`,
   CATEGORIES_STATISTICS: `/categories-statistics`,
   SEARCH: `/search`,
   USERS: `/users`,
-  LOGIN: `/users/login`,
+  USERS_COMMENTS: `/users/comments`,
+  AUTH: `/auth`,
+  LOGIN: `/auth/login`,
+  GET_USER: `/auth/get-user`,
+  REFRESH_TOKENS: `/auth/refresh`,
+  LOGOUT: `/auth/sign-out`,
 };
 export const ClientRoutes = {
   INDEX: `/`,
@@ -65,13 +72,8 @@ export const ClientRoutes = {
   SIGN_IN: `/login`,
   CATEGORIES: `/categories`,
   COMMENTS: `/comments`,
+  SIGN_OUT: `/sign-out`,
 };
-export const HttpMethod = {
-  GET: `GET`,
-  POST: `POST`,
-  PUT: `PUT`,
-  DELETE: `DELETE`,
-} as const;
 export const ARTICLE_FORM_FIELDS = {
   createdDate: {
     name: `createdDate`,
@@ -151,10 +153,6 @@ export const LogLevel = {
   INFO: `info`,
   DEBUG: `debug`,
   TRACE: `trace`,
-} as const;
-export const ROLE_ID = {
-  ADMIN: 1,
-  AUTHOR: 2,
 } as const;
 export const PAGE_SIZE = 8;
 export const PAGE_QUERY_PARAM = `page`;

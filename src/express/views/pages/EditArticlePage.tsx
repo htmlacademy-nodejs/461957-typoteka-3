@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {ARTICLE_FORM_FIELDS} from "../../../constants-es6";
+import {ARTICLE_FORM_FIELDS, ClientRoutes} from "../../../constants-es6";
 import type {ArticleValidationResponse} from "../../../types/article-validation-response";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {FormValidationMessage} from "../components/Form/FormValidationMessage";
@@ -9,8 +9,11 @@ import type {Category} from "../../../types/category";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
 import {EditArticleWrapper} from "../components/EditArticleWrapper/EditArticleWrapper";
+import {ICurrentUser} from "../interfaces/current-user";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {ICsrfInput} from "../interfaces/csrf-input";
 
-interface EditArticleProps {
+interface EditArticleProps extends ICurrentUser, ICsrfInput {
   article?: Partial<IArticleCreating>;
   endPoint: string;
   availableCategories: Category[];
@@ -24,6 +27,8 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   availableCategories,
   articleValidationResponse = {},
   isUpdating,
+  currentUser,
+  csrf,
 }) => {
   const articleProps = {
     title: article?.title ?? ``,
@@ -33,7 +38,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
     createdDate: article?.createdDate ?? new Date(),
   };
   return (
-    <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`}>
+    <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`} currentUser={currentUser}>
       <EditArticleWrapper>
         <form action={endPoint} method="POST" encType="multipart/form-data">
           <div className="new-publication__header">
@@ -57,7 +62,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               Опубликовать
             </button>
           </div>
-          <a type="button" className="popup__button button button--popup-close" aria-label="Закрыть окно">
+          <a href={ClientRoutes.INDEX} className="popup__button button button--popup-close" aria-label="Закрыть окно">
             Закрыть окно
           </a>
           <div className="new-publication__form form">
@@ -144,6 +149,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
             </div>
           </div>
+          <CsrfHiddenInput csrf={csrf} />
         </form>
       </EditArticleWrapper>
     </LayoutFilled>

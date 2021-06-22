@@ -1,3 +1,4 @@
+/* eslint-disable max-nested-callbacks */
 import {agent as request} from "supertest";
 import {Application} from "express";
 import * as http from "http";
@@ -6,6 +7,11 @@ import {ArticleId} from "../../../types/article-id";
 import {initApp} from "./tests-boilerplate/init-app";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
 import {ICollection} from "../../../types/interfaces/collection";
+import {resolveAuthHeader} from "./tests-boilerplate/resolve-auth-header";
+import {getAccessToken} from "./tests-boilerplate/get-access-token";
+import {IUserPreview} from "../../../types/interfaces/user-preview";
+import {getUserByAccessToken} from "./tests-boilerplate/get-user-by-access-token";
+import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-date";
 
 let validArticleId: ArticleId;
 const invalidArticleId = `999999999999999999999999999999999999`;
@@ -15,6 +21,7 @@ const validNewArticle: IArticleCreating = {
   createdDate: new Date(Date.now()),
   fullText: `Освоить вёрстку несложно.`,
   title: `Как собрать камни бесконечности`,
+  authorId: 2,
 };
 const invalidNewArticle = {...validNewArticle, categories: 10};
 
@@ -46,8 +53,43 @@ describe(`Articles router`, () => {
     });
     test(`Should return an array given length`, async () => {
       const res = await request(app).get(`/api/articles/?limit=3`);
-      console.log(`res.body`, res.body);
       expect((res.body as ICollection<any>).items.length).toBe(3);
+    });
+  });
+
+  describe(`GET articles by author id`, () => {
+    let accessToken: string;
+    let currentUser: IUserPreview;
+    beforeAll(async () => {
+      accessToken = await getAccessToken(app);
+      currentUser = await getUserByAccessToken(app, accessToken);
+    });
+
+    test(`Should return code 200 when request articles`, async () => {
+      const res = await request(app).get(`/api/articles/author/${currentUser.id}`).set(resolveAuthHeader(accessToken));
+      expect(res.status).toBe(200);
+    });
+
+    test(`Should return the list of articles created by given user`, async () => {
+      const articlesCount = 3;
+      const availableTitles = new Array(articlesCount)
+        .fill(undefined)
+        .map((item, index) => `[${index}] New article title for tests`);
+      await Promise.all([
+        new Array(articlesCount).fill(0).map(async (_, index) => {
+          const extendedArticle: IArticleCreating = {
+            ...validNewArticle,
+            authorId: currentUser.id,
+            title: availableTitles[index],
+          };
+          return request(app).post(`/api/articles/`).set(resolveAuthHeader(accessToken)).send(extendedArticle);
+        }),
+      ]);
+
+      const res = await request(app).get(`/api/articles/author/${currentUser.id}`).set(resolveAuthHeader(accessToken));
+      const responseBody = res.body as ICollection<IArticleTitleAndDate>;
+      expect(responseBody.totalCount).toBe(articlesCount);
+      expect(responseBody.items.every(({title}) => availableTitles.includes(title))).toBeTruthy();
     });
   });
 
@@ -74,37 +116,61 @@ describe(`Articles router`, () => {
   });
 
   describe(`POST Create new article`, () => {
+    let accessToken: string;
+    beforeAll(async () => {
+      accessToken = await getAccessToken(app);
+    });
     test(`Should return code 400 when pass invalid article params`, async () => {
-      const res = await request(app).post(`/api/articles/`).send(invalidNewArticle);
+      const res = await request(app).post(`/api/articles/`).set(resolveAuthHeader(accessToken)).send(invalidNewArticle);
       expect(res.status).toBe(400);
     });
 
     test(`Should return code 201 when pass valid article params`, async () => {
-      const res = await request(app).post(`/api/articles/`).send(validNewArticle);
+      const res = await request(app).post(`/api/articles/`).set(resolveAuthHeader(accessToken)).send(validNewArticle);
       expect(res.status).toBe(201);
     });
   });
 
   describe(`PUT Update existing article`, () => {
+    let accessToken: string;
+    beforeAll(async () => {
+      accessToken = await getAccessToken(app);
+    });
     test(`Should return code 404 when pass invalid id`, async () => {
-      const res = await request(app).put(`/api/articles/${invalidArticleId}`).send(validNewArticle);
+      const res = await request(app)
+        .put(`/api/articles/${invalidArticleId}`)
+        .set(resolveAuthHeader(accessToken))
+        .send(validNewArticle);
       expect(res.status).toBe(404);
     });
 
     test(`Should return code 200 when pass valid id`, async () => {
-      const res = await request(app).put(`/api/articles/${validArticleId}`).send(validNewArticle);
+      const res = await request(app)
+        .put(`/api/articles/${validArticleId}`)
+        .set(resolveAuthHeader(accessToken))
+        .send(validNewArticle);
       expect(res.status).toBe(200);
     });
   });
 
   describe(`DELETE existing article`, () => {
+    let accessToken: string;
+    beforeAll(async () => {
+      accessToken = await getAccessToken(app);
+    });
     test(`Should return code 404 when pass invalid id`, async () => {
-      const res = await request(app).delete(`/api/articles/${invalidArticleId}`);
+      const res = await request(app)
+        .delete(`/api/articles/${invalidArticleId}`)
+        .set(resolveAuthHeader(accessToken))
+        .send();
       expect(res.status).toBe(404);
     });
 
     test(`Should return code 200 when pass valid id`, async () => {
-      const res = await request(app).delete(`/api/articles/${validArticleId}`);
+      const res = await request(app)
+        .delete(`/api/articles/${validArticleId}`)
+        .set(resolveAuthHeader(accessToken))
+        .send();
       expect(res.status).toBe(200);
     });
   });

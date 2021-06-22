@@ -12,10 +12,9 @@ export const commentsRouter = (commentsController: CommentsController): Router =
     return res.status(status).send(payload);
   });
   router.post(`/`, async (req, res) => {
-    const articleId = parseInt(req.params.id, 10);
     try {
       const newComment = await validateNewComment(req.body);
-      const {status = HttpCode.OK, payload} = await commentsController.createComment(articleId, newComment);
+      const {status = HttpCode.OK, payload} = await commentsController.createComment(newComment);
       res.status(status).send(payload);
     } catch (e) {
       res.status(HttpCode.BAD_REQUEST).send(e);

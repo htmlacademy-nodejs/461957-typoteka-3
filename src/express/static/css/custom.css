@@ -5,9 +5,34 @@
 .footer {
   justify-content: space-between;
   max-width: 1000px;
-  width: auto;
   margin-left: 0;
   margin-right: 0;
+  align-self: center;
+}
+
+.header {
+  gap: 16px;
+}
+
+.header__burger {
+  margin: 0;
+}
+
+.header__avatar {
+  margin: 0;
+}
+
+.header__name::after,
+.header__nav-list p::after {
+  display: none;
+}
+
+.popup--new-publication::before {
+  right: 24%;
+}
+
+.navigation__item:first-of-type::before {
+  right: 24%;
 }
 
 .form__validation-error {
@@ -27,4 +52,102 @@
   background-color: #ffeded;
   border-radius: 15px;
   padding: 14px 20px 16px;
+}
+
+.header__navigation {
+  left: -93px;
+}
+
+.header__navigation--open {
+  display: block;
+}
+
+.header__button-new,
+.new-publication__button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.header__exit {
+  margin-left: 0;
+}
+
+.header__nav-list {
+  gap: 12px;
+}
+
+.header__enter,
+.header__registration {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.navigation__item a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ms-Icon {
+  line-height: 1;
+}
+
+.navigation {
+  width: auto;
+}
+
+.avatar-emoji {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: linear-gradient(#72d5fd, #2a9ef1);
+  user-select: none;
+  width: 50px;
+  height: 50px;
+  justify-content: center;
+  text-align: center;
+}
+
+.avatar-emoji__size_small {
+  width: 20px;
+  height: 20px;
+  font-size: 15px;
+}
+
+.avatar-emoji__size_medium {
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+}
+
+.button--colored {
+  border-radius: 25px;
+}
+
+.button--popup-close {
+  border-color: #595959;
+  opacity: 0.8;
+}
+
+.publication__list-item {
+  padding-right: 0;
+  margin-bottom: 0;
+  padding-top: 19px;
+  padding-bottom: 19px;
+}
+
+.publication__text-strong:hover {
+  color: #2f80ed;
+}
+
+.authors-comment {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: auto min-content;
+  justify-content: space-between;
 }

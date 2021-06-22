@@ -1,12 +1,12 @@
 import Joi from "joi";
-import {Article} from "../../../../types/article";
+import {NewArticle} from "../../../../types/article";
 import {categoryIdsSchema} from "./category";
 
 const TITLE_RESTRICTIONS = [30, 250];
 const ANNOUNCE_RESTRICTIONS = [30, 250];
 const MAX_FULLTEXT_LENGTH = 1000;
 
-export const newArticleSchema = Joi.object<Article>({
+export const newArticleSchema = Joi.object<NewArticle>({
   fullText: Joi.string()
     .max(MAX_FULLTEXT_LENGTH)
     .required()
@@ -40,5 +40,8 @@ export const newArticleSchema = Joi.object<Article>({
   }),
   categories: Joi.array().items(categoryIdsSchema).min(1).required().messages({
     "array.min": `Выберите минимум одну категорию`,
+  }),
+  authorId: Joi.number().required().messages({
+    "any.required": `Обязательное поле`,
   }),
 });

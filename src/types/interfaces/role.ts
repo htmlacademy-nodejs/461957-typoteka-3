@@ -1,7 +1,7 @@
-import {RoleId} from "../role-id";
-import {ROLE_ID} from "../../constants-es6";
+import {RoleId} from "../../shared/constants/role-id";
+import {ValueOf} from "../value-of";
 
 export interface IRole {
-  id: RoleId;
-  title: keyof typeof ROLE_ID;
+  title: keyof typeof RoleId;
+  id: ValueOf<typeof RoleId>;
 }

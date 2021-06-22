@@ -20,6 +20,11 @@ import {IUserCreatingDoublePasswords} from "../../types/interfaces/user-creating
 import {UserValidationResponse} from "../../types/user-validation-response";
 import {ILogin} from "../../types/interfaces/login";
 import {SignInValidationResponse} from "../../types/sign-in-validation-response";
+import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
+import {IAuthTokens} from "../../types/interfaces/auth-tokens";
+import {IUserPreview} from "../../types/interfaces/user-preview";
+import {UserId} from "../../types/user-id";
+import {IAuthorsComment} from "../../types/interfaces/authors-comment";
 
 export class DataProviderService {
   private readonly requestService: AxiosStatic;
@@ -47,6 +52,28 @@ export class DataProviderService {
     }
   }
 
+  public async getArticlesByUser({
+    offset,
+    limit,
+    authorId,
+  }: Partial<IPaginationOptions> & {authorId: UserId}): Promise<ICollection<IArticlePreview>> {
+    try {
+      const response = await this.requestService.get<ICollection<IArticlePreview>>(
+        `${this.apiEndPoint + APIRoutes.ARTICLES_BY_AUTHOR}/${authorId}`,
+        {
+          params: {offset, limit},
+        },
+      );
+      return {
+        items: response.data.items.map(transformDate),
+        totalCount: response.data.totalCount,
+      };
+    } catch (e) {
+      console.error(`Failed to load articles for user`);
+      return Promise.reject(e);
+    }
+  }
+
   public async createUser(newUser: IUserCreatingDoublePasswords): Promise<void | UserValidationResponse> {
     let response: AxiosResponse<void | UserValidationResponse>;
     try {
@@ -65,30 +92,43 @@ export class DataProviderService {
     }
   }
 
-  public async signIn(signIn: ILogin): Promise<void | SignInValidationResponse> {
-    let response: AxiosResponse<void | SignInValidationResponse>;
+  public async signIn(signIn: ILogin): Promise<IAuthorizationSuccess | IAuthorizationFailed> {
+    let response: AxiosResponse<IAuthorizationSuccess>;
     try {
-      response = await this.requestService.post<SignInValidationResponse>(this.apiEndPoint + APIRoutes.LOGIN, signIn);
+      response = await this.requestService.post<IAuthorizationSuccess>(this.apiEndPoint + APIRoutes.LOGIN, signIn);
       if (response && response?.status === HttpCode.OK) {
-        return Promise.resolve();
+        return Promise.resolve({
+          isSuccess: true,
+          payload: {
+            accessToken: response.data.payload.accessToken,
+            refreshToken: response.data.payload.refreshToken,
+          },
+        });
       }
       return Promise.reject(`Error during sign in`);
     } catch (e) {
       /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+      if (e?.response?.status === HttpCode.FORBIDDEN) {
         console.error(`Invalid user`);
-        return e?.response?.data as SignInValidationResponse;
+        return {
+          isSuccess: false,
+          payload: e?.response?.data as SignInValidationResponse,
+        };
       }
       return Promise.reject(`Error during sign in`);
     }
   }
 
-  public async createArticle(newArticle: IArticleCreating): Promise<void | ArticleValidationResponse> {
+  public async createArticle(
+    newArticle: IArticleCreating,
+    authToken: string,
+  ): Promise<void | ArticleValidationResponse> {
     let response: AxiosResponse<void | ArticleValidationResponse>;
     try {
       response = await this.requestService.post<ArticleValidationResponse>(
         this.apiEndPoint + APIRoutes.ARTICLES,
         newArticle,
+        getAuthHeader(authToken),
       );
       if (response && response?.status === HttpCode.CREATED) {
         return Promise.resolve();
@@ -109,11 +149,13 @@ export class DataProviderService {
   public async updateArticle(
     articleId: ArticleId,
     updatingArticle: IArticleCreating,
+    authToken: string,
   ): Promise<void | ArticleValidationResponse> {
     try {
       const response = await this.requestService.put<ArticleValidationResponse>(
         `${this.apiEndPoint}/${APIRoutes.EDIT_ARTICLE}/${articleId}`,
         updatingArticle,
+        getAuthHeader(authToken),
       );
       if (response && response?.status === HttpCode.OK) {
         return Promise.resolve();
@@ -163,15 +205,15 @@ export class DataProviderService {
     }
   }
 
-  public async getComments(quantityOfArticles: number): Promise<ArticleComment[]> {
+  public async getComments(authToken: string): Promise<IAuthorsComment[]> {
     try {
-      const {items: articlesList} = await this.getArticles({limit: 100, offset: 0});
-      const comments = await Promise.all(
-        articlesList.slice(0, quantityOfArticles).map(article => this.getArticleComments(article.id)),
+      const response = await this.requestService.get<IAuthorsComment[]>(
+        this.apiEndPoint + APIRoutes.USERS_COMMENTS,
+        getAuthHeader(authToken),
       );
-      return comments.flat(1);
+      return response.data;
     } catch (e) {
-      console.error(`Failed to load articles or comments`);
+      console.error(`Failed to load author's comments`);
       return Promise.reject(e);
     }
   }
@@ -226,15 +268,13 @@ export class DataProviderService {
     }
   }
 
-  public async createComment(
-    articleId: ArticleId,
-    comment: ICommentCreating,
-  ): Promise<void | CommentValidationResponse> {
+  public async createComment(comment: ICommentCreating, authToken: string): Promise<void | CommentValidationResponse> {
     let response: AxiosResponse<void | CommentValidationResponse>;
     try {
       response = await this.requestService.post<CommentValidationResponse>(
-        `${this.apiEndPoint}/${APIRoutes.ARTICLES}/${articleId}/comments`,
+        `${this.apiEndPoint + APIRoutes.ARTICLES}/${comment.articleId}/comments`,
         comment,
+        getAuthHeader(authToken),
       );
       if (response && response?.status === HttpCode.CREATED) {
         return Promise.resolve();
@@ -250,8 +290,66 @@ export class DataProviderService {
       return Promise.reject(`Error during creation the new comment`);
     }
   }
+
+  public async refreshTokens(refreshToken: string): Promise<IAuthTokens> {
+    let response: AxiosResponse<IAuthTokens>;
+    try {
+      response = await this.requestService.post<IAuthTokens>(this.apiEndPoint + APIRoutes.REFRESH_TOKENS, {
+        refreshToken,
+      });
+      if (response && response?.status === HttpCode.OK) {
+        return Promise.resolve({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+        });
+      }
+      return Promise.reject(`Failed to refresh auth tokens`);
+    } catch (e) {
+      return Promise.reject(`Invalid refresh token`);
+    }
+  }
+
+  public async signOut(refreshToken: string, authToken: string): Promise<void> {
+    let response: AxiosResponse<void>;
+    try {
+      response = await this.requestService.post<void>(
+        this.apiEndPoint + APIRoutes.LOGOUT,
+        {refreshToken},
+        getAuthHeader(authToken),
+      );
+      if (response && response?.status === HttpCode.OK) {
+        return Promise.resolve();
+      }
+      return Promise.reject(`Failed to log out`);
+    } catch (e) {
+      return Promise.reject(`Failed to log out`);
+    }
+  }
+
+  public async getUserFromToken(authToken: string): Promise<IUserPreview> {
+    let response: AxiosResponse<IUserPreview>;
+    try {
+      response = await this.requestService.get<IUserPreview>(
+        this.apiEndPoint + APIRoutes.GET_USER,
+        getAuthHeader(authToken),
+      );
+      if (response && response?.status === HttpCode.OK) {
+        return Promise.resolve(response.data);
+      }
+      return Promise.reject(`Failed to get user by accessToken`);
+    } catch (e) {
+      return Promise.reject(`Invalid accessToken token`);
+    }
+  }
 }
 
 function transformDate<T extends ICreatedDate>(item: T): T {
   return {...item, createdDate: new Date(Date.parse((item.createdDate as unknown) as string))};
+}
+
+function getAuthHeader(token: string): Record<string, Record<string, string>> {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  return {headers};
 }

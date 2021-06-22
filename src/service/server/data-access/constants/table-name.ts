@@ -5,4 +5,5 @@ export const TableName = {
   ARTICLES_CATEGORIES: `articles_categories`,
   USERS: `users`,
   ROLES: `roles`,
+  REFRESH_TOKENS: `refresh_tokens`,
 };

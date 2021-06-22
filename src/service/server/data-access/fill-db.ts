@@ -1,4 +1,4 @@
-import {MockTextsFilePath, ROLE_ID} from "../../../constants-es6";
+import {MockTextsFilePath} from "../../../constants-es6";
 import {ICategoryEntity, ICategoryModel} from "./models/category";
 import {IArticleEntity, IArticleModel} from "./models/article";
 import {
@@ -18,7 +18,11 @@ import {IUserEntity, IUserModel} from "./models/user";
 import {IUserCreating} from "../../../types/interfaces/user-creating";
 import {IRoleEntity, IRoleModel} from "./models/role";
 import {IRole} from "../../../types/interfaces/role";
-import {getId} from "../../../shared/get-id";
+import {hashSync} from "bcrypt";
+import {RoleId} from "../../../shared/constants/role-id";
+import {UserId} from "../../../types/user-id";
+
+const SALT_ROUNDS = 10;
 
 export async function fillDb(
   articlesNumber: number,
@@ -31,7 +35,17 @@ export async function fillDb(
   },
 ): Promise<void> {
   const {CommentModel, CategoryModel, ArticleModel, UserModel, RoleModel} = models;
-  const [firstNames, lastNames, emails, permissions, categories, sentences, comments, titles] = await loadSources([
+  const [
+    firstNames,
+    lastNames,
+    emails,
+    permissions,
+    categories,
+    sentences,
+    comments,
+    titles,
+    avatars,
+  ] = await loadSources([
     MockTextsFilePath.FIRST_NAMES,
     MockTextsFilePath.LAST_NAMES,
     MockTextsFilePath.EMAILS,
@@ -40,12 +54,17 @@ export async function fillDb(
     MockTextsFilePath.SENTENCES,
     MockTextsFilePath.COMMENTS,
     MockTextsFilePath.TITLES,
+    MockTextsFilePath.AVATARS,
   ]);
 
   const createdCategories = await createCategories(CategoryModel, categories);
-  const createdArticles = await createArticles(ArticleModel, articlesNumber, {titles, comments, sentences});
   const roles = await createRoles(RoleModel);
-  const createdUsers = await createUsers(UserModel, {firstNames, lastNames, emails});
+  const users = await createUsers(UserModel, {firstNames, lastNames, emails, avatars});
+  const createdArticles = await createArticles(ArticleModel, articlesNumber, users, {
+    titles,
+    comments,
+    sentences,
+  });
   await assignCategoriesToArticles(createdArticles, createdCategories, {categories});
 }
 
@@ -69,9 +88,12 @@ async function assignCategoriesToArticles(
 async function createArticles(
   ArticleModel: IArticleModel,
   articlesCount: number,
+  users: IUserEntity[],
   payload: {titles: string[]; sentences: string[]; comments: string[]},
 ): Promise<IArticleEntity[]> {
   const articles = new Array(articlesCount).fill(undefined);
+  const authors = selectAuthorsOnly(users);
+  const commentatorsIds = users.map(item => ({authorId: item.getDataValue(`id`)}));
   return ArticleModel.bulkCreate(
     articles.map(() => ({
       title: getTitle(payload.titles),
@@ -79,7 +101,8 @@ async function createArticles(
       createdDate: getDate(Date.now()),
       announce: getAnnounce(payload.sentences),
       categories: undefined,
-      comments: getComments(payload.comments),
+      comments: getComments(payload.comments, commentatorsIds),
+      authorId: getAuthorId(authors),
     })),
     {include: [TableName.COMMENTS]},
   );
@@ -101,37 +124,46 @@ function getCategoriesIds(categoriesEntities: ICategoryEntity[]): Record<string,
 
 async function createUsers(
   UserModel: IUserModel,
-  payload: {firstNames: string[]; lastNames: string[]; emails: string[]},
+  payload: {firstNames: string[]; lastNames: string[]; emails: string[]; avatars: string[]},
 ): Promise<IUserEntity[]> {
-  const adminUser: IUserCreating = {
-    avatar: ``,
+  const admin: Pick<IUserCreating, `email` | `roleId`> = {
     email: `admin-email@gmail.com`,
-    firstName: getRandomItem(payload.firstNames),
-    lastName: getRandomItem(payload.lastNames),
-    roleId: ROLE_ID.ADMIN,
-    password: getId(),
+    roleId: RoleId.ADMIN,
   };
-  const users = new Array(10).fill(undefined).map<IUserCreating>(() => ({
-    avatar: ``,
+  const authors = new Array(10).fill(undefined).map<Pick<IUserCreating, `email` | `roleId`>>(() => ({
     email: getRandomItem(payload.emails),
-    firstName: getRandomItem(payload.firstNames),
-    lastName: getRandomItem(payload.lastNames),
-    roleId: ROLE_ID.AUTHOR,
-    password: getId(),
+    roleId: RoleId.AUTHOR,
   }));
-  users.unshift(adminUser);
-  return UserModel.bulkCreate(filterUniqEmails(users));
+  const readers = new Array(10).fill(undefined).map<Pick<IUserCreating, `email` | `roleId`>>(() => ({
+    email: getRandomItem(payload.emails),
+    roleId: RoleId.READER,
+  }));
+  return UserModel.bulkCreate(
+    filterUniqEmails(
+      [admin, ...authors, ...readers].map<IUserCreating>(item => ({
+        ...item,
+        firstName: getRandomItem(payload.firstNames),
+        lastName: getRandomItem(payload.lastNames),
+        avatar: getRandomItem(payload.avatars),
+        password: hashSync(item.email, SALT_ROUNDS),
+      })),
+    ),
+  );
 }
 
 async function createRoles(RoleModel: IRoleModel): Promise<IRoleEntity[]> {
-  const roles: [IRole, IRole] = [
+  const roles: [IRole, IRole, IRole] = [
     {
-      id: 1,
+      id: RoleId.ADMIN,
       title: `ADMIN`,
     },
     {
-      id: 2,
+      id: RoleId.AUTHOR,
       title: `AUTHOR`,
+    },
+    {
+      id: RoleId.READER,
+      title: `READER`,
     },
   ];
   return RoleModel.bulkCreate(roles);
@@ -146,4 +178,14 @@ function filterUniqEmails<T extends {email: string}>(items: T[]): T[] {
     }
     return accumulator;
   }, [] as T[]);
+}
+
+function selectAuthorsOnly(users: IUserEntity[]): IUserEntity[] {
+  return users.filter(
+    user => user.getDataValue(`roleId`) === RoleId.AUTHOR || user.getDataValue(`roleId`) === RoleId.ADMIN,
+  );
+}
+
+function getAuthorId(users: IUserEntity[]): UserId {
+  return getRandomItem(users).getDataValue(`id`);
 }

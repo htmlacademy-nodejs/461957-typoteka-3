@@ -1,8 +1,8 @@
-import {Article} from "../../../../types/article";
+import {Article, NewArticle} from "../../../../types/article";
 import {Category} from "../../../../types/category";
 import {ArticleComment} from "../../../../types/article-comment";
 
-export const ArticleProperty: Record<Uppercase<keyof Article>, string> = {
+export const ArticleProperty: Record<Uppercase<keyof Article>, string> & Record<Uppercase<keyof NewArticle>, string> = {
   COMMENTS: `comments`,
   CATEGORIES: `categories`,
   ANNOUNCE: `announce`,
@@ -10,6 +10,7 @@ export const ArticleProperty: Record<Uppercase<keyof Article>, string> = {
   CREATEDDATE: `created_date`,
   FULLTEXT: `full_text`,
   TITLE: `title`,
+  AUTHORID: `author_id`,
 };
 
 export const CategoryProperty: Record<Uppercase<keyof Category>, string> = {
@@ -28,11 +29,12 @@ export const ArticleCategoryProperty = {
   },
 };
 
-export const CommentProperty: Record<Uppercase<keyof ArticleComment>, string> = {
+export const CommentProperty: Partial<Record<Uppercase<keyof ArticleComment>, string>> = {
   ID: `id`,
   CREATEDDATE: `created_date`,
   ARTICLEID: `article_id`,
   TEXT: `text`,
+  AUTHORID: `author_id`,
 };
 
 export const UserProperty = {
@@ -41,6 +43,11 @@ export const UserProperty = {
   FIRST_NAME: `first_name`,
   LAST_NAME: `last_name`,
   AVATAR: `avatar`,
-  ROLE_ID: `roleId`,
+  ROLE_ID: `role_id`,
   PASSWORD: `password`,
 };
+
+export const RefreshTokenProperty = {
+  TOKEN: `token`,
+  USER_ID: `userId`,
+} as const;

@@ -2,8 +2,9 @@ import React, {FunctionComponent} from "react";
 import type {IArticleId, ICreatedDate, ITitle} from "../../../types/article";
 import {Note} from "../components/Note/Note";
 import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
+import {ICurrentUser} from "../interfaces/current-user";
 
-interface AdminPublicationsPageProps {
+interface AdminPublicationsPageProps extends ICurrentUser {
   articles: (ITitle & ICreatedDate & IArticleId)[];
 }
 
@@ -20,7 +21,7 @@ export const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps
   });
 
   return (
-    <LayoutAdmin pageTitle={`Мои записи`}>
+    <LayoutAdmin pageTitle={`Мои записи`} currentUser={props.currentUser}>
       <main className="main-page main-page--padding">
         <section className="main-page__notes notes">
           <h1 className="notes__title">Мои записи</h1>
