@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from "react";
-import {ClientRoutes} from "../../../../constants-es6";
+import {Stack} from "@fluentui/react";
+import {DialogHeader} from "../Dialog/DialogHeader/DialogHeader";
 
 interface Props {}
 
@@ -9,10 +10,12 @@ export const RegistrationWrapper: FunctionComponent<Props> = ({children}) => {
       <h1 className="visually-hidden">Регистрация пользователя</h1>
       <section>
         <div className="popup popup--registration popup--anti ms-depth-4">
-          <a className="popup__button button button--popup-close" aria-label="Закрыть окно" href={ClientRoutes.INDEX}>
-            Закрыть окно
-          </a>
-          {children}
+          <div className="popup__form popup__form--active form form--register">
+            <Stack tokens={{childrenGap: 32}}>
+              <DialogHeader title="Войти" />
+              {children}
+            </Stack>
+          </div>
         </div>
       </section>
     </main>
