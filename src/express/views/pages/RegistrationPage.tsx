@@ -9,6 +9,7 @@ import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../interfaces/csrf-input";
+import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 
 interface Props extends ICsrfInput {
   user?: Partial<UserCreatingFromForm>;
@@ -51,84 +52,69 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
         ) : null}
 
         <form action={endPoint} method="POST" encType="multipart/form-data">
-          <div className="form__field">
-            <label>
-              <input
+          <Stack tokens={{childrenGap: 32}}>
+            <Stack tokens={{childrenGap: 16}}>
+              <TextField
                 type="email"
+                label={NEW_USER_FORM_FIELDS.email.label}
                 name={NEW_USER_FORM_FIELDS.email.name}
                 defaultValue={userFields.email}
-                placeholder={NEW_USER_FORM_FIELDS.email.label}
                 required
               />
-            </label>
-          </div>
-          <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.email.name]} />
-          <div className="form__field">
-            <label>
-              <input
-                type="text"
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.email.name]} />
+              <TextField
+                label={NEW_USER_FORM_FIELDS.firstName.label}
                 name={NEW_USER_FORM_FIELDS.firstName.name}
                 defaultValue={userFields.firstName}
-                placeholder={NEW_USER_FORM_FIELDS.firstName.label}
                 required
               />
-            </label>
-          </div>
-          <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.firstName.name]} />
-          <div className="form__field">
-            <label>
-              <input
-                type="text"
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.firstName.name]} />
+              <TextField
+                label={NEW_USER_FORM_FIELDS.lastName.label}
                 name={NEW_USER_FORM_FIELDS.lastName.name}
                 defaultValue={userFields.lastName}
-                placeholder={NEW_USER_FORM_FIELDS.lastName.label}
                 required
               />
-            </label>
-          </div>
-          <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.lastName.name]} />
-          <div className="form__field">
-            <label>
-              <input
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.lastName.name]} />
+              <TextField
                 type="password"
+                label={NEW_USER_FORM_FIELDS.password.label}
                 name={NEW_USER_FORM_FIELDS.password.name}
                 defaultValue={userFields.password}
-                placeholder={NEW_USER_FORM_FIELDS.password.label}
                 required
+                autoComplete="new-password"
               />
-            </label>
-          </div>
-          <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.password.name]} />
-          <div className="form__field">
-            <label>
-              <input
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.password.name]} />
+              <TextField
                 type="password"
+                label={NEW_USER_FORM_FIELDS.passwordRepeated.label}
                 name={NEW_USER_FORM_FIELDS.passwordRepeated.name}
                 defaultValue={userFields.passwordRepeated}
-                placeholder={NEW_USER_FORM_FIELDS.passwordRepeated.label}
                 required
               />
-            </label>
-          </div>
-          <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.passwordRepeated.name]} />
-          <div className="form__image-loader">
-            <a className="form__avatar avatar">
-              <img src="img/icons/smile.svg" alt={NEW_USER_FORM_FIELDS.avatar.label} />
-            </a>
-            <label>
-              <input
-                type="file"
-                name={NEW_USER_FORM_FIELDS.avatar.name}
-                defaultValue={userFields.avatar}
-                className="visually-hidden"
-              />
-              Загрузить фото профиля
-            </label>
-          </div>
-          <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.avatar.name]} />
-          <button className="form__submit-btn form__submit-btn--register button button--colored" type="submit">
-            Зарегистрироваться
-          </button>
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.passwordRepeated.name]} />
+            </Stack>
+            <Stack.Item>
+              <div className="form__image-loader">
+                <a className="form__avatar avatar">
+                  <img src="img/icons/smile.svg" alt={NEW_USER_FORM_FIELDS.avatar.label} />
+                </a>
+                <label>
+                  <input
+                    type="file"
+                    name={NEW_USER_FORM_FIELDS.avatar.name}
+                    defaultValue={userFields.avatar}
+                    className="visually-hidden"
+                  />
+                  Загрузить фото профиля
+                </label>
+              </div>
+              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.avatar.name]} />
+            </Stack.Item>
+            <Stack.Item align="end">
+              <PrimaryButton type="submit">Зарегистироваться</PrimaryButton>
+            </Stack.Item>
+          </Stack>
           <CsrfHiddenInput csrf={csrf} />
         </form>
       </RegistrationWrapper>
