@@ -8,6 +8,7 @@ import {IArticlePreview} from "../../../types/interfaces/article-preview";
 import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
 import {ILink} from "../../../types/article";
 import {ICurrentUser} from "../interfaces/current-user";
+import {Text} from "@fluentui/react";
 
 interface Props extends IPaginationProps, ICurrentUser {
   pageTitle: string;
@@ -30,7 +31,9 @@ export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
   return (
     <LayoutFilled pageTitle={pageTitle} currentUser={currentUser}>
       <main className="articles-category">
-        <h1>{pageTitle}</h1>
+        <Text variant="mega" nowrap block className="articles-category__title">
+          {pageTitle}
+        </Text>
         <section className="articles-category__theme-list">
           <h2 className="visually-hidden">Список тем</h2>
           <ul className="themes">

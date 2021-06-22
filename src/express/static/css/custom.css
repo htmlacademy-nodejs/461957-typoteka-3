@@ -169,3 +169,11 @@
 .form__image-loader {
   margin-top: 0;
 }
+
+.preview__item {
+  min-height: auto;
+}
+
+.articles-category__title {
+  margin-bottom: 60px;
+}
