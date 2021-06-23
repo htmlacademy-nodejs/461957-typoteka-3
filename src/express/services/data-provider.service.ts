@@ -2,7 +2,6 @@ import axios, {AxiosResponse, AxiosStatic} from "axios";
 import type {Article, ICreatedDate} from "../../types/article";
 import {ENV} from "../../shared/env/env";
 import {APIRoutes, HttpCode} from "../../constants-es6";
-import type {ArticleComment} from "../../types/article-comment";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import type {ArticleSearchCollection} from "../../types/article-search-collection";
 import {CategoryWithNumbers} from "../../types/category-with-numbers";
@@ -25,6 +24,7 @@ import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {IUserPreview} from "../../types/interfaces/user-preview";
 import {UserId} from "../../types/user-id";
 import {IAuthorsComment} from "../../types/interfaces/authors-comment";
+import {ICommentPreview} from "../../types/interfaces/comment-preview";
 
 export class DataProviderService {
   private readonly requestService: AxiosStatic;
@@ -255,9 +255,9 @@ export class DataProviderService {
     }
   }
 
-  public async getArticleComments(articleId: ArticleId): Promise<ArticleComment[]> {
+  public async getArticleComments(articleId: ArticleId): Promise<ICommentPreview[]> {
     try {
-      const response = await this.requestService.get<ArticleComment[]>(
+      const response = await this.requestService.get<ICommentPreview[]>(
         `${this.apiEndPoint + APIRoutes.ARTICLES}/${articleId}${APIRoutes.COMMENTS}`,
         {},
       );

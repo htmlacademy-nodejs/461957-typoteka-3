@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
-import type {ICategoriesWithLinksAndNumbers, IComments, ICreatedDate, IFullText, ITitle} from "../../../types/article";
+import type {ICategoriesWithLinksAndNumbers, ICreatedDate, IFullText, ITitle} from "../../../types/article";
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CommentsList} from "../components/CommentsList/CommentsList";
 import {CommentForm} from "../components/CommentForm/CommentForm";
@@ -8,18 +8,19 @@ import {CommentValidationResponse} from "../../../types/comment-validation-respo
 import {CommentValidationErrors} from "../components/CommentValidationErrors/CommentValidationErrors";
 import {ICurrentUser} from "../interfaces/current-user";
 import {ICsrfInput} from "../interfaces/csrf-input";
+import {ICommentPreview} from "../../../types/interfaces/comment-preview";
 
 export interface ArticlePageProps
   extends ITitle,
     ICreatedDate,
     ICategoriesWithLinksAndNumbers,
     IFullText,
-    IComments,
     ICurrentUser,
     ICsrfInput {
   previousPageUrl: string;
   newCommentEndPoint: string;
   commentValidationResponse?: CommentValidationResponse;
+  comments: ICommentPreview[];
 }
 
 export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
