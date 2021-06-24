@@ -15,7 +15,6 @@ plugins:
   - "@typescript-eslint"
   - "react"
 ignorePatterns:
-  - "*.tsx"
   - "src/express/static/**"
   - "/run-scripts/*.js"
 rules:
@@ -45,3 +44,12 @@ rules:
     - error
   "no-unreachable":
     - error
+overrides:
+  - files:
+      - "*.tsx"
+    rules:
+      quotes:
+        - error
+        - double
+        - allowTemplateLiterals: true
+
