@@ -40,15 +40,15 @@ describe(`Users router`, () => {
 
   describe(`GET user by id`, () => {
     test(`Should return code 404 when request invalid id`, async () => {
-      const res = await request(app).get(`/api/users/${invalidUserId}`);
+      const res = await request(app).get(`/api/users/id/${invalidUserId}`);
       expect(res.status).toBe(404);
     });
     test(`Should return code 200 when request valid id`, async () => {
-      const res = await request(app).get(`/api/users/${validUserId}`);
+      const res = await request(app).get(`/api/users/id/${validUserId}`);
       expect(res.status).toBe(200);
     });
     test(`Should return valid structure`, async () => {
-      const res = await request(app).get(`/api/users/${validUserId}`);
+      const res = await request(app).get(`/api/users/id/${validUserId}`);
       const responseKeys = Object.keys(res.body as IUserPreview);
       expect(responseKeys).toContain(`id`);
       expect(responseKeys).toContain(`firstName`);
