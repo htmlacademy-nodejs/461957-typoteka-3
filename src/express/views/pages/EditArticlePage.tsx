@@ -12,7 +12,7 @@ import {EditArticleWrapper} from "../components/EditArticleWrapper/EditArticleWr
 import {ICurrentUser} from "../interfaces/current-user";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../interfaces/csrf-input";
-import {IconButton, PrimaryButton, Stack, TextField} from "@fluentui/react";
+import {IconButton, PrimaryButton, Stack, Text, TextField} from "@fluentui/react";
 import {IIconProps} from "@fluentui/react/lib/components/Icon";
 
 interface EditArticleProps extends ICurrentUser, ICsrfInput {
@@ -44,9 +44,11 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   return (
     <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`} currentUser={currentUser}>
       <EditArticleWrapper>
-        <form action={endPoint} method="POST" encType="multipart/form-data">
+        <form action={endPoint} method="POST" encType="multipart/form-data" className="new-publication__wrapper">
           <div className="new-publication__header">
-            <h1>{isUpdating ? `Редактирование публикации` : `Новая публикация`}</h1>
+            <Text variant="xxLarge" block className="new-publication__page-title">
+              {isUpdating ? `Редактирование публикации` : `Новая публикация`}
+            </Text>
             <div className="new-publication__date-form">
               <h3>Дата публикации</h3>
               <div className="new-publication__date-form-division">
@@ -90,20 +92,16 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   label={ARTICLE_FORM_FIELDS.title.label}
                   name={ARTICLE_FORM_FIELDS.title.name}
                   defaultValue={articleProps.title}
-                  required={true}
+                  errorMessage={articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]}
+                  required
                 />
+                <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]} />
               </div>
-              <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]} />
-              <div className="form__field form__field--post-image">
-                <label>
-                  <input
-                    id="image-name-field"
-                    // name={ARTICLE_FORM_FIELDS.Upload.name}
-                    type="text"
-                    placeholder={ARTICLE_FORM_FIELDS.Upload.label}
-                    readOnly
-                  />
-                </label>
+
+              <div className="form__field">
+                <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">
+                  {ARTICLE_FORM_FIELDS.Upload.label}
+                </div>
                 <div className="form__image-loader form__image-loader--publication">
                   <label>
                     <input
@@ -120,11 +118,16 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                <button className="button button--transparent">Удалить</button>
                */}
               </div>
-              <CategoriesSelect
-                availableCategories={availableCategories}
-                selectedCategories={articleProps.categories}
-                inputName={ARTICLE_FORM_FIELDS.categories.name}
-              />
+              <div className="form__field">
+                <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">
+                  {ARTICLE_FORM_FIELDS.categories.label}
+                </div>
+                <CategoriesSelect
+                  availableCategories={availableCategories}
+                  selectedCategories={articleProps.categories}
+                  inputName={ARTICLE_FORM_FIELDS.categories.name}
+                />
+              </div>
             </div>
             <div className="form__wrapper form__wrapper--text">
               <div className="form__field form__field--publication-text">
@@ -134,11 +137,12 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   label={ARTICLE_FORM_FIELDS.announce.label}
                   name={ARTICLE_FORM_FIELDS.announce.name}
                   value={articleProps.announce}
+                  errorMessage={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]}
                   onChange={() => {}}
                   required
                 />
+                <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]} />
               </div>
-              <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]} />
               <div className="form__field form__field--publication-text">
                 <TextField
                   multiline
@@ -146,11 +150,12 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   rows={10}
                   label={ARTICLE_FORM_FIELDS.fullText.label}
                   value={articleProps.fullText}
+                  errorMessage={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]}
                   onChange={() => {}}
                   required
                 />
+                <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
               </div>
-              <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
             </div>
           </div>
           <CsrfHiddenInput csrf={csrf} />
