@@ -24,34 +24,38 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
     <LayoutFilled pageTitle={`Вход`} currentUser={null}>
       <SignInWrapper>
         <form action={endPoint} method="POST" encType="multipart/form-data">
-          {Object.keys(signInValidationResponse).length ? (
-            <FormValidationBlock title={"При входе произошли ошибки:"}>
-              {Object.entries(signInValidationResponse).map(([key, validation]) => (
-                <li key={key}>
-                  <FormValidationMessage>
-                    <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
-                  </FormValidationMessage>
-                </li>
-              ))}
-            </FormValidationBlock>
-          ) : null}
           <Stack tokens={{childrenGap: 32}}>
             <Stack tokens={{childrenGap: 16}}>
-              <TextField
-                type="email"
-                label={SING_IN_FORM_FIELDS.email.label}
-                name={SING_IN_FORM_FIELDS.email.name}
-                defaultValue={signInFields.email}
-                required={true}
-              />
-              <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.email.name]} />
-              <TextField
-                type="password"
-                label={SING_IN_FORM_FIELDS.password.label}
-                name={SING_IN_FORM_FIELDS.password.name}
-                required={true}
-              />
-              <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.password.name]} />
+              {Object.keys(signInValidationResponse).length ? (
+                <FormValidationBlock title={"При входе произошли ошибки:"}>
+                  {Object.entries(signInValidationResponse).map(([key, validation]) => (
+                    <li key={key}>
+                      <FormValidationMessage>
+                        <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
+                      </FormValidationMessage>
+                    </li>
+                  ))}
+                </FormValidationBlock>
+              ) : null}
+              <div className="form__field">
+                <TextField
+                  type="email"
+                  label={SING_IN_FORM_FIELDS.email.label}
+                  name={SING_IN_FORM_FIELDS.email.name}
+                  defaultValue={signInFields.email}
+                  required={true}
+                />
+                <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.email.name]} />
+              </div>
+              <div className="form__field">
+                <TextField
+                  type="password"
+                  label={SING_IN_FORM_FIELDS.password.label}
+                  name={SING_IN_FORM_FIELDS.password.name}
+                  required={true}
+                />
+                <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.password.name]} />
+              </div>
             </Stack>
             <Stack.Item align="end">
               <PrimaryButton type="submit">Войти</PrimaryButton>

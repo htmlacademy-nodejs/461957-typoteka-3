@@ -226,3 +226,11 @@
 .articles-category__title {
   margin-bottom: 60px;
 }
+
+.form--log-in .form__error-message {
+  padding: 0;
+}
+
+.form__error-message {
+  color: #a80000;
+}
