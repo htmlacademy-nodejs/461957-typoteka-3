@@ -18,10 +18,10 @@ export const CategoriesSelect: FunctionComponent<CategoriesSelectProps> = ({
         <input
           type="checkbox"
           defaultChecked={selectedCategories.map(item => item.id).includes(category.id)}
-          name={inputName + `[` + category.id + `]`}
-          id={`checkbox` + `[` + category.id + `]`}
+          name={resolveCheckboxName(inputName, category.id)}
+          id={resolveCheckboxId(category.id)}
         />
-        <label htmlFor={`checkbox` + `[` + category.id + `]`}>{category.label}</label>
+        <label htmlFor={resolveCheckboxId(category.id)}>{category.label}</label>
       </div>
     ))}
     <a
@@ -33,3 +33,11 @@ export const CategoriesSelect: FunctionComponent<CategoriesSelectProps> = ({
     </a>
   </div>
 );
+
+function resolveCheckboxName(inputName: string, categoryId: number): string {
+  return `${inputName}[${categoryId.toString(10)}]`;
+}
+
+function resolveCheckboxId(categoryId: number): string {
+  return `checkbox[${categoryId.toString(10)}]`;
+}
