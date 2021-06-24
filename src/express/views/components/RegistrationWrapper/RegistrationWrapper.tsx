@@ -2,9 +2,7 @@ import React, {FunctionComponent} from "react";
 import {Stack} from "@fluentui/react";
 import {DialogHeader} from "../Dialog/DialogHeader/DialogHeader";
 
-interface Props {}
-
-export const RegistrationWrapper: FunctionComponent<Props> = ({children}) => {
+export const RegistrationWrapper: FunctionComponent = ({children}) => {
   return (
     <main>
       <h1 className="visually-hidden">Регистрация пользователя</h1>

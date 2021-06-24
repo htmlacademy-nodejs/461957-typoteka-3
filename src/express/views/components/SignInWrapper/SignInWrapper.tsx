@@ -2,9 +2,7 @@ import React, {FunctionComponent} from "react";
 import {DialogHeader} from "../Dialog/DialogHeader/DialogHeader";
 import {Stack} from "@fluentui/react";
 
-interface Props {}
-
-export const SignInWrapper: FunctionComponent<Props> = ({children}) => {
+export const SignInWrapper: FunctionComponent = ({children}) => {
   return (
     <main>
       <h1 className="visually-hidden">Войти</h1>

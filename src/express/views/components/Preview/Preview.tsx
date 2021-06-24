@@ -24,7 +24,7 @@ export const Preview: FunctionComponent<PreviewProps> = ({
       <ul className="preview__breadcrumbs" style={{flexWrap: "wrap"}}>
         {categoriesList}
       </ul>
-      {/*TODO: show picture*/}
+      {/* TODO: show picture*/}
       {false && (
         <div className="preview__background">
           <img

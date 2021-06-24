@@ -4,9 +4,7 @@ import {LogInButton} from "./Buttons/LogInButton/LogInButton";
 import {SignUpButton} from "./Buttons/SignUpButton/SignUpButton";
 import {SearchButton} from "./Buttons/SearchButton/SearchButton";
 
-interface Props {}
-
-export const Header: FunctionComponent<Props> = ({}) => {
+export const Header: FunctionComponent = ({}) => {
   return (
     <header className="header">
       <Logo />

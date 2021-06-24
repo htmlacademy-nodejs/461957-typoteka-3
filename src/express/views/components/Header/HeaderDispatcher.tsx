@@ -5,9 +5,7 @@ import {ICurrentUser} from "../../interfaces/current-user";
 import {RoleId} from "../../../../shared/constants/role-id";
 import {HeaderAuthor} from "./HeaderAuthor";
 
-interface Props extends ICurrentUser {}
-
-export const HeaderDispatcher: FunctionComponent<Props> = ({currentUser}) => {
+export const HeaderDispatcher: FunctionComponent<ICurrentUser> = ({currentUser}) => {
   switch (currentUser?.roleId) {
     case RoleId.ADMIN:
     case RoleId.AUTHOR:
