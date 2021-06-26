@@ -10,8 +10,8 @@ interface AdminCommentsPageProps extends ICurrentUser {
 }
 
 export const AdminCommentsPage: FunctionComponent<AdminCommentsPageProps> = (props: AdminCommentsPageProps) => {
-  const listOfComments = props.comments.map((comment, index, listOfComments) => {
-    const isLastElement = index === listOfComments.length - 1;
+  const listOfComments = props.comments.map((comment, index, list) => {
+    const isLastElement = index === list.length - 1;
     return (
       <li
         className={"publication__list-item" + (isLastElement ? "  publication__list-item--last" : "")}
