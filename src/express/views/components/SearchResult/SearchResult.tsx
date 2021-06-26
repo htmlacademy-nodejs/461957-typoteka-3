@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {HighlightedQuery} from "../HiglightedQuery/HighlightedQuery";
 
 export interface SearchResultProps {

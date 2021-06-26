@@ -1,8 +1,10 @@
-import {loginSchema} from "./schemas";
 import {ValidationError} from "joi";
-import {getValidationDictionary} from "./get-validation-dictionary";
+
 import {ILogin} from "../../../types/interfaces/login";
 import {getLogger} from "../../logger";
+
+import {getValidationDictionary} from "./get-validation-dictionary";
+import {loginSchema} from "./schemas";
 
 export async function validateLogin(login: ILogin): Promise<ILogin> {
   const logger = getLogger();

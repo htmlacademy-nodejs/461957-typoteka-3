@@ -1,4 +1,5 @@
 import Joi from "joi";
+
 import {Category} from "../../../../types/category";
 
 const CATEGORY_NAME_RESTRICTIONS = [5, 30];

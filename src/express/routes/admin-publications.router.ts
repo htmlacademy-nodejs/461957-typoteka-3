@@ -1,16 +1,17 @@
 import {NextFunction, Request, Router} from "express";
+
 import {HttpCode} from "../../constants-es6";
+import {ICommentId} from "../../types/interfaces/comment-id";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
+import {SSRError} from "../errors/ssr-error";
+import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
+import {getArticleLink} from "../helpers/link-resolver";
+import {isAuthorUserMiddleware} from "../middlewares";
+import {ICommentByAuthor} from "../models/interfaces/comment-by-author";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
-import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
 import {AdminCommentsPage} from "../views/pages/AdminCommentsPage";
-import {SSRError} from "../errors/ssr-error";
-import {IResponseExtended} from "../../types/interfaces/response-extended";
-import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
-import {isAuthorUserMiddleware} from "../middlewares";
-import {getArticleLink} from "../helpers/link-resolver";
-import {ICommentByAuthor} from "../models/interfaces/comment-by-author";
-import {ICommentId} from "../../types/interfaces/comment-id";
+import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
 
 export const adminPublicationsRouter = Router();
 

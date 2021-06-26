@@ -1,7 +1,9 @@
-import {getLogger} from "../../logger";
-import {databaseConnector} from "./connectors/database.connector";
 import {Sequelize} from "sequelize";
 import {ExitCode} from "../../../constants-es6";
+
+import {getLogger} from "../../logger";
+
+import {databaseConnector} from "./connectors/database.connector";
 
 // eslint-disable-next-line consistent-return
 export async function connectToDatabase(): Promise<Sequelize> {

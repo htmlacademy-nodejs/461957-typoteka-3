@@ -1,5 +1,5 @@
-import {promises} from "fs";
 import chalk from "chalk";
+import {promises} from "fs";
 
 export async function readTXTFile(filePath: string): Promise<string[]> {
   try {

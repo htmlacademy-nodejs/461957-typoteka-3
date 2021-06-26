@@ -1,8 +1,10 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
-import {modelOptions} from "./constants/model-options";
-import {TableName} from "../constants/table-name";
 import {UserId} from "../../../../types/user-id";
 import {RefreshTokenProperty} from "../constants/property-name";
+
+import {TableName} from "../constants/table-name";
+
+import {modelOptions} from "./constants/model-options";
 
 interface ITokenRecord {
   token: string;

@@ -1,8 +1,9 @@
-import {ILogin} from "../../../../types/interfaces/login";
-import {agent as request} from "supertest";
-import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
-import {getNumericalId} from "../../../../shared/get-id";
 import {Application} from "express";
+import {agent as request} from "supertest";
+import {getNumericalId} from "../../../../shared/get-id";
+
+import {ILogin} from "../../../../types/interfaces/login";
+import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
 
 export async function createUser(app: Application): Promise<ILogin> {
   const email = `zaberkirder${getNumericalId()}@usgs.gov`;

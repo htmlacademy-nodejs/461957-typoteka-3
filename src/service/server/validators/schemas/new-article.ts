@@ -1,5 +1,7 @@
 import Joi from "joi";
+
 import {NewArticle} from "../../../../types/article";
+
 import {categoryIdsSchema} from "./category";
 
 const TITLE_RESTRICTIONS = [30, 250];

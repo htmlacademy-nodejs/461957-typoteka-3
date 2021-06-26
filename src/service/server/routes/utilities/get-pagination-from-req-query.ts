@@ -1,4 +1,5 @@
 import {Request} from "express";
+
 import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
 
 export function getPaginationFromReqQuery(req: Request): IPaginationOptions {

@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from "react";
-import {Layout} from "../components/Layout/Layout";
 import {Footer} from "../components/Footer/Footer";
 import {Header500} from "../components/Header/Header500";
+
+import {Layout} from "../components/Layout/Layout";
 
 export const ErrorPage500: FunctionComponent = ({}) => (
   <Layout pageTitle={`Ошибка`} header={<Header500 />} wrapperMode={"error"} footer={<Footer />}>

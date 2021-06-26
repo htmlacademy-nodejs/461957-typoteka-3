@@ -1,5 +1,6 @@
-import {CliAction} from "../../types/cli-action";
 import chalk from "chalk";
+
+import {CliAction} from "../../types/cli-action";
 
 export const cliAction: CliAction = {
   name: `--help`,

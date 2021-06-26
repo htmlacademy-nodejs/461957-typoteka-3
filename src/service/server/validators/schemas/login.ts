@@ -1,4 +1,5 @@
 import Joi from "joi";
+
 import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
 
 const PASSWORD_MIN_LENGTH = 6;

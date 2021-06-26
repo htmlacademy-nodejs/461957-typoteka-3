@@ -1,9 +1,10 @@
+import {PrimaryButton} from "@fluentui/react";
 import React, {FunctionComponent} from "react";
+
 import {COMMENT_FORM_FIELDS} from "../../../../constants-es6";
-import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../../interfaces/csrf-input";
 import {Avatar} from "../Avatar/Avatar";
-import {PrimaryButton} from "@fluentui/react";
+import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 
 interface Props extends ICsrfInput {
   endPoint: string;

@@ -1,4 +1,14 @@
+import chalk from "chalk";
+import cookieParser from "cookie-parser";
+
+import express, {Express} from "express";
+import * as path from "path";
+
 import {ClientRoutes, DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
+import {ENV} from "../shared/env/env";
+import {errorHandlerMiddleware, getUserFromCookiesMiddleware, notFoundMiddleware} from "./middlewares";
+import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "./middlewares/logger";
+
 import {
   adminPublicationsRouter,
   articlesRouter,
@@ -10,13 +20,6 @@ import {
   signInRouter,
   signOutRouter,
 } from "./routes";
-import express, {Express} from "express";
-import chalk from "chalk";
-import cookieParser from "cookie-parser";
-import * as path from "path";
-import {ENV} from "../shared/env/env";
-import {errorHandlerMiddleware, getUserFromCookiesMiddleware, notFoundMiddleware} from "./middlewares";
-import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "./middlewares/logger";
 
 export function runApp(): void {
   const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;

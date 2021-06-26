@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {ClientRoutes} from "../../../../constants-es6";
 
 type LogoMode = "default" | "error404" | "error500";

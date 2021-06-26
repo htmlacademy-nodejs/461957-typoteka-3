@@ -1,10 +1,11 @@
-import {CliAction} from "../../types/cli-action";
-import {ExitCode} from "../../constants-es6";
-import {connectToDatabase} from "../server/data-access/database-connector";
-import {defineDatabaseModels} from "../server/data-access/models";
-import {getLogger} from "../logger";
 import chalk from "chalk";
+import {ExitCode} from "../../constants-es6";
+
+import {CliAction} from "../../types/cli-action";
+import {getLogger} from "../logger";
+import {connectToDatabase} from "../server/data-access/database-connector";
 import {fillDb} from "../server/data-access/fill-db";
+import {defineDatabaseModels} from "../server/data-access/models";
 
 const DEFAULT_COUNT = 3;
 const logger = getLogger();

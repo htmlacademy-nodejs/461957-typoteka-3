@@ -1,15 +1,16 @@
+import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 import React, {FunctionComponent} from "react";
+import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
+import {SING_IN_FORM_FIELDS} from "../../../shared/constants/forms/sing-in-form-fields";
+import {ILogin} from "../../../types/interfaces/login";
+import {SignInValidationResponse} from "../../../types/sign-in-validation-response";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {FormValidationBlock} from "../components/Form/FormValidationBlock";
+
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {SignInWrapper} from "../components/SignInWrapper/SignInWrapper";
-import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
-import {SING_IN_FORM_FIELDS} from "../../../shared/constants/forms/sing-in-form-fields";
-import {SignInValidationResponse} from "../../../types/sign-in-validation-response";
-import {ILogin} from "../../../types/interfaces/login";
-import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../interfaces/csrf-input";
-import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 
 interface Props extends ICsrfInput {
   endPoint: string;

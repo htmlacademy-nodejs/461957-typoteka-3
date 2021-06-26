@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from "react";
-import {AvatarSize} from "./models/avatar-sizes";
 import {AvatarEmoji} from "./AvatarEmoji";
+
+import {AvatarSize} from "./models/avatar-sizes";
 
 interface Props {
   avatar?: string;

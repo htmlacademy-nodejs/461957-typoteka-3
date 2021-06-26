@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from "react";
+
 import {LogInButton} from "./Buttons/LogInButton/LogInButton";
-import {SignUpButton} from "./Buttons/SignUpButton/SignUpButton";
 import {SearchButton} from "./Buttons/SearchButton/SearchButton";
+import {SignUpButton} from "./Buttons/SignUpButton/SignUpButton";
 
 export const Header500: FunctionComponent = () => (
   <header className="header header--error">

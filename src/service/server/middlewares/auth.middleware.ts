@@ -1,8 +1,9 @@
 import {NextFunction, Response} from "express";
+import {getLogger} from "../../logger";
+import {Context} from "../../models/context";
+
 import {RequestExtended} from "../../models/types/request-extended";
 import {verifyAccessToken} from "../auth/verify-access-token";
-import {Context} from "../../models/context";
-import {getLogger} from "../../logger";
 
 export async function authMiddleware(req: RequestExtended, res: Response, next: NextFunction): Promise<void> {
   const logger = getLogger();

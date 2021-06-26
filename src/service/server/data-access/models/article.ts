@@ -1,10 +1,12 @@
 import {DataTypes, HasManyAddAssociationMixin, Model, ModelCtor, Sequelize} from "sequelize";
-import {TableName} from "../constants/table-name";
 import {IAnnounce, IArticleId, ICreatedDate, IFullText, ITitle} from "../../../../types/article";
-import {modelOptions} from "./constants/model-options";
-import {ICategoryEntity} from "./category";
 import {CategoryId} from "../../../../types/category-id";
 import {IAuthorId} from "../../../../types/interfaces/author-id";
+
+import {TableName} from "../constants/table-name";
+import {ICategoryEntity} from "./category";
+
+import {modelOptions} from "./constants/model-options";
 
 type PredefinedArticle = IArticleId & ITitle & ICreatedDate & IAnnounce & IFullText & IAuthorId;
 type ArticleCreationAttributes = ITitle & ICreatedDate & IAnnounce & IFullText & IAuthorId;

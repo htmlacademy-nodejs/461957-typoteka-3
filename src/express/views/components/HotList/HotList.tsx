@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {Hot, HotProps} from "../Hot/Hot";
 
 interface HotListProps {

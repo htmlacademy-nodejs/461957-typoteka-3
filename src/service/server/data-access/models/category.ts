@@ -1,6 +1,8 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
-import {TableName} from "../constants/table-name";
 import {Category} from "../../../../types/category";
+
+import {TableName} from "../constants/table-name";
+
 import {modelOptions} from "./constants/model-options";
 
 type CategoryCreationAttributes = Omit<Category, `id`>;

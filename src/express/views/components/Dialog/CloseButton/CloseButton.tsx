@@ -1,7 +1,8 @@
-import {ClientRoutes} from "../../../../../constants-es6";
 import {IconButton} from "@fluentui/react";
-import React, {FunctionComponent} from "react";
 import {IIconProps} from "@fluentui/react/lib/components/Icon";
+import React, {FunctionComponent} from "react";
+
+import {ClientRoutes} from "../../../../../constants-es6";
 
 const closeButton: IIconProps = {iconName: "ChromeClose"};
 

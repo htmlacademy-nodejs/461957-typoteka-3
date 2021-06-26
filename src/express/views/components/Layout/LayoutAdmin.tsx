@@ -1,9 +1,11 @@
 import React, {FunctionComponent} from "react";
-import {Layout} from "./Layout";
-import {Footer} from "../Footer/Footer";
 import {IPageTitle} from "../../../../types/interfaces/page-title";
-import {HeaderDispatcher} from "../Header/HeaderDispatcher";
 import {ICurrentUser} from "../../interfaces/current-user";
+
+import {Footer} from "../Footer/Footer";
+import {HeaderDispatcher} from "../Header/HeaderDispatcher";
+
+import {Layout} from "./Layout";
 
 interface LayoutAdminProps extends IPageTitle, ICurrentUser {}
 

@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import type {Category, ICategoryId} from "../../../../types/category";
 
 export interface CategoriesSelectProps {

@@ -1,14 +1,15 @@
-import {CategoriesService} from "./categories.service";
-import {ICategoryModel} from "../models/category";
 import {IArticleModel} from "../models/article";
-import {SearchService} from "./search.service";
-import {ArticlesService} from "./articles.service";
+import {ICategoryModel} from "../models/category";
 import {ICommentModel} from "../models/comment";
-import {CommentsService} from "./comments.service";
-import {UsersService} from "./users.service";
-import {IUserModel} from "../models/user";
-import {AuthService} from "./auth.service";
 import {IRefreshTokenModel} from "../models/refresh-tokens";
+import {IUserModel} from "../models/user";
+import {ArticlesService} from "./articles.service";
+import {AuthService} from "./auth.service";
+
+import {CategoriesService} from "./categories.service";
+import {CommentsService} from "./comments.service";
+import {SearchService} from "./search.service";
+import {UsersService} from "./users.service";
 
 export const categoriesServiceFactory = (CategoryModel: ICategoryModel): CategoriesService =>
   new CategoriesService(CategoryModel);

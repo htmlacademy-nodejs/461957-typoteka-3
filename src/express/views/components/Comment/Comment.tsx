@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {ICreatedDate} from "../../../../types/article";
 import {IUserPresentation} from "../../../../types/interfaces/user-presentation";
 import {Avatar} from "../Avatar/Avatar";

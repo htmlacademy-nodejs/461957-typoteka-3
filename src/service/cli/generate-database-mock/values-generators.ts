@@ -1,4 +1,9 @@
+import {DAYS_IN_MONTH, MS_IN_DAY} from "../../../constants-es6";
+import {Category} from "../../../types/category";
+import {IAuthorId} from "../../../types/interfaces/author-id";
+import {ICommentCreating} from "../../../types/interfaces/comment-creating";
 import {getRandomInt, shuffle} from "../../../utils";
+
 import {
   AnnounceRestrict,
   CategoriesRestrict,
@@ -7,10 +12,6 @@ import {
   FullTextRestrict,
   TitleRestrict,
 } from "./constants/mocks-restrictions";
-import {DAYS_IN_MONTH, MS_IN_DAY} from "../../../constants-es6";
-import {Category} from "../../../types/category";
-import {ICommentCreating} from "../../../types/interfaces/comment-creating";
-import {IAuthorId} from "../../../types/interfaces/author-id";
 
 const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
 

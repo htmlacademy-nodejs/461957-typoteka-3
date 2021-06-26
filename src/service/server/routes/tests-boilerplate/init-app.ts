@@ -1,9 +1,10 @@
 import {Application} from "express";
 import http from "http";
+
 import {ApiService} from "../../api-service";
 import {connectToDatabaseInMemory} from "../../data-access/database-connector";
-import {defineDatabaseModels} from "../../data-access/models";
 import {fillDb} from "../../data-access/fill-db";
+import {defineDatabaseModels} from "../../data-access/models";
 
 const MOCK_ARTICLES_COUNT = 10;
 

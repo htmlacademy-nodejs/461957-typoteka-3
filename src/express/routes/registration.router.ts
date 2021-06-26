@@ -1,15 +1,16 @@
+import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
-import {streamPage} from "../utils/stream-page";
-import {RegistrationPage} from "../views/pages/RegistrationPage";
-import {dataProviderService} from "../services";
+import multer from "multer";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {SSRError} from "../errors/ssr-error";
+import {RoleId} from "../../shared/constants/role-id";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {IUserCreatingDoublePasswords, UserCreatingFromForm} from "../../types/interfaces/user-creating";
 import {UserValidationResponse} from "../../types/user-validation-response";
-import multer from "multer";
-import {IResponseExtended} from "../../types/interfaces/response-extended";
-import {RoleId} from "../../shared/constants/role-id";
-import csrf from "csurf";
+import {SSRError} from "../errors/ssr-error";
+import {dataProviderService} from "../services";
+
+import {streamPage} from "../utils/stream-page";
+import {RegistrationPage} from "../views/pages/RegistrationPage";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();

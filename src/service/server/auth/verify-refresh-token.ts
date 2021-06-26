@@ -1,7 +1,8 @@
-import {ENV} from "../../../shared/env/env";
-import {HttpCode} from "../../../constants-es6";
-import {IUserPreview} from "../../../types/interfaces/user-preview";
 import {verify} from "jsonwebtoken";
+import {HttpCode} from "../../../constants-es6";
+
+import {ENV} from "../../../shared/env/env";
+import {IUserPreview} from "../../../types/interfaces/user-preview";
 
 export async function verifyRefreshToken(token: string): Promise<IUserPreview> {
   return new Promise((resolve, reject) => {

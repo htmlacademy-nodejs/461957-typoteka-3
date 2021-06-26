@@ -1,6 +1,7 @@
-import React, {FunctionComponent} from "react";
-import {CloseButton} from "../CloseButton/CloseButton";
 import {Text} from "@fluentui/react";
+import React, {FunctionComponent} from "react";
+
+import {CloseButton} from "../CloseButton/CloseButton";
 
 interface Props {
   title: string;

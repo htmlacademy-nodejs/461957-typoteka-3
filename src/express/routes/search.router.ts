@@ -1,12 +1,13 @@
+import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
-import {streamPage} from "../utils/stream-page";
-import {SearchPage} from "../views/pages/SearchPage";
-import {SearchResultProps} from "../views/components/SearchResult/SearchResult";
-import {dataProviderService} from "../services";
-import {SSRError} from "../errors/ssr-error";
 import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
-import csrf from "csurf";
+import {SSRError} from "../errors/ssr-error";
+import {dataProviderService} from "../services";
+
+import {streamPage} from "../utils/stream-page";
+import {SearchResultProps} from "../views/components/SearchResult/SearchResult";
+import {SearchPage} from "../views/pages/SearchPage";
 
 const csrfProtection = csrf({cookie: true});
 export const searchRouter = Router();

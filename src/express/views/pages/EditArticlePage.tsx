@@ -1,18 +1,19 @@
-import React, {FunctionComponent} from "react";
-import {ARTICLE_FORM_FIELDS, ClientRoutes} from "../../../constants-es6";
-import type {ArticleValidationResponse} from "../../../types/article-validation-response";
-import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-import {LayoutFilled} from "../components/Layout/LayoutFilled";
-import {CategoriesSelect} from "../components/CategoriesSelect/CategoriesSelect";
-import type {Category} from "../../../types/category";
-import {IArticleCreating} from "../../../types/interfaces/article-creating";
-import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
-import {EditArticleWrapper} from "../components/EditArticleWrapper/EditArticleWrapper";
-import {ICurrentUser} from "../interfaces/current-user";
-import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
-import {ICsrfInput} from "../interfaces/csrf-input";
 import {IconButton, PrimaryButton, Stack, Text, TextField} from "@fluentui/react";
 import {IIconProps} from "@fluentui/react/lib/components/Icon";
+import React, {FunctionComponent} from "react";
+
+import {ARTICLE_FORM_FIELDS, ClientRoutes} from "../../../constants-es6";
+import type {ArticleValidationResponse} from "../../../types/article-validation-response";
+import type {Category} from "../../../types/category";
+import {IArticleCreating} from "../../../types/interfaces/article-creating";
+import {CategoriesSelect} from "../components/CategoriesSelect/CategoriesSelect";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {EditArticleWrapper} from "../components/EditArticleWrapper/EditArticleWrapper";
+import {FormValidationBlock} from "../components/Form/FormValidationBlock";
+import {LayoutFilled} from "../components/Layout/LayoutFilled";
+import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
+import {ICsrfInput} from "../interfaces/csrf-input";
+import {ICurrentUser} from "../interfaces/current-user";
 
 interface EditArticleProps extends ICurrentUser, ICsrfInput {
   article?: Partial<IArticleCreating>;

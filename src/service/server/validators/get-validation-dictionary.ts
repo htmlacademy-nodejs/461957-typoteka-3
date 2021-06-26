@@ -1,4 +1,5 @@
 import {ValidationErrorItem} from "joi";
+
 import {ValidationResponse} from "../../../types/validation-response";
 
 export function getValidationDictionary<T>(errors: ValidationErrorItem[]): ValidationResponse<T> {

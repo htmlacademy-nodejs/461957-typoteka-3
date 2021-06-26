@@ -1,15 +1,16 @@
 import React, {FunctionComponent} from "react";
-import {LayoutFilled} from "../components/Layout/LayoutFilled";
-import {Greeting} from "../components/Greeting/Greeting";
+import {ILink} from "../../../types/article";
+import {CategoryWithLink} from "../../../types/category-with-link";
+import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
+import {IArticlePreview} from "../../../types/interfaces/article-preview";
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
+import {Greeting} from "../components/Greeting/Greeting";
 import {HotList} from "../components/HotList/HotList";
 import {LastList} from "../components/LastList/LastList";
-import {PreviewList} from "../components/PreviewList/PreviewList";
-import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
-import {CategoryWithLink} from "../../../types/category-with-link";
-import {IArticlePreview} from "../../../types/interfaces/article-preview";
+
+import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
-import {ILink} from "../../../types/article";
+import {PreviewList} from "../components/PreviewList/PreviewList";
 import {ICurrentUser} from "../interfaces/current-user";
 
 interface MainPageProps extends IPaginationProps, ICurrentUser {

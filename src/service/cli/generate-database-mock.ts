@@ -1,13 +1,15 @@
-import {insertToTable} from "./generate-database-mock/sql-functions/insert-to-table";
-import {appendToFile} from "./generate-database-mock/fs-functions/append-to-file";
-import {getAnnounce, getCommentText, getDate, getFullText, getTitle} from "./generate-database-mock/values-generators";
-import {ExitCode, MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
-import {getRandomInt, shuffle} from "../../utils";
-import {truncateFile} from "./generate-database-mock/fs-functions/trunctate-file";
 import chalk from "chalk";
-import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
-import {CategoriesRestrict} from "./generate-database-mock/constants/mocks-restrictions";
+
+import {ExitCode, MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
 import {CliAction} from "../../types/cli-action";
+import {getRandomInt, shuffle} from "../../utils";
+import {CategoriesRestrict} from "./generate-database-mock/constants/mocks-restrictions";
+import {appendToFile} from "./generate-database-mock/fs-functions/append-to-file";
+import {readTXTFile} from "./generate-database-mock/fs-functions/read-txt-file";
+import {truncateFile} from "./generate-database-mock/fs-functions/trunctate-file";
+
+import {insertToTable} from "./generate-database-mock/sql-functions/insert-to-table";
+import {getAnnounce, getCommentText, getDate, getFullText, getTitle} from "./generate-database-mock/values-generators";
 
 const DEFAULT_COUNT = 3;
 

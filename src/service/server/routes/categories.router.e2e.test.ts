@@ -1,6 +1,8 @@
-import {agent as request} from "supertest";
 import {Application} from "express";
 import http from "http";
+
+import {agent as request} from "supertest";
+
 import {initApp} from "./tests-boilerplate/init-app";
 
 describe(`Categories router`, () => {

@@ -1,4 +1,5 @@
 import Joi from "joi";
+
 import {ICommentCreating} from "../../../../types/interfaces/comment-creating";
 
 const COMMENT_TEXT_MIN_LENGTH = 20;

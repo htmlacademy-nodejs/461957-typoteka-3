@@ -1,14 +1,15 @@
-import React, {FunctionComponent} from "react";
-import {LayoutFilled} from "../components/Layout/LayoutFilled";
-import {CategoriesList} from "../components/CategoriesList/CategoriesList";
-import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
-import {PreviewList} from "../components/PreviewList/PreviewList";
-import {CategoryId} from "../../../types/category-id";
-import {IArticlePreview} from "../../../types/interfaces/article-preview";
-import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
-import {ILink} from "../../../types/article";
-import {ICurrentUser} from "../interfaces/current-user";
 import {Text} from "@fluentui/react";
+import React, {FunctionComponent} from "react";
+import {ILink} from "../../../types/article";
+import {CategoryId} from "../../../types/category-id";
+import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
+import {IArticlePreview} from "../../../types/interfaces/article-preview";
+import {CategoriesList} from "../components/CategoriesList/CategoriesList";
+
+import {LayoutFilled} from "../components/Layout/LayoutFilled";
+import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
+import {PreviewList} from "../components/PreviewList/PreviewList";
+import {ICurrentUser} from "../interfaces/current-user";
 
 interface Props extends IPaginationProps, ICurrentUser {
   pageTitle: string;

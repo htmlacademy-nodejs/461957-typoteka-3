@@ -1,9 +1,10 @@
 import React, {FunctionComponent} from "react";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {SearchResult, SearchResultProps} from "../components/SearchResult/SearchResult";
-import {ICurrentUser} from "../interfaces/current-user";
-import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../interfaces/csrf-input";
+import {ICurrentUser} from "../interfaces/current-user";
 
 export interface SearchPageProps extends ICurrentUser, ICsrfInput {
   query?: string;

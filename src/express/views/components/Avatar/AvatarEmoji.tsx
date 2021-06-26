@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {AvatarSize} from "./models/avatar-sizes";
 
 const sizesCssClasses: Record<AvatarSize, string> = {

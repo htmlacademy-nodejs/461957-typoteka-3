@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {CategoryWithLinksAndNumbers} from "../../../../types/category-with-links-and-numbers";
 
 interface Props extends CategoryWithLinksAndNumbers {

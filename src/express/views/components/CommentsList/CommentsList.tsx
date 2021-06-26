@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from "react";
-import {Comment} from "../Comment/Comment";
 import {IComments} from "../../../../types/article";
+
+import {Comment} from "../Comment/Comment";
 
 interface Props extends IComments {
   parentCssClass: string;

@@ -1,5 +1,6 @@
-import {IAuthTokens} from "./auth-tokens";
 import {SignInValidationResponse} from "../sign-in-validation-response";
+
+import type {IAuthTokens} from "./auth-tokens";
 
 export interface IAuthorizationResult {
   isSuccess: boolean;

@@ -1,8 +1,10 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
-import {TableName} from "../constants/table-name";
-import {modelOptions} from "./constants/model-options";
 import {IUser} from "../../../../types/interfaces/user";
 import {IUserCreating} from "../../../../types/interfaces/user-creating";
+
+import {TableName} from "../constants/table-name";
+
+import {modelOptions} from "./constants/model-options";
 
 type PredefinedUserAttributes = IUser;
 type UserCreationAttributes = IUserCreating;

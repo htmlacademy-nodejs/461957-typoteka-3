@@ -1,10 +1,11 @@
 import {Model, Op, Sequelize} from "sequelize";
-import {ICategoryModel} from "../models/category";
+import {ArticleId} from "../../../../types/article-id";
 import {Category} from "../../../../types/category";
+import {CategoryId} from "../../../../types/category-id";
 import {CategoryWithNumbers} from "../../../../types/category-with-numbers";
 import {TableName} from "../constants/table-name";
-import {ArticleId} from "../../../../types/article-id";
-import {CategoryId} from "../../../../types/category-id";
+
+import {ICategoryModel} from "../models/category";
 
 export class CategoriesService {
   constructor(private readonly CategoryModel: ICategoryModel) {}

@@ -1,14 +1,15 @@
-import React, {FunctionComponent} from "react";
-import {LayoutFilled} from "../components/Layout/LayoutFilled";
-import {UserValidationResponse} from "../../../types/user-validation-response";
-import {RegistrationWrapper} from "../components/RegistrationWrapper/RegistrationWrapper";
-import {UserCreatingFromForm} from "../../../types/interfaces/user-creating";
-import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
-import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
-import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
-import {ICsrfInput} from "../interfaces/csrf-input";
 import {PrimaryButton, Stack, TextField} from "@fluentui/react";
+import React, {FunctionComponent} from "react";
+import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
+import {UserCreatingFromForm} from "../../../types/interfaces/user-creating";
+import {UserValidationResponse} from "../../../types/user-validation-response";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {FormValidationBlock} from "../components/Form/FormValidationBlock";
+
+import {LayoutFilled} from "../components/Layout/LayoutFilled";
+import {RegistrationWrapper} from "../components/RegistrationWrapper/RegistrationWrapper";
+import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
+import {ICsrfInput} from "../interfaces/csrf-input";
 
 interface Props extends ICsrfInput {
   user?: Partial<UserCreatingFromForm>;

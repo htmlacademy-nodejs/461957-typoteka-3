@@ -1,6 +1,8 @@
 import React, {FunctionComponent} from "react";
-import {Pagination} from "./Pagination";
+
 import {getPagesCount} from "../../../helpers/page-resolver";
+
+import {Pagination} from "./Pagination";
 
 interface Props extends IPaginationProps {
   prefix: string;

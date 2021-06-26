@@ -1,7 +1,8 @@
 import Joi from "joi";
+
 import {NEW_USER_FORM_FIELDS} from "../../../../constants-es6";
-import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
 import {RoleId} from "../../../../shared/constants/role-id";
+import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
 
 const PASSWORD_MIN_LENGTH = 6;
 

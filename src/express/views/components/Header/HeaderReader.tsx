@@ -1,8 +1,10 @@
 import React, {FunctionComponent} from "react";
-import {Logo} from "../Logo/Logo";
 import {ClientRoutes} from "../../../../constants-es6";
-import {SearchButton} from "./Buttons/SearchButton/SearchButton";
 import {Avatar} from "../Avatar/Avatar";
+
+import {Logo} from "../Logo/Logo";
+
+import {SearchButton} from "./Buttons/SearchButton/SearchButton";
 
 interface Props {
   firstName: string;

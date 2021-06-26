@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {IAnnounce, ICategoriesWithLinks, ICommentsCount, ICreatedDate, ILink, ITitle} from "../../../../types/article";
 
 interface PreviewProps extends ICommentsCount, ITitle, IAnnounce, ICreatedDate, ILink, ICategoriesWithLinks {}

@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from "react";
+
 import {CategoryId} from "../../../../types/category-id";
-import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../../interfaces/csrf-input";
+import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 
 export interface CategoryEditableProps extends ICsrfInput {
   label: string;

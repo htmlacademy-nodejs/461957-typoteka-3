@@ -1,5 +1,6 @@
-import {ApiService} from "./api-service";
 import {ExitCode} from "../../constants-es6";
+
+import {ApiService} from "./api-service";
 import {connectToDatabase} from "./data-access/database-connector";
 
 export async function runServer(): Promise<void> {

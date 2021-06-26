@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from "react";
-import {Layout} from "../components/Layout/Layout";
-import {Header404} from "../components/Header/Header404";
 import {Footer} from "../components/Footer/Footer";
+import {Header404} from "../components/Header/Header404";
+
+import {Layout} from "../components/Layout/Layout";
 
 export const ErrorPage404: FunctionComponent = ({}) => (
   <Layout pageTitle={`Ошибка`} header={<Header404 />} wrapperMode={"error"} footer={<Footer />}>

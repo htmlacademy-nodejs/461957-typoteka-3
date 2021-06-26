@@ -1,9 +1,10 @@
 import React, {FunctionComponent} from "react";
+
+import type {ICommentId} from "../../../types/interfaces/comment-id";
+import {ICommentByAuthor} from "../../models/interfaces/comment-by-author";
 import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
 import {PublicationComment} from "../components/PublicationComment/PublicationComment";
 import {ICurrentUser} from "../interfaces/current-user";
-import {ICommentId} from "../../../types/interfaces/comment-id";
-import {ICommentByAuthor} from "../../models/interfaces/comment-by-author";
 
 interface AdminCommentsPageProps extends ICurrentUser {
   comments: (ICommentByAuthor & ICommentId)[];

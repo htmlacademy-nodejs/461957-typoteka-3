@@ -1,5 +1,6 @@
-import React, {FunctionComponent} from "react";
 import {Stack} from "@fluentui/react";
+import React, {FunctionComponent} from "react";
+
 import {DialogHeader} from "../Dialog/DialogHeader/DialogHeader";
 
 export const RegistrationWrapper: FunctionComponent = ({children}) => {

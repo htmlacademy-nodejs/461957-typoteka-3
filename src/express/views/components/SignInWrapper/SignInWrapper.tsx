@@ -1,6 +1,7 @@
-import React, {FunctionComponent} from "react";
-import {DialogHeader} from "../Dialog/DialogHeader/DialogHeader";
 import {Stack} from "@fluentui/react";
+import React, {FunctionComponent} from "react";
+
+import {DialogHeader} from "../Dialog/DialogHeader/DialogHeader";
 
 export const SignInWrapper: FunctionComponent = ({children}) => {
   return (

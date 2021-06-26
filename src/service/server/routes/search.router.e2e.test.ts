@@ -1,9 +1,12 @@
-import {agent as request} from "supertest";
 import {Application} from "express";
 import http from "http";
+
+import {agent as request} from "supertest";
+
 import {ArticleSearchCollection} from "../../../types/article-search-collection";
-import {initApp} from "./tests-boilerplate/init-app";
 import {ICollection} from "../../../types/interfaces/collection";
+
+import {initApp} from "./tests-boilerplate/init-app";
 
 describe(`Search router`, () => {
   let app: Application;

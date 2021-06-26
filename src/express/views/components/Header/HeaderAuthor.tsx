@@ -1,8 +1,10 @@
 import React, {FunctionComponent} from "react";
-import {Logo} from "../Logo/Logo";
 import {ClientRoutes} from "../../../../constants-es6";
-import {FabricUIIcon} from "../FabricUIIcon/FabricIcon";
 import {Avatar} from "../Avatar/Avatar";
+import {FabricUIIcon} from "../FabricUIIcon/FabricIcon";
+
+import {Logo} from "../Logo/Logo";
+
 import {NewArticleButton} from "./Buttons/NewArticleButton/NewArticleButton";
 
 interface Props {
