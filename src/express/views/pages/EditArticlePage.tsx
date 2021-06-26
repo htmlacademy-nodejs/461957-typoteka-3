@@ -128,9 +128,8 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   rows={5}
                   label={ARTICLE_FORM_FIELDS.announce.label}
                   name={ARTICLE_FORM_FIELDS.announce.name}
-                  value={articleProps.announce}
+                  defaultValue={articleProps.announce}
                   errorMessage={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]}
-                  onChange={() => {}}
                   required
                 />
                 <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]} />
@@ -141,9 +140,8 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   name={ARTICLE_FORM_FIELDS.fullText.name}
                   rows={10}
                   label={ARTICLE_FORM_FIELDS.fullText.label}
-                  value={articleProps.fullText}
+                  defaultValue={articleProps.fullText}
                   errorMessage={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]}
-                  onChange={() => {}}
                   required
                 />
                 <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
