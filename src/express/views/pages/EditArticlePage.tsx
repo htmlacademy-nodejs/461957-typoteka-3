@@ -2,7 +2,6 @@ import React, {FunctionComponent} from "react";
 import {ARTICLE_FORM_FIELDS, ClientRoutes} from "../../../constants-es6";
 import type {ArticleValidationResponse} from "../../../types/article-validation-response";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-import {FormValidationMessage} from "../components/Form/FormValidationMessage";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {CategoriesSelect} from "../components/CategoriesSelect/CategoriesSelect";
 import type {Category} from "../../../types/category";
@@ -41,6 +40,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
     categories: article?.categories ?? [],
     createdDate: article?.createdDate ?? new Date(),
   };
+  const validationMessages = resolveValidationMessages(articleValidationResponse);
   return (
     <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`} currentUser={currentUser}>
       <EditArticleWrapper>
@@ -76,16 +76,8 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
           </div>
           <div className="new-publication__form form">
             <div className="form__wrapper form__wrapper--intro">
-              {Object.keys(articleValidationResponse).length ? (
-                <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
-                  {Object.entries(articleValidationResponse).map(([key, validation]) => (
-                    <li key={key}>
-                      <FormValidationMessage>
-                        <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong> {validation}
-                      </FormValidationMessage>
-                    </li>
-                  ))}
-                </FormValidationBlock>
+              {validationMessages.length ? (
+                <FormValidationBlock title="При сохранении статьи произошли ошибки:" messages={validationMessages} />
               ) : null}
               <div className="form__field">
                 <TextField
@@ -167,4 +159,11 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
 
 function getInitialDate(date: Date): string {
   return date.toISOString().split("T", 1)[0];
+}
+
+function resolveValidationMessages(validationResponse: Record<string, string>): [string, string][] {
+  return Object.entries(validationResponse).map(([key, value]: [keyof typeof ARTICLE_FORM_FIELDS, string]) => [
+    ARTICLE_FORM_FIELDS[key]?.label,
+    value,
+  ]);
 }

@@ -7,7 +7,6 @@ import {SING_IN_FORM_FIELDS} from "../../../shared/constants/forms/sing-in-form-
 import {SignInValidationResponse} from "../../../types/sign-in-validation-response";
 import {ILogin} from "../../../types/interfaces/login";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-import {FormValidationMessage} from "../components/Form/FormValidationMessage";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../interfaces/csrf-input";
 import {PrimaryButton, Stack, TextField} from "@fluentui/react";
@@ -20,22 +19,15 @@ interface Props extends ICsrfInput {
 
 export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidationResponse = {}, signIn, csrf}) => {
   const signInFields = {email: signIn?.email ?? ``};
+  const validationMessages = resolveValidationMessages(signInValidationResponse);
   return (
     <LayoutFilled pageTitle={`Вход`} currentUser={null}>
       <SignInWrapper>
         <form action={endPoint} method="POST" encType="multipart/form-data">
           <Stack tokens={{childrenGap: 32}}>
             <Stack tokens={{childrenGap: 16}}>
-              {Object.keys(signInValidationResponse).length ? (
-                <FormValidationBlock title={"При входе произошли ошибки:"}>
-                  {Object.entries(signInValidationResponse).map(([key, validation]) => (
-                    <li key={key}>
-                      <FormValidationMessage>
-                        <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
-                      </FormValidationMessage>
-                    </li>
-                  ))}
-                </FormValidationBlock>
+              {validationMessages.length ? (
+                <FormValidationBlock title="При входе произошли ошибки:" messages={validationMessages} />
               ) : null}
               <div className="form__field">
                 <TextField
@@ -67,3 +59,10 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
     </LayoutFilled>
   );
 };
+
+function resolveValidationMessages(validationResponse: Record<string, string>): [string, string][] {
+  return Object.entries(validationResponse).map(([key, value]: [keyof typeof NEW_USER_FORM_FIELDS, string]) => [
+    NEW_USER_FORM_FIELDS[key]?.label,
+    value,
+  ]);
+}

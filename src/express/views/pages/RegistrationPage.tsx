@@ -4,7 +4,6 @@ import {UserValidationResponse} from "../../../types/user-validation-response";
 import {RegistrationWrapper} from "../components/RegistrationWrapper/RegistrationWrapper";
 import {UserCreatingFromForm} from "../../../types/interfaces/user-creating";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-import {FormValidationMessage} from "../components/Form/FormValidationMessage";
 import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
@@ -36,19 +35,12 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
           password: user.password,
           passwordRepeated: user.passwordRepeated,
         };
+  const validationMessages = resolveValidationMessages(userValidationResponse);
   return (
     <LayoutFilled pageTitle={`Регистрация`} currentUser={null}>
       <RegistrationWrapper>
-        {Object.keys(userValidationResponse).length ? (
-          <FormValidationBlock title={"При регистрации произошли ошибки:"}>
-            {Object.entries(userValidationResponse).map(([key, validation]) => (
-              <li key={key}>
-                <FormValidationMessage>
-                  <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
-                </FormValidationMessage>
-              </li>
-            ))}
-          </FormValidationBlock>
+        {validationMessages.length ? (
+          <FormValidationBlock title={"При регистрации произошли ошибки:"} messages={validationMessages} />
         ) : null}
 
         <form action={endPoint} method="POST" encType="multipart/form-data">
@@ -121,3 +113,10 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
     </LayoutFilled>
   );
 };
+
+function resolveValidationMessages(validationResponse: Record<string, string>): [string, string][] {
+  return Object.entries(validationResponse).map(([key, value]: [keyof typeof NEW_USER_FORM_FIELDS, string]) => [
+    NEW_USER_FORM_FIELDS[key]?.label,
+    value,
+  ]);
+}

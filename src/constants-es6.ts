@@ -135,7 +135,7 @@ export const COMMENT_FORM_FIELDS = {
     name: `text`,
     label: `Сообщение`,
   },
-};
+} as const;
 export const TableNames = {
   USERS: `users`,
   PERMISSIONS: `permissions`,
