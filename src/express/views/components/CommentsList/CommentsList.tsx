@@ -15,7 +15,7 @@ export const CommentsList: FunctionComponent<Props> = ({parentCssClass, comments
           <Comment user={item.user} text={item.text} createdDate={item.createdDate} key={item.id} />
         ))}
       </ul>
-      {children && <div className="comments__footer comments__footer--user">{children}</div>}
+      {children ? <div className="comments__footer comments__footer--user">{children}</div> : null}
     </section>
   );
 };
