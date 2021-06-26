@@ -15,7 +15,6 @@ import {getUserByAccessToken} from "./tests-boilerplate/get-user-by-access-token
 import {initApp} from "./tests-boilerplate/init-app";
 import {resolveAuthHeader} from "./tests-boilerplate/resolve-auth-header";
 
-
 let validArticleId: ArticleId;
 const invalidArticleId = `999999999999999999999999999999999999`;
 const validNewArticle: IArticleCreating = {
