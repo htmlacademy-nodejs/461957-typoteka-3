@@ -35,7 +35,7 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
                   label={SING_IN_FORM_FIELDS.email.label}
                   name={SING_IN_FORM_FIELDS.email.name}
                   defaultValue={signInFields.email}
-                  required={true}
+                  required
                 />
                 <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.email.name]} />
               </div>
@@ -44,7 +44,7 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
                   type="password"
                   label={SING_IN_FORM_FIELDS.password.label}
                   name={SING_IN_FORM_FIELDS.password.name}
-                  required={true}
+                  required
                 />
                 <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.password.name]} />
               </div>
