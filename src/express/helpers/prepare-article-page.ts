@@ -33,6 +33,7 @@ export async function prepareArticlePage({
       previousPageUrl: undefined,
       fullText: article.fullText,
       newCommentEndPoint: `${ClientRoutes.COMMENTS}/${articleId}`,
+      commentValidationResponse: {},
       comments,
       currentUser,
       csrf,

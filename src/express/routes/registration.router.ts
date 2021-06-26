@@ -16,7 +16,11 @@ const multerMiddleware = multer();
 export const registrationRouter = Router();
 
 registrationRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended) => {
-  streamPage(res, RegistrationPage, {endPoint: ClientRoutes.REGISTRATION, csrf: req.csrfToken()});
+  streamPage(res, RegistrationPage, {
+    endPoint: ClientRoutes.REGISTRATION,
+    csrf: req.csrfToken(),
+    userValidationResponse: {},
+  });
 });
 
 registrationRouter.post(

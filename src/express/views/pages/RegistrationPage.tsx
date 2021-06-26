@@ -13,7 +13,7 @@ import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 interface Props extends ICsrfInput {
   user?: Partial<UserCreatingFromForm>;
   endPoint: string;
-  userValidationResponse?: UserValidationResponse;
+  userValidationResponse: UserValidationResponse;
 }
 
 export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user, csrf}) => {

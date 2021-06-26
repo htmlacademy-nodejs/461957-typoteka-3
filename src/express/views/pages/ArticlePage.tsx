@@ -20,7 +20,7 @@ export interface ArticlePageProps
     ICsrfInput {
   previousPageUrl: string;
   newCommentEndPoint: string;
-  commentValidationResponse?: CommentValidationResponse;
+  commentValidationResponse: CommentValidationResponse;
   comments: ICommentPreview[];
 }
 

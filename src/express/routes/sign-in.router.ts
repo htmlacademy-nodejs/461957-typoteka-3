@@ -17,7 +17,7 @@ const multerMiddleware = multer();
 export const signInRouter = Router();
 
 signInRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended) => {
-  streamPage(res, SignInPage, {endPoint: ClientRoutes.SIGN_IN, csrf: req.csrfToken()});
+  streamPage(res, SignInPage, {endPoint: ClientRoutes.SIGN_IN, csrf: req.csrfToken(), signInValidationResponse: {}});
 });
 
 signInRouter.post(

@@ -13,7 +13,7 @@ import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 
 interface Props extends ICsrfInput {
   endPoint: string;
-  signInValidationResponse?: Partial<SignInValidationResponse>;
+  signInValidationResponse: Partial<SignInValidationResponse>;
   signIn?: Omit<ILogin, "password">;
 }
 

@@ -19,10 +19,12 @@ import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 import {isAuthorUserMiddleware} from "../middlewares";
 import csrf from "csurf";
+import {getLogger} from "../logger";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
 export const articlesRouter = Router();
+const logger = getLogger();
 
 articlesRouter.get(
   `/add`,
@@ -35,6 +37,7 @@ articlesRouter.get(
         availableCategories: categories,
         currentUser: res.locals.currentUser,
         csrf: req.csrfToken(),
+        articleValidationResponse: {},
       });
     } catch (e) {
       return next(
@@ -191,6 +194,7 @@ articlesRouter.get(`/:id`, [csrfProtection], async (req: Request, res: IResponse
     });
     return streamPage(res, articlePage, {...props, previousPageUrl: req.header(`referer`)});
   } catch (e) {
+    logger.error(e);
     return next(
       new SSRError({
         message: `Failed to get article`,
@@ -218,6 +222,7 @@ articlesRouter.get(
         isUpdating: true,
         currentUser: res.locals.currentUser,
         csrf: req.csrfToken(),
+        articleValidationResponse: {},
       });
     } catch (e) {
       return next(

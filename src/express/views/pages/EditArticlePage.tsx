@@ -18,7 +18,7 @@ interface EditArticleProps extends ICurrentUser, ICsrfInput {
   article?: Partial<IArticleCreating>;
   endPoint: string;
   availableCategories: Category[];
-  articleValidationResponse?: ArticleValidationResponse;
+  articleValidationResponse: ArticleValidationResponse;
   isUpdating?: boolean;
 }
 
