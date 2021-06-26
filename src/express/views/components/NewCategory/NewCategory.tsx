@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
-import {ICsrfInput} from "../../interfaces/csrf-input";
 
+import {ICsrfInput} from "../../interfaces/csrf-input";
 import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 
 interface Props extends ICsrfInput {

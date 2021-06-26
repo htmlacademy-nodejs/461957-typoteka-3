@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from "react";
+
 import {Footer} from "../components/Footer/Footer";
 import {Header500} from "../components/Header/Header500";
-
 import {Layout} from "../components/Layout/Layout";
 
 export const ErrorPage500: FunctionComponent = ({}) => (

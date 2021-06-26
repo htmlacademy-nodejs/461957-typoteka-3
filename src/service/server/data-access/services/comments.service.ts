@@ -1,5 +1,6 @@
 import {Logger} from "pino";
 import {FindAttributeOptions, Model} from "sequelize";
+
 import {ArticleComment, CommentId} from "../../../../types/article-comment";
 import {ArticleId} from "../../../../types/article-id";
 import {IAuthorsComment} from "../../../../types/interfaces/authors-comment";
@@ -10,7 +11,6 @@ import {UserId} from "../../../../types/user-id";
 import {getLogger} from "../../../logger";
 import {CommentProperty, UserProperty} from "../constants/property-name";
 import {TableName} from "../constants/table-name";
-
 import {ICommentModel} from "../models/comment";
 
 const commentPreviewAttributes: FindAttributeOptions = [

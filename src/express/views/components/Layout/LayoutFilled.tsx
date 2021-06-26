@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from "react";
+
 import {IPageTitle} from "../../../../types/interfaces/page-title";
 import {ICurrentUser} from "../../interfaces/current-user";
-
 import {Footer} from "../Footer/Footer";
 import {HeaderDispatcher} from "../Header/HeaderDispatcher";
 

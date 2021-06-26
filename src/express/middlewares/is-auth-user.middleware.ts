@@ -1,6 +1,6 @@
 import {NextFunction, Request} from "express";
-import {ClientRoutes} from "../../constants-es6";
 
+import {ClientRoutes} from "../../constants-es6";
 import {RoleId} from "../../shared/constants/role-id";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 

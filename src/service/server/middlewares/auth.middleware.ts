@@ -1,7 +1,7 @@
 import {NextFunction, Response} from "express";
+
 import {getLogger} from "../../logger";
 import {Context} from "../../models/context";
-
 import {RequestExtended} from "../../models/types/request-extended";
 import {verifyAccessToken} from "../auth/verify-access-token";
 

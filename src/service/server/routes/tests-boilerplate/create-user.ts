@@ -1,7 +1,7 @@
 import {Application} from "express";
 import {agent as request} from "supertest";
-import {getNumericalId} from "../../../../shared/get-id";
 
+import {getNumericalId} from "../../../../shared/get-id";
 import {ILogin} from "../../../../types/interfaces/login";
 import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
 

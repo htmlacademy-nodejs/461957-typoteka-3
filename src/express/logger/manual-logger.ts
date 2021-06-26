@@ -1,6 +1,6 @@
 import pino, {Bindings, Logger} from "pino";
-import {LogLevel} from "../../constants-es6";
 
+import {LogLevel} from "../../constants-es6";
 import {ENV} from "../../shared/env/env";
 
 const logger = pino({

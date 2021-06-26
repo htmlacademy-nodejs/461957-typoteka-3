@@ -16,11 +16,11 @@ import {
   getRandomItem,
   getTitle,
 } from "../../cli/generate-database-mock/values-generators";
+
 import {TableName} from "./constants/table-name";
 import {IArticleEntity, IArticleModel} from "./models/article";
 import {ICategoryEntity, ICategoryModel} from "./models/category";
 import {ICommentModel} from "./models/comment";
-
 import {IRoleEntity, IRoleModel} from "./models/role";
 import {IUserEntity, IUserModel} from "./models/user";
 

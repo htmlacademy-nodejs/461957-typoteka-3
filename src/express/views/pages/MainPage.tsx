@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {ILink} from "../../../types/article";
 import {CategoryWithLink} from "../../../types/category-with-link";
 import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
@@ -7,7 +8,6 @@ import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {Greeting} from "../components/Greeting/Greeting";
 import {HotList} from "../components/HotList/HotList";
 import {LastList} from "../components/LastList/LastList";
-
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
 import {PreviewList} from "../components/PreviewList/PreviewList";

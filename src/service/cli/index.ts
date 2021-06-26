@@ -1,7 +1,7 @@
 import {CliAction} from "../../types/cli-action";
 import {ServiceCliCommandName} from "../../types/service-cli-command-name";
-import {cliAction as fillDb} from "./fill-db";
 
+import {cliAction as fillDb} from "./fill-db";
 import {cliAction as fill} from "./generate-database-mock";
 import {cliAction as help} from "./help";
 import {cliAction as server} from "./server";

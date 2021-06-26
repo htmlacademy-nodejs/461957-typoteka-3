@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
-import {HttpCode} from "../../../constants-es6";
 
+import {HttpCode} from "../../../constants-es6";
 import {UsersController} from "../controllers/users.controller";
 import {authMiddleware} from "../middlewares";
 import {validateNewUser} from "../validators";

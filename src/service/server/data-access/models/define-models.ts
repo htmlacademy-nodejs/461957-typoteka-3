@@ -1,9 +1,9 @@
 import {Sequelize} from "sequelize";
+
 import {ArticleCategoryProperty, ArticleProperty, CommentProperty, UserProperty} from "../constants/property-name";
-
 import {TableName} from "../constants/table-name";
-import {defineArticle, IArticleModel} from "./article";
 
+import {defineArticle, IArticleModel} from "./article";
 import {defineCategory, ICategoryModel} from "./category";
 import {defineComment, ICommentModel} from "./comment";
 import {defineIntermediateModel} from "./intermediate";

@@ -1,5 +1,6 @@
 import {Logger} from "pino";
 import Sequelize, {FindAttributeOptions, Model} from "sequelize";
+
 import {ArticleId} from "../../../../types/article-id";
 import {CategoryId} from "../../../../types/category-id";
 import {IArticleCreating} from "../../../../types/interfaces/article-creating";
@@ -10,7 +11,6 @@ import {IPaginationOptions} from "../../../../types/interfaces/pagination-option
 import {UserId} from "../../../../types/user-id";
 import {getLogger} from "../../../logger";
 import {TableName} from "../constants/table-name";
-
 import {IArticleModel} from "../models/article";
 
 export class ArticlesService {

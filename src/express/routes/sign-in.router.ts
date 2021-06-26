@@ -1,6 +1,7 @@
 import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
+
 import {ClientRoutes, HttpCode} from "../../constants-es6";
 import {ICsrf} from "../../types/article";
 import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
@@ -9,7 +10,6 @@ import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
 import {setAuthCookie} from "../helpers/cookie.helper";
 import {dataProviderService} from "../services";
-
 import {streamPage} from "../utils/stream-page";
 import {SignInPage} from "../views/pages/SignInPage";
 

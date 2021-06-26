@@ -1,6 +1,5 @@
 import {Application} from "express";
 import http from "http";
-
 import {agent as request} from "supertest";
 
 import {ArticleSearchCollection} from "../../../types/article-search-collection";

@@ -1,6 +1,5 @@
 import {Application} from "express";
 import * as http from "http";
-
 import {agent as request} from "supertest";
 
 import {Article, IArticleId, ICommentsCount} from "../../../types/article";

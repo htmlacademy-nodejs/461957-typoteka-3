@@ -1,7 +1,7 @@
 import {Application} from "express";
 import {agent as request} from "supertest";
-import {APIRoutes} from "../../../../constants-es6";
 
+import {APIRoutes} from "../../../../constants-es6";
 import {IUserPreview} from "../../../../types/interfaces/user-preview";
 
 import {resolveAuthHeader} from "./resolve-auth-header";

@@ -1,11 +1,11 @@
 import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 import React, {FunctionComponent} from "react";
+
 import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
 import {UserCreatingFromForm} from "../../../types/interfaces/user-creating";
 import {UserValidationResponse} from "../../../types/user-validation-response";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {RegistrationWrapper} from "../components/RegistrationWrapper/RegistrationWrapper";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";

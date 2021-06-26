@@ -1,10 +1,10 @@
 import {Model, Op, Sequelize} from "sequelize";
+
 import {ArticleId} from "../../../../types/article-id";
 import {Category} from "../../../../types/category";
 import {CategoryId} from "../../../../types/category-id";
 import {CategoryWithNumbers} from "../../../../types/category-with-numbers";
 import {TableName} from "../constants/table-name";
-
 import {ICategoryModel} from "../models/category";
 
 export class CategoriesService {

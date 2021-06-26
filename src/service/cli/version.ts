@@ -1,6 +1,5 @@
 import chalk from "chalk";
 import {promises} from "fs";
-
 import type {IPackageJson} from "package-json-type/types/index";
 
 import {CliAction} from "../../types/cli-action";

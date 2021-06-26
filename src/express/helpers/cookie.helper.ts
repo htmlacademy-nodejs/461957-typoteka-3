@@ -1,6 +1,6 @@
 import type {Request, Response} from "express";
-import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 
+import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {COOKIE_TOKEN} from "../constants/cookie-token.constant";
 
 export function setAuthCookie(res: Response, value: IAuthTokens): void {

@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
-import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {SearchResult, SearchResultProps} from "../components/SearchResult/SearchResult";
 import {ICsrfInput} from "../interfaces/csrf-input";

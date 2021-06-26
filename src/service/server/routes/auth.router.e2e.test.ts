@@ -1,13 +1,12 @@
 /* eslint-disable max-nested-callbacks */
 import {Application} from "express";
 import * as http from "http";
-
 import {agent as request} from "supertest";
+
 import {IAuthorizationSuccess} from "../../../types/interfaces/authorization-result";
-
 import {ILogin} from "../../../types/interfaces/login";
-import {createUser} from "./tests-boilerplate/create-user";
 
+import {createUser} from "./tests-boilerplate/create-user";
 import {initApp} from "./tests-boilerplate/init-app";
 
 let validUserCredentials: ILogin;

@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from "react";
+
 import {ClientRoutes} from "../../../../constants-es6";
 import {Avatar} from "../Avatar/Avatar";
-
 import {Logo} from "../Logo/Logo";
 
 import {SearchButton} from "./Buttons/SearchButton/SearchButton";

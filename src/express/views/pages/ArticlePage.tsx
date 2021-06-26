@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {COMMENT_FORM_FIELDS} from "../../../constants-es6";
 import type {ICategoriesWithLinksAndNumbers, ICreatedDate, IFullText, ITitle} from "../../../types/article";
 import {CommentValidationResponse} from "../../../types/comment-validation-response";
@@ -7,7 +8,6 @@ import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CommentForm} from "../components/CommentForm/CommentForm";
 import {CommentsList} from "../components/CommentsList/CommentsList";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {ICsrfInput} from "../interfaces/csrf-input";
 import {ICurrentUser} from "../interfaces/current-user";

@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from "react";
+
 import {Footer} from "../components/Footer/Footer";
 import {Header404} from "../components/Header/Header404";
-
 import {Layout} from "../components/Layout/Layout";
 
 export const ErrorPage404: FunctionComponent = ({}) => (

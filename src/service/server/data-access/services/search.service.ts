@@ -1,6 +1,6 @@
 import {Model, Op, Sequelize} from "sequelize";
-import {ArticleSearchResult} from "../../../../types/article-search-result";
 
+import {ArticleSearchResult} from "../../../../types/article-search-result";
 import {IArticleModel} from "../models/article";
 
 export class SearchService {

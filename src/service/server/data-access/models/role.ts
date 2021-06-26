@@ -1,6 +1,6 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
-import {IRole} from "../../../../types/interfaces/role";
 
+import {IRole} from "../../../../types/interfaces/role";
 import {TableName} from "../constants/table-name";
 
 import {modelOptions} from "./constants/model-options";

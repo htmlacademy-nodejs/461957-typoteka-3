@@ -1,10 +1,10 @@
 import React, {FunctionComponent} from "react";
-import {RoleId} from "../../../../shared/constants/role-id";
 
+import {RoleId} from "../../../../shared/constants/role-id";
 import {ICurrentUser} from "../../interfaces/current-user";
+
 import {Header} from "./Header";
 import {HeaderAuthor} from "./HeaderAuthor";
-
 import {HeaderReader} from "./HeaderReader";
 
 export const HeaderDispatcher: FunctionComponent<ICurrentUser> = ({currentUser}) => {

@@ -1,7 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 import {Application} from "express";
 import * as http from "http";
-
 import {agent as request} from "supertest";
 
 import {Article} from "../../../types/article";
@@ -10,9 +9,9 @@ import {IArticleCreating} from "../../../types/interfaces/article-creating";
 import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-date";
 import {ICollection} from "../../../types/interfaces/collection";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
+
 import {getAccessToken} from "./tests-boilerplate/get-access-token";
 import {getUserByAccessToken} from "./tests-boilerplate/get-user-by-access-token";
-
 import {initApp} from "./tests-boilerplate/init-app";
 import {resolveAuthHeader} from "./tests-boilerplate/resolve-auth-header";
 

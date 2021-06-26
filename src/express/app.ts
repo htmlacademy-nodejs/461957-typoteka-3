@@ -1,14 +1,13 @@
 import chalk from "chalk";
 import cookieParser from "cookie-parser";
-
 import express, {Express} from "express";
 import * as path from "path";
 
 import {ClientRoutes, DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
 import {ENV} from "../shared/env/env";
+
 import {errorHandlerMiddleware, getUserFromCookiesMiddleware, notFoundMiddleware} from "./middlewares";
 import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "./middlewares/logger";
-
 import {
   adminPublicationsRouter,
   articlesRouter,

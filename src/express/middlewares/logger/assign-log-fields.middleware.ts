@@ -1,6 +1,6 @@
 import type {NextFunction, Request, Response} from "express";
-import {IRequestExtended} from "../../models/interfaces/request-extended";
 
+import {IRequestExtended} from "../../models/interfaces/request-extended";
 import {RequestContext} from "../../models/request-context";
 
 export function assignLogFieldsMiddleware(req: Request, res: Response, next: NextFunction): void {

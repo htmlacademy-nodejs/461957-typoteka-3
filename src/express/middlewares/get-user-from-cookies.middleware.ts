@@ -1,8 +1,8 @@
 import {NextFunction, Request} from "express";
+
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {IUserPreview} from "../../types/interfaces/user-preview";
-
 import {getAuthTokenFromCookies, invalidateAuthCookie, setAuthCookie} from "../helpers/cookie.helper";
 import {getLogger} from "../logger";
 import {dataProviderService} from "../services";

@@ -1,7 +1,7 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
+
 import {APIRoutes, HttpCode} from "../../constants-es6";
 import {ENV} from "../../shared/env/env";
-
 import type {Article, ICreatedDate} from "../../types/article";
 import {ArticleId} from "../../types/article-id";
 import type {ArticleSearchCollection} from "../../types/article-search-collection";

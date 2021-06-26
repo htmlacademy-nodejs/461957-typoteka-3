@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
-import {CSRF_INPUT_NAME} from "../../../../shared/constants/forms/csrf-input-name";
 
+import {CSRF_INPUT_NAME} from "../../../../shared/constants/forms/csrf-input-name";
 import {ICsrfInput} from "../../interfaces/csrf-input";
 
 export const CsrfHiddenInput: FunctionComponent<ICsrfInput> = ({csrf}) => (

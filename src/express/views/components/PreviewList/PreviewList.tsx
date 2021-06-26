@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {
   IAnnounce,
   IArticleId,
@@ -9,7 +10,6 @@ import {
   ITitle,
 } from "../../../../types/article";
 import {CategoryWithLink} from "../../../../types/category-with-link";
-
 import {Preview} from "../Preview/Preview";
 
 interface PreviewListProps {

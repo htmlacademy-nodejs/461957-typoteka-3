@@ -1,6 +1,6 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
-import {Category} from "../../../../types/category";
 
+import {Category} from "../../../../types/category";
 import {TableName} from "../constants/table-name";
 
 import {modelOptions} from "./constants/model-options";

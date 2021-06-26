@@ -1,7 +1,7 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
+
 import {ArticleComment} from "../../../../types/article-comment";
 import {ICommentCreating} from "../../../../types/interfaces/comment-creating";
-
 import {TableName} from "../constants/table-name";
 
 import {modelOptions} from "./constants/model-options";

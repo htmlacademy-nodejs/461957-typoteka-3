@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
-import {CategoryEditable, CategoryEditableProps} from "../components/CategoryEditable/CategoryEditable";
 
+import {CategoryEditable, CategoryEditableProps} from "../components/CategoryEditable/CategoryEditable";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {NewCategory} from "../components/NewCategory/NewCategory";
 import {ICsrfInput} from "../interfaces/csrf-input";

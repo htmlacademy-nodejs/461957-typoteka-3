@@ -2,9 +2,9 @@
 import {Application} from "express";
 import * as http from "http";
 import {agent as request} from "supertest";
+
 import {IUserCreatingDoublePasswords} from "../../../types/interfaces/user-creating";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
-
 import {UserId} from "../../../types/user-id";
 
 import {initApp} from "./tests-boilerplate/init-app";

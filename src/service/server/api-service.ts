@@ -1,5 +1,4 @@
 import * as bodyParser from "body-parser";
-
 import express, {Application, RequestHandler, Response} from "express";
 import * as http from "http";
 import {Sequelize} from "sequelize";
@@ -9,9 +8,9 @@ import {getLogger} from "../logger";
 import {messageConstructor} from "../logger/message-constructor";
 import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "../middlewares/logger";
 import {RequestExtended} from "../models/types/request-extended";
+
 import {defineDatabaseModels} from "./data-access/models";
 import {DatabaseModels} from "./data-access/models/define-models";
-
 import {apiRouter} from "./routes";
 
 export class ApiService {
