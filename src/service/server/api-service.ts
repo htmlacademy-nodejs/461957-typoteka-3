@@ -55,12 +55,12 @@ export class ApiService {
   }
 
   private configureRoutes({
-                            CategoryModel,
-                            ArticleModel,
-                            CommentModel,
-                            UserModel,
-                            RefreshTokenModel,
-                          }: DatabaseModels): void {
+    CategoryModel,
+    ArticleModel,
+    CommentModel,
+    UserModel,
+    RefreshTokenModel,
+  }: DatabaseModels): void {
     this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleModel, CommentModel, UserModel, RefreshTokenModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);
