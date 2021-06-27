@@ -4,7 +4,7 @@ import chalk from "chalk";
 import cookieParser from "cookie-parser";
 import express, {Express} from "express";
 
-import {DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
+import {DEFAULT_SSR_PORT, STATIC_DIR} from "../constants";
 import {ClientRoute} from "../shared/constants/routes/client-route";
 import {ENV} from "../shared/env/env";
 

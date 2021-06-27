@@ -1,4 +1,4 @@
-import {Time} from "../../../constants-es6";
+import {Time} from "../../../constants";
 import {Category} from "../../../types/category";
 import {IAuthorId} from "../../../types/interfaces/author-id";
 import {ICommentCreating} from "../../../types/interfaces/comment-creating";

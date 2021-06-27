@@ -1,6 +1,6 @@
 import {NextFunction, Request, Router} from "express";
 
-import {HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
 import {ICommentId} from "../../types/interfaces/comment-id";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";

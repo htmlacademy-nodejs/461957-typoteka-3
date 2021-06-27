@@ -1,7 +1,7 @@
 import {compare} from "bcrypt";
 import {FindAttributeOptions} from "sequelize";
 
-import {LoginStatus} from "../../../../constants-es6";
+import {LoginStatus} from "../../../../constants";
 import {ILogin} from "../../../../types/interfaces/login";
 import {ILoginResult} from "../../../../types/interfaces/login-result";
 import {IUserPreview} from "../../../../types/interfaces/user-preview";

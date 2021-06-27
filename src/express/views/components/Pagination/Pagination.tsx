@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-import {PAGE_QUERY_PARAM} from "../../../../constants-es6";
+import {PAGE_QUERY_PARAM} from "../../../../constants";
 
 interface PaginationProps {
   hasPrev: boolean;

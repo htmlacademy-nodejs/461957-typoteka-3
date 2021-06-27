@@ -1,6 +1,6 @@
 import chalk from "chalk";
 
-import {ExitCode} from "../../constants-es6";
+import {ExitCode} from "../../constants";
 import {CliAction} from "../../types/cli-action";
 import {getLogger} from "../logger";
 import {connectToDatabase} from "../server/data-access/database-connector";

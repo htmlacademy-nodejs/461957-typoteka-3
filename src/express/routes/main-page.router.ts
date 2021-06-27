@@ -1,6 +1,6 @@
 import {NextFunction, Request, Router} from "express";
 
-import {HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
 import {CategoryWithLink} from "../../types/category-with-link";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
 import {IResponseExtended} from "../../types/interfaces/response-extended";

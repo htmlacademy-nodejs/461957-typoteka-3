@@ -1,4 +1,4 @@
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {Article, ICategories, IComments} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticlesByCategory} from "../../../types/articles-by-category";

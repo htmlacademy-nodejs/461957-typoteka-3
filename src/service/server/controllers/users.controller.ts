@@ -1,6 +1,6 @@
 import {UsersService} from "../data-access/services/users.service";
 import {UserId} from "../../../types/user-id";
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {ControllerResponse} from "../../../types/controller-response";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
 import {IUserCreating} from "../../../types/interfaces/user-creating";

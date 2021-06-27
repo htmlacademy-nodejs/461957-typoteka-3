@@ -1,6 +1,6 @@
 import {Request} from "express";
 
-import {PAGE_QUERY_PARAM, PAGE_SIZE} from "../../constants-es6";
+import {PAGE_QUERY_PARAM, PAGE_SIZE} from "../../constants";
 
 export function getPagesCount(total: number): number {
   return Math.ceil(total / PAGE_SIZE);

@@ -1,4 +1,4 @@
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {ControllerResponse} from "../../../types/controller-response";
 import {CommentsService} from "../data-access/services/comments.service";
 import {ArticleId} from "../../../types/article-id";

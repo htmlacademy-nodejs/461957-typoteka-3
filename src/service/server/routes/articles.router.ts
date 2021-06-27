@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {APIRoute} from "../../../shared/constants/routes/api-route";
 import {ArticlesController} from "../controllers/articles.controller";
 import {CommentsController} from "../controllers/comments.controller";

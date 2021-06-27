@@ -1,4 +1,4 @@
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {ControllerResponse} from "../../../types/controller-response";
 import {CategoryWithNumbers} from "../../../types/category-with-numbers";
 import {CategoriesService} from "../data-access/services/categories.service";

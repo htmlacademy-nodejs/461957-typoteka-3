@@ -1,6 +1,6 @@
 import chalk from "chalk";
 
-import {ExitCode, MockFilePath, MockTextsFilePath} from "../../constants-es6";
+import {ExitCode, MockFilePath, MockTextsFilePath} from "../../constants";
 import {CliAction} from "../../types/cli-action";
 import {getRandomInt, shuffle} from "../../utils";
 import {TableName} from "../server/data-access/constants/table-name";

@@ -2,7 +2,7 @@ import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
-import {HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
 import {ClientRoute} from "../../shared/constants/routes/client-route";
 import type {ArticleFromBrowser} from "../../types/article-from-browser";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";

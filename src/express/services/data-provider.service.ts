@@ -1,6 +1,6 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
 
-import {HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
 import {APIRoute} from "../../shared/constants/routes/api-route";
 import {ENV} from "../../shared/env/env";
 import type {Article, ICreatedDate} from "../../types/article";

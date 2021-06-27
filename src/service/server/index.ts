@@ -1,4 +1,4 @@
-import {ExitCode} from "../../constants-es6";
+import {ExitCode} from "../../constants";
 
 import {ApiService} from "./api-service";
 import {connectToDatabase} from "./data-access/database-connector";

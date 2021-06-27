@@ -1,7 +1,7 @@
 import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 
-import {HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
 import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";

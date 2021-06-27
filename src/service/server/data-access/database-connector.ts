@@ -1,6 +1,6 @@
 import {Sequelize} from "sequelize";
 
-import {ExitCode} from "../../../constants-es6";
+import {ExitCode} from "../../../constants";
 import {getLogger} from "../../logger";
 
 import {databaseConnector} from "./connectors/database.connector";

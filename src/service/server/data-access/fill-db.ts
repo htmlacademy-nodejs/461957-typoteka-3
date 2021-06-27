@@ -1,6 +1,6 @@
 import {hashSync} from "bcrypt";
 
-import {MockTextsFilePath} from "../../../constants-es6";
+import {MockTextsFilePath} from "../../../constants";
 import {RoleId} from "../../../shared/constants/role-id";
 import {CategoryId} from "../../../types/category-id";
 import {IRole} from "../../../types/interfaces/role";

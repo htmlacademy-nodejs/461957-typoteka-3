@@ -1,6 +1,6 @@
 import {Router} from "express";
 
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {CommentsController} from "../controllers/comments.controller";
 import {validateNewComment} from "../validators";
 

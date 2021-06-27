@@ -1,6 +1,6 @@
 import {Logger} from "pino";
 
-import {LoginStatus} from "../../../constants-es6";
+import {LoginStatus} from "../../../constants";
 import {ControllerResponse} from "../../../types/controller-response";
 import {IAuthTokens} from "../../../types/interfaces/auth-tokens";
 import {IAuthorizationSuccess} from "../../../types/interfaces/authorization-result";

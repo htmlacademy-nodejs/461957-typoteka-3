@@ -4,7 +4,7 @@ import * as bodyParser from "body-parser";
 import express, {Application, RequestHandler, Response} from "express";
 import {Sequelize} from "sequelize";
 
-import {DEFAULT_PORT, HttpCode} from "../../constants-es6";
+import {DEFAULT_PORT, HttpCode} from "../../constants";
 import {APIRoute} from "../../shared/constants/routes/api-route";
 import {getLogger} from "../logger";
 import {messageConstructor} from "../logger/message-constructor";

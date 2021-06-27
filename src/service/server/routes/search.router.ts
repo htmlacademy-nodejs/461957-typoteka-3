@@ -1,6 +1,6 @@
 import {Router} from "express";
 
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {SearchController} from "../controllers/search.controller";
 
 export const searchRouter = (searchController: SearchController): Router => {

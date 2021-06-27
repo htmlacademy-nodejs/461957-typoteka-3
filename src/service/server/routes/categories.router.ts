@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
 
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {ArticlesController} from "../controllers/articles.controller";
 import {CategoriesController} from "../controllers/categories.controller";
 

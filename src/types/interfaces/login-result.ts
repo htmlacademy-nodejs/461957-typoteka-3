@@ -1,4 +1,4 @@
-import {LoginStatus} from "../../constants-es6";
+import {LoginStatus} from "../../constants";
 import {ValueOf} from "../value-of";
 
 import {IUserPreview} from "./user-preview";
