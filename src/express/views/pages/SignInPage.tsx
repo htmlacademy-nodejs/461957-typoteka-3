@@ -1,7 +1,7 @@
 import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 import React, {FunctionComponent} from "react";
 
-import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
+import {NewUserFormField} from "../../../shared/constants/forms/new-user-form-field";
 import {SING_IN_FORM_FIELDS} from "../../../shared/constants/forms/sing-in-form-fields";
 import {ILogin} from "../../../types/interfaces/login";
 import {SignInValidationResponse} from "../../../types/sign-in-validation-response";
@@ -62,8 +62,8 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
 };
 
 function resolveValidationMessages(validationResponse: Record<string, string>): [string, string][] {
-  return Object.entries(validationResponse).map(([key, value]: [keyof typeof NEW_USER_FORM_FIELDS, string]) => [
-    NEW_USER_FORM_FIELDS[key]?.label,
+  return Object.entries(validationResponse).map(([key, value]: [keyof typeof NewUserFormField, string]) => [
+    NewUserFormField[key]?.label,
     value,
   ]);
 }

@@ -1,7 +1,7 @@
 import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 import React, {FunctionComponent} from "react";
 
-import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
+import {NewUserFormField} from "../../../shared/constants/forms/new-user-form-field";
 import {UserCreatingFromForm} from "../../../types/interfaces/user-creating";
 import {UserValidationResponse} from "../../../types/user-validation-response";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
@@ -49,60 +49,60 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
             <Stack tokens={{childrenGap: 16}}>
               <TextField
                 type="email"
-                label={NEW_USER_FORM_FIELDS.email.label}
-                name={NEW_USER_FORM_FIELDS.email.name}
+                label={NewUserFormField.EMAIL.label}
+                name={NewUserFormField.EMAIL.name}
                 defaultValue={userFields.email}
                 required
               />
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.email.name]} />
+              <ValidationMessage message={userValidationResponse[NewUserFormField.EMAIL.name]} />
               <TextField
-                label={NEW_USER_FORM_FIELDS.firstName.label}
-                name={NEW_USER_FORM_FIELDS.firstName.name}
+                label={NewUserFormField.FIRST_NAME.label}
+                name={NewUserFormField.FIRST_NAME.name}
                 defaultValue={userFields.firstName}
                 required
               />
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.firstName.name]} />
+              <ValidationMessage message={userValidationResponse[NewUserFormField.FIRST_NAME.name]} />
               <TextField
-                label={NEW_USER_FORM_FIELDS.lastName.label}
-                name={NEW_USER_FORM_FIELDS.lastName.name}
+                label={NewUserFormField.LAST_NAME.label}
+                name={NewUserFormField.LAST_NAME.name}
                 defaultValue={userFields.lastName}
                 required
               />
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.lastName.name]} />
+              <ValidationMessage message={userValidationResponse[NewUserFormField.LAST_NAME.name]} />
               <TextField
                 type="password"
-                label={NEW_USER_FORM_FIELDS.password.label}
-                name={NEW_USER_FORM_FIELDS.password.name}
+                label={NewUserFormField.PASSWORD.label}
+                name={NewUserFormField.PASSWORD.name}
                 defaultValue={userFields.password}
                 required
                 autoComplete="new-password"
               />
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.password.name]} />
+              <ValidationMessage message={userValidationResponse[NewUserFormField.PASSWORD.name]} />
               <TextField
                 type="password"
-                label={NEW_USER_FORM_FIELDS.passwordRepeated.label}
-                name={NEW_USER_FORM_FIELDS.passwordRepeated.name}
+                label={NewUserFormField.PASSWORD_REPEATED.label}
+                name={NewUserFormField.PASSWORD_REPEATED.name}
                 defaultValue={userFields.passwordRepeated}
                 required
               />
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.passwordRepeated.name]} />
+              <ValidationMessage message={userValidationResponse[NewUserFormField.PASSWORD_REPEATED.name]} />
             </Stack>
             <Stack.Item>
               <div className="form__image-loader">
                 <a className="form__avatar avatar">
-                  <img src="img/icons/smile.svg" alt={NEW_USER_FORM_FIELDS.avatar.label} />
+                  <img src="img/icons/smile.svg" alt={NewUserFormField.AVATAR.label} />
                 </a>
                 <label>
                   <input
                     type="file"
-                    name={NEW_USER_FORM_FIELDS.avatar.name}
+                    name={NewUserFormField.AVATAR.name}
                     defaultValue={userFields.avatar}
                     className="visually-hidden"
                   />
                   Загрузить фото профиля
                 </label>
               </div>
-              <ValidationMessage message={userValidationResponse[NEW_USER_FORM_FIELDS.avatar.name]} />
+              <ValidationMessage message={userValidationResponse[NewUserFormField.AVATAR.name]} />
             </Stack.Item>
             <Stack.Item align="end">
               <PrimaryButton type="submit">Зарегистироваться</PrimaryButton>
@@ -116,8 +116,8 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
 };
 
 function resolveValidationMessages(validationResponse: Record<string, string>): [string, string][] {
-  return Object.entries(validationResponse).map(([key, value]: [keyof typeof NEW_USER_FORM_FIELDS, string]) => [
-    NEW_USER_FORM_FIELDS[key]?.label,
+  return Object.entries(validationResponse).map(([key, value]: [keyof typeof NewUserFormField, string]) => [
+    NewUserFormField[key]?.label,
     value,
   ]);
 }

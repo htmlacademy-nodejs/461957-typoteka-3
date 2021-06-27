@@ -76,32 +76,6 @@ export const ClientRoute = {
   COMMENTS: `/comments`,
   SIGN_OUT: `/sign-out`,
 };
-export const NEW_USER_FORM_FIELDS = {
-  email: {
-    name: `email`,
-    label: `Электронная почта`,
-  },
-  password: {
-    name: `password`,
-    label: `Пароль`,
-  },
-  passwordRepeated: {
-    name: `passwordRepeated`,
-    label: `Повтор пароля`,
-  },
-  firstName: {
-    name: `firstName`,
-    label: `Имя`,
-  },
-  lastName: {
-    name: `lastName`,
-    label: `Фамилия`,
-  },
-  avatar: {
-    name: `avatar`,
-    label: `Фото профиля`,
-  },
-} as const;
 export const COMMENT_FORM_FIELDS = {
   text: {
     name: `text`,
