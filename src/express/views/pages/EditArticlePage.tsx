@@ -2,8 +2,8 @@ import {IconButton, PrimaryButton, Stack, Text, TextField} from "@fluentui/react
 import {IIconProps} from "@fluentui/react/lib/components/Icon";
 import React, {FunctionComponent} from "react";
 
-import {ClientRoute} from "../../../constants-es6";
 import {ArticleFormField} from "../../../shared/constants/forms/article-form-field";
+import {ClientRoute} from "../../../shared/constants/routes/client-route";
 import type {ArticleValidationResponse} from "../../../types/article-validation-response";
 import type {Category} from "../../../types/category";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";

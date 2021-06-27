@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-import {ClientRoute} from "../../../../constants-es6";
+import {ClientRoute} from "../../../../shared/constants/routes/client-route";
 import {Avatar} from "../Avatar/Avatar";
 import {FabricUIIcon} from "../FabricUIIcon/FabricIcon";
 import {Logo} from "../Logo/Logo";

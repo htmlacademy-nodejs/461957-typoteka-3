@@ -2,8 +2,9 @@ import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
-import {ClientRoute, HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants-es6";
 import {RoleId} from "../../shared/constants/role-id";
+import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {IUserCreatingDoublePasswords, UserCreatingFromForm} from "../../types/interfaces/user-creating";
 import {UserValidationResponse} from "../../types/user-validation-response";

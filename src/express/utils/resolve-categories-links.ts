@@ -1,5 +1,5 @@
+import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {Category} from "../../types/category";
-import {ClientRoute} from "../../constants-es6";
 import {CategoryWithLink} from "../../types/category-with-link";
 
 export function resolveCategoriesLinks(categories: Category[]): CategoryWithLink[] {

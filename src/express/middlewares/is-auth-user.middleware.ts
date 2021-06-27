@@ -1,7 +1,7 @@
 import {NextFunction, Request} from "express";
 
-import {ClientRoute} from "../../constants-es6";
 import {RoleId} from "../../shared/constants/role-id";
+import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 
 export function isAuthorUserMiddleware(req: Request, res: IResponseExtended, next: NextFunction): void {

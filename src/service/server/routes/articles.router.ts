@@ -1,6 +1,7 @@
 import {Request, Response, Router} from "express";
 
-import {APIRoutes, HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants-es6";
+import {APIRoute} from "../../../shared/constants/routes/api-route";
 import {ArticlesController} from "../controllers/articles.controller";
 import {CommentsController} from "../controllers/comments.controller";
 import {authMiddleware} from "../middlewares/";
@@ -61,7 +62,7 @@ export const articleRouter = (
     res.status(status).send(payload);
   });
 
-  router.use(`/:id` + APIRoutes.COMMENTS, commentsRouter(commentsController));
+  router.use(`/:id` + APIRoute.COMMENTS, commentsRouter(commentsController));
 
   return router;
 };

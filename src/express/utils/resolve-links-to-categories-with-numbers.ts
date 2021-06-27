@@ -1,4 +1,4 @@
-import {ClientRoute} from "../../constants-es6";
+import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
 import {CategoryWithNumbers} from "../../types/category-with-numbers";
 

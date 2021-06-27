@@ -2,7 +2,8 @@ import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
-import {ClientRoute, HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants-es6";
+import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {ICommentCreating} from "../../types/interfaces/comment-creating";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";

@@ -38,44 +38,6 @@ export const MockTextsFilePath = {
   EMAILS: `data/emails.txt`,
   AVATARS: `data/avatars.txt`,
 } as const;
-export const APIRoutes = {
-  API: `/api`,
-  ARTICLES: `/articles`,
-  ARTICLES_BY_AUTHOR: `/articles/author`,
-  EDIT_ARTICLE: `/articles`,
-  COMMENTS: `/comments`,
-  CATEGORIES: `/categories`,
-  CATEGORIES_STATISTICS: `/categories-statistics`,
-  SEARCH: `/search`,
-  USERS: `/users`,
-  USERS_COMMENTS: `/users/comments`,
-  AUTH: `/auth`,
-  LOGIN: `/auth/login`,
-  GET_USER: `/auth/get-user`,
-  REFRESH_TOKENS: `/auth/refresh`,
-  LOGOUT: `/auth/sign-out`,
-};
-export const ClientRoute = {
-  INDEX: `/`,
-  ADMIN: {
-    INDEX: `/my`,
-    COMMENTS: `/my/comments`,
-  },
-  ARTICLES: {
-    INDEX: `/articles`,
-    ADD: `/articles/add`,
-    CATEGORY: `/articles/category`,
-    EDIT: `/articles/edit`,
-  },
-  SEARCH: {
-    INDEX: `/search`,
-  },
-  REGISTRATION: `/register`,
-  SIGN_IN: `/login`,
-  CATEGORIES: `/categories`,
-  COMMENTS: `/comments`,
-  SIGN_OUT: `/sign-out`,
-};
 export const DEFAULT_COMMAND = `--help`;
 export const USER_ARGV_INDEX = 2;
 export const LogLevel = {

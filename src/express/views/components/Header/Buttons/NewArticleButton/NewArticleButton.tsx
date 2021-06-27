@@ -2,7 +2,7 @@ import {PrimaryButton} from "@fluentui/react";
 import {IIconProps} from "@fluentui/react/lib/components/Icon";
 import React, {FunctionComponent} from "react";
 
-import {ClientRoute} from "../../../../../../constants-es6";
+import {ClientRoute} from "../../../../../../shared/constants/routes/client-route";
 
 const addIcon: IIconProps = {iconName: "Add"};
 
