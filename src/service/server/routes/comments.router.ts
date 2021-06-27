@@ -1,7 +1,8 @@
 import {Router} from "express";
+
 import {HttpCode} from "../../../constants-es6";
-import {validateNewComment} from "../validators";
 import {CommentsController} from "../controllers/comments.controller";
+import {validateNewComment} from "../validators";
 
 export const commentsRouter = (commentsController: CommentsController): Router => {
   const router = Router({mergeParams: true});

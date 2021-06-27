@@ -1,7 +1,8 @@
 import {Router} from "express";
+
+import {HttpCode} from "../../../constants-es6";
 import {AuthController} from "../controllers/auth.controller";
 import {validateLogin} from "../validators";
-import {HttpCode} from "../../../constants-es6";
 
 export const authRouter = (authController: AuthController): Router => {
   const router = Router();

@@ -19,12 +19,14 @@ export const ExitCode = {
   ERROR: 1,
   SUCCESS: 0,
 };
-export const MS_IN_DAY = 86400000;
-export const MS_IN_HOUR = 3600000;
-export const MS_IN_MINUTE = 60000;
-export const MINUTES_IN_HOUR = 60;
-export const DAYS_IN_WEEK = 7;
-export const DAYS_IN_MONTH = 30;
+export const Time = {
+  MS_IN_DAY: 86400000,
+  MS_IN_HOUR: 3600000,
+  MS_IN_MINUTE: 60000,
+  MINUTES_IN_HOUR: 60,
+  DAYS_IN_WEEK: 7,
+  DAYS_IN_MONTH: 30,
+} as const;
 export const MockTextsFilePath = {
   SENTENCES: `data/sentences.txt`,
   CATEGORIES: `data/categories.txt`,
@@ -53,7 +55,7 @@ export const APIRoutes = {
   REFRESH_TOKENS: `/auth/refresh`,
   LOGOUT: `/auth/sign-out`,
 };
-export const ClientRoutes = {
+export const ClientRoute = {
   INDEX: `/`,
   ADMIN: {
     INDEX: `/my`,
@@ -74,76 +76,6 @@ export const ClientRoutes = {
   COMMENTS: `/comments`,
   SIGN_OUT: `/sign-out`,
 };
-export const ARTICLE_FORM_FIELDS = {
-  createdDate: {
-    name: `createdDate`,
-    label: `Дата`,
-  },
-  categories: {
-    name: `categories`,
-    label: `Категории`,
-  },
-  title: {
-    name: `title`,
-    label: `Заголовок`,
-  },
-  announce: {
-    name: `announce`,
-    label: `Анонс публикации`,
-  },
-  fullText: {
-    name: `fullText`,
-    label: `Полный текст публикации`,
-  },
-  Image: {
-    name: `image`,
-    label: `Фотография`,
-  },
-  Upload: {
-    name: `upload`,
-    label: `Фотография`,
-  },
-} as const;
-export const NEW_USER_FORM_FIELDS = {
-  email: {
-    name: `email`,
-    label: `Электронная почта`,
-  },
-  password: {
-    name: `password`,
-    label: `Пароль`,
-  },
-  passwordRepeated: {
-    name: `passwordRepeated`,
-    label: `Повтор пароля`,
-  },
-  firstName: {
-    name: `firstName`,
-    label: `Имя`,
-  },
-  lastName: {
-    name: `lastName`,
-    label: `Фамилия`,
-  },
-  avatar: {
-    name: `avatar`,
-    label: `Фото профиля`,
-  },
-} as const;
-export const COMMENT_FORM_FIELDS = {
-  text: {
-    name: `text`,
-    label: `Сообщение`,
-  },
-};
-export const TableNames = {
-  USERS: `users`,
-  PERMISSIONS: `permissions`,
-  ARTICLES: `articles`,
-  CATEGORIES: `categories`,
-  ARTICLES_CATEGORIES: `articles_categories`,
-  COMMENTS: `comments`,
-} as const;
 export const DEFAULT_COMMAND = `--help`;
 export const USER_ARGV_INDEX = 2;
 export const LogLevel = {

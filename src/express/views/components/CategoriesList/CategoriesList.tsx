@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from "react";
-import {CategoryLink} from "../CategoryLink/CategoryLink";
-import {CategoryWithLinksAndNumbers} from "../../../../types/category-with-links-and-numbers";
+
 import {CategoryId} from "../../../../types/category-id";
+import {CategoryWithLinksAndNumbers} from "../../../../types/category-with-links-and-numbers";
+import {CategoryLink} from "../CategoryLink/CategoryLink";
 
 interface Props {
   categories: CategoryWithLinksAndNumbers[];

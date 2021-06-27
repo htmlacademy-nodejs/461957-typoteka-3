@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Preview} from "../Preview/Preview";
-import {CategoryWithLink} from "../../../../types/category-with-link";
+
 import {
   IAnnounce,
   IArticleId,
@@ -10,6 +9,8 @@ import {
   ILink,
   ITitle,
 } from "../../../../types/article";
+import {CategoryWithLink} from "../../../../types/category-with-link";
+import {Preview} from "../Preview/Preview";
 
 interface PreviewListProps {
   previews: (ICommentsCount & ITitle & IAnnounce & ICreatedDate & ILink & ICategories & IArticleId)[];

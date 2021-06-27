@@ -1,8 +1,8 @@
-import {ClientRoutes} from "../../../../../../constants-es6";
-import React from "react";
+import {DefaultButton} from "@fluentui/react";
+import React, {FunctionComponent} from "react";
 
-export const LogInButton = () => (
-  <a className="header__enter" href={ClientRoutes.SIGN_IN}>
-    Вход с паролем
-  </a>
+import {ClientRoute} from "../../../../../../constants-es6";
+
+export const LogInButton: FunctionComponent = () => (
+  <DefaultButton href={ClientRoute.SIGN_IN}>Вход с паролем</DefaultButton>
 );

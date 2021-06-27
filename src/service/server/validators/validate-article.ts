@@ -1,8 +1,10 @@
-import {newArticleSchema} from "./schemas";
 import {ValidationError} from "joi";
+
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
-import {getValidationDictionary} from "./get-validation-dictionary";
 import {getLogger} from "../../logger";
+
+import {getValidationDictionary} from "./get-validation-dictionary";
+import {newArticleSchema} from "./schemas";
 
 export async function validateNewArticle(newArticle: IArticleCreating): Promise<IArticleCreating> {
   const logger = getLogger();

@@ -1,5 +1,6 @@
-import {SSRError} from "../errors/ssr-error";
 import {NextFunction, Request, Response} from "express";
+
+import {SSRError} from "../errors/ssr-error";
 
 export function notFoundMiddleware(req: Request, res: Response, next: NextFunction): void {
   next(

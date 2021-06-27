@@ -1,8 +1,10 @@
-import {newCommentSchema} from "./schemas";
 import {ValidationError} from "joi";
+
 import {ICommentCreating} from "../../../types/interfaces/comment-creating";
-import {getValidationDictionary} from "./get-validation-dictionary";
 import {getLogger} from "../../logger";
+
+import {getValidationDictionary} from "./get-validation-dictionary";
+import {newCommentSchema} from "./schemas";
 
 export async function validateNewComment(newComment: ICommentCreating): Promise<ICommentCreating> {
   const logger = getLogger();

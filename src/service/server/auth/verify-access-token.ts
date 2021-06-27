@@ -1,5 +1,6 @@
-import {HttpCode} from "../../../constants-es6";
 import {verify} from "jsonwebtoken";
+
+import {HttpCode} from "../../../constants-es6";
 import {ENV} from "../../../shared/env/env";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
 import {getLogger} from "../../logger";

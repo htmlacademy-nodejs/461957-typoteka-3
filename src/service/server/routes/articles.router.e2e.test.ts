@@ -1,17 +1,20 @@
 /* eslint-disable max-nested-callbacks */
-import {agent as request} from "supertest";
-import {Application} from "express";
 import * as http from "http";
+
+import {Application} from "express";
+import {agent as request} from "supertest";
+
 import {Article} from "../../../types/article";
 import {ArticleId} from "../../../types/article-id";
-import {initApp} from "./tests-boilerplate/init-app";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
-import {ICollection} from "../../../types/interfaces/collection";
-import {resolveAuthHeader} from "./tests-boilerplate/resolve-auth-header";
-import {getAccessToken} from "./tests-boilerplate/get-access-token";
-import {IUserPreview} from "../../../types/interfaces/user-preview";
-import {getUserByAccessToken} from "./tests-boilerplate/get-user-by-access-token";
 import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-date";
+import {ICollection} from "../../../types/interfaces/collection";
+import {IUserPreview} from "../../../types/interfaces/user-preview";
+
+import {getAccessToken} from "./tests-boilerplate/get-access-token";
+import {getUserByAccessToken} from "./tests-boilerplate/get-user-by-access-token";
+import {initApp} from "./tests-boilerplate/init-app";
+import {resolveAuthHeader} from "./tests-boilerplate/resolve-auth-header";
 
 let validArticleId: ArticleId;
 const invalidArticleId = `999999999999999999999999999999999999`;

@@ -1,7 +1,9 @@
 import {Request, Response, Router} from "express";
+
 import {HttpCode} from "../../../constants-es6";
 import {ArticlesController} from "../controllers/articles.controller";
 import {CategoriesController} from "../controllers/categories.controller";
+
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
 
 export const categoriesRouter = (

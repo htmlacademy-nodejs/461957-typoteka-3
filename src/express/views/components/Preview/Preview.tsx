@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {IAnnounce, ICategoriesWithLinks, ICommentsCount, ICreatedDate, ILink, ITitle} from "../../../../types/article";
 
 interface PreviewProps extends ICommentsCount, ITitle, IAnnounce, ICreatedDate, ILink, ICategoriesWithLinks {}
@@ -24,7 +25,7 @@ export const Preview: FunctionComponent<PreviewProps> = ({
       <ul className="preview__breadcrumbs" style={{flexWrap: "wrap"}}>
         {categoriesList}
       </ul>
-      {/*TODO: show picture*/}
+      {/* TODO: show picture*/}
       {false && (
         <div className="preview__background">
           <img

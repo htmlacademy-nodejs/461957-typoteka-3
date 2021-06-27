@@ -1,4 +1,5 @@
 import {Sequelize} from "sequelize";
+
 import {ENV} from "../../../../shared/env/env";
 import {getLogger} from "../../../logger";
 

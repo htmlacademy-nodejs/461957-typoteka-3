@@ -1,11 +1,13 @@
 import {Request, Response, Router} from "express";
+
 import {APIRoutes, HttpCode} from "../../../constants-es6";
 import {ArticlesController} from "../controllers/articles.controller";
-import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
-import {validateNewArticle} from "../validators";
-import {commentsRouter} from "./comments.router";
 import {CommentsController} from "../controllers/comments.controller";
 import {authMiddleware} from "../middlewares/";
+import {validateNewArticle} from "../validators";
+
+import {commentsRouter} from "./comments.router";
+import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
 
 export const articleRouter = (
   articlesController: ArticlesController,

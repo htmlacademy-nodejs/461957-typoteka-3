@@ -1,9 +1,10 @@
 import {NextFunction, Request, Router} from "express";
-import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {dataProviderService} from "../services";
+
+import {ClientRoute, HttpCode} from "../../constants-es6";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
 import {getAccessTokenFromCookies, getRefreshTokenFromCookies, invalidateAuthCookie} from "../helpers/cookie.helper";
-import {IResponseExtended} from "../../types/interfaces/response-extended";
+import {dataProviderService} from "../services";
 
 export const signOutRouter = Router();
 
@@ -16,7 +17,7 @@ signOutRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextFu
     } catch (e) {
       console.error(`Failed to drop refresh token`);
     }
-    return res.redirect(ClientRoutes.INDEX);
+    return res.redirect(ClientRoute.INDEX);
   } catch (e) {
     return next(
       new SSRError({

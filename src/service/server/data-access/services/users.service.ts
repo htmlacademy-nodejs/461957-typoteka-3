@@ -1,10 +1,11 @@
-import {IUserModel} from "../models/user";
+import {hash} from "bcrypt";
+import {FindAttributeOptions} from "sequelize";
+
+import {IUserCreating} from "../../../../types/interfaces/user-creating";
+import {IUserPreview} from "../../../../types/interfaces/user-preview";
 import {UserId} from "../../../../types/user-id";
 import {UserProperty} from "../constants/property-name";
-import {IUserPreview} from "../../../../types/interfaces/user-preview";
-import {IUserCreating} from "../../../../types/interfaces/user-creating";
-import {FindAttributeOptions} from "sequelize";
-import {hash} from "bcrypt";
+import {IUserModel} from "../models/user";
 
 const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.ID,

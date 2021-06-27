@@ -1,9 +1,10 @@
 import React, {FunctionComponent} from "react";
+
+import {CategoryEditable, CategoryEditableProps} from "../components/CategoryEditable/CategoryEditable";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {NewCategory} from "../components/NewCategory/NewCategory";
-import {CategoryEditable, CategoryEditableProps} from "../components/CategoryEditable/CategoryEditable";
-import {ICurrentUser} from "../interfaces/current-user";
 import {ICsrfInput} from "../interfaces/csrf-input";
+import {ICurrentUser} from "../interfaces/current-user";
 
 interface Props extends ICurrentUser, ICsrfInput {
   newCategoryEndPoint: string;

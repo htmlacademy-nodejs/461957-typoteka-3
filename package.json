@@ -15,7 +15,7 @@
     "build:ssr": "tsc --build src/express --verbose",
     "build:api": "tsc --build src/service --verbose",
     "copy-static-assets": "node run-scripts/copy-static-assets.js",
-    "lint": "eslint --ext .js,.ts src",
+    "lint": "eslint --ext .js,.ts,.tsx src",
     "test:rest": "cross-env PORT=7777 LOG_LEVEL=error JWT_ACCESS_SECRET=YERBKFD%#ADFDS#8 JWT_REFRESH_SECRET=587%NLASD#9 JWT_ACCESS_EXPIRATION=50s JWT_REFRESH_EXPIRATION=1h jest --maxWorkers=1 src/service/server",
     "generate-database-mock": "ts-node --transpile-only src/service/index.ts --fill",
     "fill-db": "npm run ts-node -- src/service/index.ts --fill-db 50 | pino-pretty",
@@ -57,6 +57,7 @@
     "babel-eslint": "10.1.0",
     "eslint": "7.15.0",
     "eslint-config-htmlacademy": "0.6.0",
+    "eslint-plugin-import": "2.23.4",
     "eslint-plugin-jest": "24.1.3",
     "eslint-plugin-react": "7.21.5",
     "jest": "26.6.3",
@@ -73,6 +74,8 @@
     "typescript": "4.1.3"
   },
   "dependencies": {
+    "@fluentui/merge-styles": "8.1.2",
+    "@fluentui/react": "8.20.2",
     "axios": "0.21.0",
     "bcrypt": "5.0.0",
     "concurrently": "6.2.0",

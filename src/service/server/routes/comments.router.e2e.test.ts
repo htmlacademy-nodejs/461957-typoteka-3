@@ -1,11 +1,14 @@
-import {agent as request} from "supertest";
-import {Application} from "express";
 import * as http from "http";
+
+import {Application} from "express";
+import {agent as request} from "supertest";
+
 import {Article, IArticleId, ICommentsCount} from "../../../types/article";
 import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {ArticleId} from "../../../types/article-id";
-import {initApp} from "./tests-boilerplate/init-app";
 import {ICommentCreating} from "../../../types/interfaces/comment-creating";
+
+import {initApp} from "./tests-boilerplate/init-app";
 
 let validArticleId: ArticleId;
 let articleWithCommentsId: ArticleId;

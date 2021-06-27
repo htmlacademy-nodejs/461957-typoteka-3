@@ -5,7 +5,7 @@ import {ArticlePage, ArticlePageProps} from "../views/pages/ArticlePage";
 import {filterSelectedCategories} from "../utils/filter-selected-categories";
 import {ArticleId} from "../../types/article-id";
 import {IPreparedPage} from "../../types/interfaces/prepared-page";
-import {ClientRoutes} from "../../constants-es6";
+import {ClientRoute} from "../../constants-es6";
 import {ICurrentUser} from "../views/interfaces/current-user";
 import {ICsrfInput} from "../views/interfaces/csrf-input";
 
@@ -32,7 +32,8 @@ export async function prepareArticlePage({
       title: article.title,
       previousPageUrl: undefined,
       fullText: article.fullText,
-      newCommentEndPoint: `${ClientRoutes.COMMENTS}/${articleId}`,
+      newCommentEndPoint: `${ClientRoute.COMMENTS}/${articleId}`,
+      commentValidationResponse: {},
       comments,
       currentUser,
       csrf,

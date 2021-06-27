@@ -1,4 +1,5 @@
 import {Model, ModelCtor, Sequelize} from "sequelize";
+
 import {modelOptions} from "./constants/model-options";
 
 export type IIntermediateModel<T = unknown, J = unknown> = ModelCtor<Model<T, J>>;

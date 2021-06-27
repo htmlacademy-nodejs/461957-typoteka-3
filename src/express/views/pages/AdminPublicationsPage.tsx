@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from "react";
+
 import type {IArticleId, ICreatedDate, ITitle} from "../../../types/article";
-import {Note} from "../components/Note/Note";
 import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
+import {Note} from "../components/Note/Note";
 import {ICurrentUser} from "../interfaces/current-user";
 
 interface AdminPublicationsPageProps extends ICurrentUser {

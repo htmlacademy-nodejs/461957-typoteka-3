@@ -1,15 +1,18 @@
-import express, {Application, RequestHandler, Response} from "express";
-import * as bodyParser from "body-parser";
-import {APIRoutes, DEFAULT_PORT, HttpCode} from "../../constants-es6";
 import * as http from "http";
+
+import * as bodyParser from "body-parser";
+import express, {Application, RequestHandler, Response} from "express";
+import {Sequelize} from "sequelize";
+
+import {APIRoutes, DEFAULT_PORT, HttpCode} from "../../constants-es6";
 import {getLogger} from "../logger";
-import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "../middlewares/logger";
 import {messageConstructor} from "../logger/message-constructor";
+import {assignLogFieldsMiddleware, logRouteMiddleware, responseStatusCodeMiddleware} from "../middlewares/logger";
 import {RequestExtended} from "../models/types/request-extended";
-import {apiRouter} from "./routes";
+
 import {defineDatabaseModels} from "./data-access/models";
 import {DatabaseModels} from "./data-access/models/define-models";
-import {Sequelize} from "sequelize";
+import {apiRouter} from "./routes";
 
 export class ApiService {
   private readonly logger = getLogger();
@@ -52,12 +55,12 @@ export class ApiService {
   }
 
   private configureRoutes({
-                            CategoryModel,
-                            ArticleModel,
-                            CommentModel,
-                            UserModel,
-                            RefreshTokenModel,
-                          }: DatabaseModels): void {
+    CategoryModel,
+    ArticleModel,
+    CommentModel,
+    UserModel,
+    RefreshTokenModel,
+  }: DatabaseModels): void {
     this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleModel, CommentModel, UserModel, RefreshTokenModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);

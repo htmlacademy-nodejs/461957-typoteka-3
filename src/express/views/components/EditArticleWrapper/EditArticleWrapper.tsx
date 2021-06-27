@@ -1,8 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-interface Props {}
-
-export const EditArticleWrapper: FunctionComponent<Props> = ({children}) => {
+export const EditArticleWrapper: FunctionComponent = ({children}) => {
   return (
     <main>
       <section>

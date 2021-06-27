@@ -1,4 +1,5 @@
 import {promises} from "fs";
+
 import chalk from "chalk";
 
 export async function appendToFile(filePath: string, content: string): Promise<void> {

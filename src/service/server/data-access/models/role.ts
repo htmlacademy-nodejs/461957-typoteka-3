@@ -1,7 +1,9 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
-import {TableName} from "../constants/table-name";
-import {modelOptions} from "./constants/model-options";
+
 import {IRole} from "../../../../types/interfaces/role";
+import {TableName} from "../constants/table-name";
+
+import {modelOptions} from "./constants/model-options";
 
 type PredefinedAttributes = IRole;
 type CreationAttributes = IRole;

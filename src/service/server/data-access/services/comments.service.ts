@@ -1,16 +1,17 @@
-import {ICommentModel} from "../models/comment";
-import {ArticleId} from "../../../../types/article-id";
-import {ArticleComment, CommentId} from "../../../../types/article-comment";
-import {CommentProperty, UserProperty} from "../constants/property-name";
-import {ICommentCreating} from "../../../../types/interfaces/comment-creating";
 import {Logger} from "pino";
-import {getLogger} from "../../../logger";
 import {FindAttributeOptions, Model} from "sequelize";
+
+import {ArticleComment, CommentId} from "../../../../types/article-comment";
+import {ArticleId} from "../../../../types/article-id";
+import {IAuthorsComment} from "../../../../types/interfaces/authors-comment";
+import {ICommentCreating} from "../../../../types/interfaces/comment-creating";
 import {ICommentPreview} from "../../../../types/interfaces/comment-preview";
-import {TableName} from "../constants/table-name";
 import {IUserPreview} from "../../../../types/interfaces/user-preview";
 import {UserId} from "../../../../types/user-id";
-import {IAuthorsComment} from "../../../../types/interfaces/authors-comment";
+import {getLogger} from "../../../logger";
+import {CommentProperty, UserProperty} from "../constants/property-name";
+import {TableName} from "../constants/table-name";
+import {ICommentModel} from "../models/comment";
 
 const commentPreviewAttributes: FindAttributeOptions = [
   CommentProperty.ID,

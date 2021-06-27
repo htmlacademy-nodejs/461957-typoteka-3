@@ -1,7 +1,9 @@
-import {IPackageJson} from "package-json-type";
-import {CliAction} from "../../types/cli-action";
-import chalk from "chalk";
 import {promises} from "fs";
+
+import chalk from "chalk";
+import type {IPackageJson} from "package-json-type/types/index";
+
+import {CliAction} from "../../types/cli-action";
 
 const PACKAGE_JSON_PATH = `./package.json`;
 

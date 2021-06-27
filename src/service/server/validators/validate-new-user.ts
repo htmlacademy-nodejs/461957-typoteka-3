@@ -1,8 +1,10 @@
-import {newUserSchema} from "./schemas";
 import {ValidationError} from "joi";
-import {getValidationDictionary} from "./get-validation-dictionary";
+
 import {IUserCreatingDoublePasswords} from "../../../types/interfaces/user-creating";
 import {getLogger} from "../../logger";
+
+import {getValidationDictionary} from "./get-validation-dictionary";
+import {newUserSchema} from "./schemas";
 
 export async function validateNewUser(newUser: IUserCreatingDoublePasswords): Promise<IUserCreatingDoublePasswords> {
   const logger = getLogger();

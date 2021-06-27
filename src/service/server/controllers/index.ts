@@ -1,6 +1,8 @@
-import {ArticlesController} from "./articles.controller";
-import {CategoriesController} from "./categories.controller";
-import {SearchController} from "./search.controller";
+import {IArticleModel} from "../data-access/models/article";
+import {ICategoryModel} from "../data-access/models/category";
+import {ICommentModel} from "../data-access/models/comment";
+import {IRefreshTokenModel} from "../data-access/models/refresh-tokens";
+import {IUserModel} from "../data-access/models/user";
 import {
   articlesServiceFactory,
   authServiceFactory,
@@ -9,14 +11,13 @@ import {
   searchServiceFactory,
   usersServiceFactory,
 } from "../data-access/services";
-import {ICategoryModel} from "../data-access/models/category";
-import {IArticleModel} from "../data-access/models/article";
-import {ICommentModel} from "../data-access/models/comment";
-import {CommentsController} from "./comments.controller";
-import {UsersController} from "./users.controller";
-import {IUserModel} from "../data-access/models/user";
+
+import {ArticlesController} from "./articles.controller";
 import {AuthController} from "./auth.controller";
-import {IRefreshTokenModel} from "../data-access/models/refresh-tokens";
+import {CategoriesController} from "./categories.controller";
+import {CommentsController} from "./comments.controller";
+import {SearchController} from "./search.controller";
+import {UsersController} from "./users.controller";
 
 export const articlesControllerFactory = ({
   ArticleModel,

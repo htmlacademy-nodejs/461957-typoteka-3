@@ -1,4 +1,5 @@
 import React, {FunctionComponent, ReactNode} from "react";
+
 import {IPageTitle} from "../../../../types/interfaces/page-title";
 
 type WrapperMode = "default" | "admin" | "error";

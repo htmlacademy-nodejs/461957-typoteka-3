@@ -1,14 +1,15 @@
-import {NextFunction, Request, Router} from "express";
-import {dataProviderService} from "../services";
-import {SSRError} from "../errors/ssr-error";
-import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {streamPage} from "../utils/stream-page";
-import {ICommentCreating} from "../../types/interfaces/comment-creating";
-import {prepareArticlePage} from "../helpers/prepare-article-page";
-import multer from "multer";
-import {IResponseExtended} from "../../types/interfaces/response-extended";
-import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 import csrf from "csurf";
+import {NextFunction, Request, Router} from "express";
+import multer from "multer";
+
+import {ClientRoute, HttpCode} from "../../constants-es6";
+import {ICommentCreating} from "../../types/interfaces/comment-creating";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
+import {SSRError} from "../errors/ssr-error";
+import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
+import {prepareArticlePage} from "../helpers/prepare-article-page";
+import {dataProviderService} from "../services";
+import {streamPage} from "../utils/stream-page";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
@@ -27,7 +28,7 @@ commentsRouter.post(
         getAccessTokenFromCookies(req),
       );
       if (!commentValidationResponse) {
-        return res.redirect(`${ClientRoutes.ARTICLES.INDEX}/${articleId}`);
+        return res.redirect(`${ClientRoute.ARTICLES.INDEX}/${articleId}`);
       }
       const {page: articlePage, props} = await prepareArticlePage({
         articleId,

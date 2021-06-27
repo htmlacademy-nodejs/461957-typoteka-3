@@ -1,7 +1,8 @@
 import React, {FunctionComponent} from "react";
+
 import {CategoryId} from "../../../../types/category-id";
-import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../../interfaces/csrf-input";
+import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 
 export interface CategoryEditableProps extends ICsrfInput {
   label: string;
@@ -10,11 +11,12 @@ export interface CategoryEditableProps extends ICsrfInput {
 }
 
 export const CategoryEditable: FunctionComponent<CategoryEditableProps> = ({label, endPoint, id, csrf}) => {
+  const idValue = id.toString(10);
   return (
     <li className="category__list-item">
       <form action={endPoint} method="PATCH">
-        <input type="text" name={"category-" + id} id={"modify-form-category-" + id} defaultValue={label} />
-        <label htmlFor={"modify-form-category-" + id}>
+        <input type="text" name={"category-" + idValue} id={"modify-form-category-" + idValue} defaultValue={label} />
+        <label htmlFor={"modify-form-category-" + idValue}>
           <span className="visually-hidden">Редактировать категорию</span>
         </label>
         <button className="category__button button button--category" type="submit">
