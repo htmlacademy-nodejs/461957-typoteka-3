@@ -140,7 +140,7 @@ async function insertArticlesCategories(userNumber: number, categoriesNumber: nu
     .fill(undefined)
     .map((value, index) => [
       (index + 1).toString(10),
-      generateCategoriesForArticle(categoriesNumber, CategoriesRestrict.min, CategoriesRestrict.max),
+      generateCategoriesForArticle(categoriesNumber, CategoriesRestrict.MIN, CategoriesRestrict.MAX),
     ]);
   for (const pair of unfoldCategoriesMap(intersectionMap)) {
     const fillTableArticlesCategories = insertToTable(TableName.ARTICLES_CATEGORIES, pair);
