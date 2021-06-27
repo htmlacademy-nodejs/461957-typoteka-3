@@ -1,8 +1,9 @@
 import chalk from "chalk";
 
-import {ExitCode, MockFilePath, MockTextsFilePath, TableNames} from "../../constants-es6";
+import {ExitCode, MockFilePath, MockTextsFilePath} from "../../constants-es6";
 import {CliAction} from "../../types/cli-action";
 import {getRandomInt, shuffle} from "../../utils";
+import {TableName} from "../server/data-access/constants/table-name";
 
 import {CategoriesRestrict} from "./generate-database-mock/constants/mocks-restrictions";
 import {appendToFile} from "./generate-database-mock/fs-functions/append-to-file";
@@ -55,7 +56,7 @@ async function loadSources(filePaths: string[]): Promise<string[][]> {
 async function insertCategories(categoriesSrc: string[]): Promise<void> {
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- CATEGORIES\n`);
   for (const category of categoriesSrc) {
-    const fillTableCategories = insertToTable(TableNames.CATEGORIES, [`DEFAULT`, category]);
+    const fillTableCategories = insertToTable(TableName.CATEGORIES, [`DEFAULT`, category]);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableCategories);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
@@ -65,7 +66,7 @@ async function insertCategories(categoriesSrc: string[]): Promise<void> {
 async function insertPermissions(permissionsSrc: string[]): Promise<void> {
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `-- PERMISSIONS\n`);
   for (const permission of permissionsSrc) {
-    const fillTablePermissions = insertToTable(TableNames.PERMISSIONS, [permission]);
+    const fillTablePermissions = insertToTable(TableName.PERMISSIONS, [permission]);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTablePermissions);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
@@ -86,7 +87,7 @@ async function insertUsers(
     return accumulator;
   }, [] as string[][]);
   for (const user of users) {
-    const fillTableUsers = insertToTable(TableNames.USERS, user);
+    const fillTableUsers = insertToTable(TableName.USERS, user);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableUsers);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
@@ -107,7 +108,7 @@ async function insertArticles(userNumber: number, titlesSrc: string[], sentences
       getAnnounce(sentencesSrc),
     ]);
   for (const article of articles) {
-    const fillTableArticles = insertToTable(TableNames.ARTICLES, article);
+    const fillTableArticles = insertToTable(TableName.ARTICLES, article);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableArticles);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
@@ -126,7 +127,7 @@ async function insertComments(userNumber: number, commentsSrc: string[]): Promis
       getCommentText(commentsSrc),
     ]);
   for (const comment of generatedComments) {
-    const fillTableComments = insertToTable(TableNames.COMMENTS, comment);
+    const fillTableComments = insertToTable(TableName.COMMENTS, comment);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableComments);
   }
   await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, `\n`);
@@ -142,7 +143,7 @@ async function insertArticlesCategories(userNumber: number, categoriesNumber: nu
       generateCategoriesForArticle(categoriesNumber, CategoriesRestrict.min, CategoriesRestrict.max),
     ]);
   for (const pair of unfoldCategoriesMap(intersectionMap)) {
-    const fillTableArticlesCategories = insertToTable(TableNames.ARTICLES_CATEGORIES, pair);
+    const fillTableArticlesCategories = insertToTable(TableName.ARTICLES_CATEGORIES, pair);
     await appendToFile(MockFilePath.FILL_DATABASE_SQL_SCRIPT, fillTableArticlesCategories);
   }
   console.log(chalk.white(`ARTICLES_CATEGORIES: scripts generated successfully`));

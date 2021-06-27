@@ -53,7 +53,7 @@ export const APIRoutes = {
   REFRESH_TOKENS: `/auth/refresh`,
   LOGOUT: `/auth/sign-out`,
 };
-export const ClientRoutes = {
+export const ClientRoute = {
   INDEX: `/`,
   ADMIN: {
     INDEX: `/my`,
@@ -135,14 +135,6 @@ export const COMMENT_FORM_FIELDS = {
     name: `text`,
     label: `Сообщение`,
   },
-} as const;
-export const TableNames = {
-  USERS: `users`,
-  PERMISSIONS: `permissions`,
-  ARTICLES: `articles`,
-  CATEGORIES: `categories`,
-  ARTICLES_CATEGORIES: `articles_categories`,
-  COMMENTS: `comments`,
 } as const;
 export const DEFAULT_COMMAND = `--help`;
 export const USER_ARGV_INDEX = 2;

@@ -2,7 +2,7 @@ import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
-import {ClientRoutes, HttpCode} from "../../constants-es6";
+import {ClientRoute, HttpCode} from "../../constants-es6";
 import {RoleId} from "../../shared/constants/role-id";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {IUserCreatingDoublePasswords, UserCreatingFromForm} from "../../types/interfaces/user-creating";
@@ -18,7 +18,7 @@ export const registrationRouter = Router();
 
 registrationRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended) => {
   streamPage(res, RegistrationPage, {
-    endPoint: ClientRoutes.REGISTRATION,
+    endPoint: ClientRoute.REGISTRATION,
     csrf: req.csrfToken(),
     userValidationResponse: {},
   });
@@ -40,10 +40,10 @@ registrationRouter.post(
     try {
       const newUserValidationResponse: UserValidationResponse | void = await dataProviderService.createUser(newUser);
       if (!newUserValidationResponse) {
-        return res.redirect(ClientRoutes.SIGN_IN);
+        return res.redirect(ClientRoute.SIGN_IN);
       }
       return streamPage(res, RegistrationPage, {
-        endPoint: ClientRoutes.REGISTRATION,
+        endPoint: ClientRoute.REGISTRATION,
         userValidationResponse: newUserValidationResponse,
         user: newUser,
         csrf: req.csrfToken(),

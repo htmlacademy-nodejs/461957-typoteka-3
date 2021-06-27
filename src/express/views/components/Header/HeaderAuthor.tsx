@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-import {ClientRoutes} from "../../../../constants-es6";
+import {ClientRoute} from "../../../../constants-es6";
 import {Avatar} from "../Avatar/Avatar";
 import {FabricUIIcon} from "../FabricUIIcon/FabricIcon";
 import {Logo} from "../Logo/Logo";
@@ -34,25 +34,25 @@ export const HeaderAuthor: FunctionComponent<Props> = ({firstName, lastName, ava
         </button>
         <ul className="navigation header__navigation ms-depth-8">
           <li className="navigation__item">
-            <a href={ClientRoutes.ADMIN.INDEX}>
+            <a href={ClientRoute.ADMIN.INDEX}>
               <FabricUIIcon size="18" icon={"Articles"} />
               Мои записи
             </a>
           </li>
           <li className="navigation__item">
-            <a href={ClientRoutes.ADMIN.COMMENTS}>
+            <a href={ClientRoute.ADMIN.COMMENTS}>
               <FabricUIIcon size="18" icon="Comment" />
               Комментарии
             </a>
           </li>
           <li className="navigation__item">
-            <a href={ClientRoutes.SEARCH.INDEX}>
+            <a href={ClientRoute.SEARCH.INDEX}>
               <FabricUIIcon size="18" icon="Search" />
               Поиск
             </a>
           </li>
           <li className="navigation__item">
-            <a href={ClientRoutes.SIGN_OUT}>
+            <a href={ClientRoute.SIGN_OUT}>
               <FabricUIIcon size="18" icon="SignOut" />
               Выйти
             </a>

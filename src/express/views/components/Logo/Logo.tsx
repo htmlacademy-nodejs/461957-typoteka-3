@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-import {ClientRoutes} from "../../../../constants-es6";
+import {ClientRoute} from "../../../../constants-es6";
 
 type LogoMode = "default" | "error404" | "error500";
 
@@ -15,7 +15,7 @@ const logoCssClasses: {[key in LogoMode]: string} = {
 };
 
 export const Logo: FunctionComponent<LogoProps> = ({mode}) => (
-  <a className={logoCssClasses[mode ?? "default"]} href={ClientRoutes.INDEX}>
+  <a className={logoCssClasses[mode ?? "default"]} href={ClientRoute.INDEX}>
     <img src="img/icons/logo.svg" alt="логотип Тайпотеки" />
   </a>
 );

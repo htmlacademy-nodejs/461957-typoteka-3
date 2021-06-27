@@ -1,8 +1,8 @@
-import {TableNames} from "../../../../constants-es6";
+import {TableName} from "../../../server/data-access/constants/table-name";
 import {SQL_KEYWORDS} from "../constants/sql-keywords.constant";
 
-type TableNameKey = keyof typeof TableNames;
-type TableName = typeof TableNames[TableNameKey];
+type TableNameKey = keyof typeof TableName;
+type TableName = typeof TableName[TableNameKey];
 
 export function insertToTable(table: TableName, values: string[]): string {
   const message = values.map(value => (SQL_KEYWORDS.includes(value) ? value : escapeString(value)));

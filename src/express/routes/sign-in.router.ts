@@ -2,7 +2,7 @@ import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
-import {ClientRoutes, HttpCode} from "../../constants-es6";
+import {ClientRoute, HttpCode} from "../../constants-es6";
 import {ICsrf} from "../../types/article";
 import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
 import {ILogin} from "../../types/interfaces/login";
@@ -18,7 +18,7 @@ const multerMiddleware = multer();
 export const signInRouter = Router();
 
 signInRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended) => {
-  streamPage(res, SignInPage, {endPoint: ClientRoutes.SIGN_IN, csrf: req.csrfToken(), signInValidationResponse: {}});
+  streamPage(res, SignInPage, {endPoint: ClientRoute.SIGN_IN, csrf: req.csrfToken(), signInValidationResponse: {}});
 });
 
 signInRouter.post(
@@ -35,10 +35,10 @@ signInRouter.post(
       );
       if (signInValidationResponse.isSuccess) {
         setAuthCookie(res, signInValidationResponse.payload);
-        return res.redirect(ClientRoutes.INDEX);
+        return res.redirect(ClientRoute.INDEX);
       }
       return streamPage(res, SignInPage, {
-        endPoint: ClientRoutes.SIGN_IN,
+        endPoint: ClientRoute.SIGN_IN,
         signInValidationResponse: (signInValidationResponse as IAuthorizationFailed).payload,
         signIn: {email: signIn.email},
         csrf: req.csrfToken(),

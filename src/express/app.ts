@@ -4,7 +4,7 @@ import chalk from "chalk";
 import cookieParser from "cookie-parser";
 import express, {Express} from "express";
 
-import {ClientRoutes, DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
+import {ClientRoute, DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
 import {ENV} from "../shared/env/env";
 
 import {errorHandlerMiddleware, getUserFromCookiesMiddleware, notFoundMiddleware} from "./middlewares";
@@ -41,14 +41,14 @@ function initializeMiddlewares(app: Express): void {
 }
 
 function configureRoutes(app: Express): void {
-  app.use(ClientRoutes.INDEX, mainPageRouter);
-  app.use(ClientRoutes.SIGN_IN, signInRouter);
-  app.use(ClientRoutes.SEARCH.INDEX, searchRouter);
-  app.use(ClientRoutes.ADMIN.INDEX, adminPublicationsRouter);
-  app.use(ClientRoutes.CATEGORIES, categoriesRouter);
-  app.use(ClientRoutes.ARTICLES.INDEX, articlesRouter);
-  app.use(ClientRoutes.REGISTRATION, registrationRouter);
-  app.use(ClientRoutes.COMMENTS, commentsRouter);
-  app.use(ClientRoutes.SIGN_OUT, signOutRouter);
+  app.use(ClientRoute.INDEX, mainPageRouter);
+  app.use(ClientRoute.SIGN_IN, signInRouter);
+  app.use(ClientRoute.SEARCH.INDEX, searchRouter);
+  app.use(ClientRoute.ADMIN.INDEX, adminPublicationsRouter);
+  app.use(ClientRoute.CATEGORIES, categoriesRouter);
+  app.use(ClientRoute.ARTICLES.INDEX, articlesRouter);
+  app.use(ClientRoute.REGISTRATION, registrationRouter);
+  app.use(ClientRoute.COMMENTS, commentsRouter);
+  app.use(ClientRoute.SIGN_OUT, signOutRouter);
   app.use(`*`, notFoundMiddleware);
 }

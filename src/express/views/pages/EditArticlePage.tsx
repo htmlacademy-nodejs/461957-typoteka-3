@@ -2,7 +2,7 @@ import {IconButton, PrimaryButton, Stack, Text, TextField} from "@fluentui/react
 import {IIconProps} from "@fluentui/react/lib/components/Icon";
 import React, {FunctionComponent} from "react";
 
-import {ARTICLE_FORM_FIELDS, ClientRoutes} from "../../../constants-es6";
+import {ARTICLE_FORM_FIELDS, ClientRoute} from "../../../constants-es6";
 import type {ArticleValidationResponse} from "../../../types/article-validation-response";
 import type {Category} from "../../../types/category";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
@@ -68,7 +68,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
             <Stack tokens={{childrenGap: 16}} horizontal>
               <PrimaryButton type="submit">Опубликовать</PrimaryButton>
               <IconButton
-                href={ClientRoutes.INDEX}
+                href={ClientRoute.INDEX}
                 iconProps={closeButton}
                 title="Закрыть окно"
                 ariaLabel="Закрыть окно"

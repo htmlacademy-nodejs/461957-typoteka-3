@@ -2,7 +2,7 @@ import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
-import {ClientRoutes, HttpCode} from "../../constants-es6";
+import {ClientRoute, HttpCode} from "../../constants-es6";
 import type {ArticleFromBrowser} from "../../types/article-from-browser";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
@@ -34,7 +34,7 @@ articlesRouter.get(
     try {
       const categories = await dataProviderService.getCategories();
       return streamPage(res, EditArticlePage, {
-        endPoint: ClientRoutes.ARTICLES.ADD,
+        endPoint: ClientRoute.ARTICLES.ADD,
         availableCategories: categories,
         currentUser: res.locals.currentUser,
         csrf: req.csrfToken(),
@@ -69,13 +69,13 @@ articlesRouter.post(
         getAccessTokenFromCookies(req),
       );
       if (!articleValidationResponse) {
-        return res.redirect(ClientRoutes.ADMIN.INDEX);
+        return res.redirect(ClientRoute.ADMIN.INDEX);
       }
       try {
         const categories = await dataProviderService.getCategories();
         return streamPage(res, EditArticlePage, {
           article: {...newArticle, createdDate: parseDateFromFrontend(newArticle.createdDate)},
-          endPoint: ClientRoutes.ARTICLES.ADD,
+          endPoint: ClientRoute.ARTICLES.ADD,
           articleValidationResponse,
           availableCategories: categories,
           currentUser: res.locals.currentUser,
@@ -121,13 +121,13 @@ articlesRouter.post(
         getAccessTokenFromCookies(req),
       );
       if (!articleValidationResponse) {
-        return res.redirect(ClientRoutes.ADMIN.INDEX);
+        return res.redirect(ClientRoute.ADMIN.INDEX);
       }
       try {
         const categories = await dataProviderService.getCategories();
         return streamPage(res, EditArticlePage, {
           article: updatingArticle,
-          endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
+          endPoint: `${ClientRoute.ARTICLES.EDIT}/${articleId}`,
           articleValidationResponse,
           availableCategories: categories,
           isUpdating: true,
@@ -171,7 +171,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: IResponseExtended,
       selectedCategoryId: category.id,
       total: totalCount,
       page: getCurrentPage(offset),
-      prefix: `${ClientRoutes.ARTICLES.CATEGORY}/${category.id}?`,
+      prefix: `${ClientRoute.ARTICLES.CATEGORY}/${category.id}?`,
       currentUser: res.locals.currentUser,
     });
   } catch (e) {
@@ -218,7 +218,7 @@ articlesRouter.get(
       ]);
       return streamPage(res, EditArticlePage, {
         article,
-        endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
+        endPoint: `${ClientRoute.ARTICLES.EDIT}/${articleId}`,
         availableCategories: categories,
         isUpdating: true,
         currentUser: res.locals.currentUser,

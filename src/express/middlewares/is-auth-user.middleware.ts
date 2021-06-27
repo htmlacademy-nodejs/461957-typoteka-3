@@ -1,6 +1,6 @@
 import {NextFunction, Request} from "express";
 
-import {ClientRoutes} from "../../constants-es6";
+import {ClientRoute} from "../../constants-es6";
 import {RoleId} from "../../shared/constants/role-id";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 
@@ -9,6 +9,6 @@ export function isAuthorUserMiddleware(req: Request, res: IResponseExtended, nex
     next();
     return;
   }
-  res.redirect(ClientRoutes.INDEX);
+  res.redirect(ClientRoute.INDEX);
   return;
 }

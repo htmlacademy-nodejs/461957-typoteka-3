@@ -2,7 +2,7 @@ import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
-import {ClientRoutes, HttpCode} from "../../constants-es6";
+import {ClientRoute, HttpCode} from "../../constants-es6";
 import {ICommentCreating} from "../../types/interfaces/comment-creating";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
@@ -28,7 +28,7 @@ commentsRouter.post(
         getAccessTokenFromCookies(req),
       );
       if (!commentValidationResponse) {
-        return res.redirect(`${ClientRoutes.ARTICLES.INDEX}/${articleId}`);
+        return res.redirect(`${ClientRoute.ARTICLES.INDEX}/${articleId}`);
       }
       const {page: articlePage, props} = await prepareArticlePage({
         articleId,
