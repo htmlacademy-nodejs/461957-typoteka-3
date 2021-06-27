@@ -1,6 +1,7 @@
+import * as http from "http";
+
 import * as bodyParser from "body-parser";
 import express, {Application, RequestHandler, Response} from "express";
-import * as http from "http";
 import {Sequelize} from "sequelize";
 
 import {APIRoutes, DEFAULT_PORT, HttpCode} from "../../constants-es6";
@@ -54,12 +55,12 @@ export class ApiService {
   }
 
   private configureRoutes({
-    CategoryModel,
-    ArticleModel,
-    CommentModel,
-    UserModel,
-    RefreshTokenModel,
-  }: DatabaseModels): void {
+                            CategoryModel,
+                            ArticleModel,
+                            CommentModel,
+                            UserModel,
+                            RefreshTokenModel,
+                          }: DatabaseModels): void {
     this.app.use(APIRoutes.API, apiRouter({CategoryModel, ArticleModel, CommentModel, UserModel, RefreshTokenModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);

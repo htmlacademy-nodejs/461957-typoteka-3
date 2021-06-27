@@ -1,6 +1,7 @@
 /* eslint-disable max-nested-callbacks */
-import {Application} from "express";
 import * as http from "http";
+
+import {Application} from "express";
 import {agent as request} from "supertest";
 
 import {Article} from "../../../types/article";

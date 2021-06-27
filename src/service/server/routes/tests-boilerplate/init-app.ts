@@ -1,5 +1,6 @@
-import {Application} from "express";
 import http from "http";
+
+import {Application} from "express";
 
 import {ApiService} from "../../api-service";
 import {connectToDatabaseInMemory} from "../../data-access/database-connector";

@@ -1,7 +1,8 @@
+import * as path from "path";
+
 import chalk from "chalk";
 import cookieParser from "cookie-parser";
 import express, {Express} from "express";
-import * as path from "path";
 
 import {ClientRoutes, DEFAULT_SSR_PORT, STATIC_DIR} from "../constants-es6";
 import {ENV} from "../shared/env/env";

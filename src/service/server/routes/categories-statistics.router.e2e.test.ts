@@ -1,5 +1,6 @@
-import {Application} from "express";
 import http from "http";
+
+import {Application} from "express";
 import {agent as request} from "supertest";
 
 import {initApp} from "./tests-boilerplate/init-app";
