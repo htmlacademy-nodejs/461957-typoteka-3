@@ -3,8 +3,8 @@ import React, {FunctionComponent} from "react";
 
 import {NewUserFormField} from "../../../shared/constants/forms/new-user-form-field";
 import {SingInFormField} from "../../../shared/constants/forms/sing-in-form-field";
+import {SignInFormValidation} from "../../../types/form-fields/sign-in-form-validation";
 import {ILogin} from "../../../types/interfaces/login";
-import {SignInValidationResponse} from "../../../types/sign-in-validation-response";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
@@ -14,7 +14,7 @@ import {ICsrfInput} from "../interfaces/csrf-input";
 
 interface Props extends ICsrfInput {
   endPoint: string;
-  signInValidationResponse: Partial<SignInValidationResponse>;
+  signInValidationResponse: SignInFormValidation;
   signIn?: Omit<ILogin, "password">;
 }
 
@@ -38,7 +38,7 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
                   defaultValue={signInFields.email}
                   required
                 />
-                <ValidationMessage message={signInValidationResponse[SingInFormField.EMAIL.name]} />
+                <ValidationMessage message={signInValidationResponse.EMAIL} />
               </div>
               <div className="form__field">
                 <TextField
@@ -47,7 +47,7 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
                   name={SingInFormField.PASSWORD.name}
                   required
                 />
-                <ValidationMessage message={signInValidationResponse[SingInFormField.PASSWORD.name]} />
+                <ValidationMessage message={signInValidationResponse.PASSWORD} />
               </div>
             </Stack>
             <Stack.Item align="end">

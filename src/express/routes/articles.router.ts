@@ -16,6 +16,7 @@ import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers
 import {prepareArticlePage} from "../helpers/prepare-article-page";
 import {getLogger} from "../logger";
 import {isAuthorUserMiddleware} from "../middlewares";
+import {articleValidationResponseMapper} from "../models/dto/article-validation-responce";
 import {dataProviderService} from "../services";
 import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
@@ -77,7 +78,7 @@ articlesRouter.post(
         return streamPage(res, EditArticlePage, {
           article: {...newArticle, createdDate: parseDateFromFrontend(newArticle.createdDate)},
           endPoint: ClientRoute.ARTICLES.ADD,
-          articleValidationResponse,
+          articleValidationResponse: articleValidationResponseMapper(articleValidationResponse),
           availableCategories: categories,
           currentUser: res.locals.currentUser,
           csrf: req.csrfToken(),
@@ -129,7 +130,7 @@ articlesRouter.post(
         return streamPage(res, EditArticlePage, {
           article: updatingArticle,
           endPoint: `${ClientRoute.ARTICLES.EDIT}/${articleId}`,
-          articleValidationResponse,
+          articleValidationResponse: articleValidationResponseMapper(articleValidationResponse),
           availableCategories: categories,
           isUpdating: true,
           currentUser: res.locals.currentUser,

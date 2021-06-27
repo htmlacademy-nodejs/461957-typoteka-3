@@ -2,7 +2,7 @@ import React, {FunctionComponent} from "react";
 
 import {CommentFormField} from "../../../shared/constants/forms/comment-form-field";
 import type {ICategoriesWithLinksAndNumbers, ICreatedDate, IFullText, ITitle} from "../../../types/article";
-import {CommentValidationResponse} from "../../../types/comment-validation-response";
+import {CommentFormValidation} from "../../../types/form-fields/comment-form-validation";
 import {ICommentPreview} from "../../../types/interfaces/comment-preview";
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CommentForm} from "../components/CommentForm/CommentForm";
@@ -21,7 +21,7 @@ export interface ArticlePageProps
     ICsrfInput {
   previousPageUrl: string;
   newCommentEndPoint: string;
-  commentValidationResponse: CommentValidationResponse;
+  commentValidationResponse: CommentFormValidation;
   comments: ICommentPreview[];
 }
 

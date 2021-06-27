@@ -4,8 +4,8 @@ import React, {FunctionComponent} from "react";
 
 import {ArticleFormField} from "../../../shared/constants/forms/article-form-field";
 import {ClientRoute} from "../../../shared/constants/routes/client-route";
-import type {ArticleValidationResponse} from "../../../types/article-validation-response";
 import type {Category} from "../../../types/category";
+import {ArticleFormValidation} from "../../../types/form-fields/article-form-validation";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
 import {CategoriesSelect} from "../components/CategoriesSelect/CategoriesSelect";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
@@ -20,7 +20,7 @@ interface EditArticleProps extends ICurrentUser, ICsrfInput {
   article?: Partial<IArticleCreating>;
   endPoint: string;
   availableCategories: Category[];
-  articleValidationResponse: ArticleValidationResponse;
+  articleValidationResponse: ArticleFormValidation;
   isUpdating?: boolean;
 }
 
@@ -30,7 +30,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   article,
   endPoint,
   availableCategories,
-  articleValidationResponse = {},
+  articleValidationResponse,
   isUpdating,
   currentUser,
   csrf,
@@ -86,10 +86,9 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   label={ArticleFormField.TITLE.label}
                   name={ArticleFormField.TITLE.name}
                   defaultValue={articleProps.title}
-                  errorMessage={articleValidationResponse[ArticleFormField.TITLE.name]}
                   required
                 />
-                <ValidationMessage message={articleValidationResponse[ArticleFormField.TITLE.name]} />
+                <ValidationMessage message={articleValidationResponse.TITLE} />
               </div>
 
               <div className="form__field">
@@ -119,6 +118,7 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   selectedCategories={articleProps.categories}
                   inputName={ArticleFormField.CATEGORIES.name}
                 />
+                <ValidationMessage message={articleValidationResponse.CATEGORIES} />
               </div>
             </div>
             <div className="form__wrapper form__wrapper--text">
@@ -129,10 +129,9 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   label={ArticleFormField.ANNOUNCE.label}
                   name={ArticleFormField.ANNOUNCE.name}
                   defaultValue={articleProps.announce}
-                  errorMessage={articleValidationResponse[ArticleFormField.ANNOUNCE.name]}
                   required
                 />
-                <ValidationMessage message={articleValidationResponse[ArticleFormField.ANNOUNCE.name]} />
+                <ValidationMessage message={articleValidationResponse.ANNOUNCE} />
               </div>
               <div className="form__field form__field--publication-text">
                 <TextField
@@ -141,10 +140,9 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                   rows={10}
                   label={ArticleFormField.FULL_TEXT.label}
                   defaultValue={articleProps.fullText}
-                  errorMessage={articleValidationResponse[ArticleFormField.FULL_TEXT.name]}
                   required
                 />
-                <ValidationMessage message={articleValidationResponse[ArticleFormField.FULL_TEXT.name]} />
+                <ValidationMessage message={articleValidationResponse.FULL_TEXT} />
               </div>
             </div>
           </div>

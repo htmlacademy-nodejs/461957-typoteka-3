@@ -9,6 +9,7 @@ import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {IUserCreatingDoublePasswords, UserCreatingFromForm} from "../../types/interfaces/user-creating";
 import {UserValidationResponse} from "../../types/user-validation-response";
 import {SSRError} from "../errors/ssr-error";
+import {registrationValidationResponseMapper} from "../models/dto/registration-validation-responce";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {RegistrationPage} from "../views/pages/RegistrationPage";
@@ -45,7 +46,7 @@ registrationRouter.post(
       }
       return streamPage(res, RegistrationPage, {
         endPoint: ClientRoute.REGISTRATION,
-        userValidationResponse: newUserValidationResponse,
+        userValidationResponse: registrationValidationResponseMapper(newUserValidationResponse),
         user: newUser,
         csrf: req.csrfToken(),
       });

@@ -9,6 +9,7 @@ import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 import {prepareArticlePage} from "../helpers/prepare-article-page";
+import {commentValidationResponseMapper} from "../models/dto/comment-validation-responce";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 
@@ -28,6 +29,7 @@ commentsRouter.post(
         comment,
         getAccessTokenFromCookies(req),
       );
+      console.log(commentValidationResponse);
       if (!commentValidationResponse) {
         return res.redirect(`${ClientRoute.ARTICLES.INDEX}/${articleId}`);
       }
@@ -38,7 +40,7 @@ commentsRouter.post(
       });
       return streamPage(res, articlePage, {
         ...props,
-        commentValidationResponse,
+        commentValidationResponse: commentValidationResponseMapper(commentValidationResponse),
         previousPageUrl: req.header(`referer`),
       });
     } catch (e) {
