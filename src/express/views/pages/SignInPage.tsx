@@ -2,7 +2,7 @@ import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 import React, {FunctionComponent} from "react";
 
 import {NewUserFormField} from "../../../shared/constants/forms/new-user-form-field";
-import {SING_IN_FORM_FIELDS} from "../../../shared/constants/forms/sing-in-form-fields";
+import {SingInFormField} from "../../../shared/constants/forms/sing-in-form-field";
 import {ILogin} from "../../../types/interfaces/login";
 import {SignInValidationResponse} from "../../../types/sign-in-validation-response";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
@@ -33,21 +33,21 @@ export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidation
               <div className="form__field">
                 <TextField
                   type="email"
-                  label={SING_IN_FORM_FIELDS.email.label}
-                  name={SING_IN_FORM_FIELDS.email.name}
+                  label={SingInFormField.EMAIL.label}
+                  name={SingInFormField.EMAIL.name}
                   defaultValue={signInFields.email}
                   required
                 />
-                <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.email.name]} />
+                <ValidationMessage message={signInValidationResponse[SingInFormField.EMAIL.name]} />
               </div>
               <div className="form__field">
                 <TextField
                   type="password"
-                  label={SING_IN_FORM_FIELDS.password.label}
-                  name={SING_IN_FORM_FIELDS.password.name}
+                  label={SingInFormField.PASSWORD.label}
+                  name={SingInFormField.PASSWORD.name}
                   required
                 />
-                <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.password.name]} />
+                <ValidationMessage message={signInValidationResponse[SingInFormField.PASSWORD.name]} />
               </div>
             </Stack>
             <Stack.Item align="end">
