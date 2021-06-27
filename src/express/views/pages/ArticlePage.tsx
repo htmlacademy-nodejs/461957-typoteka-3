@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-import {COMMENT_FORM_FIELDS} from "../../../constants-es6";
+import {CommentFormField} from "../../../shared/constants/forms/comment-form-field";
 import type {ICategoriesWithLinksAndNumbers, ICreatedDate, IFullText, ITitle} from "../../../types/article";
 import {CommentValidationResponse} from "../../../types/comment-validation-response";
 import {ICommentPreview} from "../../../types/interfaces/comment-preview";
@@ -89,8 +89,8 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
 };
 
 function resolveValidationMessages(validationResponse: Record<string, string>): [string, string][] {
-  return Object.entries(validationResponse).map(([key, value]: [keyof typeof COMMENT_FORM_FIELDS, string]) => [
-    COMMENT_FORM_FIELDS[key]?.label,
+  return Object.entries(validationResponse).map(([key, value]: [keyof typeof CommentFormField, string]) => [
+    CommentFormField[key]?.label,
     value,
   ]);
 }

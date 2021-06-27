@@ -76,12 +76,6 @@ export const ClientRoute = {
   COMMENTS: `/comments`,
   SIGN_OUT: `/sign-out`,
 };
-export const COMMENT_FORM_FIELDS = {
-  text: {
-    name: `text`,
-    label: `Сообщение`,
-  },
-} as const;
 export const DEFAULT_COMMAND = `--help`;
 export const USER_ARGV_INDEX = 2;
 export const LogLevel = {
