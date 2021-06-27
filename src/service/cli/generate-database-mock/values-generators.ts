@@ -1,4 +1,4 @@
-import {DAYS_IN_MONTH, MS_IN_DAY} from "../../../constants-es6";
+import {Time} from "../../../constants-es6";
 import {Category} from "../../../types/category";
 import {IAuthorId} from "../../../types/interfaces/author-id";
 import {ICommentCreating} from "../../../types/interfaces/comment-creating";
@@ -13,7 +13,7 @@ import {
   TitleRestrict,
 } from "./constants/mocks-restrictions";
 
-const THREE_MONTHS_DURATION = 3 * DAYS_IN_MONTH * MS_IN_DAY;
+const THREE_MONTHS_DURATION = 3 * Time.DAYS_IN_MONTH * Time.MS_IN_DAY;
 
 export function getAnnounce(sentences: string[]): string {
   return shuffle(sentences)
