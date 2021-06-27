@@ -76,36 +76,6 @@ export const ClientRoute = {
   COMMENTS: `/comments`,
   SIGN_OUT: `/sign-out`,
 };
-export const ARTICLE_FORM_FIELDS = {
-  createdDate: {
-    name: `createdDate`,
-    label: `Дата`,
-  },
-  categories: {
-    name: `categories`,
-    label: `Категории`,
-  },
-  title: {
-    name: `title`,
-    label: `Заголовок`,
-  },
-  announce: {
-    name: `announce`,
-    label: `Анонс публикации`,
-  },
-  fullText: {
-    name: `fullText`,
-    label: `Полный текст публикации`,
-  },
-  Image: {
-    name: `image`,
-    label: `Фотография`,
-  },
-  Upload: {
-    name: `upload`,
-    label: `Фотография`,
-  },
-} as const;
 export const NEW_USER_FORM_FIELDS = {
   email: {
     name: `email`,

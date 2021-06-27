@@ -2,7 +2,8 @@ import {IconButton, PrimaryButton, Stack, Text, TextField} from "@fluentui/react
 import {IIconProps} from "@fluentui/react/lib/components/Icon";
 import React, {FunctionComponent} from "react";
 
-import {ARTICLE_FORM_FIELDS, ClientRoute} from "../../../constants-es6";
+import {ClientRoute} from "../../../constants-es6";
+import {ArticleFormField} from "../../../shared/constants/forms/article-form-fields";
 import type {ArticleValidationResponse} from "../../../types/article-validation-response";
 import type {Category} from "../../../types/category";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
@@ -54,11 +55,11 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               <h3>Дата публикации</h3>
               <div className="new-publication__date-form-division">
                 <div className="new-publication__date-block" style={{position: "relative"}}>
-                  <label htmlFor="new-publication-date" aria-label={ARTICLE_FORM_FIELDS.createdDate.label} />
+                  <label htmlFor="new-publication-date" aria-label={ArticleFormField.CREATED_DATE.label} />
                   <input
                     type="text"
                     defaultValue={getInitialDate(articleProps.createdDate)}
-                    name={ARTICLE_FORM_FIELDS.createdDate.name}
+                    name={ArticleFormField.CREATED_DATE.name}
                     id="new-publication-date"
                     placeholder={getInitialDate(articleProps.createdDate)}
                   />
@@ -82,25 +83,23 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               ) : null}
               <div className="form__field">
                 <TextField
-                  label={ARTICLE_FORM_FIELDS.title.label}
-                  name={ARTICLE_FORM_FIELDS.title.name}
+                  label={ArticleFormField.TITLE.label}
+                  name={ArticleFormField.TITLE.name}
                   defaultValue={articleProps.title}
-                  errorMessage={articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]}
+                  errorMessage={articleValidationResponse[ArticleFormField.TITLE.name]}
                   required
                 />
-                <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]} />
+                <ValidationMessage message={articleValidationResponse[ArticleFormField.TITLE.name]} />
               </div>
 
               <div className="form__field">
-                <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">
-                  {ARTICLE_FORM_FIELDS.Upload.label}
-                </div>
+                <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">{ArticleFormField.UPLOAD.label}</div>
                 <div className="form__image-loader form__image-loader--publication">
                   <label>
                     <input
                       className="visually-hidden"
                       style={{width: "1px"}}
-                      name={ARTICLE_FORM_FIELDS.Image.name}
+                      name={ArticleFormField.IMAGE.name}
                       type="file"
                       disabled
                     />
@@ -113,12 +112,12 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               </div>
               <div className="form__field">
                 <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">
-                  {ARTICLE_FORM_FIELDS.categories.label}
+                  {ArticleFormField.CATEGORIES.label}
                 </div>
                 <CategoriesSelect
                   availableCategories={availableCategories}
                   selectedCategories={articleProps.categories}
-                  inputName={ARTICLE_FORM_FIELDS.categories.name}
+                  inputName={ArticleFormField.CATEGORIES.name}
                 />
               </div>
             </div>
@@ -127,25 +126,25 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                 <TextField
                   multiline
                   rows={5}
-                  label={ARTICLE_FORM_FIELDS.announce.label}
-                  name={ARTICLE_FORM_FIELDS.announce.name}
+                  label={ArticleFormField.ANNOUNCE.label}
+                  name={ArticleFormField.ANNOUNCE.name}
                   defaultValue={articleProps.announce}
-                  errorMessage={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]}
+                  errorMessage={articleValidationResponse[ArticleFormField.ANNOUNCE.name]}
                   required
                 />
-                <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]} />
+                <ValidationMessage message={articleValidationResponse[ArticleFormField.ANNOUNCE.name]} />
               </div>
               <div className="form__field form__field--publication-text">
                 <TextField
                   multiline
-                  name={ARTICLE_FORM_FIELDS.fullText.name}
+                  name={ArticleFormField.FULL_TEXT.name}
                   rows={10}
-                  label={ARTICLE_FORM_FIELDS.fullText.label}
+                  label={ArticleFormField.FULL_TEXT.label}
                   defaultValue={articleProps.fullText}
-                  errorMessage={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]}
+                  errorMessage={articleValidationResponse[ArticleFormField.FULL_TEXT.name]}
                   required
                 />
-                <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
+                <ValidationMessage message={articleValidationResponse[ArticleFormField.FULL_TEXT.name]} />
               </div>
             </div>
           </div>
@@ -161,8 +160,8 @@ function getInitialDate(date: Date): string {
 }
 
 function resolveValidationMessages(validationResponse: Record<string, string>): [string, string][] {
-  return Object.entries(validationResponse).map(([key, value]: [keyof typeof ARTICLE_FORM_FIELDS, string]) => [
-    ARTICLE_FORM_FIELDS[key]?.label,
+  return Object.entries(validationResponse).map(([key, value]: [keyof typeof ArticleFormField, string]) => [
+    ArticleFormField[key]?.label,
     value,
   ]);
 }
