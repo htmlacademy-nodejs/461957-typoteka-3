@@ -11,7 +11,7 @@ interface Props extends ICsrfInput {
   avatar: string;
 }
 
-export const CommentForm: FunctionComponent<Props> = ({endPoint, csrf, avatar}) => (
+const CommentForm: FunctionComponent<Props> = ({endPoint, csrf, avatar}) => (
   <form action={endPoint} method="POST" encType="multipart/form-data">
     <Avatar avatar={avatar} cssClass="comments__avatar" />
     <label>
@@ -23,3 +23,7 @@ export const CommentForm: FunctionComponent<Props> = ({endPoint, csrf, avatar}) 
     <CsrfHiddenInput csrf={csrf} />
   </form>
 );
+
+export {
+  CommentForm,
+};

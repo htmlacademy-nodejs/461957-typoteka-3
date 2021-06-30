@@ -11,7 +11,7 @@ interface Props extends ICurrentUser, ICsrfInput {
   categories: CategoryEditableProps[];
 }
 
-export const CategoriesPage: FunctionComponent<Props> = ({newCategoryEndPoint, categories, currentUser, csrf}) => {
+const CategoriesPage: FunctionComponent<Props> = ({newCategoryEndPoint, categories, currentUser, csrf}) => {
   return (
     <LayoutFilled pageTitle={"Категории"} currentUser={currentUser}>
       <main className="main-page main-page--padding">
@@ -33,4 +33,8 @@ export const CategoriesPage: FunctionComponent<Props> = ({newCategoryEndPoint, c
       </main>
     </LayoutFilled>
   );
+};
+
+export {
+  CategoriesPage,
 };

@@ -6,7 +6,7 @@ import {LogInButton} from "./Buttons/LogInButton/LogInButton";
 import {SearchButton} from "./Buttons/SearchButton/SearchButton";
 import {SignUpButton} from "./Buttons/SignUpButton/SignUpButton";
 
-export const Header: FunctionComponent = ({}) => {
+const Header: FunctionComponent = ({}) => {
   return (
     <header className="header">
       <Logo />
@@ -23,4 +23,8 @@ export const Header: FunctionComponent = ({}) => {
       <SearchButton />
     </header>
   );
+};
+
+export {
+  Header,
 };

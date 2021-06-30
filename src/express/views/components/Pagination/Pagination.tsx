@@ -12,7 +12,7 @@ interface PaginationProps {
   prefix: string;
 }
 
-export const Pagination: FunctionComponent<PaginationProps> = ({hasPrev, hasNext, min, max, current, prefix, last}) => {
+const Pagination: FunctionComponent<PaginationProps> = ({hasPrev, hasNext, min, max, current, prefix, last}) => {
   return (
     <ul className={"pagination preview__pagination"} style={{justifyContent: `center`}}>
       {hasPrev && (
@@ -58,3 +58,7 @@ function getNumbers(min: number, max: number, current: number, prefix: string): 
 function getLink(pageNumber: number, prefix: string): string {
   return `${prefix}${PAGE_QUERY_PARAM}=${pageNumber}`;
 }
+
+export {
+  Pagination,
+};

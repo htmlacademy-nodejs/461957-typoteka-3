@@ -7,7 +7,7 @@ interface Props {
   title: string;
 }
 
-export const DialogHeader: FunctionComponent<Props> = ({title}) => (
+const DialogHeader: FunctionComponent<Props> = ({title}) => (
   <div className="dialog-header">
     <Text variant="xxLarge" block>
       {title}
@@ -17,3 +17,7 @@ export const DialogHeader: FunctionComponent<Props> = ({title}) => (
     </div>
   </div>
 );
+
+export {
+  DialogHeader,
+};

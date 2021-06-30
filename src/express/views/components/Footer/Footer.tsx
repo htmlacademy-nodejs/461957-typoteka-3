@@ -4,7 +4,7 @@ interface FooterProps {
   isLargeIndent?: boolean;
 }
 
-export const Footer: FunctionComponent<FooterProps> = ({isLargeIndent}) => (
+const Footer: FunctionComponent<FooterProps> = ({isLargeIndent}) => (
   <footer className={"footer" + (isLargeIndent ? " footer--padding" : "")}>
     <a className="footer__copyright" href="#" aria-label="HTMLAcademy">
       <img src="img/icons/HTMLAcademyLogo.svg" width="112" height="50" alt="HTMLAcademy" />
@@ -13,3 +13,7 @@ export const Footer: FunctionComponent<FooterProps> = ({isLargeIndent}) => (
     <p className="footer__text">Типотека, 2019</p>
   </footer>
 );
+
+export {
+  Footer,
+};

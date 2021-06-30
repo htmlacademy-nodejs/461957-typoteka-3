@@ -2,13 +2,13 @@ import React, {FunctionComponent} from "react";
 
 import type {Category, ICategoryId} from "../../../../types/category";
 
-export interface CategoriesSelectProps {
+interface CategoriesSelectProps {
   inputName: string;
   availableCategories: Category[];
   selectedCategories: ICategoryId[];
 }
 
-export const CategoriesSelect: FunctionComponent<CategoriesSelectProps> = ({
+const CategoriesSelect: FunctionComponent<CategoriesSelectProps> = ({
   inputName,
   availableCategories,
   selectedCategories,
@@ -42,3 +42,8 @@ function resolveCheckboxName(inputName: string, categoryId: number): string {
 function resolveCheckboxId(categoryId: number): string {
   return `checkbox[${categoryId.toString(10)}]`;
 }
+
+export {
+  CategoriesSelect,
+  CategoriesSelectProps,
+};

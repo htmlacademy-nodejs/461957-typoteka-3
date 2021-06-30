@@ -6,8 +6,12 @@ import {ClientRoute} from "../../../../../../shared/constants/routes/client-rout
 
 const addIcon: IIconProps = {iconName: "Add"};
 
-export const NewArticleButton: FunctionComponent = () => (
+const NewArticleButton: FunctionComponent = () => (
   <PrimaryButton iconProps={addIcon} href={ClientRoute.ARTICLES.ADD}>
     Новая запись
   </PrimaryButton>
 );
+
+export {
+  NewArticleButton,
+};

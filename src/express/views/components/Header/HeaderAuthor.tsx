@@ -13,7 +13,7 @@ interface Props {
   avatar: string;
 }
 
-export const HeaderAuthor: FunctionComponent<Props> = ({firstName, lastName, avatar}) => {
+const HeaderAuthor: FunctionComponent<Props> = ({firstName, lastName, avatar}) => {
   return (
     <header className="header">
       <Logo />
@@ -61,4 +61,8 @@ export const HeaderAuthor: FunctionComponent<Props> = ({firstName, lastName, ava
       </div>
     </header>
   );
+};
+
+export {
+  HeaderAuthor,
 };

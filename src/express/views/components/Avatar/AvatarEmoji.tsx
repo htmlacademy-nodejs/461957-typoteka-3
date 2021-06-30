@@ -12,6 +12,10 @@ interface Props {
   size: AvatarSize;
 }
 
-export const AvatarEmoji: FunctionComponent<Props> = ({emoji, size}) => (
+const AvatarEmoji: FunctionComponent<Props> = ({emoji, size}) => (
   <div className={`avatar-emoji ${sizesCssClasses[size]}`}>{emoji}</div>
 );
+
+export {
+  AvatarEmoji,
+};

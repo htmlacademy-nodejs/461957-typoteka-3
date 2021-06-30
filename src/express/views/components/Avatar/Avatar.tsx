@@ -14,7 +14,7 @@ const sizesPxs: Record<AvatarSize, number> = {
   medium: 50,
 };
 
-export const Avatar: FunctionComponent<Props> = ({avatar, cssClass, size = `medium`}) => {
+const Avatar: FunctionComponent<Props> = ({avatar, cssClass, size = `medium`}) => {
   const imageSize = sizesPxs[size];
   return (
     <div className={cssClass ?? ""}>
@@ -25,4 +25,8 @@ export const Avatar: FunctionComponent<Props> = ({avatar, cssClass, size = `medi
       )}
     </div>
   );
+};
+
+export {
+  Avatar,
 };

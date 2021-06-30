@@ -20,7 +20,7 @@ interface MainPageProps extends IPaginationProps, ICurrentUser {
   prefix: string;
 }
 
-export const MainPage: FunctionComponent<MainPageProps> = ({
+const MainPage: FunctionComponent<MainPageProps> = ({
   articles,
   categoriesWithLinksAndNumbers,
   categoriesWithLinks,
@@ -92,4 +92,8 @@ export const MainPage: FunctionComponent<MainPageProps> = ({
       </main>
     </LayoutFilled>
   );
+};
+
+export {
+  MainPage,
 };

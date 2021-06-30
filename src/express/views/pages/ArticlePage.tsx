@@ -12,7 +12,7 @@ import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {ICsrfInput} from "../interfaces/csrf-input";
 import {ICurrentUser} from "../interfaces/current-user";
 
-export interface ArticlePageProps
+interface ArticlePageProps
   extends ITitle,
     ICreatedDate,
     ICategoriesWithLinksAndNumbers,
@@ -25,7 +25,7 @@ export interface ArticlePageProps
   comments: ICommentPreview[];
 }
 
-export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
+const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   title,
   createdDate,
   categories,
@@ -94,3 +94,8 @@ function resolveValidationMessages(validationResponse: Record<string, string>): 
     value,
   ]);
 }
+
+export {
+  ArticlePage,
+  ArticlePageProps,
+};

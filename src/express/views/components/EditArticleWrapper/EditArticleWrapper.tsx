@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-export const EditArticleWrapper: FunctionComponent = ({children}) => {
+const EditArticleWrapper: FunctionComponent = ({children}) => {
   return (
     <main>
       <section>
@@ -10,4 +10,8 @@ export const EditArticleWrapper: FunctionComponent = ({children}) => {
       </section>
     </main>
   );
+};
+
+export {
+  EditArticleWrapper,
 };

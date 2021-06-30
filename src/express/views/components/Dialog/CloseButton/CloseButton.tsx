@@ -6,6 +6,10 @@ import {ClientRoute} from "../../../../../shared/constants/routes/client-route";
 
 const closeButton: IIconProps = {iconName: "ChromeClose"};
 
-export const CloseButton: FunctionComponent = () => (
+const CloseButton: FunctionComponent = () => (
   <IconButton href={ClientRoute.INDEX} iconProps={closeButton} title="Закрыть окно" ariaLabel="Закрыть окно" />
 );
+
+export {
+  CloseButton,
+};

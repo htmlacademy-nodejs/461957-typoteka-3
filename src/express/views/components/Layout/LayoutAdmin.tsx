@@ -9,7 +9,7 @@ import {Layout} from "./Layout";
 
 interface LayoutAdminProps extends IPageTitle, ICurrentUser {}
 
-export const LayoutAdmin: FunctionComponent<LayoutAdminProps> = ({children, pageTitle, currentUser}) => (
+const LayoutAdmin: FunctionComponent<LayoutAdminProps> = ({children, pageTitle, currentUser}) => (
   <Layout
     pageTitle={pageTitle}
     wrapperMode={"admin"}
@@ -18,3 +18,7 @@ export const LayoutAdmin: FunctionComponent<LayoutAdminProps> = ({children, page
     {children}
   </Layout>
 );
+
+export {
+  LayoutAdmin,
+};

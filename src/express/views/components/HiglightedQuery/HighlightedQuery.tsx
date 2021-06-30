@@ -11,7 +11,7 @@ const Query: FunctionComponent = ({children}) => (
   </mark>
 );
 
-export const HighlightedQuery: FunctionComponent<Props> = ({text, match}) => {
+const HighlightedQuery: FunctionComponent<Props> = ({text, match}) => {
   if (!match) {
     return <>{text}</>;
   }
@@ -27,4 +27,8 @@ export const HighlightedQuery: FunctionComponent<Props> = ({text, match}) => {
         {current}
       </>
     ));
+};
+
+export {
+  HighlightedQuery,
 };

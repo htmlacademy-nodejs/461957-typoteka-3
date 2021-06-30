@@ -7,7 +7,7 @@ import {Header} from "./Header";
 import {HeaderAuthor} from "./HeaderAuthor";
 import {HeaderReader} from "./HeaderReader";
 
-export const HeaderDispatcher: FunctionComponent<ICurrentUser> = ({currentUser}) => {
+const HeaderDispatcher: FunctionComponent<ICurrentUser> = ({currentUser}) => {
   switch (currentUser?.roleId) {
     case RoleId.ADMIN:
     case RoleId.AUTHOR:
@@ -29,4 +29,8 @@ export const HeaderDispatcher: FunctionComponent<ICurrentUser> = ({currentUser})
     default:
       return <Header />;
   }
+};
+
+export {
+  HeaderDispatcher,
 };

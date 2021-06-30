@@ -17,7 +17,7 @@ interface Props extends ICsrfInput {
   userValidationResponse: RegistrationFormValidation;
 }
 
-export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user, csrf}) => {
+const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user, csrf}) => {
   const userFields =
     user === undefined
       ? {
@@ -121,3 +121,7 @@ function resolveValidationMessages(validationResponse: Record<string, string>): 
     value,
   ]);
 }
+
+export {
+  RegistrationPage,
+};

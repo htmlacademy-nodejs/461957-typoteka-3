@@ -6,7 +6,7 @@ interface HotListProps {
   listOfHot: HotProps[];
 }
 
-export const HotList: FunctionComponent<HotListProps> = ({listOfHot}) => {
+const HotList: FunctionComponent<HotListProps> = ({listOfHot}) => {
   const hotList = listOfHot.map(hot => (
     <li className="hot__list-item" key={hot.title}>
       <Hot title={hot.title} link={hot.link} count={hot.count} />
@@ -21,4 +21,8 @@ export const HotList: FunctionComponent<HotListProps> = ({listOfHot}) => {
       <ul className="hot__list">{hotList}</ul>
     </section>
   );
+};
+
+export {
+  HotList,
 };

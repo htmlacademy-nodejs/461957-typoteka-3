@@ -26,7 +26,7 @@ interface EditArticleProps extends ICurrentUser, ICsrfInput {
 
 const closeButton: IIconProps = {iconName: "ChromeClose"};
 
-export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
+const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   article,
   endPoint,
   availableCategories,
@@ -163,3 +163,7 @@ function resolveValidationMessages(validationResponse: Record<string, string>): 
     value,
   ]);
 }
+
+export {
+  EditArticlePage,
+};

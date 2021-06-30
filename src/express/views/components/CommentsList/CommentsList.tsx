@@ -7,7 +7,7 @@ interface Props extends IComments {
   parentCssClass: string;
 }
 
-export const CommentsList: FunctionComponent<Props> = ({parentCssClass, comments, children}) => {
+const CommentsList: FunctionComponent<Props> = ({parentCssClass, comments, children}) => {
   return (
     <section className={`${parentCssClass}__comments comments`}>
       <h2 className="comments__title title title--middle">Комментарии</h2>
@@ -19,4 +19,8 @@ export const CommentsList: FunctionComponent<Props> = ({parentCssClass, comments
       {children ? <div className="comments__footer comments__footer--user">{children}</div> : null}
     </section>
   );
+};
+
+export {
+  CommentsList,
 };

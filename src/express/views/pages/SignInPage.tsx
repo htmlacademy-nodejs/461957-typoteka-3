@@ -18,7 +18,7 @@ interface Props extends ICsrfInput {
   signIn?: Omit<ILogin, "password">;
 }
 
-export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidationResponse = {}, signIn, csrf}) => {
+const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidationResponse = {}, signIn, csrf}) => {
   const signInFields = {email: signIn?.email ?? ``};
   const validationMessages = resolveValidationMessages(signInValidationResponse);
   return (
@@ -67,3 +67,7 @@ function resolveValidationMessages(validationResponse: Record<string, string>): 
     value,
   ]);
 }
+
+export {
+  SignInPage,
+};

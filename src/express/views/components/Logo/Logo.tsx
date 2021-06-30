@@ -14,8 +14,12 @@ const logoCssClasses: {[key in LogoMode]: string} = {
   error500: "header__logo header__logo--500 logo",
 };
 
-export const Logo: FunctionComponent<LogoProps> = ({mode}) => (
+const Logo: FunctionComponent<LogoProps> = ({mode}) => (
   <a className={logoCssClasses[mode ?? "default"]} href={ClientRoute.INDEX}>
     <img src="img/icons/logo.svg" alt="логотип Тайпотеки" />
   </a>
 );
+
+export {
+  Logo,
+};

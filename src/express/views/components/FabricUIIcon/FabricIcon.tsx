@@ -5,6 +5,10 @@ interface Props {
   size?: string;
 }
 
-export const FabricUIIcon: FunctionComponent<Props> = ({icon, size}) => (
+const FabricUIIcon: FunctionComponent<Props> = ({icon, size}) => (
   <i className={"ms-Icon ms-Icon--" + icon + " ms-fontSize-" + size} aria-hidden="true" />
 );
+
+export {
+  FabricUIIcon,
+};

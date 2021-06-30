@@ -3,7 +3,7 @@ import React, {FunctionComponent} from "react";
 import {ICommentByAuthor} from "../../../models/interfaces/comment-by-author";
 import {Avatar} from "../Avatar/Avatar";
 
-export const PublicationComment: FunctionComponent<ICommentByAuthor> = ({
+const PublicationComment: FunctionComponent<ICommentByAuthor> = ({
   text,
   link,
   user,
@@ -31,3 +31,7 @@ export const PublicationComment: FunctionComponent<ICommentByAuthor> = ({
     </button>
   </div>
 );
+
+export {
+  PublicationComment,
+};
