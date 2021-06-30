@@ -2,7 +2,7 @@ import {promises} from "fs";
 
 import chalk from "chalk";
 
-export async function truncateFile(filePath: string): Promise<void> {
+async function truncateFile(filePath: string): Promise<void> {
   try {
     await promises.truncate(filePath);
     console.log(chalk.white(`File cleared: ${filePath}`));
@@ -11,3 +11,7 @@ export async function truncateFile(filePath: string): Promise<void> {
     console.error(chalk.red(e));
   }
 }
+
+export {
+  truncateFile,
+};

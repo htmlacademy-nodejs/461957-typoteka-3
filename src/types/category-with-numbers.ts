@@ -1,5 +1,9 @@
 import {Category} from "./category";
 
-export interface CategoryWithNumbers extends Category {
+interface CategoryWithNumbers extends Category {
   count: number;
 }
+
+export {
+  CategoryWithNumbers,
+};

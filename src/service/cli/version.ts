@@ -11,10 +11,14 @@ async function parseJson(): Promise<IPackageJson> {
   return JSON.parse(await promises.readFile(PACKAGE_JSON_PATH, `utf8`)) as IPackageJson;
 }
 
-export const cliAction: CliAction = {
+const cliAction: CliAction = {
   name: `--version`,
   async run() {
     const packageJson = await parseJson();
     console.info(chalk.blue(packageJson.version));
   },
+};
+
+export {
+  cliAction,
 };

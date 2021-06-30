@@ -26,7 +26,7 @@ import {IUserEntity, IUserModel} from "./models/user";
 
 const SALT_ROUNDS = 10;
 
-export async function fillDb(
+async function fillDb(
   articlesNumber: number,
   models: {
     CommentModel: ICommentModel;
@@ -191,3 +191,7 @@ function selectAuthorsOnly(users: IUserEntity[]): IUserEntity[] {
 function getAuthorId(users: IUserEntity[]): UserId {
   return getRandomItem(users).getDataValue(`id`);
 }
+
+export {
+  fillDb,
+};

@@ -1,10 +1,15 @@
 import type {CategoryId} from "./category-id";
 
-export interface Category {
+interface Category {
   label: string;
   id: CategoryId;
 }
 
-export interface ICategoryId {
+interface ICategoryId {
   id: CategoryId;
 }
+
+export {
+  Category,
+  ICategoryId,
+};

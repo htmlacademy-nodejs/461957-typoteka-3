@@ -1,7 +1,7 @@
 import {SignInFormValidation} from "../../../types/form-fields/sign-in-form-validation";
 import {SignInValidationResponse} from "../../../types/sign-in-validation-response";
 
-export function signInValidationResponseMapper(
+function signInValidationResponseMapper(
   signInValidationResponse: SignInValidationResponse,
 ): SignInFormValidation {
   return Object.fromEntries(
@@ -11,3 +11,7 @@ export function signInValidationResponseMapper(
     }).filter(([, value]) => !!value),
   );
 }
+
+export {
+  signInValidationResponseMapper,
+};

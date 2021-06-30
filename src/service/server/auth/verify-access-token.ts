@@ -7,7 +7,7 @@ import {getLogger} from "../../logger";
 
 const logger = getLogger();
 
-export async function verifyAccessToken(authorization?: string): Promise<IUserPreview> {
+async function verifyAccessToken(authorization?: string): Promise<IUserPreview> {
   if (!authorization) {
     return Promise.reject(HttpCode.UNAUTHORIZED);
   }
@@ -25,3 +25,7 @@ export async function verifyAccessToken(authorization?: string): Promise<IUserPr
     });
   });
 }
+
+export {
+  verifyAccessToken,
+};

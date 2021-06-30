@@ -13,7 +13,7 @@ interface Props extends ICurrentUser, ICsrfInput {
   articleId: ArticleId;
 }
 
-export async function prepareArticlePage({
+async function prepareArticlePage({
   articleId,
   currentUser,
   csrf,
@@ -40,3 +40,7 @@ export async function prepareArticlePage({
     },
   };
 }
+
+export {
+  prepareArticlePage,
+};

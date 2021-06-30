@@ -9,7 +9,7 @@ import {dataProviderService} from "../services";
 
 const logger = getLogger();
 
-export async function getUserFromCookiesMiddleware(
+async function getUserFromCookiesMiddleware(
   req: Request,
   res: IResponseExtended,
   next: NextFunction,
@@ -56,3 +56,7 @@ async function refreshTokens(refreshToken: string): Promise<IAuthTokens> {
     return Promise.reject(`Failed to refresh tokens: \n${(e as unknown).toString()}`);
   }
 }
+
+export {
+  getUserFromCookiesMiddleware,
+};

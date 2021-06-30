@@ -28,7 +28,7 @@ import {SignInValidationResponse} from "../../types/sign-in-validation-response"
 import {UserId} from "../../types/user-id";
 import {UserValidationResponse} from "../../types/user-validation-response";
 
-export class DataProviderService {
+class DataProviderService {
   private readonly requestService: AxiosStatic;
   private readonly apiEndPoint = ENV.API_HOST + `:` + ENV.PORT + APIRoute.API;
 
@@ -355,3 +355,7 @@ function getAuthHeader(token: string): Record<string, Record<string, string>> {
   };
   return {headers};
 }
+
+export {
+  DataProviderService,
+};

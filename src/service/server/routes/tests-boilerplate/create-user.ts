@@ -5,7 +5,7 @@ import {getNumericalId} from "../../../../shared/get-id";
 import {ILogin} from "../../../../types/interfaces/login";
 import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
 
-export async function createUser(app: Application): Promise<ILogin> {
+async function createUser(app: Application): Promise<ILogin> {
   const email = `zaberkirder${getNumericalId()}@usgs.gov`;
   const signInCredentials: ILogin = {
     email,
@@ -23,3 +23,7 @@ export async function createUser(app: Application): Promise<ILogin> {
   await request(app).post(`/api/users`).send(newUser);
   return signInCredentials;
 }
+
+export {
+  createUser,
+};

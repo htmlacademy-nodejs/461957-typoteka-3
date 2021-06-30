@@ -13,7 +13,7 @@ import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-cat
 import {streamPage} from "../utils/stream-page";
 import {MainPage} from "../views/pages/MainPage";
 
-export const mainPageRouter = Router();
+const mainPageRouter = Router();
 
 mainPageRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
   const page = getPageFromReqQuery(req);
@@ -45,3 +45,7 @@ mainPageRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextF
     );
   }
 });
+
+export {
+  mainPageRouter,
+};

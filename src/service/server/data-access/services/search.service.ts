@@ -3,7 +3,7 @@ import {Model, Op, Sequelize} from "sequelize";
 import {ArticleSearchResult} from "../../../../types/article-search-result";
 import {IArticleModel} from "../models/article";
 
-export class SearchService {
+class SearchService {
   constructor(private readonly ArticleModel: IArticleModel) {}
 
   public async searchByArticlesTitle(query: string): Promise<ArticleSearchResult[] | null> {
@@ -16,3 +16,7 @@ export class SearchService {
     return articles.map(article => article.get());
   }
 }
+
+export {
+  SearchService,
+};

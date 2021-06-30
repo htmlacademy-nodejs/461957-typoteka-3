@@ -22,7 +22,7 @@ import {categoriesRouter} from "./categories.router";
 import {searchRouter} from "./search.router";
 import {usersRouter} from "./users.router";
 
-export const apiRouter = ({
+const apiRouter = ({
   CategoryModel,
   ArticleModel,
   CommentModel,
@@ -55,4 +55,8 @@ export const apiRouter = ({
   router.use(APIRoute.AUTH, authRouter(authController));
 
   return router;
+};
+
+export {
+  apiRouter,
 };

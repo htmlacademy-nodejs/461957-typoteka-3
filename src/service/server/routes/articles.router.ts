@@ -10,7 +10,7 @@ import {validateNewArticle} from "../validators";
 import {commentsRouter} from "./comments.router";
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
 
-export const articleRouter = (
+const articleRouter = (
   articlesController: ArticlesController,
   commentsController: CommentsController,
 ): Router => {
@@ -65,4 +65,8 @@ export const articleRouter = (
   router.use(`/:id` + APIRoute.COMMENTS, commentsRouter(commentsController));
 
   return router;
+};
+
+export {
+  articleRouter,
 };

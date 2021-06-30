@@ -2,7 +2,7 @@ import {IAnnounce, IArticleId, ICommentsCount, ICreatedDate, IFullText, ITitle} 
 
 import {IAuthorId} from "./author-id";
 
-export interface IArticlePlain
+interface IArticlePlain
   extends IArticleId,
     ICommentsCount,
     ICreatedDate,
@@ -10,3 +10,7 @@ export interface IArticlePlain
     ITitle,
     IAnnounce,
     IAuthorId {}
+
+export {
+  IArticlePlain,
+};

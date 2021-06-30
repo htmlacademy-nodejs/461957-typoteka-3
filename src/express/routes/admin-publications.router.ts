@@ -13,7 +13,7 @@ import {streamPage} from "../utils/stream-page";
 import {AdminCommentsPage} from "../views/pages/AdminCommentsPage";
 import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
 
-export const adminPublicationsRouter = Router();
+const adminPublicationsRouter = Router();
 
 adminPublicationsRouter.get(
   `/`,
@@ -64,3 +64,7 @@ adminPublicationsRouter.get(
     }
   },
 );
+
+export {
+  adminPublicationsRouter,
+};

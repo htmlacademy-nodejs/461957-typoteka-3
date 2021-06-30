@@ -1,3 +1,8 @@
-export type CommentFormFieldName = `TEXT`;
+type CommentFormFieldName = `TEXT`;
 
-export type CommentFormValidation = Partial<Record<CommentFormFieldName, string>>;
+type CommentFormValidation = Partial<Record<CommentFormFieldName, string>>;
+
+export {
+  CommentFormFieldName,
+  CommentFormValidation,
+};

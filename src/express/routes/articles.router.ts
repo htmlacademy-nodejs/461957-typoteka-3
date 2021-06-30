@@ -26,7 +26,7 @@ import {EditArticlePage} from "../views/pages/EditArticlePage";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
-export const articlesRouter = Router();
+const articlesRouter = Router();
 const logger = getLogger();
 
 articlesRouter.get(
@@ -242,3 +242,7 @@ articlesRouter.get(
 function parseDateFromFrontend(date: unknown): Date {
   return new Date(Date.parse(date as string));
 }
+
+export {
+  articlesRouter,
+};

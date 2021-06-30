@@ -4,13 +4,13 @@ import {Category} from "../../../../types/category";
 
 const CATEGORY_NAME_RESTRICTIONS = [5, 30];
 
-export const categoryIdsSchema = Joi.object<Category>({
+const categoryIdsSchema = Joi.object<Category>({
   id: Joi.number().required().messages({
     "any.required": `Обязательное поле`,
   }),
 });
 
-export const categorySchema = categoryIdsSchema.append({
+const categorySchema = categoryIdsSchema.append({
   label: Joi.string()
     .min(CATEGORY_NAME_RESTRICTIONS[0])
     .max(CATEGORY_NAME_RESTRICTIONS[1])
@@ -21,3 +21,8 @@ export const categorySchema = categoryIdsSchema.append({
       "string.max": `Максимальная длина ${CATEGORY_NAME_RESTRICTIONS[1]} символов`,
     }),
 });
+
+export {
+  categoryIdsSchema,
+  categorySchema,
+};

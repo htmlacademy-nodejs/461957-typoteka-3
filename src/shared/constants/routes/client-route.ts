@@ -1,4 +1,4 @@
-export const ClientRoute = {
+const ClientRoute = {
   INDEX: `/`,
   ADMIN: {
     INDEX: `/my`,
@@ -18,4 +18,8 @@ export const ClientRoute = {
   CATEGORIES: `/categories`,
   COMMENTS: `/comments`,
   SIGN_OUT: `/sign-out`,
+};
+
+export {
+  ClientRoute,
 };

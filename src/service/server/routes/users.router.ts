@@ -5,7 +5,7 @@ import {UsersController} from "../controllers/users.controller";
 import {authMiddleware} from "../middlewares";
 import {validateNewUser} from "../validators";
 
-export const usersRouter = (usersController: UsersController): Router => {
+const usersRouter = (usersController: UsersController): Router => {
   const router = Router();
 
   router.get(`/id/:id`, async (req, res) => {
@@ -30,4 +30,8 @@ export const usersRouter = (usersController: UsersController): Router => {
   });
 
   return router;
+};
+
+export {
+  usersRouter,
 };

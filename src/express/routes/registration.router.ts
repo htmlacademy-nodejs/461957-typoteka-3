@@ -16,7 +16,7 @@ import {RegistrationPage} from "../views/pages/RegistrationPage";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
-export const registrationRouter = Router();
+const registrationRouter = Router();
 
 registrationRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended) => {
   streamPage(res, RegistrationPage, {
@@ -61,3 +61,7 @@ registrationRouter.post(
     }
   },
 );
+
+export {
+  registrationRouter,
+};

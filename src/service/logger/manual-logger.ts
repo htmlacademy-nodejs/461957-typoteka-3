@@ -8,6 +8,10 @@ const logger = pino({
   level: ENV.LOG_LEVEL ?? LogLevel.ERROR,
 });
 
-export function getLogger(options: Bindings = {}): Logger {
+function getLogger(options: Bindings = {}): Logger {
   return logger.child(options);
 }
+
+export {
+  getLogger,
+};

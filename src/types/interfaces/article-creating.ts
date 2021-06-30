@@ -2,4 +2,8 @@ import {IAnnounce, ICategoriesIds, ICreatedDate, IFullText, ITitle} from "../art
 
 import {IAuthorId} from "./author-id";
 
-export interface IArticleCreating extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategoriesIds, IAuthorId {}
+interface IArticleCreating extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategoriesIds, IAuthorId {}
+
+export {
+  IArticleCreating,
+};

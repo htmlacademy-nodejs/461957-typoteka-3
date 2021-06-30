@@ -1,1 +1,5 @@
-export const CSRF_INPUT_NAME = `_csrf`;
+const CSRF_INPUT_NAME = `_csrf`;
+
+export {
+  CSRF_INPUT_NAME,
+};

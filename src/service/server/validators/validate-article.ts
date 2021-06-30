@@ -6,7 +6,7 @@ import {getLogger} from "../../logger";
 import {getValidationDictionary} from "./get-validation-dictionary";
 import {newArticleSchema} from "./schemas";
 
-export async function validateNewArticle(newArticle: IArticleCreating): Promise<IArticleCreating> {
+async function validateNewArticle(newArticle: IArticleCreating): Promise<IArticleCreating> {
   const logger = getLogger();
   try {
     return (await newArticleSchema.validateAsync(newArticle, {abortEarly: false})) as IArticleCreating;
@@ -19,3 +19,7 @@ export async function validateNewArticle(newArticle: IArticleCreating): Promise<
     throw e;
   }
 }
+
+export {
+  validateNewArticle,
+};

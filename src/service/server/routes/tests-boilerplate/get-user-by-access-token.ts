@@ -6,7 +6,11 @@ import {IUserPreview} from "../../../../types/interfaces/user-preview";
 
 import {resolveAuthHeader} from "./resolve-auth-header";
 
-export async function getUserByAccessToken(app: Application, accessToken: string): Promise<IUserPreview> {
+async function getUserByAccessToken(app: Application, accessToken: string): Promise<IUserPreview> {
   const response = await request(app).get(`/api${APIRoute.GET_USER}`).set(resolveAuthHeader(accessToken));
   return response.body as IUserPreview;
 }
+
+export {
+  getUserByAccessToken,
+};

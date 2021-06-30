@@ -13,7 +13,7 @@ import {getLogger} from "../../../logger";
 import {TableName} from "../constants/table-name";
 import {IArticleModel} from "../models/article";
 
-export class ArticlesService {
+class ArticlesService {
   private readonly logger: Logger = getLogger(); // TODO: [DI] Move to constructor
   constructor(private readonly ArticleModel: IArticleModel) {}
 
@@ -222,3 +222,7 @@ export class ArticlesService {
     }
   }
 }
+
+export {
+  ArticlesService,
+};

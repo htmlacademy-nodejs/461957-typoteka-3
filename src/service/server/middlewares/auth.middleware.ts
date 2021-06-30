@@ -5,7 +5,7 @@ import {Context} from "../../models/context";
 import {RequestExtended} from "../../models/types/request-extended";
 import {verifyAccessToken} from "../auth/verify-access-token";
 
-export async function authMiddleware(req: RequestExtended, res: Response, next: NextFunction): Promise<void> {
+async function authMiddleware(req: RequestExtended, res: Response, next: NextFunction): Promise<void> {
   const logger = getLogger();
   const accessToken = req.headers[`authorization`];
   try {
@@ -21,3 +21,7 @@ export async function authMiddleware(req: RequestExtended, res: Response, next: 
     res.status(e).send();
   }
 }
+
+export {
+  authMiddleware,
+};

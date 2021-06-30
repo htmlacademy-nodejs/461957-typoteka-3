@@ -1,5 +1,9 @@
-export interface IUserPresentation {
+interface IUserPresentation {
   firstName: string;
   lastName: string;
   avatar: string;
 }
+
+export {
+  IUserPresentation,
+};

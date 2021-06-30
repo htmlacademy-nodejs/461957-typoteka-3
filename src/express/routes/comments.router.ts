@@ -15,7 +15,7 @@ import {streamPage} from "../utils/stream-page";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
-export const commentsRouter = Router();
+const commentsRouter = Router();
 
 commentsRouter.post(
   `/:id`,
@@ -54,3 +54,7 @@ commentsRouter.post(
     }
   },
 );
+
+export {
+  commentsRouter,
+};

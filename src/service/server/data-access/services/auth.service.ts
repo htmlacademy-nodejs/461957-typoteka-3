@@ -18,7 +18,7 @@ const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.AVATAR,
 ];
 
-export class AuthService {
+class AuthService {
   constructor(private readonly UserModel: IUserModel, private readonly RefreshTokenModel: IRefreshTokenModel) {}
 
   public async login({email, password}: ILogin): Promise<ILoginResult> {
@@ -78,3 +78,7 @@ export class AuthService {
     return user.get();
   }
 }
+
+export {
+  AuthService,
+};

@@ -1,7 +1,7 @@
 import {ArticleFormFieldName} from "../../../types/form-fields/article-form-validation";
 import {IFormField} from "../../../types/interfaces/form-field";
 
-export const ArticleFormField: Record<ArticleFormFieldName, IFormField> = {
+const ArticleFormField: Record<ArticleFormFieldName, IFormField> = {
   CREATED_DATE: {
     name: `createdDate`,
     label: `Дата`,
@@ -31,3 +31,7 @@ export const ArticleFormField: Record<ArticleFormFieldName, IFormField> = {
     label: `Фотография`,
   },
 } as const;
+
+export {
+  ArticleFormField,
+};

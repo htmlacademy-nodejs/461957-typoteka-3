@@ -9,7 +9,7 @@ import {verifyAccessToken} from "../auth/verify-access-token";
 import {CommentsService} from "../data-access/services/comments.service";
 import {IAuthorsComment} from "../../../types/interfaces/authors-comment";
 
-export class UsersController {
+class UsersController {
   constructor(private readonly usersService: UsersService, private readonly commentsService: CommentsService) {}
 
   public async getOne(userId: UserId): Promise<ControllerResponse<IUserPreview>> {
@@ -53,3 +53,7 @@ export class UsersController {
     }
   }
 }
+
+export {
+  UsersController,
+};

@@ -2,7 +2,7 @@ import chalk from "chalk";
 
 import {CliAction} from "../../types/cli-action";
 
-export const cliAction: CliAction = {
+const cliAction: CliAction = {
   name: `--help`,
   run() {
     console.log(
@@ -19,4 +19,8 @@ export const cliAction: CliAction = {
     `),
     );
   },
+};
+
+export {
+  cliAction,
 };

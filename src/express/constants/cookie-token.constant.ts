@@ -1,1 +1,5 @@
-export const COOKIE_TOKEN = `tokens`;
+const COOKIE_TOKEN = `tokens`;
+
+export {
+  COOKIE_TOKEN,
+};

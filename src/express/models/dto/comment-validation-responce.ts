@@ -1,7 +1,7 @@
 import {CommentValidationResponse} from "../../../types/comment-validation-response";
 import {CommentFormValidation} from "../../../types/form-fields/comment-form-validation";
 
-export function commentValidationResponseMapper(
+function commentValidationResponseMapper(
   commentValidationResponse: CommentValidationResponse,
 ): CommentFormValidation {
   return Object.fromEntries(
@@ -10,3 +10,7 @@ export function commentValidationResponseMapper(
     }).filter(([, value]) => !!value),
   );
 }
+
+export {
+  commentValidationResponseMapper,
+};

@@ -11,10 +11,10 @@ interface ITokenRecord {
   userId: UserId;
 }
 
-export type IRefreshTokenEntity = Model<ITokenRecord, ITokenRecord>;
-export type IRefreshTokenModel = ModelCtor<IRefreshTokenEntity>;
+type IRefreshTokenEntity = Model<ITokenRecord, ITokenRecord>;
+type IRefreshTokenModel = ModelCtor<IRefreshTokenEntity>;
 
-export const defineRefreshToken = (sequelize: Sequelize): IRefreshTokenModel =>
+const defineRefreshToken = (sequelize: Sequelize): IRefreshTokenModel =>
   sequelize.define<IRefreshTokenEntity>(
     `RefreshToken`,
     {
@@ -36,3 +36,9 @@ export const defineRefreshToken = (sequelize: Sequelize): IRefreshTokenModel =>
       timestamps: true,
     },
   );
+
+export {
+  IRefreshTokenEntity,
+  IRefreshTokenModel,
+  defineRefreshToken,
+};

@@ -22,7 +22,7 @@ import {
   signOutRouter,
 } from "./routes";
 
-export function runApp(): void {
+function runApp(): void {
   const port = ENV.SSR_PORT || DEFAULT_SSR_PORT;
   const app = express();
   initializeMiddlewares(app);
@@ -53,3 +53,7 @@ function configureRoutes(app: Express): void {
   app.use(ClientRoute.SIGN_OUT, signOutRouter);
   app.use(`*`, notFoundMiddleware);
 }
+
+export {
+  runApp,
+};

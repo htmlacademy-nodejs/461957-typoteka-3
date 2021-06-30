@@ -1,4 +1,4 @@
-export type ArticleFormFieldName =
+type ArticleFormFieldName =
   | `CREATED_DATE`
   | `CATEGORIES`
   | `TITLE`
@@ -7,4 +7,9 @@ export type ArticleFormFieldName =
   | `IMAGE`
   | `UPLOAD`;
 
-export type ArticleFormValidation = Partial<Record<ArticleFormFieldName, string>>;
+type ArticleFormValidation = Partial<Record<ArticleFormFieldName, string>>;
+
+export {
+  ArticleFormFieldName,
+  ArticleFormValidation,
+};

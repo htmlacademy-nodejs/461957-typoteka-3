@@ -1,7 +1,7 @@
 import {RegistrationFormValidation} from "../../../types/form-fields/registration-form-validation";
 import {UserValidationResponse} from "../../../types/user-validation-response";
 
-export function registrationValidationResponseMapper(
+function registrationValidationResponseMapper(
   userValidationResponse: UserValidationResponse,
 ): RegistrationFormValidation {
   return Object.fromEntries(
@@ -15,3 +15,7 @@ export function registrationValidationResponseMapper(
     }).filter(([, value]) => !!value),
   );
 }
+
+export {
+  registrationValidationResponseMapper,
+};

@@ -1,7 +1,7 @@
 import {ArticleValidationResponse} from "../../../types/article-validation-response";
 import {ArticleFormValidation} from "../../../types/form-fields/article-form-validation";
 
-export function articleValidationResponseMapper(
+function articleValidationResponseMapper(
   articleValidationResponse: ArticleValidationResponse,
 ): ArticleFormValidation {
   return Object.fromEntries(
@@ -14,3 +14,7 @@ export function articleValidationResponseMapper(
     }).filter(([, value]) => !!value),
   );
 }
+
+export {
+  articleValidationResponseMapper,
+};

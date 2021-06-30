@@ -1,12 +1,12 @@
-export const DEFAULT_PORT = 3000;
-export const MockFilePath = {
+const DEFAULT_PORT = 3000;
+const MockFilePath = {
   ARTICLES: `mocks/articles.json`,
   CATEGORIES: `mocks/categories.json`,
   FILL_DATABASE_SQL_SCRIPT: `mocks/fill-db.sql`,
 } as const;
-export const DEFAULT_SSR_PORT = 8080;
-export const STATIC_DIR = `static`;
-export const HttpCode = {
+const DEFAULT_SSR_PORT = 8080;
+const STATIC_DIR = `static`;
+const HttpCode = {
   OK: 200,
   CREATED: 201,
   BAD_REQUEST: 400,
@@ -15,11 +15,11 @@ export const HttpCode = {
   NOT_FOUND: 404,
   INTERNAL_SERVER_ERROR: 500,
 };
-export const ExitCode = {
+const ExitCode = {
   ERROR: 1,
   SUCCESS: 0,
 };
-export const Time = {
+const Time = {
   MS_IN_DAY: 86400000,
   MS_IN_HOUR: 3600000,
   MS_IN_MINUTE: 60000,
@@ -27,7 +27,7 @@ export const Time = {
   DAYS_IN_WEEK: 7,
   DAYS_IN_MONTH: 30,
 } as const;
-export const MockTextsFilePath = {
+const MockTextsFilePath = {
   SENTENCES: `data/sentences.txt`,
   CATEGORIES: `data/categories.txt`,
   TITLES: `data/titles.txt`,
@@ -38,9 +38,9 @@ export const MockTextsFilePath = {
   EMAILS: `data/emails.txt`,
   AVATARS: `data/avatars.txt`,
 } as const;
-export const DEFAULT_COMMAND = `--help`;
-export const USER_ARGV_INDEX = 2;
-export const LogLevel = {
+const DEFAULT_COMMAND = `--help`;
+const USER_ARGV_INDEX = 2;
+const LogLevel = {
   FATAL: `fatal`,
   ERROR: `error`,
   WARN: `warn`,
@@ -48,10 +48,27 @@ export const LogLevel = {
   DEBUG: `debug`,
   TRACE: `trace`,
 } as const;
-export const PAGE_SIZE = 8;
-export const PAGE_QUERY_PARAM = `page`;
-export const LoginStatus = {
+const PAGE_SIZE = 8;
+const PAGE_QUERY_PARAM = `page`;
+const LoginStatus = {
   UNKNOWN_EMAIL: `unknownEmail`,
   INVALID_PASSWORD: `invalidPassword`,
   SUCCESS: `success`,
 } as const;
+
+export {
+  DEFAULT_COMMAND,
+  DEFAULT_PORT,
+  DEFAULT_SSR_PORT,
+  ExitCode,
+  HttpCode,
+  LogLevel,
+  LoginStatus,
+  MockFilePath,
+  MockTextsFilePath,
+  PAGE_QUERY_PARAM,
+  PAGE_SIZE,
+  STATIC_DIR,
+  Time,
+  USER_ARGV_INDEX,
+};

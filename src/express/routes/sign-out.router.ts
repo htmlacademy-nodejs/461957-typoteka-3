@@ -7,7 +7,7 @@ import {SSRError} from "../errors/ssr-error";
 import {getAccessTokenFromCookies, getRefreshTokenFromCookies, invalidateAuthCookie} from "../helpers/cookie.helper";
 import {dataProviderService} from "../services";
 
-export const signOutRouter = Router();
+const signOutRouter = Router();
 
 signOutRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextFunction) => {
   try {
@@ -29,3 +29,7 @@ signOutRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextFu
     );
   }
 });
+
+export {
+  signOutRouter,
+};

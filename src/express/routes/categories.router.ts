@@ -11,7 +11,7 @@ import {CategoryEditableProps} from "../views/components/CategoryEditable/Catego
 import {CategoriesPage} from "../views/pages/CategoriesPage";
 
 const csrfProtection = csrf({cookie: true});
-export const categoriesRouter = Router();
+const categoriesRouter = Router();
 
 categoriesRouter.get(
   `/`,
@@ -42,3 +42,7 @@ categoriesRouter.get(
     }
   },
 );
+
+export {
+  categoriesRouter,
+};

@@ -17,7 +17,7 @@ import {SignInPage} from "../views/pages/SignInPage";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
-export const signInRouter = Router();
+const signInRouter = Router();
 
 signInRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended) => {
   streamPage(res, SignInPage, {endPoint: ClientRoute.SIGN_IN, csrf: req.csrfToken(), signInValidationResponse: {}});
@@ -58,3 +58,7 @@ signInRouter.post(
     }
   },
 );
+
+export {
+  signInRouter,
+};

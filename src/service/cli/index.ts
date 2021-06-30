@@ -7,10 +7,14 @@ import {cliAction as help} from "./help";
 import {cliAction as server} from "./server";
 import {cliAction as version} from "./version";
 
-export const Cli: Partial<Record<ServiceCliCommandName, CliAction>> = {
+const Cli: Partial<Record<ServiceCliCommandName, CliAction>> = {
   [help.name]: help,
   [version.name]: version,
   [server.name]: server,
   [fill.name]: fill,
   [fillDb.name]: fillDb,
+};
+
+export {
+  Cli,
 };

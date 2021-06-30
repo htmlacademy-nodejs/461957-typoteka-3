@@ -1,5 +1,9 @@
 import {UserId} from "../user-id";
 
-export interface IAuthorId {
+interface IAuthorId {
   authorId: UserId;
 }
+
+export {
+  IAuthorId,
+};

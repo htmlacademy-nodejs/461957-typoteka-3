@@ -11,7 +11,7 @@ import {SearchResultProps} from "../views/components/SearchResult/SearchResult";
 import {SearchPage} from "../views/pages/SearchPage";
 
 const csrfProtection = csrf({cookie: true});
-export const searchRouter = Router();
+const searchRouter = Router();
 
 searchRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended, next: NextFunction) => {
   if (!req.query?.query) {
@@ -52,3 +52,7 @@ searchRouter.get(`/`, [csrfProtection], async (req: Request, res: IResponseExten
     );
   }
 });
+
+export {
+  searchRouter,
+};

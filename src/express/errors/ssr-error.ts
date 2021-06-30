@@ -1,4 +1,4 @@
-export class SSRError extends Error {
+class SSRError extends Error {
   public statusCode: number;
   public shouldRedirect: boolean;
   public errorPayload: Error;
@@ -7,3 +7,7 @@ export class SSRError extends Error {
     Object.assign(this, config);
   }
 }
+
+export {
+  SSRError,
+};

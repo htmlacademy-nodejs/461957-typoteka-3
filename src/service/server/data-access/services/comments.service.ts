@@ -26,7 +26,7 @@ const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.AVATAR,
 ];
 
-export class CommentsService {
+class CommentsService {
   private readonly logger: Logger = getLogger(); // TODO: [DI] Move to constructor
   constructor(private readonly CommentsModel: ICommentModel) {}
 
@@ -147,3 +147,7 @@ function assignAuthorToComment(item: ICommentPreview & {users: IUserPreview}): I
     authorId: item.authorId,
   };
 }
+
+export {
+  CommentsService,
+};

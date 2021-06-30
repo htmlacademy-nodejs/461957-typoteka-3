@@ -1,4 +1,4 @@
-export const APIRoute = {
+const APIRoute = {
   API: `/api`,
   ARTICLES: `/articles`,
   ARTICLES_BY_AUTHOR: `/articles/author`,
@@ -14,4 +14,8 @@ export const APIRoute = {
   GET_USER: `/auth/get-user`,
   REFRESH_TOKENS: `/auth/refresh`,
   LOGOUT: `/auth/sign-out`,
+};
+
+export {
+  APIRoute,
 };

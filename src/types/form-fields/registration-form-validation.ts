@@ -1,4 +1,4 @@
-export type RegistrationFormFieldName =
+type RegistrationFormFieldName =
   | `EMAIL`
   | `PASSWORD`
   | `PASSWORD_REPEATED`
@@ -6,4 +6,9 @@ export type RegistrationFormFieldName =
   | `LAST_NAME`
   | `AVATAR`;
 
-export type RegistrationFormValidation = Partial<Record<RegistrationFormFieldName, string>>;
+type RegistrationFormValidation = Partial<Record<RegistrationFormFieldName, string>>;
+
+export {
+  RegistrationFormFieldName,
+  RegistrationFormValidation,
+};

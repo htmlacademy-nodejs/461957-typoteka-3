@@ -8,7 +8,7 @@ const TITLE_RESTRICTIONS = [30, 250];
 const ANNOUNCE_RESTRICTIONS = [30, 250];
 const MAX_FULLTEXT_LENGTH = 1000;
 
-export const newArticleSchema = Joi.object<NewArticle>({
+const newArticleSchema = Joi.object<NewArticle>({
   fullText: Joi.string()
     .max(MAX_FULLTEXT_LENGTH)
     .required()
@@ -47,3 +47,7 @@ export const newArticleSchema = Joi.object<NewArticle>({
     "any.required": `Обязательное поле`,
   }),
 });
+
+export {
+  newArticleSchema,
+};

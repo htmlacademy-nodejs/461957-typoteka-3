@@ -1,3 +1,8 @@
-export type SignInFormFieldName = `EMAIL` | `PASSWORD`;
+type SignInFormFieldName = `EMAIL` | `PASSWORD`;
 
-export type SignInFormValidation = Partial<Record<SignInFormFieldName, string>>;
+type SignInFormValidation = Partial<Record<SignInFormFieldName, string>>;
+
+export {
+  SignInFormFieldName,
+  SignInFormValidation,
+};

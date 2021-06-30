@@ -6,7 +6,7 @@ import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {ICommentCreating} from "../../../types/interfaces/comment-creating";
 import {ICommentPreview} from "../../../types/interfaces/comment-preview";
 
-export class CommentsController {
+class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   public async getCommentsByArticleId(id: ArticleId): Promise<ControllerResponse<ICommentPreview[]>> {
@@ -47,3 +47,7 @@ export class CommentsController {
     }
   }
 }
+
+export {
+  CommentsController,
+};

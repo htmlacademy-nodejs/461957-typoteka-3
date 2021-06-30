@@ -17,7 +17,7 @@ const userPreviewAttributes: FindAttributeOptions = [
 
 const SALT_ROUNDS = 10;
 
-export class UsersService {
+class UsersService {
   constructor(private readonly UserModel: IUserModel) {}
 
   public async findById(id: UserId): Promise<IUserPreview> {
@@ -55,3 +55,7 @@ export class UsersService {
     return user.get();
   }
 }
+
+export {
+  UsersService,
+};

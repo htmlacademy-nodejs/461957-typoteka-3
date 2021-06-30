@@ -6,7 +6,7 @@ import {CategoriesController} from "../controllers/categories.controller";
 
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
 
-export const categoriesRouter = (
+const categoriesRouter = (
   articlesController: ArticlesController,
   categoriesController: CategoriesController,
 ): Router => {
@@ -25,4 +25,8 @@ export const categoriesRouter = (
   });
 
   return router;
+};
+
+export {
+  categoriesRouter,
 };

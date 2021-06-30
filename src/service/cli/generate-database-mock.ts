@@ -14,7 +14,7 @@ import {getAnnounce, getCommentText, getDate, getFullText, getTitle} from "./gen
 
 const DEFAULT_COUNT = 3;
 
-export const cliAction: CliAction = {
+const cliAction: CliAction = {
   name: `--fill`,
   async run(args?: string) {
     const [mockCountInput] = args;
@@ -170,3 +170,7 @@ function printSuccessMessage(userNumber: number): void {
     chalk.green(`SQL commands to create ${userNumber} articles saved to ${MockFilePath.FILL_DATABASE_SQL_SCRIPT}`),
   );
 }
+
+export {
+  cliAction,
+};

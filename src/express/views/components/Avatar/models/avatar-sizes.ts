@@ -1,1 +1,5 @@
-export type AvatarSize = `small` | `medium`;
+type AvatarSize = `small` | `medium`;
+
+export {
+  AvatarSize,
+};

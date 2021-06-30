@@ -4,7 +4,7 @@ import {SQL_KEYWORDS} from "../constants/sql-keywords.constant";
 type TableNameKey = keyof typeof TableName;
 type TableName = typeof TableName[TableNameKey];
 
-export function insertToTable(table: TableName, values: string[]): string {
+function insertToTable(table: TableName, values: string[]): string {
   const message = values.map(value => (SQL_KEYWORDS.includes(value) ? value : escapeString(value)));
   return `INSERT INTO ${table} VALUES (${message.toString()});\n`;
 }
@@ -12,3 +12,7 @@ export function insertToTable(table: TableName, values: string[]): string {
 function escapeString(message: string): string {
   return `'${message.replace(/"/g, `\\"`).replace(/'/g, `\\'`)}'`;
 }
+
+export {
+  insertToTable,
+};

@@ -10,7 +10,7 @@ import {defineDatabaseModels} from "../server/data-access/models";
 const DEFAULT_COUNT = 3;
 const logger = getLogger();
 
-export const cliAction: CliAction = {
+const cliAction: CliAction = {
   name: `--fill-db`,
   async run(args?: string): Promise<void> {
     const [mockCountInput] = args;
@@ -30,4 +30,8 @@ export const cliAction: CliAction = {
       process.exit(ExitCode.ERROR);
     }
   },
+};
+
+export {
+  cliAction,
 };
