@@ -23,7 +23,7 @@ commentsRouter.post(
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const articleId = parseInt(req.params.id, 10);
     const {text} = req.body as ICommentCreating;
-    const comment: ICommentCreating = {text, createdDate: new Date(), articleId, authorId: res.locals.currentUser.id};
+    const comment: ICommentCreating = {text, createdDate: new Date(), articleId, authorId: res.locals?.currentUser?.id};
     try {
       const commentValidationResponse = await dataProviderService.createComment(
         comment,
@@ -35,7 +35,7 @@ commentsRouter.post(
       }
       const {page: articlePage, props} = await prepareArticlePage({
         articleId,
-        currentUser: res.locals.currentUser,
+        currentUser: res.locals?.currentUser,
         csrf: req.csrfToken(),
       });
       return streamPage(res, articlePage, {
@@ -55,6 +55,4 @@ commentsRouter.post(
   },
 );
 
-export {
-  commentsRouter,
-};
+export {commentsRouter};
