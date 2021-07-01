@@ -235,6 +235,10 @@
   color: #a80000;
 }
 
+.footer__copyright {
+  height: 38px;
+}
+
 .comments__footer {
   display: grid;
   grid-row-gap: 16px;
