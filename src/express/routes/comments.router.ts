@@ -37,6 +37,7 @@ commentsRouter.post(
         articleId,
         currentUser: res.locals?.currentUser,
         csrf: req.csrfToken(),
+        newComment: text,
       });
       return streamPage(res, articlePage, {
         ...props,

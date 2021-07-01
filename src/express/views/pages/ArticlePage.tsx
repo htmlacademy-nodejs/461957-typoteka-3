@@ -23,6 +23,7 @@ interface ArticlePageProps
   newCommentEndPoint: string;
   commentValidationResponse: CommentFormValidation;
   comments: ICommentPreview[];
+  newComment?: string;
 }
 
 const ArticlePage: FunctionComponent<ArticlePageProps> = ({
@@ -36,6 +37,7 @@ const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   commentValidationResponse,
   currentUser,
   csrf,
+  newComment,
 }) => {
   const validationMessages = resolveValidationMessages(commentValidationResponse);
   return (
@@ -70,7 +72,12 @@ const ArticlePage: FunctionComponent<ArticlePageProps> = ({
               <CommentsList parentCssClass={"post"} comments={comments}>
                 {currentUser ? (
                   <>
-                    <CommentForm endPoint={newCommentEndPoint} csrf={csrf} avatar={currentUser.avatar} />
+                    <CommentForm
+                      text={newComment}
+                      endPoint={newCommentEndPoint}
+                      csrf={csrf}
+                      avatar={currentUser.avatar}
+                    />
                     {validationMessages.length ? (
                       <FormValidationBlock
                         title="При сохранении комментария произошли ошибки:"
@@ -95,7 +102,4 @@ function resolveValidationMessages(validationResponse: Record<string, string>): 
   ]);
 }
 
-export {
-  ArticlePage,
-  ArticlePageProps,
-};
+export {ArticlePage, ArticlePageProps};

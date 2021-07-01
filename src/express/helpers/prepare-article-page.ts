@@ -11,12 +11,14 @@ import {ICsrfInput} from "../views/interfaces/csrf-input";
 
 interface Props extends ICurrentUser, ICsrfInput {
   articleId: ArticleId;
+  newComment?: string;
 }
 
 async function prepareArticlePage({
   articleId,
   currentUser,
   csrf,
+  newComment,
 }: Props): Promise<IPreparedPage<ArticlePageProps>> {
   const [article, categories, comments] = await Promise.all([
     dataProviderService.getArticleById(articleId),
@@ -37,10 +39,9 @@ async function prepareArticlePage({
       comments,
       currentUser,
       csrf,
+      newComment,
     },
   };
 }
 
-export {
-  prepareArticlePage,
-};
+export {prepareArticlePage};
