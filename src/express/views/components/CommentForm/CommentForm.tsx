@@ -12,7 +12,7 @@ interface Props extends ICsrfInput {
 }
 
 const CommentForm: FunctionComponent<Props> = ({endPoint, csrf, avatar}) => (
-  <form action={endPoint} method="POST" encType="multipart/form-data">
+  <form action={endPoint} method="POST" encType="multipart/form-data" className="comment-form">
     <Avatar avatar={avatar} cssClass="comments__avatar" />
     <label>
       <textarea rows={1} name={CommentFormField.TEXT.name} placeholder="Присоединиться к обсуждению" />
@@ -24,6 +24,4 @@ const CommentForm: FunctionComponent<Props> = ({endPoint, csrf, avatar}) => (
   </form>
 );
 
-export {
-  CommentForm,
-};
+export {CommentForm};

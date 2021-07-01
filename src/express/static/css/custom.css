@@ -234,3 +234,16 @@
 .form__error-message {
   color: #a80000;
 }
+
+.comments__footer {
+  display: grid;
+  grid-row-gap: 16px;
+}
+
+.comment-form {
+
+}
+
+.comments__button {
+  align-self: center;
+}
