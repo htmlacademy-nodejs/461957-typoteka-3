@@ -6,64 +6,83 @@ import {CategoryWithLinksAndNumbers} from "./category-with-links-and-numbers";
 import {IAuthorId} from "./interfaces/author-id";
 import {ICommentPreview} from "./interfaces/comment-preview";
 
-export interface IArticleId {
+interface IArticleId {
   id: ArticleId;
 }
 
-export interface ITitle {
+interface ITitle {
   title: string;
 }
 
-export interface ICreatedDate {
+interface ICreatedDate {
   createdDate: Date;
 }
 
-export interface IAnnounce {
+interface IAnnounce {
   announce: string;
 }
 
-export interface IFullText {
+interface IFullText {
   fullText: string;
 }
 
-export interface ICategories {
+interface ICategories {
   categories: Category[];
 }
 
-export interface ICategoriesIds {
+interface ICategoriesIds {
   categories: ICategoryId[];
 }
 
-export interface ICommentsCount {
+interface ICommentsCount {
   commentsCount: number;
 }
 
-export interface ICommentsIds {
+interface ICommentsIds {
   commentsIds: CommentId[];
 }
 
-export interface IComments {
+interface IComments {
   comments: ICommentPreview[];
 }
 
-export interface ILink {
+interface ILink {
   link: string;
 }
 
-export interface ICategoriesWithLinks {
+interface ICategoriesWithLinks {
   categories: CategoryWithLink[];
 }
 
-export interface ICsrf {
+interface ICsrf {
   _csrf: string;
 }
 
-export interface ICategoriesWithLinksAndNumbers {
+interface ICategoriesWithLinksAndNumbers {
   categories: CategoryWithLinksAndNumbers[];
 }
 
-export interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategories, IAuthorId {}
+interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategories, IAuthorId {}
 
-export interface Article extends Omit<NewArticle, `authorId`>, IArticleId {
+interface Article extends Omit<NewArticle, `authorId`>, IArticleId {
   comments: ICommentPreview[];
 }
+
+export {
+  Article,
+  IAnnounce,
+  IArticleId,
+  ICategories,
+  ICategoriesIds,
+  ICategoriesWithLinks,
+  ICategoriesWithLinksAndNumbers,
+  IComments,
+  ICommentsCount,
+  ICommentsIds,
+  ICreatedDate,
+  ICsrf,
+  IFullText,
+  ILink,
+  ITitle,
+  NewArticle,
+};

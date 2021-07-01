@@ -1,1 +1,5 @@
-export type ArticleId = number;
+type ArticleId = number;
+
+export {
+  ArticleId,
+};

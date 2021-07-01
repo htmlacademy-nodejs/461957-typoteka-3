@@ -1,1 +1,5 @@
-export type UserId = number;
+type UserId = number;
+
+export {
+  UserId,
+};

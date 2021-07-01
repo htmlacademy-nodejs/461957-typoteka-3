@@ -1,6 +1,6 @@
 import {Router} from "express";
 
-import {APIRoutes} from "../../../constants-es6";
+import {APIRoute} from "../../../shared/constants/routes/api-route";
 import {
   articlesControllerFactory,
   authControllerFactory,
@@ -22,7 +22,7 @@ import {categoriesRouter} from "./categories.router";
 import {searchRouter} from "./search.router";
 import {usersRouter} from "./users.router";
 
-export const apiRouter = ({
+const apiRouter = ({
   CategoryModel,
   ArticleModel,
   CommentModel,
@@ -47,12 +47,16 @@ export const apiRouter = ({
   const usersController = usersControllerFactory({UserModel, CommentModel});
   const authController = authControllerFactory({UserModel, RefreshTokenModel});
 
-  router.use(APIRoutes.ARTICLES, articleRouter(articlesController, commentsController));
-  router.use(APIRoutes.CATEGORIES, categoriesRouter(articlesController, categoriesController));
-  router.use(APIRoutes.CATEGORIES_STATISTICS, categoriesStatisticsRouter(categoriesController));
-  router.use(APIRoutes.SEARCH, searchRouter(searchController));
-  router.use(APIRoutes.USERS, usersRouter(usersController));
-  router.use(APIRoutes.AUTH, authRouter(authController));
+  router.use(APIRoute.ARTICLES, articleRouter(articlesController, commentsController));
+  router.use(APIRoute.CATEGORIES, categoriesRouter(articlesController, categoriesController));
+  router.use(APIRoute.CATEGORIES_STATISTICS, categoriesStatisticsRouter(categoriesController));
+  router.use(APIRoute.SEARCH, searchRouter(searchController));
+  router.use(APIRoute.USERS, usersRouter(usersController));
+  router.use(APIRoute.AUTH, authRouter(authController));
 
   return router;
+};
+
+export {
+  apiRouter,
 };

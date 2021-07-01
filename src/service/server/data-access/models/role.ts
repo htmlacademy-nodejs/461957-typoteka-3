@@ -7,10 +7,10 @@ import {modelOptions} from "./constants/model-options";
 
 type PredefinedAttributes = IRole;
 type CreationAttributes = IRole;
-export type IRoleEntity = Model<PredefinedAttributes, CreationAttributes>;
-export type IRoleModel = ModelCtor<IRoleEntity>;
+type IRoleEntity = Model<PredefinedAttributes, CreationAttributes>;
+type IRoleModel = ModelCtor<IRoleEntity>;
 
-export const defineRole = (sequelize: Sequelize): IRoleModel =>
+const defineRole = (sequelize: Sequelize): IRoleModel =>
   sequelize.define<IRoleEntity>(
     `Role`,
     {
@@ -29,3 +29,9 @@ export const defineRole = (sequelize: Sequelize): IRoleModel =>
       tableName: TableName.ROLES,
     },
   );
+
+export {
+  IRoleEntity,
+  IRoleModel,
+  defineRole,
+};

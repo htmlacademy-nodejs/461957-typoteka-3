@@ -1,4 +1,4 @@
-import {DEFAULT_COMMAND, ExitCode, USER_ARGV_INDEX} from "../constants-es6";
+import {DEFAULT_COMMAND, ExitCode, USER_ARGV_INDEX} from "../constants";
 import {ServiceCliCommandName} from "../types/service-cli-command-name";
 
 import {Cli} from "./cli";

@@ -9,8 +9,12 @@ import {Layout} from "./Layout";
 
 interface Props extends IPageTitle, ICurrentUser {}
 
-export const LayoutFilled: FunctionComponent<Props> = ({pageTitle, currentUser, children}) => (
+const LayoutFilled: FunctionComponent<Props> = ({pageTitle, currentUser, children}) => (
   <Layout pageTitle={pageTitle} header={<HeaderDispatcher currentUser={currentUser} />} footer={<Footer />}>
     {children}
   </Layout>
 );
+
+export {
+  LayoutFilled,
+};

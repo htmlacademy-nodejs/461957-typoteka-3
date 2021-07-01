@@ -1,9 +1,9 @@
 import {Router} from "express";
 
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {CategoriesController} from "../controllers/categories.controller";
 
-export const categoriesStatisticsRouter = (categoriesController: CategoriesController): Router => {
+const categoriesStatisticsRouter = (categoriesController: CategoriesController): Router => {
   const router = Router();
 
   router.get(`/`, async (req, res) => {
@@ -12,4 +12,8 @@ export const categoriesStatisticsRouter = (categoriesController: CategoriesContr
   });
 
   return router;
+};
+
+export {
+  categoriesStatisticsRouter,
 };

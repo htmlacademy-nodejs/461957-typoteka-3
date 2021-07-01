@@ -9,13 +9,20 @@ import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 interface Props extends ICsrfInput {
   endPoint: string;
   avatar: string;
+  text?: string;
 }
 
-export const CommentForm: FunctionComponent<Props> = ({endPoint, csrf, avatar}) => (
-  <form action={endPoint} method="POST" encType="multipart/form-data">
+const CommentForm: FunctionComponent<Props> = ({endPoint, csrf, avatar, text}) => (
+  <form action={endPoint} method="POST" encType="multipart/form-data" className="comment-form">
     <Avatar avatar={avatar} cssClass="comments__avatar" />
     <label>
-      <textarea rows={1} name={CommentFormField.TEXT.name} placeholder="Присоединиться к обсуждению" />
+      <textarea
+        rows={1}
+        name={CommentFormField.TEXT.name}
+        defaultValue={text}
+        placeholder="Присоединиться к обсуждению"
+        required
+      />
     </label>
     <PrimaryButton className="comments__button" type="submit">
       Опубликовать
@@ -23,3 +30,5 @@ export const CommentForm: FunctionComponent<Props> = ({endPoint, csrf, avatar}) 
     <CsrfHiddenInput csrf={csrf} />
   </form>
 );
+
+export {CommentForm};

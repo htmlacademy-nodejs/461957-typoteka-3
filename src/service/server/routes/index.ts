@@ -1,1 +1,5 @@
-export {apiRouter} from "./api";
+import {apiRouter} from "./api";
+
+export {
+  apiRouter,
+};

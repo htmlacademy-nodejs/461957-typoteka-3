@@ -1,5 +1,9 @@
 import {Category} from "./category";
 
-export interface CategoryWithLink extends Category {
+interface CategoryWithLink extends Category {
   link: string;
 }
+
+export {
+  CategoryWithLink,
+};

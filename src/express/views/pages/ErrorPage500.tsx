@@ -4,7 +4,7 @@ import {Footer} from "../components/Footer/Footer";
 import {Header500} from "../components/Header/Header500";
 import {Layout} from "../components/Layout/Layout";
 
-export const ErrorPage500: FunctionComponent = ({}) => (
+const ErrorPage500: FunctionComponent = ({}) => (
   <Layout pageTitle={`Ошибка`} header={<Header500 />} wrapperMode={"error"} footer={<Footer />}>
     <h1 className="visually-hidden">Ошибка 500</h1>
     <section className="error error--500">
@@ -18,3 +18,7 @@ export const ErrorPage500: FunctionComponent = ({}) => (
     </section>
   </Layout>
 );
+
+export {
+  ErrorPage500,
+};

@@ -6,7 +6,7 @@ import {renderStatic} from "@fluentui/merge-styles/lib-commonjs/server";
 
 initializeIcons();
 
-export function streamPage<T>(res: Response, page: FunctionComponent<T>, props?: PropsWithChildren<T>): void {
+function streamPage<T>(res: Response, page: FunctionComponent<T>, props?: PropsWithChildren<T>): void {
   const app = constructApp(page, props);
   const {html, css} = resolveHtmlAndCss(app);
   const document = addCssToHtml(addDoctypeToHtml(html), css);
@@ -34,3 +34,7 @@ function addCssToHtml(html: string, css: string): string {
 function createStyleTag(css: string): string {
   return `<style>` + css + `</style>`;
 }
+
+export {
+  streamPage,
+};

@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-import {ClientRoute} from "../../../../constants-es6";
+import {ClientRoute} from "../../../../shared/constants/routes/client-route";
 import {Avatar} from "../Avatar/Avatar";
 import {FabricUIIcon} from "../FabricUIIcon/FabricIcon";
 import {Logo} from "../Logo/Logo";
@@ -13,7 +13,7 @@ interface Props {
   avatar: string;
 }
 
-export const HeaderAuthor: FunctionComponent<Props> = ({firstName, lastName, avatar}) => {
+const HeaderAuthor: FunctionComponent<Props> = ({firstName, lastName, avatar}) => {
   return (
     <header className="header">
       <Logo />
@@ -61,4 +61,8 @@ export const HeaderAuthor: FunctionComponent<Props> = ({firstName, lastName, ava
       </div>
     </header>
   );
+};
+
+export {
+  HeaderAuthor,
 };

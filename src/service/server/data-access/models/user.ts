@@ -8,10 +8,10 @@ import {modelOptions} from "./constants/model-options";
 
 type PredefinedUserAttributes = IUser;
 type UserCreationAttributes = IUserCreating;
-export type IUserEntity = Model<PredefinedUserAttributes, UserCreationAttributes>;
-export type IUserModel = ModelCtor<IUserEntity>;
+type IUserEntity = Model<PredefinedUserAttributes, UserCreationAttributes>;
+type IUserModel = ModelCtor<IUserEntity>;
 
-export const defineUser = (sequelize: Sequelize): IUserModel =>
+const defineUser = (sequelize: Sequelize): IUserModel =>
   sequelize.define<IUserEntity>(
     `User`,
     {
@@ -52,3 +52,9 @@ export const defineUser = (sequelize: Sequelize): IUserModel =>
       tableName: TableName.USERS,
     },
   );
+
+export {
+  IUserEntity,
+  IUserModel,
+  defineUser,
+};

@@ -1,4 +1,4 @@
-export const SingInFormField = {
+const SingInFormField = {
   EMAIL: {
     name: `email`,
     label: `Электронная почта`,
@@ -8,3 +8,7 @@ export const SingInFormField = {
     label: `Пароль`,
   },
 } as const;
+
+export {
+  SingInFormField,
+};

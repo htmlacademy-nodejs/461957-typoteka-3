@@ -11,7 +11,7 @@ import {defineRefreshToken, IRefreshTokenModel} from "./refresh-tokens";
 import {defineRole, IRoleModel} from "./role";
 import {defineUser, IUserModel} from "./user";
 
-export interface DatabaseModels {
+interface DatabaseModels {
   CategoryModel: ICategoryModel;
   ArticleModel: IArticleModel;
   CommentModel: ICommentModel;
@@ -20,7 +20,7 @@ export interface DatabaseModels {
   RefreshTokenModel: IRefreshTokenModel;
 }
 
-export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
+function defineDatabaseModels(connection: Sequelize): DatabaseModels {
   const CategoryModel = defineCategory(connection);
   const ArticleModel = defineArticle(connection);
   const CommentModel = defineComment(connection);
@@ -60,3 +60,8 @@ export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
     RefreshTokenModel,
   };
 }
+
+export {
+  DatabaseModels,
+  defineDatabaseModels,
+};

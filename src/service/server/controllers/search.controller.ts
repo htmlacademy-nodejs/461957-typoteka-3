@@ -1,9 +1,9 @@
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticleSearchCollection} from "../../../types/article-search-collection";
 import {SearchService} from "../data-access/services/search.service";
 
-export class SearchController {
+class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
   public async findArticleByMatch(query: string): Promise<ControllerResponse<ArticleSearchCollection>> {
@@ -32,3 +32,7 @@ export class SearchController {
     };
   }
 }
+
+export {
+  SearchController,
+};

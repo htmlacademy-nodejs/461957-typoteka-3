@@ -2,8 +2,8 @@ import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 import React, {FunctionComponent} from "react";
 
 import {NewUserFormField} from "../../../shared/constants/forms/new-user-form-field";
+import {RegistrationFormValidation} from "../../../types/form-fields/registration-form-validation";
 import {UserCreatingFromForm} from "../../../types/interfaces/user-creating";
-import {UserValidationResponse} from "../../../types/user-validation-response";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
@@ -14,10 +14,10 @@ import {ICsrfInput} from "../interfaces/csrf-input";
 interface Props extends ICsrfInput {
   user?: Partial<UserCreatingFromForm>;
   endPoint: string;
-  userValidationResponse: UserValidationResponse;
+  userValidationResponse: RegistrationFormValidation;
 }
 
-export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user, csrf}) => {
+const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user, csrf}) => {
   const userFields =
     user === undefined
       ? {
@@ -54,21 +54,21 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                 defaultValue={userFields.email}
                 required
               />
-              <ValidationMessage message={userValidationResponse[NewUserFormField.EMAIL.name]} />
+              <ValidationMessage message={userValidationResponse.EMAIL} />
               <TextField
                 label={NewUserFormField.FIRST_NAME.label}
                 name={NewUserFormField.FIRST_NAME.name}
                 defaultValue={userFields.firstName}
                 required
               />
-              <ValidationMessage message={userValidationResponse[NewUserFormField.FIRST_NAME.name]} />
+              <ValidationMessage message={userValidationResponse.FIRST_NAME} />
               <TextField
                 label={NewUserFormField.LAST_NAME.label}
                 name={NewUserFormField.LAST_NAME.name}
                 defaultValue={userFields.lastName}
                 required
               />
-              <ValidationMessage message={userValidationResponse[NewUserFormField.LAST_NAME.name]} />
+              <ValidationMessage message={userValidationResponse.LAST_NAME} />
               <TextField
                 type="password"
                 label={NewUserFormField.PASSWORD.label}
@@ -77,7 +77,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                 required
                 autoComplete="new-password"
               />
-              <ValidationMessage message={userValidationResponse[NewUserFormField.PASSWORD.name]} />
+              <ValidationMessage message={userValidationResponse.PASSWORD} />
               <TextField
                 type="password"
                 label={NewUserFormField.PASSWORD_REPEATED.label}
@@ -85,7 +85,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                 defaultValue={userFields.passwordRepeated}
                 required
               />
-              <ValidationMessage message={userValidationResponse[NewUserFormField.PASSWORD_REPEATED.name]} />
+              <ValidationMessage message={userValidationResponse.PASSWORD_REPEATED} />
             </Stack>
             <Stack.Item>
               <div className="form__image-loader">
@@ -102,7 +102,7 @@ export const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValida
                   Загрузить фото профиля
                 </label>
               </div>
-              <ValidationMessage message={userValidationResponse[NewUserFormField.AVATAR.name]} />
+              <ValidationMessage message={userValidationResponse.AVATAR} />
             </Stack.Item>
             <Stack.Item align="end">
               <PrimaryButton type="submit">Зарегистироваться</PrimaryButton>
@@ -121,3 +121,7 @@ function resolveValidationMessages(validationResponse: Record<string, string>): 
     value,
   ]);
 }
+
+export {
+  RegistrationPage,
+};

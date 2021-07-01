@@ -1,13 +1,13 @@
 import React, {FunctionComponent} from "react";
 
-export interface LastProps {
+interface LastProps {
   title: string;
   link: string;
   authorName: string;
   authorAvatar: string;
 }
 
-export const Last: FunctionComponent<LastProps> = ({title, link, authorName, authorAvatar}) => {
+const Last: FunctionComponent<LastProps> = ({title, link, authorName, authorAvatar}) => {
   return (
     <>
       <img className="last__list-image" src={authorAvatar} width="20" height="20" alt="Аватар пользователя" />
@@ -17,4 +17,9 @@ export const Last: FunctionComponent<LastProps> = ({title, link, authorName, aut
       </a>
     </>
   );
+};
+
+export {
+  Last,
+  LastProps,
 };

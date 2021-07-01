@@ -1,3 +1,7 @@
-export interface ICsrfInput {
+interface ICsrfInput {
   csrf: string;
 }
+
+export {
+  ICsrfInput,
+};

@@ -1,6 +1,10 @@
 import type {ServiceCliCommandName} from "./service-cli-command-name";
 
-export interface CliAction {
+interface CliAction {
   name: ServiceCliCommandName,
   run: (args?: any) => Promise<void> | void
 }
+
+export {
+  CliAction,
+};

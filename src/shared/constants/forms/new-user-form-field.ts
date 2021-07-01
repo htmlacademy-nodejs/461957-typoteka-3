@@ -1,4 +1,4 @@
-export const NewUserFormField = {
+const NewUserFormField = {
   EMAIL: {
     name: `email`,
     label: `Электронная почта`,
@@ -24,3 +24,7 @@ export const NewUserFormField = {
     label: `Фото профиля`,
   },
 } as const;
+
+export {
+  NewUserFormField,
+};

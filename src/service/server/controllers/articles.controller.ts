@@ -1,4 +1,4 @@
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {Article, ICategories, IComments} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
@@ -16,7 +16,7 @@ import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-
 
 const DEFAULT_LIMIT = 8;
 
-export class ArticlesController {
+class ArticlesController {
   constructor(
     private readonly articlesService: ArticlesService,
     private readonly categoriesService: CategoriesService,
@@ -162,3 +162,7 @@ export class ArticlesController {
     return {status: HttpCode.OK};
   }
 }
+
+export {
+  ArticlesController,
+};

@@ -1,6 +1,6 @@
 import {NextFunction, Request, Router} from "express";
 
-import {HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
 import {ICommentId} from "../../types/interfaces/comment-id";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
@@ -13,7 +13,7 @@ import {streamPage} from "../utils/stream-page";
 import {AdminCommentsPage} from "../views/pages/AdminCommentsPage";
 import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
 
-export const adminPublicationsRouter = Router();
+const adminPublicationsRouter = Router();
 
 adminPublicationsRouter.get(
   `/`,
@@ -64,3 +64,7 @@ adminPublicationsRouter.get(
     }
   },
 );
+
+export {
+  adminPublicationsRouter,
+};

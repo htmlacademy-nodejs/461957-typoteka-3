@@ -1,6 +1,6 @@
 import {Logger} from "pino";
 
-import {LoginStatus} from "../../../constants-es6";
+import {LoginStatus} from "../../../constants";
 import {ControllerResponse} from "../../../types/controller-response";
 import {IAuthTokens} from "../../../types/interfaces/auth-tokens";
 import {IAuthorizationSuccess} from "../../../types/interfaces/authorization-result";
@@ -12,7 +12,7 @@ import {verifyAccessToken} from "../auth/verify-access-token";
 import {verifyRefreshToken} from "../auth/verify-refresh-token";
 import {AuthService} from "../data-access/services/auth.service";
 
-export class AuthController {
+class AuthController {
   private readonly logger: Logger;
 
   constructor(private readonly authService: AuthService) {
@@ -83,3 +83,7 @@ export class AuthController {
     }
   }
 }
+
+export {
+  AuthController,
+};

@@ -1,1 +1,5 @@
-export type ValidationResponse<T> = Partial<Record<keyof T, string>>;
+type ValidationResponse<T> = Partial<Record<keyof T, string>>;
+
+export {
+  ValidationResponse,
+};

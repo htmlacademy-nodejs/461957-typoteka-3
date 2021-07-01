@@ -19,7 +19,7 @@ interface Props extends IPaginationProps, ICurrentUser {
   prefix: string;
 }
 
-export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
+const ArticlesByCategoryPage: FunctionComponent<Props> = ({
   pageTitle,
   categories,
   articles,
@@ -49,4 +49,8 @@ export const ArticlesByCategoryPage: FunctionComponent<Props> = ({
       </main>
     </LayoutFilled>
   );
+};
+
+export {
+  ArticlesByCategoryPage,
 };

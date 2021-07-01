@@ -6,7 +6,7 @@ import {getLogger} from "../../logger";
 import {getValidationDictionary} from "./get-validation-dictionary";
 import {loginSchema} from "./schemas";
 
-export async function validateLogin(login: ILogin): Promise<ILogin> {
+async function validateLogin(login: ILogin): Promise<ILogin> {
   const logger = getLogger();
   try {
     return (await loginSchema.validateAsync(login, {abortEarly: false})) as ILogin;
@@ -19,3 +19,7 @@ export async function validateLogin(login: ILogin): Promise<ILogin> {
     throw e;
   }
 }
+
+export {
+  validateLogin,
+};

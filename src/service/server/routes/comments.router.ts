@@ -1,10 +1,10 @@
 import {Router} from "express";
 
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {CommentsController} from "../controllers/comments.controller";
 import {validateNewComment} from "../validators";
 
-export const commentsRouter = (commentsController: CommentsController): Router => {
+const commentsRouter = (commentsController: CommentsController): Router => {
   const router = Router({mergeParams: true});
 
   router.get(`/`, async (req, res) => {
@@ -35,4 +35,8 @@ export const commentsRouter = (commentsController: CommentsController): Router =
   });
 
   return router;
+};
+
+export {
+  commentsRouter,
 };

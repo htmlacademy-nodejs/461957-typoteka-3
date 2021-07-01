@@ -1,3 +1,7 @@
-export interface IPageTitle {
+interface IPageTitle {
   pageTitle?: string;
 }
+
+export {
+  IPageTitle,
+};

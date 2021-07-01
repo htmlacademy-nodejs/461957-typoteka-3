@@ -1,29 +1,38 @@
-export const CategoriesRestrict = {
+const CategoriesRestrict = {
   MIN: 0,
   MAX: 5,
 };
 
-export const AnnounceRestrict = {
+const AnnounceRestrict = {
   MIN: 0,
   MAX: 5,
   MAX_LENGTH: 250,
 };
 
-export const CommentRestrict = {
+const CommentRestrict = {
   MIN: 0,
   MAX: 10,
 };
 
-export const CommentTextRestrict = {
+const CommentTextRestrict = {
   MIN: 1,
   MAX: 5,
   MAX_LENGTH: 1000,
 };
 
-export const TitleRestrict = {
+const TitleRestrict = {
   MAX_LENGTH: 250,
 };
 
-export const FullTextRestrict = {
+const FullTextRestrict = {
   MAX_LENGTH: 1000,
+};
+
+export {
+  AnnounceRestrict,
+  CategoriesRestrict,
+  CommentRestrict,
+  CommentTextRestrict,
+  FullTextRestrict,
+  TitleRestrict,
 };

@@ -2,14 +2,14 @@ import React, {FunctionComponent} from "react";
 
 import {HighlightedQuery} from "../HiglightedQuery/HighlightedQuery";
 
-export interface SearchResultProps {
+interface SearchResultProps {
   date: Date;
   text: string;
   match: string;
   link: string;
 }
 
-export const SearchResult: FunctionComponent<SearchResultProps> = ({date, match, text, link}) => {
+const SearchResult: FunctionComponent<SearchResultProps> = ({date, match, text, link}) => {
   return (
     <div className="search__result">
       <time className="search__date" dateTime={date.toISOString()}>
@@ -20,4 +20,9 @@ export const SearchResult: FunctionComponent<SearchResultProps> = ({date, match,
       </a>
     </div>
   );
+};
+
+export {
+  SearchResult,
+  SearchResultProps,
 };

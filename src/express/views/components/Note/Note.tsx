@@ -6,7 +6,7 @@ interface Props {
   link: string;
 }
 
-export const Note: FunctionComponent<Props> = ({title, createdDate, link}) => {
+const Note: FunctionComponent<Props> = ({title, createdDate, link}) => {
   return (
     <>
       <time className="notes__item-time" dateTime={createdDate.toISOString()}>
@@ -20,4 +20,8 @@ export const Note: FunctionComponent<Props> = ({title, createdDate, link}) => {
       </button>
     </>
   );
+};
+
+export {
+  Note,
 };

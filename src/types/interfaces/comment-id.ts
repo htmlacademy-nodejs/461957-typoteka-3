@@ -1,5 +1,9 @@
 import {CommentId} from "../article-comment";
 
-export interface ICommentId {
+interface ICommentId {
   id: CommentId;
 }
+
+export {
+  ICommentId,
+};

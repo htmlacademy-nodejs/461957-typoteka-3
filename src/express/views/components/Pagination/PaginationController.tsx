@@ -8,14 +8,14 @@ interface Props extends IPaginationProps {
   prefix: string;
 }
 
-export interface IPaginationProps {
+interface IPaginationProps {
   page: number;
   total: number;
 }
 
 const WIDTH = 2;
 
-export const PaginationController: FunctionComponent<Props> = ({total, page, prefix}) => {
+const PaginationController: FunctionComponent<Props> = ({total, page, prefix}) => {
   const totalPages = getPagesCount(total);
   let start = page - WIDTH;
   let end = page + WIDTH;
@@ -46,4 +46,9 @@ export const PaginationController: FunctionComponent<Props> = ({total, page, pre
       prefix={prefix}
     />
   );
+};
+
+export {
+  IPaginationProps,
+  PaginationController,
 };

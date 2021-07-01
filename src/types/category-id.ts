@@ -1,1 +1,5 @@
-export type CategoryId = number;
+type CategoryId = number;
+
+export {
+  CategoryId,
+};

@@ -2,7 +2,7 @@ import {nanoid} from "nanoid";
 
 import {IUserPreview} from "../../types/interfaces/user-preview";
 
-export class Context {
+class Context {
   public readonly id: string;
   public user: IUserPreview;
 
@@ -10,3 +10,7 @@ export class Context {
     this.id = nanoid();
   }
 }
+
+export {
+  Context,
+};

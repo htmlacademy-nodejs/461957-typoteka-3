@@ -6,7 +6,7 @@ import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-cr
 
 const PASSWORD_MIN_LENGTH = 6;
 
-export const newUserSchema = Joi.object<IUserCreatingDoublePasswords>({
+const newUserSchema = Joi.object<IUserCreatingDoublePasswords>({
   [NewUserFormField.EMAIL.name]: Joi.string().required().email().messages({
     "any.required": `Обязательное поле`,
     "string.empty": `Поле не может быть пустым`,
@@ -46,3 +46,7 @@ export const newUserSchema = Joi.object<IUserCreatingDoublePasswords>({
   }),
   roleId: Joi.valid(...Object.values(RoleId)).required(),
 });
+
+export {
+  newUserSchema,
+};

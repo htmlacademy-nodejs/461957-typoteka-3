@@ -6,14 +6,14 @@ import {SearchResult, SearchResultProps} from "../components/SearchResult/Search
 import {ICsrfInput} from "../interfaces/csrf-input";
 import {ICurrentUser} from "../interfaces/current-user";
 
-export interface SearchPageProps extends ICurrentUser, ICsrfInput {
+interface SearchPageProps extends ICurrentUser, ICsrfInput {
   query?: string;
   matches?: SearchResultProps[];
   itemsCount?: number;
   endPoint: string;
 }
 
-export const SearchPage: FunctionComponent<SearchPageProps> = ({
+const SearchPage: FunctionComponent<SearchPageProps> = ({
   query,
   matches = [],
   itemsCount,
@@ -57,4 +57,9 @@ export const SearchPage: FunctionComponent<SearchPageProps> = ({
       </main>
     </LayoutFilled>
   );
+};
+
+export {
+  SearchPage,
+  SearchPageProps,
 };

@@ -10,7 +10,7 @@ interface AdminCommentsPageProps extends ICurrentUser {
   comments: (ICommentByAuthor & ICommentId)[];
 }
 
-export const AdminCommentsPage: FunctionComponent<AdminCommentsPageProps> = (props: AdminCommentsPageProps) => {
+const AdminCommentsPage: FunctionComponent<AdminCommentsPageProps> = (props: AdminCommentsPageProps) => {
   const listOfComments = props.comments.map((comment, index, list) => {
     const isLastElement = index === list.length - 1;
     return (
@@ -38,4 +38,8 @@ export const AdminCommentsPage: FunctionComponent<AdminCommentsPageProps> = (pro
       </main>
     </LayoutAdmin>
   );
+};
+
+export {
+  AdminCommentsPage,
 };

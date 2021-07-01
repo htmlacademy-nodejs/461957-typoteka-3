@@ -2,7 +2,8 @@ import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
-import {ClientRoute, HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
+import {ClientRoute} from "../../shared/constants/routes/client-route";
 import type {ArticleFromBrowser} from "../../types/article-from-browser";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
@@ -15,6 +16,7 @@ import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers
 import {prepareArticlePage} from "../helpers/prepare-article-page";
 import {getLogger} from "../logger";
 import {isAuthorUserMiddleware} from "../middlewares";
+import {articleValidationResponseMapper} from "../models/dto/article-validation-responce";
 import {dataProviderService} from "../services";
 import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
@@ -24,7 +26,7 @@ import {EditArticlePage} from "../views/pages/EditArticlePage";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
-export const articlesRouter = Router();
+const articlesRouter = Router();
 const logger = getLogger();
 
 articlesRouter.get(
@@ -76,7 +78,7 @@ articlesRouter.post(
         return streamPage(res, EditArticlePage, {
           article: {...newArticle, createdDate: parseDateFromFrontend(newArticle.createdDate)},
           endPoint: ClientRoute.ARTICLES.ADD,
-          articleValidationResponse,
+          articleValidationResponse: articleValidationResponseMapper(articleValidationResponse),
           availableCategories: categories,
           currentUser: res.locals.currentUser,
           csrf: req.csrfToken(),
@@ -128,7 +130,7 @@ articlesRouter.post(
         return streamPage(res, EditArticlePage, {
           article: updatingArticle,
           endPoint: `${ClientRoute.ARTICLES.EDIT}/${articleId}`,
-          articleValidationResponse,
+          articleValidationResponse: articleValidationResponseMapper(articleValidationResponse),
           availableCategories: categories,
           isUpdating: true,
           currentUser: res.locals.currentUser,
@@ -240,3 +242,7 @@ articlesRouter.get(
 function parseDateFromFrontend(date: unknown): Date {
   return new Date(Date.parse(date as string));
 }
+
+export {
+  articlesRouter,
+};

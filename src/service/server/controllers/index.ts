@@ -19,7 +19,7 @@ import {CommentsController} from "./comments.controller";
 import {SearchController} from "./search.controller";
 import {UsersController} from "./users.controller";
 
-export const articlesControllerFactory = ({
+const articlesControllerFactory = ({
   ArticleModel,
   CategoryModel,
   CommentModel,
@@ -34,16 +34,16 @@ export const articlesControllerFactory = ({
     commentsServiceFactory(CommentModel),
   );
 
-export const categoriesControllerFactory = ({CategoryModel}: {CategoryModel: ICategoryModel}): CategoriesController =>
+const categoriesControllerFactory = ({CategoryModel}: {CategoryModel: ICategoryModel}): CategoriesController =>
   new CategoriesController(categoriesServiceFactory(CategoryModel));
 
-export const searchControllerFactory = ({ArticleModel}: {ArticleModel: IArticleModel}): SearchController =>
+const searchControllerFactory = ({ArticleModel}: {ArticleModel: IArticleModel}): SearchController =>
   new SearchController(searchServiceFactory(ArticleModel));
 
-export const commentsControllerFactory = ({CommentModel}: {CommentModel: ICommentModel}): CommentsController =>
+const commentsControllerFactory = ({CommentModel}: {CommentModel: ICommentModel}): CommentsController =>
   new CommentsController(commentsServiceFactory(CommentModel));
 
-export const usersControllerFactory = ({
+const usersControllerFactory = ({
   UserModel,
   CommentModel,
 }: {
@@ -51,10 +51,19 @@ export const usersControllerFactory = ({
   CommentModel: ICommentModel;
 }): UsersController => new UsersController(usersServiceFactory(UserModel), commentsServiceFactory(CommentModel));
 
-export const authControllerFactory = ({
+const authControllerFactory = ({
   UserModel,
   RefreshTokenModel,
 }: {
   UserModel: IUserModel;
   RefreshTokenModel: IRefreshTokenModel;
 }): AuthController => new AuthController(authServiceFactory(UserModel, RefreshTokenModel));
+
+export {
+  articlesControllerFactory,
+  authControllerFactory,
+  categoriesControllerFactory,
+  commentsControllerFactory,
+  searchControllerFactory,
+  usersControllerFactory,
+};

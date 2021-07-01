@@ -2,12 +2,12 @@ import React, {FunctionComponent} from "react";
 
 import {FormValidationMessage} from "./FormValidationMessage";
 
-export interface FormValidationBlockProps {
+interface FormValidationBlockProps {
   title?: string;
   messages: [string, string][];
 }
 
-export const FormValidationBlock: FunctionComponent<FormValidationBlockProps> = ({title, messages}) => (
+const FormValidationBlock: FunctionComponent<FormValidationBlockProps> = ({title, messages}) => (
   <div className="form__validation-block">
     {title ? <p className="form__error-message">{title}</p> : null}
     <ul className="form__errors">
@@ -21,3 +21,8 @@ export const FormValidationBlock: FunctionComponent<FormValidationBlockProps> = 
     </ul>
   </div>
 );
+
+export {
+  FormValidationBlock,
+  FormValidationBlockProps,
+};

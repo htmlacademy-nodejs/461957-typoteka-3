@@ -50,6 +50,8 @@ rules:
   import/order:
     - error
     - newlines-between: always
+  import/group-exports:
+    - error
 overrides:
   - files:
       - "*.tsx"

@@ -6,7 +6,7 @@ import {getLogger} from "../../logger";
 import {getValidationDictionary} from "./get-validation-dictionary";
 import {newUserSchema} from "./schemas";
 
-export async function validateNewUser(newUser: IUserCreatingDoublePasswords): Promise<IUserCreatingDoublePasswords> {
+async function validateNewUser(newUser: IUserCreatingDoublePasswords): Promise<IUserCreatingDoublePasswords> {
   const logger = getLogger();
   try {
     return (await newUserSchema.validateAsync(newUser, {abortEarly: false})) as IUserCreatingDoublePasswords;
@@ -19,3 +19,7 @@ export async function validateNewUser(newUser: IUserCreatingDoublePasswords): Pr
     throw e;
   }
 }
+
+export {
+  validateNewUser,
+};

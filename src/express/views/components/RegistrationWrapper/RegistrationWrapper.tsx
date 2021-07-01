@@ -3,7 +3,7 @@ import React, {FunctionComponent} from "react";
 
 import {DialogHeader} from "../Dialog/DialogHeader/DialogHeader";
 
-export const RegistrationWrapper: FunctionComponent = ({children}) => {
+const RegistrationWrapper: FunctionComponent = ({children}) => {
   return (
     <main>
       <h1 className="visually-hidden">Регистрация пользователя</h1>
@@ -19,4 +19,8 @@ export const RegistrationWrapper: FunctionComponent = ({children}) => {
       </section>
     </main>
   );
+};
+
+export {
+  RegistrationWrapper,
 };

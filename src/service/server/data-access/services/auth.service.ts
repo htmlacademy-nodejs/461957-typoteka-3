@@ -1,7 +1,7 @@
 import {compare} from "bcrypt";
 import {FindAttributeOptions} from "sequelize";
 
-import {LoginStatus} from "../../../../constants-es6";
+import {LoginStatus} from "../../../../constants";
 import {ILogin} from "../../../../types/interfaces/login";
 import {ILoginResult} from "../../../../types/interfaces/login-result";
 import {IUserPreview} from "../../../../types/interfaces/user-preview";
@@ -18,7 +18,7 @@ const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.AVATAR,
 ];
 
-export class AuthService {
+class AuthService {
   constructor(private readonly UserModel: IUserModel, private readonly RefreshTokenModel: IRefreshTokenModel) {}
 
   public async login({email, password}: ILogin): Promise<ILoginResult> {
@@ -78,3 +78,7 @@ export class AuthService {
     return user.get();
   }
 }
+
+export {
+  AuthService,
+};

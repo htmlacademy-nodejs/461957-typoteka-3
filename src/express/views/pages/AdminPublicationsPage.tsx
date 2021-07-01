@@ -9,7 +9,7 @@ interface AdminPublicationsPageProps extends ICurrentUser {
   articles: (ITitle & ICreatedDate & IArticleId)[];
 }
 
-export const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps> = (
+const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps> = (
   props: AdminPublicationsPageProps,
 ) => {
   const notesList = props.articles.map((article, index, articlesList) => {
@@ -31,4 +31,8 @@ export const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps
       </main>
     </LayoutAdmin>
   );
+};
+
+export {
+  AdminPublicationsPage,
 };

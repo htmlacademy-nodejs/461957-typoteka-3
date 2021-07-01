@@ -1,7 +1,8 @@
 import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 
-import {ClientRoute, HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
+import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
 import {dataProviderService} from "../services";
@@ -10,7 +11,7 @@ import {SearchResultProps} from "../views/components/SearchResult/SearchResult";
 import {SearchPage} from "../views/pages/SearchPage";
 
 const csrfProtection = csrf({cookie: true});
-export const searchRouter = Router();
+const searchRouter = Router();
 
 searchRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended, next: NextFunction) => {
   if (!req.query?.query) {
@@ -51,3 +52,7 @@ searchRouter.get(`/`, [csrfProtection], async (req: Request, res: IResponseExten
     );
   }
 });
+
+export {
+  searchRouter,
+};

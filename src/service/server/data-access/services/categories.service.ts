@@ -7,7 +7,7 @@ import {CategoryWithNumbers} from "../../../../types/category-with-numbers";
 import {TableName} from "../constants/table-name";
 import {ICategoryModel} from "../models/category";
 
-export class CategoriesService {
+class CategoriesService {
   constructor(private readonly CategoryModel: ICategoryModel) {}
 
   public async findAll(): Promise<Category[]> {
@@ -63,3 +63,7 @@ export class CategoriesService {
     return category.get();
   }
 }
+
+export {
+  CategoriesService,
+};

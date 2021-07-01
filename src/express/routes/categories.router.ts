@@ -1,7 +1,7 @@
 import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 
-import {HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
 import {isAuthorUserMiddleware} from "../middlewares";
@@ -11,7 +11,7 @@ import {CategoryEditableProps} from "../views/components/CategoryEditable/Catego
 import {CategoriesPage} from "../views/pages/CategoriesPage";
 
 const csrfProtection = csrf({cookie: true});
-export const categoriesRouter = Router();
+const categoriesRouter = Router();
 
 categoriesRouter.get(
   `/`,
@@ -42,3 +42,7 @@ categoriesRouter.get(
     }
   },
 );
+
+export {
+  categoriesRouter,
+};

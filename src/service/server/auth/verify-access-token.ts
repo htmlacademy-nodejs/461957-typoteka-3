@@ -1,13 +1,13 @@
 import {verify} from "jsonwebtoken";
 
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {ENV} from "../../../shared/env/env";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
 import {getLogger} from "../../logger";
 
 const logger = getLogger();
 
-export async function verifyAccessToken(authorization?: string): Promise<IUserPreview> {
+async function verifyAccessToken(authorization?: string): Promise<IUserPreview> {
   if (!authorization) {
     return Promise.reject(HttpCode.UNAUTHORIZED);
   }
@@ -25,3 +25,7 @@ export async function verifyAccessToken(authorization?: string): Promise<IUserPr
     });
   });
 }
+
+export {
+  verifyAccessToken,
+};

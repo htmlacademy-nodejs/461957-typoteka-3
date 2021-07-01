@@ -2,7 +2,7 @@ import React, {FunctionComponent} from "react";
 
 import {CommentFormField} from "../../../shared/constants/forms/comment-form-field";
 import type {ICategoriesWithLinksAndNumbers, ICreatedDate, IFullText, ITitle} from "../../../types/article";
-import {CommentValidationResponse} from "../../../types/comment-validation-response";
+import {CommentFormValidation} from "../../../types/form-fields/comment-form-validation";
 import {ICommentPreview} from "../../../types/interfaces/comment-preview";
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {CommentForm} from "../components/CommentForm/CommentForm";
@@ -12,7 +12,7 @@ import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {ICsrfInput} from "../interfaces/csrf-input";
 import {ICurrentUser} from "../interfaces/current-user";
 
-export interface ArticlePageProps
+interface ArticlePageProps
   extends ITitle,
     ICreatedDate,
     ICategoriesWithLinksAndNumbers,
@@ -21,11 +21,12 @@ export interface ArticlePageProps
     ICsrfInput {
   previousPageUrl: string;
   newCommentEndPoint: string;
-  commentValidationResponse: CommentValidationResponse;
+  commentValidationResponse: CommentFormValidation;
   comments: ICommentPreview[];
+  newComment?: string;
 }
 
-export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
+const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   title,
   createdDate,
   categories,
@@ -36,6 +37,7 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   commentValidationResponse,
   currentUser,
   csrf,
+  newComment,
 }) => {
   const validationMessages = resolveValidationMessages(commentValidationResponse);
   return (
@@ -70,7 +72,12 @@ export const ArticlePage: FunctionComponent<ArticlePageProps> = ({
               <CommentsList parentCssClass={"post"} comments={comments}>
                 {currentUser ? (
                   <>
-                    <CommentForm endPoint={newCommentEndPoint} csrf={csrf} avatar={currentUser.avatar} />
+                    <CommentForm
+                      text={newComment}
+                      endPoint={newCommentEndPoint}
+                      csrf={csrf}
+                      avatar={currentUser.avatar}
+                    />
                     {validationMessages.length ? (
                       <FormValidationBlock
                         title="При сохранении комментария произошли ошибки:"
@@ -94,3 +101,5 @@ function resolveValidationMessages(validationResponse: Record<string, string>): 
     value,
   ]);
 }
+
+export {ArticlePage, ArticlePageProps};

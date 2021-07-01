@@ -2,20 +2,22 @@ import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
-import {ClientRoute, HttpCode} from "../../constants-es6";
+import {HttpCode} from "../../constants";
+import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {ICsrf} from "../../types/article";
 import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
 import {ILogin} from "../../types/interfaces/login";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
 import {setAuthCookie} from "../helpers/cookie.helper";
+import {signInValidationResponseMapper} from "../models/dto/sign-in-validation-responce";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {SignInPage} from "../views/pages/SignInPage";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
-export const signInRouter = Router();
+const signInRouter = Router();
 
 signInRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended) => {
   streamPage(res, SignInPage, {endPoint: ClientRoute.SIGN_IN, csrf: req.csrfToken(), signInValidationResponse: {}});
@@ -39,7 +41,9 @@ signInRouter.post(
       }
       return streamPage(res, SignInPage, {
         endPoint: ClientRoute.SIGN_IN,
-        signInValidationResponse: (signInValidationResponse as IAuthorizationFailed).payload,
+        signInValidationResponse: signInValidationResponseMapper(
+          (signInValidationResponse as IAuthorizationFailed).payload,
+        ),
         signIn: {email: signIn.email},
         csrf: req.csrfToken(),
       });
@@ -54,3 +58,7 @@ signInRouter.post(
     }
   },
 );
+
+export {
+  signInRouter,
+};

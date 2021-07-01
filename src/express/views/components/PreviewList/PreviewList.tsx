@@ -17,7 +17,7 @@ interface PreviewListProps {
   categories: CategoryWithLink[];
 }
 
-export const PreviewList: FunctionComponent<PreviewListProps> = ({categories, previews, children}) => {
+const PreviewList: FunctionComponent<PreviewListProps> = ({categories, previews, children}) => {
   return (
     <section className="main-page__list preview">
       <h2 className="visually-hidden">Список превью статей</h2>
@@ -46,3 +46,7 @@ function resolveCategoriesLabels<T extends IArticleId & ILink, J extends IArticl
 ): T[] {
   return availableCategories.filter(category => selectedCategories.map(item => item.id).includes(category.id));
 }
+
+export {
+  PreviewList,
+};

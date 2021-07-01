@@ -4,7 +4,7 @@ import {IAnnounce, ICategoriesWithLinks, ICommentsCount, ICreatedDate, ILink, IT
 
 interface PreviewProps extends ICommentsCount, ITitle, IAnnounce, ICreatedDate, ILink, ICategoriesWithLinks {}
 
-export const Preview: FunctionComponent<PreviewProps> = ({
+const Preview: FunctionComponent<PreviewProps> = ({
   categories,
   createdDate,
   title,
@@ -53,4 +53,8 @@ export const Preview: FunctionComponent<PreviewProps> = ({
       </a>
     </>
   );
+};
+
+export {
+  Preview,
 };

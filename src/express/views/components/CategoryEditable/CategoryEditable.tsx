@@ -4,13 +4,13 @@ import {CategoryId} from "../../../../types/category-id";
 import {ICsrfInput} from "../../interfaces/csrf-input";
 import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 
-export interface CategoryEditableProps extends ICsrfInput {
+interface CategoryEditableProps extends ICsrfInput {
   label: string;
   id: CategoryId;
   endPoint: string;
 }
 
-export const CategoryEditable: FunctionComponent<CategoryEditableProps> = ({label, endPoint, id, csrf}) => {
+const CategoryEditable: FunctionComponent<CategoryEditableProps> = ({label, endPoint, id, csrf}) => {
   const idValue = id.toString(10);
   return (
     <li className="category__list-item">
@@ -29,4 +29,9 @@ export const CategoryEditable: FunctionComponent<CategoryEditableProps> = ({labe
       </form>
     </li>
   );
+};
+
+export {
+  CategoryEditable,
+  CategoryEditableProps,
 };

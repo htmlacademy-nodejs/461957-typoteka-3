@@ -1,5 +1,9 @@
 import {IUserPreview} from "../../../types/interfaces/user-preview";
 
-export interface ICurrentUser {
+interface ICurrentUser {
   currentUser: IUserPreview;
 }
+
+export {
+  ICurrentUser,
+};

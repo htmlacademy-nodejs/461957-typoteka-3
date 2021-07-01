@@ -7,10 +7,14 @@ interface Props {
   message?: string;
 }
 
-export const ValidationMessage: FunctionComponent<Props> = ({message}) => {
+const ValidationMessage: FunctionComponent<Props> = ({message}) => {
   return message ? (
     <FieldValidationBlock>
       <FormValidationMessage>{message}</FormValidationMessage>
     </FieldValidationBlock>
   ) : null;
+};
+
+export {
+  ValidationMessage,
 };

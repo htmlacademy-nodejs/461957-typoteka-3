@@ -2,7 +2,7 @@ import {NextFunction, Request, Response} from "express";
 
 import {SSRError} from "../errors/ssr-error";
 
-export function notFoundMiddleware(req: Request, res: Response, next: NextFunction): void {
+function notFoundMiddleware(req: Request, res: Response, next: NextFunction): void {
   next(
     new SSRError({
       message: `${req.ip} tried to ${req.method} ${req.originalUrl}`,
@@ -11,3 +11,7 @@ export function notFoundMiddleware(req: Request, res: Response, next: NextFuncti
     }),
   );
 }
+
+export {
+  notFoundMiddleware,
+};

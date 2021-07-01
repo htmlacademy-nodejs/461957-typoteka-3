@@ -1,6 +1,10 @@
 import {FunctionComponent, PropsWithChildren} from "react";
 
-export interface IPreparedPage<T> {
+interface IPreparedPage<T> {
   page: FunctionComponent<T>;
   props?: PropsWithChildren<T>;
 }
+
+export {
+  IPreparedPage,
+};

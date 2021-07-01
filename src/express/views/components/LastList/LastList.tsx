@@ -6,7 +6,7 @@ interface LastListProps {
   listOfLast: LastProps[];
 }
 
-export const LastList: FunctionComponent<LastListProps> = ({listOfLast}) => {
+const LastList: FunctionComponent<LastListProps> = ({listOfLast}) => {
   const lastList = listOfLast.map(last => (
     <li className="last__list-item" key={last.title}>
       <Last title={last.title} link={last.link} authorAvatar={last.authorAvatar} authorName={last.authorName} />
@@ -21,4 +21,8 @@ export const LastList: FunctionComponent<LastListProps> = ({listOfLast}) => {
       <ul className="last__list">{lastList}</ul>
     </section>
   );
+};
+
+export {
+  LastList,
 };

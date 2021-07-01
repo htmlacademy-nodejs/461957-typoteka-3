@@ -6,7 +6,7 @@ interface Props extends CategoryWithLinksAndNumbers {
   isActive?: boolean;
 }
 
-export const CategoryLink: FunctionComponent<Props> = ({label, link, count, isActive}) => {
+const CategoryLink: FunctionComponent<Props> = ({label, link, count, isActive}) => {
   return (
     <>
       <a className={`themes__item-link ` + (isActive ? `themes__item-link--active` : ``)} href={link}>
@@ -18,4 +18,8 @@ export const CategoryLink: FunctionComponent<Props> = ({label, link, count, isAc
       </button>
     </>
   );
+};
+
+export {
+  CategoryLink,
 };
