@@ -1,13 +1,15 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
-import {TableName} from "../constants/table-name";
+
 import {Category} from "../../../../types/category";
+import {TableName} from "../constants/table-name";
+
 import {modelOptions} from "./constants/model-options";
 
 type CategoryCreationAttributes = Omit<Category, `id`>;
-export type ICategoryEntity = Model<Category, CategoryCreationAttributes>;
-export type ICategoryModel = ModelCtor<ICategoryEntity>;
+type ICategoryEntity = Model<Category, CategoryCreationAttributes>;
+type ICategoryModel = ModelCtor<ICategoryEntity>;
 
-export const defineCategory = (sequelize: Sequelize): ICategoryModel =>
+const defineCategory = (sequelize: Sequelize): ICategoryModel =>
   sequelize.define<ICategoryEntity>(
     `Category`,
     {
@@ -27,3 +29,9 @@ export const defineCategory = (sequelize: Sequelize): ICategoryModel =>
       tableName: TableName.CATEGORIES,
     },
   );
+
+export {
+  ICategoryEntity,
+  ICategoryModel,
+  defineCategory,
+};

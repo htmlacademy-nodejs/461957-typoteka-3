@@ -1,8 +1,12 @@
-import {ClientRoutes} from "../../../../../../constants-es6";
-import React from "react";
+import {DefaultButton} from "@fluentui/react";
+import React, {FunctionComponent} from "react";
 
-export const SignUpButton = () => (
-  <a className="header__registration" href={ClientRoutes.REGISTRATION}>
-    Регистрация
-  </a>
+import {ClientRoute} from "../../../../../../shared/constants/routes/client-route";
+
+const SignUpButton: FunctionComponent = () => (
+  <DefaultButton href={ClientRoute.REGISTRATION}>Регистрация</DefaultButton>
 );
+
+export {
+  SignUpButton,
+};

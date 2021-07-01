@@ -1,8 +1,10 @@
 import React, {FunctionComponent} from "react";
-import {Logo} from "../Logo/Logo";
-import {ClientRoutes} from "../../../../constants-es6";
-import {SearchButton} from "./Buttons/SearchButton/SearchButton";
+
+import {ClientRoute} from "../../../../shared/constants/routes/client-route";
 import {Avatar} from "../Avatar/Avatar";
+import {Logo} from "../Logo/Logo";
+
+import {SearchButton} from "./Buttons/SearchButton/SearchButton";
 
 interface Props {
   firstName: string;
@@ -10,7 +12,7 @@ interface Props {
   avatar: string;
 }
 
-export const HeaderReader: FunctionComponent<Props> = ({firstName, lastName, avatar}) => {
+const HeaderReader: FunctionComponent<Props> = ({firstName, lastName, avatar}) => {
   return (
     <header className="header">
       <Logo />
@@ -22,7 +24,7 @@ export const HeaderReader: FunctionComponent<Props> = ({firstName, lastName, ava
             </p>
           </li>
           <li className="header__list-item">
-            <a className="header__exit" href={ClientRoutes.SIGN_OUT}>
+            <a className="header__exit" href={ClientRoute.SIGN_OUT}>
               Выйти
             </a>
           </li>
@@ -32,4 +34,8 @@ export const HeaderReader: FunctionComponent<Props> = ({firstName, lastName, ava
       <SearchButton />
     </header>
   );
+};
+
+export {
+  HeaderReader,
 };

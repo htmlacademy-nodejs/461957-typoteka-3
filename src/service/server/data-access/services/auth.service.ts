@@ -1,13 +1,14 @@
-import {IUserModel} from "../models/user";
+import {compare} from "bcrypt";
+import {FindAttributeOptions} from "sequelize";
+
+import {LoginStatus} from "../../../../constants";
 import {ILogin} from "../../../../types/interfaces/login";
 import {ILoginResult} from "../../../../types/interfaces/login-result";
 import {IUserPreview} from "../../../../types/interfaces/user-preview";
-import {LoginStatus} from "../../../../constants-es6";
 import {UserId} from "../../../../types/user-id";
 import {UserProperty} from "../constants/property-name";
-import {compare} from "bcrypt";
-import {FindAttributeOptions} from "sequelize";
 import {IRefreshTokenModel} from "../models/refresh-tokens";
+import {IUserModel} from "../models/user";
 
 const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.ID,
@@ -17,7 +18,7 @@ const userPreviewAttributes: FindAttributeOptions = [
   UserProperty.AVATAR,
 ];
 
-export class AuthService {
+class AuthService {
   constructor(private readonly UserModel: IUserModel, private readonly RefreshTokenModel: IRefreshTokenModel) {}
 
   public async login({email, password}: ILogin): Promise<ILoginResult> {
@@ -77,3 +78,7 @@ export class AuthService {
     return user.get();
   }
 }
+
+export {
+  AuthService,
+};

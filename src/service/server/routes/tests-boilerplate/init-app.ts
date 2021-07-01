@@ -1,13 +1,15 @@
-import {Application} from "express";
 import http from "http";
+
+import {Application} from "express";
+
 import {ApiService} from "../../api-service";
 import {connectToDatabaseInMemory} from "../../data-access/database-connector";
-import {defineDatabaseModels} from "../../data-access/models";
 import {fillDb} from "../../data-access/fill-db";
+import {defineDatabaseModels} from "../../data-access/models";
 
 const MOCK_ARTICLES_COUNT = 10;
 
-export async function initApp(): Promise<{server: Application; httpServer: http.Server}> {
+async function initApp(): Promise<{server: Application; httpServer: http.Server}> {
   const connection = await connectToDatabaseInMemory();
   const {CategoryModel, ArticleModel, CommentModel, UserModel, RoleModel} = defineDatabaseModels(connection);
   await connection.sync({force: true});
@@ -20,3 +22,7 @@ export async function initApp(): Promise<{server: Application; httpServer: http.
     server: apiService.getServer(),
   };
 }
+
+export {
+  initApp,
+};

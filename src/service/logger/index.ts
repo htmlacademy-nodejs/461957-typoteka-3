@@ -1,1 +1,5 @@
-export {getLogger} from "./manual-logger";
+import {getLogger} from "./manual-logger";
+
+export {
+  getLogger,
+};

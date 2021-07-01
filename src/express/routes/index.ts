@@ -1,9 +1,21 @@
-export {adminPublicationsRouter} from "./admin-publications.router";
-export {articlesRouter} from "./articles.router";
-export {categoriesRouter} from "./categories.router";
-export {mainPageRouter} from "./main-page.router";
-export {registrationRouter} from "./registration.router";
-export {searchRouter} from "./search.router";
-export {signInRouter} from "./sign-in.router";
-export {commentsRouter} from "./comments.router";
-export {signOutRouter} from "./sign-out.router";
+import {adminPublicationsRouter} from "./admin-publications.router";
+import {articlesRouter} from "./articles.router";
+import {categoriesRouter} from "./categories.router";
+import {mainPageRouter} from "./main-page.router";
+import {registrationRouter} from "./registration.router";
+import {searchRouter} from "./search.router";
+import {signInRouter} from "./sign-in.router";
+import {commentsRouter} from "./comments.router";
+import {signOutRouter} from "./sign-out.router";
+
+export {
+  adminPublicationsRouter,
+  articlesRouter,
+  categoriesRouter,
+  commentsRouter,
+  mainPageRouter,
+  registrationRouter,
+  searchRouter,
+  signInRouter,
+  signOutRouter,
+};

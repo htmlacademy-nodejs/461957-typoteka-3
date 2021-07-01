@@ -1,7 +1,11 @@
 import {ArticleId} from "./article-id";
 
-export interface ArticleSearchResult {
+interface ArticleSearchResult {
   id: ArticleId;
   title: string;
   createdDate: Date;
 }
+
+export {
+  ArticleSearchResult,
+};

@@ -1,31 +1,36 @@
+import {IconButton, PrimaryButton, Stack, Text, TextField} from "@fluentui/react";
+import {IIconProps} from "@fluentui/react/lib/components/Icon";
 import React, {FunctionComponent} from "react";
-import {ARTICLE_FORM_FIELDS, ClientRoutes} from "../../../constants-es6";
-import type {ArticleValidationResponse} from "../../../types/article-validation-response";
-import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-import {FormValidationMessage} from "../components/Form/FormValidationMessage";
-import {LayoutFilled} from "../components/Layout/LayoutFilled";
-import {CategoriesSelect} from "../components/EditArticle/CategoriesSelect";
+
+import {ArticleFormField} from "../../../shared/constants/forms/article-form-field";
+import {ClientRoute} from "../../../shared/constants/routes/client-route";
 import type {Category} from "../../../types/category";
+import {ArticleFormValidation} from "../../../types/form-fields/article-form-validation";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
-import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
-import {EditArticleWrapper} from "../components/EditArticleWrapper/EditArticleWrapper";
-import {ICurrentUser} from "../interfaces/current-user";
+import {CategoriesSelect} from "../components/CategoriesSelect/CategoriesSelect";
 import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {EditArticleWrapper} from "../components/EditArticleWrapper/EditArticleWrapper";
+import {FormValidationBlock} from "../components/Form/FormValidationBlock";
+import {LayoutFilled} from "../components/Layout/LayoutFilled";
+import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
 import {ICsrfInput} from "../interfaces/csrf-input";
+import {ICurrentUser} from "../interfaces/current-user";
 
 interface EditArticleProps extends ICurrentUser, ICsrfInput {
   article?: Partial<IArticleCreating>;
   endPoint: string;
   availableCategories: Category[];
-  articleValidationResponse?: ArticleValidationResponse;
+  articleValidationResponse: ArticleFormValidation;
   isUpdating?: boolean;
 }
 
-export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
+const closeButton: IIconProps = {iconName: "ChromeClose"};
+
+const EditArticlePage: FunctionComponent<EditArticleProps> = ({
   article,
   endPoint,
   availableCategories,
-  articleValidationResponse = {},
+  articleValidationResponse,
   isUpdating,
   currentUser,
   csrf,
@@ -37,75 +42,63 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
     categories: article?.categories ?? [],
     createdDate: article?.createdDate ?? new Date(),
   };
+  const validationMessages = resolveValidationMessages(articleValidationResponse);
   return (
     <LayoutFilled pageTitle={isUpdating ? `Редактирование публикации` : `Новая публикация`} currentUser={currentUser}>
       <EditArticleWrapper>
-        <form action={endPoint} method="POST" encType="multipart/form-data">
+        <form action={endPoint} method="POST" encType="multipart/form-data" className="new-publication__wrapper">
           <div className="new-publication__header">
-            <h1>{isUpdating ? `Редактирование публикации` : `Новая публикация`}</h1>
+            <Text variant="xxLarge" block className="new-publication__page-title">
+              {isUpdating ? `Редактирование публикации` : `Новая публикация`}
+            </Text>
             <div className="new-publication__date-form">
               <h3>Дата публикации</h3>
               <div className="new-publication__date-form-division">
                 <div className="new-publication__date-block" style={{position: "relative"}}>
-                  <label htmlFor="new-publication-date" aria-label={ARTICLE_FORM_FIELDS.createdDate.label} />
+                  <label htmlFor="new-publication-date" aria-label={ArticleFormField.CREATED_DATE.label} />
                   <input
                     type="text"
                     defaultValue={getInitialDate(articleProps.createdDate)}
-                    name={ARTICLE_FORM_FIELDS.createdDate.name}
+                    name={ArticleFormField.CREATED_DATE.name}
                     id="new-publication-date"
                     placeholder={getInitialDate(articleProps.createdDate)}
                   />
                 </div>
               </div>
             </div>
-            <button type="submit" className="new-publication__button button button--colored">
-              Опубликовать
-            </button>
+            <Stack tokens={{childrenGap: 16}} horizontal>
+              <PrimaryButton type="submit">Опубликовать</PrimaryButton>
+              <IconButton
+                href={ClientRoute.INDEX}
+                iconProps={closeButton}
+                title="Закрыть окно"
+                ariaLabel="Закрыть окно"
+              />
+            </Stack>
           </div>
-          <a href={ClientRoutes.INDEX} className="popup__button button button--popup-close" aria-label="Закрыть окно">
-            Закрыть окно
-          </a>
           <div className="new-publication__form form">
             <div className="form__wrapper form__wrapper--intro">
-              {Object.keys(articleValidationResponse).length ? (
-                <FormValidationBlock title={"При сохранении статьи произошли ошибки:"}>
-                  {Object.entries(articleValidationResponse).map(([key, validation]) => (
-                    <li key={key}>
-                      <FormValidationMessage>
-                        <strong>{ARTICLE_FORM_FIELDS[key]?.label}:</strong> {validation}
-                      </FormValidationMessage>
-                    </li>
-                  ))}
-                </FormValidationBlock>
+              {validationMessages.length ? (
+                <FormValidationBlock title="При сохранении статьи произошли ошибки:" messages={validationMessages} />
               ) : null}
               <div className="form__field">
-                <label>
-                  <input
-                    type="text"
-                    name={ARTICLE_FORM_FIELDS.title.name}
-                    placeholder={ARTICLE_FORM_FIELDS.title.label}
-                    defaultValue={articleProps.title}
-                    required
-                  />
-                </label>
+                <TextField
+                  label={ArticleFormField.TITLE.label}
+                  name={ArticleFormField.TITLE.name}
+                  defaultValue={articleProps.title}
+                  required
+                />
+                <ValidationMessage message={articleValidationResponse.TITLE} />
               </div>
-              <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.title.name]} />
-              <div className="form__field form__field--post-image">
-                <label>
-                  <input
-                    id="image-name-field"
-                    // name={ARTICLE_FORM_FIELDS.Upload.name}
-                    type="text"
-                    placeholder={ARTICLE_FORM_FIELDS.Upload.label}
-                    readOnly
-                  />
-                </label>
+
+              <div className="form__field">
+                <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">{ArticleFormField.UPLOAD.label}</div>
                 <div className="form__image-loader form__image-loader--publication">
                   <label>
                     <input
                       className="visually-hidden"
                       style={{width: "1px"}}
-                      name={ARTICLE_FORM_FIELDS.Image.name}
+                      name={ArticleFormField.IMAGE.name}
                       type="file"
                       disabled
                     />
@@ -116,37 +109,41 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                <button className="button button--transparent">Удалить</button>
                */}
               </div>
-              <CategoriesSelect
-                availableCategories={availableCategories}
-                selectedCategories={articleProps.categories}
-                inputName={ARTICLE_FORM_FIELDS.categories.name}
-              />
+              <div className="form__field">
+                <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">
+                  {ArticleFormField.CATEGORIES.label}
+                </div>
+                <CategoriesSelect
+                  availableCategories={availableCategories}
+                  selectedCategories={articleProps.categories}
+                  inputName={ArticleFormField.CATEGORIES.name}
+                />
+                <ValidationMessage message={articleValidationResponse.CATEGORIES} />
+              </div>
             </div>
             <div className="form__wrapper form__wrapper--text">
               <div className="form__field form__field--publication-text">
-                <label>
-                  <textarea
-                    rows={5}
-                    placeholder={ARTICLE_FORM_FIELDS.announce.label}
-                    name={ARTICLE_FORM_FIELDS.announce.name}
-                    value={articleProps.announce}
-                    onChange={() => {}}
-                  />
-                </label>
+                <TextField
+                  multiline
+                  rows={5}
+                  label={ArticleFormField.ANNOUNCE.label}
+                  name={ArticleFormField.ANNOUNCE.name}
+                  defaultValue={articleProps.announce}
+                  required
+                />
+                <ValidationMessage message={articleValidationResponse.ANNOUNCE} />
               </div>
-              <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.announce.name]} />
               <div className="form__field form__field--publication-text">
-                <label>
-                  <textarea
-                    name={ARTICLE_FORM_FIELDS.fullText.name}
-                    rows={10}
-                    placeholder={ARTICLE_FORM_FIELDS.fullText.label}
-                    value={articleProps.fullText}
-                    onChange={() => {}}
-                  />
-                </label>
+                <TextField
+                  multiline
+                  name={ArticleFormField.FULL_TEXT.name}
+                  rows={10}
+                  label={ArticleFormField.FULL_TEXT.label}
+                  defaultValue={articleProps.fullText}
+                  required
+                />
+                <ValidationMessage message={articleValidationResponse.FULL_TEXT} />
               </div>
-              <ValidationMessage message={articleValidationResponse[ARTICLE_FORM_FIELDS.fullText.name]} />
             </div>
           </div>
           <CsrfHiddenInput csrf={csrf} />
@@ -159,3 +156,14 @@ export const EditArticlePage: FunctionComponent<EditArticleProps> = ({
 function getInitialDate(date: Date): string {
   return date.toISOString().split("T", 1)[0];
 }
+
+function resolveValidationMessages(validationResponse: Record<string, string>): [string, string][] {
+  return Object.entries(validationResponse).map(([key, value]: [keyof typeof ArticleFormField, string]) => [
+    ArticleFormField[key]?.label,
+    value,
+  ]);
+}
+
+export {
+  EditArticlePage,
+};

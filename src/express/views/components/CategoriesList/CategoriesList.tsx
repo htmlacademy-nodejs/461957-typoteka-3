@@ -1,14 +1,15 @@
 import React, {FunctionComponent} from "react";
-import {CategoryLink} from "../CategoryLink/CategoryLink";
-import {CategoryWithLinksAndNumbers} from "../../../../types/category-with-links-and-numbers";
+
 import {CategoryId} from "../../../../types/category-id";
+import {CategoryWithLinksAndNumbers} from "../../../../types/category-with-links-and-numbers";
+import {CategoryLink} from "../CategoryLink/CategoryLink";
 
 interface Props {
   categories: CategoryWithLinksAndNumbers[];
   selectedCategoryId?: CategoryId;
 }
 
-export const CategoriesList: FunctionComponent<Props> = ({categories, selectedCategoryId}) => (
+const CategoriesList: FunctionComponent<Props> = ({categories, selectedCategoryId}) => (
   <>
     {categories
       .sort((a, b) => a.label.localeCompare(b.label))
@@ -25,3 +26,7 @@ export const CategoriesList: FunctionComponent<Props> = ({categories, selectedCa
       ))}
   </>
 );
+
+export {
+  CategoriesList,
+};

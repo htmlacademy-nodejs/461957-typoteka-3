@@ -1,13 +1,13 @@
 import React, {FunctionComponent} from "react";
-import {HeaderReader} from "./HeaderReader";
-import {Header} from "./Header";
-import {ICurrentUser} from "../../interfaces/current-user";
+
 import {RoleId} from "../../../../shared/constants/role-id";
+import {ICurrentUser} from "../../interfaces/current-user";
+
+import {Header} from "./Header";
 import {HeaderAuthor} from "./HeaderAuthor";
+import {HeaderReader} from "./HeaderReader";
 
-interface Props extends ICurrentUser {}
-
-export const HeaderDispatcher: FunctionComponent<Props> = ({currentUser}) => {
+const HeaderDispatcher: FunctionComponent<ICurrentUser> = ({currentUser}) => {
   switch (currentUser?.roleId) {
     case RoleId.ADMIN:
     case RoleId.AUTHOR:
@@ -29,4 +29,8 @@ export const HeaderDispatcher: FunctionComponent<Props> = ({currentUser}) => {
     default:
       return <Header />;
   }
+};
+
+export {
+  HeaderDispatcher,
 };

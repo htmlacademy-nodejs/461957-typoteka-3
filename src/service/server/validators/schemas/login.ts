@@ -1,9 +1,10 @@
 import Joi from "joi";
+
 import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
 
 const PASSWORD_MIN_LENGTH = 6;
 
-export const loginSchema = Joi.object<IUserCreatingDoublePasswords>({
+const loginSchema = Joi.object<IUserCreatingDoublePasswords>({
   email: Joi.string().required().email().messages({
     "any.required": `Обязательное поле`,
     "string.empty": `Поле не может быть пустым`,
@@ -18,3 +19,7 @@ export const loginSchema = Joi.object<IUserCreatingDoublePasswords>({
       "string.min": `Минимальная длина ${PASSWORD_MIN_LENGTH} символов`,
     }),
 });
+
+export {
+  loginSchema,
+};

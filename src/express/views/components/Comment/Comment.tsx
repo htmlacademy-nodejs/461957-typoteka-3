@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+
 import {ICreatedDate} from "../../../../types/article";
 import {IUserPresentation} from "../../../../types/interfaces/user-presentation";
 import {Avatar} from "../Avatar/Avatar";
@@ -8,7 +9,7 @@ interface CommentProps extends ICreatedDate {
   user: IUserPresentation;
 }
 
-export const Comment: FunctionComponent<CommentProps> = ({text, createdDate, user}) => (
+const Comment: FunctionComponent<CommentProps> = ({text, createdDate, user}) => (
   <li className="comments__comment">
     <Avatar avatar={user.avatar} cssClass="comments__avatar" />
     <div className="comments__text">
@@ -24,3 +25,7 @@ export const Comment: FunctionComponent<CommentProps> = ({text, createdDate, use
     </div>
   </li>
 );
+
+export {
+  Comment,
+};

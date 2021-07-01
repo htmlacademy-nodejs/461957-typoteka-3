@@ -1,4 +1,4 @@
-export const TableName = {
+const TableName = {
   CATEGORIES: `categories`,
   ARTICLES: `articles`,
   COMMENTS: `comments`,
@@ -6,4 +6,9 @@ export const TableName = {
   USERS: `users`,
   ROLES: `roles`,
   REFRESH_TOKENS: `refresh_tokens`,
+  PERMISSIONS: `permissions`,
+} as const;
+
+export {
+  TableName,
 };

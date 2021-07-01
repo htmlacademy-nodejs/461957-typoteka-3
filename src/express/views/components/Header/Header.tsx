@@ -1,12 +1,12 @@
 import React, {FunctionComponent} from "react";
+
 import {Logo} from "../Logo/Logo";
+
 import {LogInButton} from "./Buttons/LogInButton/LogInButton";
-import {SignUpButton} from "./Buttons/SignUpButton/SignUpButton";
 import {SearchButton} from "./Buttons/SearchButton/SearchButton";
+import {SignUpButton} from "./Buttons/SignUpButton/SignUpButton";
 
-interface Props {}
-
-export const Header: FunctionComponent<Props> = ({}) => {
+const Header: FunctionComponent = ({}) => {
   return (
     <header className="header">
       <Logo />
@@ -23,4 +23,8 @@ export const Header: FunctionComponent<Props> = ({}) => {
       <SearchButton />
     </header>
   );
+};
+
+export {
+  Header,
 };

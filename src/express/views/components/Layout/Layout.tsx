@@ -1,9 +1,10 @@
 import React, {FunctionComponent, ReactNode} from "react";
+
 import {IPageTitle} from "../../../../types/interfaces/page-title";
 
 type WrapperMode = "default" | "admin" | "error";
 
-export interface LayoutProps extends IPageTitle {
+interface LayoutProps extends IPageTitle {
   wrapperMode?: WrapperMode;
   header: ReactNode;
   footer: ReactNode;
@@ -15,7 +16,7 @@ const wrapperCssClasses: {[key in WrapperMode]: string} = {
   error: "wrapper-color",
 };
 
-export const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, children, footer, pageTitle}) => (
+const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, children, footer, pageTitle}) => (
   <html lang="ru">
     <head>
       <meta charSet="utf-8" />
@@ -47,3 +48,8 @@ export const Layout: FunctionComponent<LayoutProps> = ({wrapperMode, header, chi
     </body>
   </html>
 );
+
+export {
+  Layout,
+  LayoutProps,
+};

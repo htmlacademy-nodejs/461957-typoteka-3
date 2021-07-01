@@ -1,1 +1,5 @@
-export {authMiddleware} from "./auth.middleware";
+import {authMiddleware} from "./auth.middleware";
+
+export {
+  authMiddleware,
+};

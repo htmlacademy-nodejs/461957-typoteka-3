@@ -1,10 +1,14 @@
-export const SING_IN_FORM_FIELDS = {
-  email: {
+const SingInFormField = {
+  EMAIL: {
     name: `email`,
     label: `Электронная почта`,
   },
-  password: {
+  PASSWORD: {
     name: `password`,
     label: `Пароль`,
   },
 } as const;
+
+export {
+  SingInFormField,
+};

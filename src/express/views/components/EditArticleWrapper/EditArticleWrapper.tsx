@@ -1,8 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-interface Props {}
-
-export const EditArticleWrapper: FunctionComponent<Props> = ({children}) => {
+const EditArticleWrapper: FunctionComponent = ({children}) => {
   return (
     <main>
       <section>
@@ -12,4 +10,8 @@ export const EditArticleWrapper: FunctionComponent<Props> = ({children}) => {
       </section>
     </main>
   );
+};
+
+export {
+  EditArticleWrapper,
 };

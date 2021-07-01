@@ -1,6 +1,6 @@
 import {IRoleId} from "./role-id";
 
-export interface IUserCreating extends IRoleId {
+interface IUserCreating extends IRoleId {
   email: string;
   password: string;
   firstName: string;
@@ -8,8 +8,14 @@ export interface IUserCreating extends IRoleId {
   avatar: string;
 }
 
-export interface IUserCreatingDoublePasswords extends IUserCreating {
+interface IUserCreatingDoublePasswords extends IUserCreating {
   passwordRepeated: string;
 }
 
-export type UserCreatingFromForm = Omit<IUserCreatingDoublePasswords, `roleId`>;
+type UserCreatingFromForm = Omit<IUserCreatingDoublePasswords, `roleId`>;
+
+export {
+  IUserCreating,
+  IUserCreatingDoublePasswords,
+  UserCreatingFromForm,
+};

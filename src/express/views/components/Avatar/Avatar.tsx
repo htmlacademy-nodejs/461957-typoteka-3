@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from "react";
 
-type AvatarSize = `small` | `medium`;
+import {AvatarEmoji} from "./AvatarEmoji";
+import {AvatarSize} from "./models/avatar-sizes";
 
 interface Props {
   avatar?: string;
@@ -13,12 +14,7 @@ const sizesPxs: Record<AvatarSize, number> = {
   medium: 50,
 };
 
-const sizesCssClasses: Record<AvatarSize, string> = {
-  small: `avatar-emoji__size_small`,
-  medium: `avatar-emoji__size_medium`,
-};
-
-export const Avatar: FunctionComponent<Props> = ({avatar, cssClass, size = `medium`}) => {
+const Avatar: FunctionComponent<Props> = ({avatar, cssClass, size = `medium`}) => {
   const imageSize = sizesPxs[size];
   return (
     <div className={cssClass ?? ""}>
@@ -31,6 +27,6 @@ export const Avatar: FunctionComponent<Props> = ({avatar, cssClass, size = `medi
   );
 };
 
-const AvatarEmoji = ({emoji, size}: {emoji: string; size: AvatarSize}) => (
-  <div className={`avatar-emoji ${sizesCssClasses[size]}`}>{emoji}</div>
-);
+export {
+  Avatar,
+};

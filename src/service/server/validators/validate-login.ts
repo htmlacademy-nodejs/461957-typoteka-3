@@ -1,10 +1,12 @@
-import {loginSchema} from "./schemas";
 import {ValidationError} from "joi";
-import {getValidationDictionary} from "./get-validation-dictionary";
+
 import {ILogin} from "../../../types/interfaces/login";
 import {getLogger} from "../../logger";
 
-export async function validateLogin(login: ILogin): Promise<ILogin> {
+import {getValidationDictionary} from "./get-validation-dictionary";
+import {loginSchema} from "./schemas";
+
+async function validateLogin(login: ILogin): Promise<ILogin> {
   const logger = getLogger();
   try {
     return (await loginSchema.validateAsync(login, {abortEarly: false})) as ILogin;
@@ -17,3 +19,7 @@ export async function validateLogin(login: ILogin): Promise<ILogin> {
     throw e;
   }
 }
+
+export {
+  validateLogin,
+};

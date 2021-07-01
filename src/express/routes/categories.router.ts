@@ -1,16 +1,17 @@
-import {NextFunction, Request, Router} from "express";
-import {streamPage} from "../utils/stream-page";
-import {CategoriesPage} from "../views/pages/CategoriesPage";
-import {dataProviderService} from "../services";
-import {HttpCode} from "../../constants-es6";
-import {SSRError} from "../errors/ssr-error";
-import {CategoryEditableProps} from "../views/components/CategoryEditable/CategoryEditable";
-import {IResponseExtended} from "../../types/interfaces/response-extended";
-import {isAuthorUserMiddleware} from "../middlewares";
 import csrf from "csurf";
+import {NextFunction, Request, Router} from "express";
+
+import {HttpCode} from "../../constants";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
+import {SSRError} from "../errors/ssr-error";
+import {isAuthorUserMiddleware} from "../middlewares";
+import {dataProviderService} from "../services";
+import {streamPage} from "../utils/stream-page";
+import {CategoryEditableProps} from "../views/components/CategoryEditable/CategoryEditable";
+import {CategoriesPage} from "../views/pages/CategoriesPage";
 
 const csrfProtection = csrf({cookie: true});
-export const categoriesRouter = Router();
+const categoriesRouter = Router();
 
 categoriesRouter.get(
   `/`,
@@ -41,3 +42,7 @@ categoriesRouter.get(
     }
   },
 );
+
+export {
+  categoriesRouter,
+};

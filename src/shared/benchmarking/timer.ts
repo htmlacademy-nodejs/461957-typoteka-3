@@ -1,4 +1,4 @@
-export class Timer {
+class Timer {
   private startTime: Date;
   private endTime: Date;
 
@@ -14,3 +14,7 @@ export class Timer {
     return this.endTime.getTime() - this.startTime.getTime();
   }
 }
+
+export {
+  Timer,
+};

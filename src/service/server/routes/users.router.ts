@@ -1,10 +1,11 @@
 import {Request, Response, Router} from "express";
-import {UsersController} from "../controllers/users.controller";
-import {HttpCode} from "../../../constants-es6";
-import {validateNewUser} from "../validators";
-import {authMiddleware} from "../middlewares";
 
-export const usersRouter = (usersController: UsersController): Router => {
+import {HttpCode} from "../../../constants";
+import {UsersController} from "../controllers/users.controller";
+import {authMiddleware} from "../middlewares";
+import {validateNewUser} from "../validators";
+
+const usersRouter = (usersController: UsersController): Router => {
   const router = Router();
 
   router.get(`/id/:id`, async (req, res) => {
@@ -29,4 +30,8 @@ export const usersRouter = (usersController: UsersController): Router => {
   });
 
   return router;
+};
+
+export {
+  usersRouter,
 };

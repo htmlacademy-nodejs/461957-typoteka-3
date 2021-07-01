@@ -1,9 +1,10 @@
 import {Router} from "express";
+
+import {HttpCode} from "../../../constants";
 import {AuthController} from "../controllers/auth.controller";
 import {validateLogin} from "../validators";
-import {HttpCode} from "../../../constants-es6";
 
-export const authRouter = (authController: AuthController): Router => {
+const authRouter = (authController: AuthController): Router => {
   const router = Router();
 
   router.post(`/login`, async (req, res) => {
@@ -47,4 +48,8 @@ export const authRouter = (authController: AuthController): Router => {
   });
 
   return router;
+};
+
+export {
+  authRouter,
 };

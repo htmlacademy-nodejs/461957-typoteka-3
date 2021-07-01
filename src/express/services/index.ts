@@ -1,3 +1,7 @@
 import {DataProviderService} from "./data-provider.service";
 
-export const dataProviderService = new DataProviderService();
+const dataProviderService = new DataProviderService();
+
+export {
+  dataProviderService,
+};

@@ -1,6 +1,12 @@
-import {MockTextsFilePath} from "../../../constants-es6";
-import {ICategoryEntity, ICategoryModel} from "./models/category";
-import {IArticleEntity, IArticleModel} from "./models/article";
+import {hashSync} from "bcrypt";
+
+import {MockTextsFilePath} from "../../../constants";
+import {RoleId} from "../../../shared/constants/role-id";
+import {CategoryId} from "../../../types/category-id";
+import {IRole} from "../../../types/interfaces/role";
+import {IUserCreating} from "../../../types/interfaces/user-creating";
+import {UserId} from "../../../types/user-id";
+import {readTXTFile} from "../../cli/generate-database-mock/fs-functions/read-txt-file";
 import {
   getAnnounce,
   getCategoriesLabels,
@@ -10,21 +16,17 @@ import {
   getRandomItem,
   getTitle,
 } from "../../cli/generate-database-mock/values-generators";
+
 import {TableName} from "./constants/table-name";
-import {readTXTFile} from "../../cli/generate-database-mock/fs-functions/read-txt-file";
-import {CategoryId} from "../../../types/category-id";
+import {IArticleEntity, IArticleModel} from "./models/article";
+import {ICategoryEntity, ICategoryModel} from "./models/category";
 import {ICommentModel} from "./models/comment";
-import {IUserEntity, IUserModel} from "./models/user";
-import {IUserCreating} from "../../../types/interfaces/user-creating";
 import {IRoleEntity, IRoleModel} from "./models/role";
-import {IRole} from "../../../types/interfaces/role";
-import {hashSync} from "bcrypt";
-import {RoleId} from "../../../shared/constants/role-id";
-import {UserId} from "../../../types/user-id";
+import {IUserEntity, IUserModel} from "./models/user";
 
 const SALT_ROUNDS = 10;
 
-export async function fillDb(
+async function fillDb(
   articlesNumber: number,
   models: {
     CommentModel: ICommentModel;
@@ -189,3 +191,7 @@ function selectAuthorsOnly(users: IUserEntity[]): IUserEntity[] {
 function getAuthorId(users: IUserEntity[]): UserId {
   return getRandomItem(users).getDataValue(`id`);
 }
+
+export {
+  fillDb,
+};

@@ -1,10 +1,11 @@
 import {Sequelize} from "sequelize";
+
 import {ENV} from "../../../../shared/env/env";
 import {getLogger} from "../../../logger";
 
 const logger = getLogger();
 
-export class DatabaseConnector {
+class DatabaseConnector {
   private connection: Sequelize;
 
   public open(): Sequelize {
@@ -38,4 +39,9 @@ function openConnection(): Sequelize {
   });
 }
 
-export const databaseConnector = new DatabaseConnector();
+const databaseConnector = new DatabaseConnector();
+
+export {
+  DatabaseConnector,
+  databaseConnector,
+};

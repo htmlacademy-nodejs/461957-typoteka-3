@@ -1,10 +1,10 @@
-import {HttpCode} from "../../../constants-es6";
+import {HttpCode} from "../../../constants";
 import {ControllerResponse} from "../../../types/controller-response";
 import {CategoryWithNumbers} from "../../../types/category-with-numbers";
 import {CategoriesService} from "../data-access/services/categories.service";
 import {Category} from "../../../types/category";
 
-export class CategoriesController {
+class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   public async getCategories(): Promise<ControllerResponse<Category[]>> {
@@ -23,3 +23,7 @@ export class CategoriesController {
     return {payload: categories};
   }
 }
+
+export {
+  CategoriesController,
+};

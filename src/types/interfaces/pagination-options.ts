@@ -1,4 +1,8 @@
-export interface IPaginationOptions {
+interface IPaginationOptions {
   offset: number;
   limit: number;
 }
+
+export {
+  IPaginationOptions,
+};

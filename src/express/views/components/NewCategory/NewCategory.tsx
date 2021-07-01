@@ -1,12 +1,13 @@
 import React, {FunctionComponent} from "react";
-import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
+
 import {ICsrfInput} from "../../interfaces/csrf-input";
+import {CsrfHiddenInput} from "../CsrfHiddenInput/CsrfHiddenInput";
 
 interface Props extends ICsrfInput {
   endPoint: string;
 }
 
-export const NewCategory: FunctionComponent<Props> = ({endPoint, csrf}) => {
+const NewCategory: FunctionComponent<Props> = ({endPoint, csrf}) => {
   return (
     <div className="category__add-form">
       <form action={endPoint} method="POST">
@@ -21,4 +22,8 @@ export const NewCategory: FunctionComponent<Props> = ({endPoint, csrf}) => {
       </form>
     </div>
   );
+};
+
+export {
+  NewCategory,
 };

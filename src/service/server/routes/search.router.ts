@@ -1,8 +1,9 @@
 import {Router} from "express";
-import {HttpCode} from "../../../constants-es6";
+
+import {HttpCode} from "../../../constants";
 import {SearchController} from "../controllers/search.controller";
 
-export const searchRouter = (searchController: SearchController): Router => {
+const searchRouter = (searchController: SearchController): Router => {
   const router = Router();
 
   router.get(``, async (req, res) => {
@@ -11,4 +12,8 @@ export const searchRouter = (searchController: SearchController): Router => {
   });
 
   return router;
+};
+
+export {
+  searchRouter,
 };

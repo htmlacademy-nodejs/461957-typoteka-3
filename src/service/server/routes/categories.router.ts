@@ -1,10 +1,12 @@
 import {Request, Response, Router} from "express";
-import {HttpCode} from "../../../constants-es6";
+
+import {HttpCode} from "../../../constants";
 import {ArticlesController} from "../controllers/articles.controller";
 import {CategoriesController} from "../controllers/categories.controller";
+
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
 
-export const categoriesRouter = (
+const categoriesRouter = (
   articlesController: ArticlesController,
   categoriesController: CategoriesController,
 ): Router => {
@@ -23,4 +25,8 @@ export const categoriesRouter = (
   });
 
   return router;
+};
+
+export {
+  categoriesRouter,
 };

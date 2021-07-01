@@ -1,4 +1,11 @@
-export {errorHandlerMiddleware} from "./error-handler.middleware";
-export {getUserFromCookiesMiddleware} from "./get-user-from-cookies.middleware";
-export {notFoundMiddleware} from "./not-found.middleware";
-export {isAuthorUserMiddleware} from "./is-auth-user.middleware";
+import {errorHandlerMiddleware} from "./error-handler.middleware";
+import {getUserFromCookiesMiddleware} from "./get-user-from-cookies.middleware";
+import {notFoundMiddleware} from "./not-found.middleware";
+import {isAuthorUserMiddleware} from "./is-auth-user.middleware";
+
+export {
+  errorHandlerMiddleware,
+  getUserFromCookiesMiddleware,
+  isAuthorUserMiddleware,
+  notFoundMiddleware,
+};

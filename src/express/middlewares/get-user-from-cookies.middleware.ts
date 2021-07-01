@@ -1,14 +1,15 @@
 import {NextFunction, Request} from "express";
-import {getAuthTokenFromCookies, invalidateAuthCookie, setAuthCookie} from "../helpers/cookie.helper";
+
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
-import {dataProviderService} from "../services";
-import {IUserPreview} from "../../types/interfaces/user-preview";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
+import {IUserPreview} from "../../types/interfaces/user-preview";
+import {getAuthTokenFromCookies, invalidateAuthCookie, setAuthCookie} from "../helpers/cookie.helper";
 import {getLogger} from "../logger";
+import {dataProviderService} from "../services";
 
 const logger = getLogger();
 
-export async function getUserFromCookiesMiddleware(
+async function getUserFromCookiesMiddleware(
   req: Request,
   res: IResponseExtended,
   next: NextFunction,
@@ -55,3 +56,7 @@ async function refreshTokens(refreshToken: string): Promise<IAuthTokens> {
     return Promise.reject(`Failed to refresh tokens: \n${(e as unknown).toString()}`);
   }
 }
+
+export {
+  getUserFromCookiesMiddleware,
+};

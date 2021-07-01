@@ -1,10 +1,12 @@
-import {getLogger} from "../../logger";
-import {databaseConnector} from "./connectors/database.connector";
 import {Sequelize} from "sequelize";
-import {ExitCode} from "../../../constants-es6";
+
+import {ExitCode} from "../../../constants";
+import {getLogger} from "../../logger";
+
+import {databaseConnector} from "./connectors/database.connector";
 
 // eslint-disable-next-line consistent-return
-export async function connectToDatabase(): Promise<Sequelize> {
+async function connectToDatabase(): Promise<Sequelize> {
   const logger = getLogger();
   try {
     const connection = databaseConnector.open();
@@ -19,7 +21,7 @@ export async function connectToDatabase(): Promise<Sequelize> {
 }
 
 // eslint-disable-next-line consistent-return
-export async function connectToDatabaseInMemory(): Promise<Sequelize> {
+async function connectToDatabaseInMemory(): Promise<Sequelize> {
   try {
     const connection = new Sequelize(`sqlite::memory:`, {logging: false});
     console.log(`Establishing a database connection`);
@@ -31,3 +33,8 @@ export async function connectToDatabaseInMemory(): Promise<Sequelize> {
     process.exit(ExitCode.ERROR);
   }
 }
+
+export {
+  connectToDatabase,
+  connectToDatabaseInMemory,
+};

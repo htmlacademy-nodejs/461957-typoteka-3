@@ -1,5 +1,9 @@
 import {IUserPreview} from "../../interfaces/user-preview";
 
-export interface IRefreshToken extends IUserPreview {
+interface IRefreshToken extends IUserPreview {
   iat: number;
 }
+
+export {
+  IRefreshToken,
+};

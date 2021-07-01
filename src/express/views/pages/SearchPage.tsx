@@ -1,18 +1,19 @@
 import React, {FunctionComponent} from "react";
+
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {SearchResult, SearchResultProps} from "../components/SearchResult/SearchResult";
-import {ICurrentUser} from "../interfaces/current-user";
-import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../interfaces/csrf-input";
+import {ICurrentUser} from "../interfaces/current-user";
 
-export interface SearchPageProps extends ICurrentUser, ICsrfInput {
+interface SearchPageProps extends ICurrentUser, ICsrfInput {
   query?: string;
   matches?: SearchResultProps[];
   itemsCount?: number;
   endPoint: string;
 }
 
-export const SearchPage: FunctionComponent<SearchPageProps> = ({
+const SearchPage: FunctionComponent<SearchPageProps> = ({
   query,
   matches = [],
   itemsCount,
@@ -56,4 +57,9 @@ export const SearchPage: FunctionComponent<SearchPageProps> = ({
       </main>
     </LayoutFilled>
   );
+};
+
+export {
+  SearchPage,
+  SearchPageProps,
 };

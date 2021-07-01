@@ -1,34 +1,36 @@
 import axios, {AxiosResponse, AxiosStatic} from "axios";
-import type {Article, ICreatedDate} from "../../types/article";
-import {ENV} from "../../shared/env/env";
-import {APIRoutes, HttpCode} from "../../constants-es6";
-import type {ArticleComment} from "../../types/article-comment";
-import type {ArticleValidationResponse} from "../../types/article-validation-response";
-import type {ArticleSearchCollection} from "../../types/article-search-collection";
-import {CategoryWithNumbers} from "../../types/category-with-numbers";
-import {ArticlesByCategory} from "../../types/articles-by-category";
-import {CategoryId} from "../../types/category-id";
-import {Category} from "../../types/category";
-import {IArticlePreview} from "../../types/interfaces/article-preview";
-import {ArticleId} from "../../types/article-id";
-import {IPaginationOptions} from "../../types/interfaces/pagination-options";
-import {ICollection} from "../../types/interfaces/collection";
-import {IArticleCreating} from "../../types/interfaces/article-creating";
-import {ICommentCreating} from "../../types/interfaces/comment-creating";
-import {CommentValidationResponse} from "../../types/comment-validation-response";
-import {IUserCreatingDoublePasswords} from "../../types/interfaces/user-creating";
-import {UserValidationResponse} from "../../types/user-validation-response";
-import {ILogin} from "../../types/interfaces/login";
-import {SignInValidationResponse} from "../../types/sign-in-validation-response";
-import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
-import {IAuthTokens} from "../../types/interfaces/auth-tokens";
-import {IUserPreview} from "../../types/interfaces/user-preview";
-import {UserId} from "../../types/user-id";
-import {IAuthorsComment} from "../../types/interfaces/authors-comment";
 
-export class DataProviderService {
+import {HttpCode} from "../../constants";
+import {APIRoute} from "../../shared/constants/routes/api-route";
+import {ENV} from "../../shared/env/env";
+import type {Article, ICreatedDate} from "../../types/article";
+import {ArticleId} from "../../types/article-id";
+import type {ArticleSearchCollection} from "../../types/article-search-collection";
+import type {ArticleValidationResponse} from "../../types/article-validation-response";
+import {ArticlesByCategory} from "../../types/articles-by-category";
+import {Category} from "../../types/category";
+import {CategoryId} from "../../types/category-id";
+import {CategoryWithNumbers} from "../../types/category-with-numbers";
+import {CommentValidationResponse} from "../../types/comment-validation-response";
+import {IArticleCreating} from "../../types/interfaces/article-creating";
+import {IArticlePreview} from "../../types/interfaces/article-preview";
+import {IAuthTokens} from "../../types/interfaces/auth-tokens";
+import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
+import {IAuthorsComment} from "../../types/interfaces/authors-comment";
+import {ICollection} from "../../types/interfaces/collection";
+import {ICommentCreating} from "../../types/interfaces/comment-creating";
+import {ICommentPreview} from "../../types/interfaces/comment-preview";
+import {ILogin} from "../../types/interfaces/login";
+import {IPaginationOptions} from "../../types/interfaces/pagination-options";
+import {IUserCreatingDoublePasswords} from "../../types/interfaces/user-creating";
+import {IUserPreview} from "../../types/interfaces/user-preview";
+import {SignInValidationResponse} from "../../types/sign-in-validation-response";
+import {UserId} from "../../types/user-id";
+import {UserValidationResponse} from "../../types/user-validation-response";
+
+class DataProviderService {
   private readonly requestService: AxiosStatic;
-  private readonly apiEndPoint = ENV.API_HOST + `:` + ENV.PORT + APIRoutes.API;
+  private readonly apiEndPoint = ENV.API_HOST + `:` + ENV.PORT + APIRoute.API;
 
   constructor() {
     this.requestService = axios;
@@ -37,7 +39,7 @@ export class DataProviderService {
   public async getArticles({offset, limit}: Partial<IPaginationOptions>): Promise<ICollection<IArticlePreview>> {
     try {
       const response = await this.requestService.get<ICollection<IArticlePreview>>(
-        this.apiEndPoint + APIRoutes.ARTICLES,
+        this.apiEndPoint + APIRoute.ARTICLES,
         {
           params: {offset, limit},
         },
@@ -59,7 +61,7 @@ export class DataProviderService {
   }: Partial<IPaginationOptions> & {authorId: UserId}): Promise<ICollection<IArticlePreview>> {
     try {
       const response = await this.requestService.get<ICollection<IArticlePreview>>(
-        `${this.apiEndPoint + APIRoutes.ARTICLES_BY_AUTHOR}/${authorId}`,
+        `${this.apiEndPoint + APIRoute.ARTICLES_BY_AUTHOR}/${authorId}`,
         {
           params: {offset, limit},
         },
@@ -77,7 +79,7 @@ export class DataProviderService {
   public async createUser(newUser: IUserCreatingDoublePasswords): Promise<void | UserValidationResponse> {
     let response: AxiosResponse<void | UserValidationResponse>;
     try {
-      response = await this.requestService.post<UserValidationResponse>(this.apiEndPoint + APIRoutes.USERS, newUser);
+      response = await this.requestService.post<UserValidationResponse>(this.apiEndPoint + APIRoute.USERS, newUser);
       if (response && response?.status === HttpCode.CREATED) {
         return Promise.resolve();
       }
@@ -95,7 +97,7 @@ export class DataProviderService {
   public async signIn(signIn: ILogin): Promise<IAuthorizationSuccess | IAuthorizationFailed> {
     let response: AxiosResponse<IAuthorizationSuccess>;
     try {
-      response = await this.requestService.post<IAuthorizationSuccess>(this.apiEndPoint + APIRoutes.LOGIN, signIn);
+      response = await this.requestService.post<IAuthorizationSuccess>(this.apiEndPoint + APIRoute.LOGIN, signIn);
       if (response && response?.status === HttpCode.OK) {
         return Promise.resolve({
           isSuccess: true,
@@ -126,7 +128,7 @@ export class DataProviderService {
     let response: AxiosResponse<void | ArticleValidationResponse>;
     try {
       response = await this.requestService.post<ArticleValidationResponse>(
-        this.apiEndPoint + APIRoutes.ARTICLES,
+        this.apiEndPoint + APIRoute.ARTICLES,
         newArticle,
         getAuthHeader(authToken),
       );
@@ -153,7 +155,7 @@ export class DataProviderService {
   ): Promise<void | ArticleValidationResponse> {
     try {
       const response = await this.requestService.put<ArticleValidationResponse>(
-        `${this.apiEndPoint}/${APIRoutes.EDIT_ARTICLE}/${articleId}`,
+        `${this.apiEndPoint}/${APIRoute.EDIT_ARTICLE}/${articleId}`,
         updatingArticle,
         getAuthHeader(authToken),
       );
@@ -174,7 +176,7 @@ export class DataProviderService {
 
   public async getArticleById(id: ArticleId): Promise<Article> {
     try {
-      const response = await this.requestService.get<Article>(`${this.apiEndPoint + APIRoutes.ARTICLES}/${id}`, {});
+      const response = await this.requestService.get<Article>(`${this.apiEndPoint + APIRoute.ARTICLES}/${id}`, {});
       return transformDate(response.data);
     } catch (e) {
       console.error(`Failed to load article by id "${id}"`);
@@ -189,7 +191,7 @@ export class DataProviderService {
   }: Partial<IPaginationOptions> & {categoryId: CategoryId}): Promise<ArticlesByCategory> {
     try {
       const response = await this.requestService.get<ArticlesByCategory>(
-        `${this.apiEndPoint + APIRoutes.CATEGORIES}/${categoryId}`,
+        `${this.apiEndPoint + APIRoute.CATEGORIES}/${categoryId}`,
         {
           params: {offset, limit},
         },
@@ -208,7 +210,7 @@ export class DataProviderService {
   public async getComments(authToken: string): Promise<IAuthorsComment[]> {
     try {
       const response = await this.requestService.get<IAuthorsComment[]>(
-        this.apiEndPoint + APIRoutes.USERS_COMMENTS,
+        this.apiEndPoint + APIRoute.USERS_COMMENTS,
         getAuthHeader(authToken),
       );
       return response.data;
@@ -220,7 +222,7 @@ export class DataProviderService {
 
   public async getCategories(): Promise<Category[]> {
     try {
-      const response = await this.requestService.get<Category[]>(this.apiEndPoint + APIRoutes.CATEGORIES, {});
+      const response = await this.requestService.get<Category[]>(this.apiEndPoint + APIRoute.CATEGORIES, {});
       return response.data;
     } catch (e) {
       console.error(`Failed to load categories`);
@@ -231,7 +233,7 @@ export class DataProviderService {
   public async getCategoriesWithNumbers(): Promise<CategoryWithNumbers[]> {
     try {
       const response = await this.requestService.get<CategoryWithNumbers[]>(
-        this.apiEndPoint + APIRoutes.CATEGORIES_STATISTICS,
+        this.apiEndPoint + APIRoute.CATEGORIES_STATISTICS,
         {},
       );
       return response.data;
@@ -243,7 +245,7 @@ export class DataProviderService {
 
   public async search(query: string): Promise<ArticleSearchCollection> {
     try {
-      const response = await this.requestService.get<ArticleSearchCollection>(this.apiEndPoint + APIRoutes.SEARCH, {
+      const response = await this.requestService.get<ArticleSearchCollection>(this.apiEndPoint + APIRoute.SEARCH, {
         params: {
           query,
         },
@@ -255,10 +257,10 @@ export class DataProviderService {
     }
   }
 
-  public async getArticleComments(articleId: ArticleId): Promise<ArticleComment[]> {
+  public async getArticleComments(articleId: ArticleId): Promise<ICommentPreview[]> {
     try {
-      const response = await this.requestService.get<ArticleComment[]>(
-        `${this.apiEndPoint + APIRoutes.ARTICLES}/${articleId}${APIRoutes.COMMENTS}`,
+      const response = await this.requestService.get<ICommentPreview[]>(
+        `${this.apiEndPoint + APIRoute.ARTICLES}/${articleId}${APIRoute.COMMENTS}`,
         {},
       );
       return response.data.map(transformDate);
@@ -272,7 +274,7 @@ export class DataProviderService {
     let response: AxiosResponse<void | CommentValidationResponse>;
     try {
       response = await this.requestService.post<CommentValidationResponse>(
-        `${this.apiEndPoint + APIRoutes.ARTICLES}/${comment.articleId}/comments`,
+        `${this.apiEndPoint + APIRoute.ARTICLES}/${comment.articleId}/comments`,
         comment,
         getAuthHeader(authToken),
       );
@@ -294,7 +296,7 @@ export class DataProviderService {
   public async refreshTokens(refreshToken: string): Promise<IAuthTokens> {
     let response: AxiosResponse<IAuthTokens>;
     try {
-      response = await this.requestService.post<IAuthTokens>(this.apiEndPoint + APIRoutes.REFRESH_TOKENS, {
+      response = await this.requestService.post<IAuthTokens>(this.apiEndPoint + APIRoute.REFRESH_TOKENS, {
         refreshToken,
       });
       if (response && response?.status === HttpCode.OK) {
@@ -313,7 +315,7 @@ export class DataProviderService {
     let response: AxiosResponse<void>;
     try {
       response = await this.requestService.post<void>(
-        this.apiEndPoint + APIRoutes.LOGOUT,
+        this.apiEndPoint + APIRoute.LOGOUT,
         {refreshToken},
         getAuthHeader(authToken),
       );
@@ -330,7 +332,7 @@ export class DataProviderService {
     let response: AxiosResponse<IUserPreview>;
     try {
       response = await this.requestService.get<IUserPreview>(
-        this.apiEndPoint + APIRoutes.GET_USER,
+        this.apiEndPoint + APIRoute.GET_USER,
         getAuthHeader(authToken),
       );
       if (response && response?.status === HttpCode.OK) {
@@ -353,3 +355,7 @@ function getAuthHeader(token: string): Record<string, Record<string, string>> {
   };
   return {headers};
 }
+
+export {
+  DataProviderService,
+};

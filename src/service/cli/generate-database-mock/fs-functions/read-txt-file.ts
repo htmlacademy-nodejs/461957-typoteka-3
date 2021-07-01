@@ -1,7 +1,8 @@
 import {promises} from "fs";
+
 import chalk from "chalk";
 
-export async function readTXTFile(filePath: string): Promise<string[]> {
+async function readTXTFile(filePath: string): Promise<string[]> {
   try {
     const rawContent: string = await promises.readFile(filePath, `utf8`);
     console.log(chalk.white(`Read successfully: ${filePath}`));
@@ -16,3 +17,7 @@ export async function readTXTFile(filePath: string): Promise<string[]> {
     return [];
   }
 }
+
+export {
+  readTXTFile,
+};

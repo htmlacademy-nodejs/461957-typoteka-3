@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FunctionComponent} from "react";
 
 interface Props {
   createdDate: Date;
@@ -6,18 +6,22 @@ interface Props {
   link: string;
 }
 
-export function Note(props: Props): JSX.Element {
+const Note: FunctionComponent<Props> = ({title, createdDate, link}) => {
   return (
     <>
-      <time className="notes__item-time" dateTime={props.createdDate.toISOString()}>
-        {props.createdDate.toLocaleString()}
+      <time className="notes__item-time" dateTime={createdDate.toISOString()}>
+        {createdDate.toLocaleString()}
       </time>
-      <a className="notes__item-text" href={props.link}>
-        {props.title}
+      <a className="notes__item-text" href={link}>
+        {title}
       </a>
       <button className="notes__button button button--close-item" type="button">
         <span className="visually-hidden">Закрыть строку списка</span>
       </button>
     </>
   );
-}
+};
+
+export {
+  Note,
+};

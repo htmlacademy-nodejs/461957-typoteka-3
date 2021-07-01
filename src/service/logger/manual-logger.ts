@@ -1,13 +1,17 @@
-import pino, {Bindings} from "pino";
-import {Logger} from "pino";
+import pino, {Bindings, Logger} from "pino";
+
+import {LogLevel} from "../../constants";
 import {ENV} from "../../shared/env/env";
-import {LogLevel} from "../../constants-es6";
 
 const logger = pino({
   name: `logger`,
   level: ENV.LOG_LEVEL ?? LogLevel.ERROR,
 });
 
-export function getLogger(options: Bindings = {}): Logger {
+function getLogger(options: Bindings = {}): Logger {
   return logger.child(options);
 }
+
+export {
+  getLogger,
+};

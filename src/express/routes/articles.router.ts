@@ -1,28 +1,33 @@
-import {NextFunction, Request, Router} from "express";
-import {streamPage} from "../utils/stream-page";
-import {SSRError} from "../errors/ssr-error";
-import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {dataProviderService} from "../services";
-import multer from "multer";
-import type {ArticleValidationResponse} from "../../types/article-validation-response";
-import {EditArticlePage} from "../views/pages/EditArticlePage";
-import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
-import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
-import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
-import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
-import type {ArticleFromBrowser} from "../../types/article-from-browser";
-import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
-import {getArticleLink} from "../helpers/link-resolver";
-import {IArticleCreating} from "../../types/interfaces/article-creating";
-import {prepareArticlePage} from "../helpers/prepare-article-page";
-import {IResponseExtended} from "../../types/interfaces/response-extended";
-import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
-import {isAuthorUserMiddleware} from "../middlewares";
 import csrf from "csurf";
+import {NextFunction, Request, Router} from "express";
+import multer from "multer";
+
+import {HttpCode} from "../../constants";
+import {ClientRoute} from "../../shared/constants/routes/client-route";
+import type {ArticleFromBrowser} from "../../types/article-from-browser";
+import type {ArticleValidationResponse} from "../../types/article-validation-response";
+import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
+import {IArticleCreating} from "../../types/interfaces/article-creating";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
+import {SSRError} from "../errors/ssr-error";
+import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
+import {getArticleLink} from "../helpers/link-resolver";
+import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers/page-resolver";
+import {prepareArticlePage} from "../helpers/prepare-article-page";
+import {getLogger} from "../logger";
+import {isAuthorUserMiddleware} from "../middlewares";
+import {articleValidationResponseMapper} from "../models/dto/article-validation-responce";
+import {dataProviderService} from "../services";
+import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
+import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
+import {streamPage} from "../utils/stream-page";
+import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
+import {EditArticlePage} from "../views/pages/EditArticlePage";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
-export const articlesRouter = Router();
+const articlesRouter = Router();
+const logger = getLogger();
 
 articlesRouter.get(
   `/add`,
@@ -31,10 +36,11 @@ articlesRouter.get(
     try {
       const categories = await dataProviderService.getCategories();
       return streamPage(res, EditArticlePage, {
-        endPoint: ClientRoutes.ARTICLES.ADD,
+        endPoint: ClientRoute.ARTICLES.ADD,
         availableCategories: categories,
         currentUser: res.locals.currentUser,
         csrf: req.csrfToken(),
+        articleValidationResponse: {},
       });
     } catch (e) {
       return next(
@@ -65,14 +71,14 @@ articlesRouter.post(
         getAccessTokenFromCookies(req),
       );
       if (!articleValidationResponse) {
-        return res.redirect(ClientRoutes.ADMIN.INDEX);
+        return res.redirect(ClientRoute.ADMIN.INDEX);
       }
       try {
         const categories = await dataProviderService.getCategories();
         return streamPage(res, EditArticlePage, {
           article: {...newArticle, createdDate: parseDateFromFrontend(newArticle.createdDate)},
-          endPoint: ClientRoutes.ARTICLES.ADD,
-          articleValidationResponse,
+          endPoint: ClientRoute.ARTICLES.ADD,
+          articleValidationResponse: articleValidationResponseMapper(articleValidationResponse),
           availableCategories: categories,
           currentUser: res.locals.currentUser,
           csrf: req.csrfToken(),
@@ -117,14 +123,14 @@ articlesRouter.post(
         getAccessTokenFromCookies(req),
       );
       if (!articleValidationResponse) {
-        return res.redirect(ClientRoutes.ADMIN.INDEX);
+        return res.redirect(ClientRoute.ADMIN.INDEX);
       }
       try {
         const categories = await dataProviderService.getCategories();
         return streamPage(res, EditArticlePage, {
           article: updatingArticle,
-          endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
-          articleValidationResponse,
+          endPoint: `${ClientRoute.ARTICLES.EDIT}/${articleId}`,
+          articleValidationResponse: articleValidationResponseMapper(articleValidationResponse),
           availableCategories: categories,
           isUpdating: true,
           currentUser: res.locals.currentUser,
@@ -167,7 +173,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: IResponseExtended,
       selectedCategoryId: category.id,
       total: totalCount,
       page: getCurrentPage(offset),
-      prefix: `${ClientRoutes.ARTICLES.CATEGORY}/${category.id}?`,
+      prefix: `${ClientRoute.ARTICLES.CATEGORY}/${category.id}?`,
       currentUser: res.locals.currentUser,
     });
   } catch (e) {
@@ -191,6 +197,7 @@ articlesRouter.get(`/:id`, [csrfProtection], async (req: Request, res: IResponse
     });
     return streamPage(res, articlePage, {...props, previousPageUrl: req.header(`referer`)});
   } catch (e) {
+    logger.error(e);
     return next(
       new SSRError({
         message: `Failed to get article`,
@@ -213,11 +220,12 @@ articlesRouter.get(
       ]);
       return streamPage(res, EditArticlePage, {
         article,
-        endPoint: `${ClientRoutes.ARTICLES.EDIT}/${articleId}`,
+        endPoint: `${ClientRoute.ARTICLES.EDIT}/${articleId}`,
         availableCategories: categories,
         isUpdating: true,
         currentUser: res.locals.currentUser,
         csrf: req.csrfToken(),
+        articleValidationResponse: {},
       });
     } catch (e) {
       return next(
@@ -234,3 +242,7 @@ articlesRouter.get(
 function parseDateFromFrontend(date: unknown): Date {
   return new Date(Date.parse(date as string));
 }
+
+export {
+  articlesRouter,
+};

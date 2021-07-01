@@ -1,7 +1,8 @@
 import {promises} from "fs";
+
 import chalk from "chalk";
 
-export async function appendToFile(filePath: string, content: string): Promise<void> {
+async function appendToFile(filePath: string, content: string): Promise<void> {
   try {
     await promises.appendFile(filePath, content);
   } catch (e) {
@@ -9,3 +10,7 @@ export async function appendToFile(filePath: string, content: string): Promise<v
     console.error(chalk.red(e));
   }
 }
+
+export {
+  appendToFile,
+};

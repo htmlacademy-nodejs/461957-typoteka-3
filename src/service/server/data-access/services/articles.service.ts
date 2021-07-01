@@ -1,18 +1,19 @@
-import {IArticleModel} from "../models/article";
-import {TableName} from "../constants/table-name";
-import Sequelize, {FindAttributeOptions, Model} from "sequelize";
-import {CategoryId} from "../../../../types/category-id";
-import {ArticleId} from "../../../../types/article-id";
-import {IArticlePlain} from "../../../../types/interfaces/article-plain";
-import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
-import {ICollection} from "../../../../types/interfaces/collection";
-import {IArticleCreating} from "../../../../types/interfaces/article-creating";
 import {Logger} from "pino";
-import {getLogger} from "../../../logger";
-import {UserId} from "../../../../types/user-id";
-import {IArticleTitleAndDate} from "../../../../types/interfaces/article-title-and-date";
+import Sequelize, {FindAttributeOptions, Model} from "sequelize";
 
-export class ArticlesService {
+import {ArticleId} from "../../../../types/article-id";
+import {CategoryId} from "../../../../types/category-id";
+import {IArticleCreating} from "../../../../types/interfaces/article-creating";
+import {IArticlePlain} from "../../../../types/interfaces/article-plain";
+import {IArticleTitleAndDate} from "../../../../types/interfaces/article-title-and-date";
+import {ICollection} from "../../../../types/interfaces/collection";
+import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
+import {UserId} from "../../../../types/user-id";
+import {getLogger} from "../../../logger";
+import {TableName} from "../constants/table-name";
+import {IArticleModel} from "../models/article";
+
+class ArticlesService {
   private readonly logger: Logger = getLogger(); // TODO: [DI] Move to constructor
   constructor(private readonly ArticleModel: IArticleModel) {}
 
@@ -221,3 +222,7 @@ export class ArticlesService {
     }
   }
 }
+
+export {
+  ArticlesService,
+};

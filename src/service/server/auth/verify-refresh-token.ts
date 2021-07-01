@@ -1,9 +1,10 @@
-import {ENV} from "../../../shared/env/env";
-import {HttpCode} from "../../../constants-es6";
-import {IUserPreview} from "../../../types/interfaces/user-preview";
 import {verify} from "jsonwebtoken";
 
-export async function verifyRefreshToken(token: string): Promise<IUserPreview> {
+import {HttpCode} from "../../../constants";
+import {ENV} from "../../../shared/env/env";
+import {IUserPreview} from "../../../types/interfaces/user-preview";
+
+async function verifyRefreshToken(token: string): Promise<IUserPreview> {
   return new Promise((resolve, reject) => {
     verify(token, ENV.JWT_REFRESH_SECRET, (err, userData: IUserPreview & unknown) => {
       if (err) {
@@ -23,3 +24,7 @@ function extractUserFromToken(refreshToken: IUserPreview & unknown): IUserPrevie
     roleId: refreshToken.roleId,
   };
 }
+
+export {
+  verifyRefreshToken,
+};

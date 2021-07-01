@@ -1,9 +1,10 @@
 import Joi from "joi";
+
 import {ICommentCreating} from "../../../../types/interfaces/comment-creating";
 
 const COMMENT_TEXT_MIN_LENGTH = 20;
 
-export const newCommentSchema = Joi.object<ICommentCreating>({
+const newCommentSchema = Joi.object<ICommentCreating>({
   text: Joi.string()
     .min(COMMENT_TEXT_MIN_LENGTH)
     .required()
@@ -20,3 +21,7 @@ export const newCommentSchema = Joi.object<ICommentCreating>({
     "any.required": `Обязательное поле`,
   }),
 });
+
+export {
+  newCommentSchema,
+};

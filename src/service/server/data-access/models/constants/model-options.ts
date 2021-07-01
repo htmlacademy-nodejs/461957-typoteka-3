@@ -1,5 +1,9 @@
-export const modelOptions = {
+const modelOptions = {
   timestamps: false,
   paranoid: false,
   underscored: true,
+};
+
+export {
+  modelOptions,
 };

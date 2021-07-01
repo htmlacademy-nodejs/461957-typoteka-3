@@ -1,10 +1,11 @@
-import {ILogin} from "../../../../types/interfaces/login";
-import {agent as request} from "supertest";
-import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
-import {getNumericalId} from "../../../../shared/get-id";
 import {Application} from "express";
+import {agent as request} from "supertest";
 
-export async function createUser(app: Application): Promise<ILogin> {
+import {getNumericalId} from "../../../../shared/get-id";
+import {ILogin} from "../../../../types/interfaces/login";
+import {IUserCreatingDoublePasswords} from "../../../../types/interfaces/user-creating";
+
+async function createUser(app: Application): Promise<ILogin> {
   const email = `zaberkirder${getNumericalId()}@usgs.gov`;
   const signInCredentials: ILogin = {
     email,
@@ -22,3 +23,7 @@ export async function createUser(app: Application): Promise<ILogin> {
   await request(app).post(`/api/users`).send(newUser);
   return signInCredentials;
 }
+
+export {
+  createUser,
+};

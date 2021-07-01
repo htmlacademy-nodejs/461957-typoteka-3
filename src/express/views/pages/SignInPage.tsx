@@ -1,71 +1,73 @@
+import {PrimaryButton, Stack, TextField} from "@fluentui/react";
 import React, {FunctionComponent} from "react";
+
+import {NewUserFormField} from "../../../shared/constants/forms/new-user-form-field";
+import {SingInFormField} from "../../../shared/constants/forms/sing-in-form-field";
+import {SignInFormValidation} from "../../../types/form-fields/sign-in-form-validation";
+import {ILogin} from "../../../types/interfaces/login";
+import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
+import {FormValidationBlock} from "../components/Form/FormValidationBlock";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {SignInWrapper} from "../components/SignInWrapper/SignInWrapper";
-import {NEW_USER_FORM_FIELDS} from "../../../constants-es6";
 import {ValidationMessage} from "../components/ValidationMessage/ValidationMessage";
-import {SING_IN_FORM_FIELDS} from "../../../shared/constants/forms/sing-in-form-fields";
-import {SignInValidationResponse} from "../../../types/sign-in-validation-response";
-import {ILogin} from "../../../types/interfaces/login";
-import {FormValidationBlock} from "../components/Form/FormValidationBlock";
-import {FormValidationMessage} from "../components/Form/FormValidationMessage";
-import {CsrfHiddenInput} from "../components/CsrfHiddenInput/CsrfHiddenInput";
 import {ICsrfInput} from "../interfaces/csrf-input";
 
 interface Props extends ICsrfInput {
   endPoint: string;
-  signInValidationResponse?: Partial<SignInValidationResponse>;
+  signInValidationResponse: SignInFormValidation;
   signIn?: Omit<ILogin, "password">;
 }
 
-export const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidationResponse = {}, signIn, csrf}) => {
+const SignInPage: FunctionComponent<Props> = ({endPoint, signInValidationResponse = {}, signIn, csrf}) => {
   const signInFields = {email: signIn?.email ?? ``};
+  const validationMessages = resolveValidationMessages(signInValidationResponse);
   return (
     <LayoutFilled pageTitle={`Вход`} currentUser={null}>
       <SignInWrapper>
-        <h2 className="popup__title">Войти</h2>
-        <div className="popup__form form form--log-in">
-          <form action={endPoint} method="POST" encType="multipart/form-data">
-            {Object.keys(signInValidationResponse).length ? (
-              <FormValidationBlock title={"При входе произошли ошибки:"}>
-                {Object.entries(signInValidationResponse).map(([key, validation]) => (
-                  <li key={key}>
-                    <FormValidationMessage>
-                      <strong>{NEW_USER_FORM_FIELDS[key]?.label}:</strong> {validation}
-                    </FormValidationMessage>
-                  </li>
-                ))}
-              </FormValidationBlock>
-            ) : null}
-            <div className="form__field">
-              <label>
-                <input
+        <form action={endPoint} method="POST" encType="multipart/form-data">
+          <Stack tokens={{childrenGap: 32}}>
+            <Stack tokens={{childrenGap: 16}}>
+              {validationMessages.length ? (
+                <FormValidationBlock title="При входе произошли ошибки:" messages={validationMessages} />
+              ) : null}
+              <div className="form__field">
+                <TextField
                   type="email"
-                  name={SING_IN_FORM_FIELDS.email.name}
+                  label={SingInFormField.EMAIL.label}
+                  name={SingInFormField.EMAIL.name}
                   defaultValue={signInFields.email}
-                  placeholder={SING_IN_FORM_FIELDS.email.label}
                   required
                 />
-              </label>
-            </div>
-            <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.email.name]} />
-            <div className="form__field">
-              <label>
-                <input
+                <ValidationMessage message={signInValidationResponse.EMAIL} />
+              </div>
+              <div className="form__field">
+                <TextField
                   type="password"
-                  name={SING_IN_FORM_FIELDS.password.name}
-                  placeholder={SING_IN_FORM_FIELDS.password.label}
+                  label={SingInFormField.PASSWORD.label}
+                  name={SingInFormField.PASSWORD.name}
                   required
                 />
-              </label>
-            </div>
-            <ValidationMessage message={signInValidationResponse[SING_IN_FORM_FIELDS.password.name]} />
-            <button className="form__submit-btn form__submit-btn--log-in button button--colored" type="submit">
-              Войти
-            </button>
-            <CsrfHiddenInput csrf={csrf} />
-          </form>
-        </div>
+                <ValidationMessage message={signInValidationResponse.PASSWORD} />
+              </div>
+            </Stack>
+            <Stack.Item align="end">
+              <PrimaryButton type="submit">Войти</PrimaryButton>
+            </Stack.Item>
+          </Stack>
+          <CsrfHiddenInput csrf={csrf} />
+        </form>
       </SignInWrapper>
     </LayoutFilled>
   );
+};
+
+function resolveValidationMessages(validationResponse: Record<string, string>): [string, string][] {
+  return Object.entries(validationResponse).map(([key, value]: [keyof typeof NewUserFormField, string]) => [
+    NewUserFormField[key]?.label,
+    value,
+  ]);
+}
+
+export {
+  SignInPage,
 };

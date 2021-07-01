@@ -1,11 +1,16 @@
 import {customAlphabet, nanoid} from "nanoid";
 
-export function getNumericalId(): number {
+function getNumericalId(): number {
   const alphabet = `0123456789`;
   const idGenerator = customAlphabet(alphabet, 24);
   return parseInt(idGenerator(), 10);
 }
 
-export function getId(): string {
+function getId(): string {
   return nanoid(16);
 }
+
+export {
+  getId,
+  getNumericalId,
+};

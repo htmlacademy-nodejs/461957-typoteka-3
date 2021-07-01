@@ -1,10 +1,12 @@
-import {newUserSchema} from "./schemas";
 import {ValidationError} from "joi";
-import {getValidationDictionary} from "./get-validation-dictionary";
+
 import {IUserCreatingDoublePasswords} from "../../../types/interfaces/user-creating";
 import {getLogger} from "../../logger";
 
-export async function validateNewUser(newUser: IUserCreatingDoublePasswords): Promise<IUserCreatingDoublePasswords> {
+import {getValidationDictionary} from "./get-validation-dictionary";
+import {newUserSchema} from "./schemas";
+
+async function validateNewUser(newUser: IUserCreatingDoublePasswords): Promise<IUserCreatingDoublePasswords> {
   const logger = getLogger();
   try {
     return (await newUserSchema.validateAsync(newUser, {abortEarly: false})) as IUserCreatingDoublePasswords;
@@ -17,3 +19,7 @@ export async function validateNewUser(newUser: IUserCreatingDoublePasswords): Pr
     throw e;
   }
 }
+
+export {
+  validateNewUser,
+};

@@ -1,22 +1,29 @@
+import csrf from "csurf";
 import {NextFunction, Request, Router} from "express";
-import {streamPage} from "../utils/stream-page";
-import {RegistrationPage} from "../views/pages/RegistrationPage";
-import {dataProviderService} from "../services";
-import {ClientRoutes, HttpCode} from "../../constants-es6";
-import {SSRError} from "../errors/ssr-error";
+import multer from "multer";
+
+import {HttpCode} from "../../constants";
+import {RoleId} from "../../shared/constants/role-id";
+import {ClientRoute} from "../../shared/constants/routes/client-route";
+import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {IUserCreatingDoublePasswords, UserCreatingFromForm} from "../../types/interfaces/user-creating";
 import {UserValidationResponse} from "../../types/user-validation-response";
-import multer from "multer";
-import {IResponseExtended} from "../../types/interfaces/response-extended";
-import {RoleId} from "../../shared/constants/role-id";
-import csrf from "csurf";
+import {SSRError} from "../errors/ssr-error";
+import {registrationValidationResponseMapper} from "../models/dto/registration-validation-responce";
+import {dataProviderService} from "../services";
+import {streamPage} from "../utils/stream-page";
+import {RegistrationPage} from "../views/pages/RegistrationPage";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
-export const registrationRouter = Router();
+const registrationRouter = Router();
 
 registrationRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExtended) => {
-  streamPage(res, RegistrationPage, {endPoint: ClientRoutes.REGISTRATION, csrf: req.csrfToken()});
+  streamPage(res, RegistrationPage, {
+    endPoint: ClientRoute.REGISTRATION,
+    csrf: req.csrfToken(),
+    userValidationResponse: {},
+  });
 });
 
 registrationRouter.post(
@@ -35,11 +42,11 @@ registrationRouter.post(
     try {
       const newUserValidationResponse: UserValidationResponse | void = await dataProviderService.createUser(newUser);
       if (!newUserValidationResponse) {
-        return res.redirect(ClientRoutes.SIGN_IN);
+        return res.redirect(ClientRoute.SIGN_IN);
       }
       return streamPage(res, RegistrationPage, {
-        endPoint: ClientRoutes.REGISTRATION,
-        userValidationResponse: newUserValidationResponse,
+        endPoint: ClientRoute.REGISTRATION,
+        userValidationResponse: registrationValidationResponseMapper(newUserValidationResponse),
         user: newUser,
         csrf: req.csrfToken(),
       });
@@ -54,3 +61,7 @@ registrationRouter.post(
     }
   },
 );
+
+export {
+  registrationRouter,
+};

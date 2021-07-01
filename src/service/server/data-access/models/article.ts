@@ -1,19 +1,21 @@
 import {DataTypes, HasManyAddAssociationMixin, Model, ModelCtor, Sequelize} from "sequelize";
-import {TableName} from "../constants/table-name";
+
 import {IAnnounce, IArticleId, ICreatedDate, IFullText, ITitle} from "../../../../types/article";
-import {modelOptions} from "./constants/model-options";
-import {ICategoryEntity} from "./category";
 import {CategoryId} from "../../../../types/category-id";
 import {IAuthorId} from "../../../../types/interfaces/author-id";
+import {TableName} from "../constants/table-name";
+
+import {ICategoryEntity} from "./category";
+import {modelOptions} from "./constants/model-options";
 
 type PredefinedArticle = IArticleId & ITitle & ICreatedDate & IAnnounce & IFullText & IAuthorId;
 type ArticleCreationAttributes = ITitle & ICreatedDate & IAnnounce & IFullText & IAuthorId;
-export type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes> & {
+type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes> & {
   setCategories(categoryIds: CategoryId[]): Promise<HasManyAddAssociationMixin<ICategoryEntity, CategoryId[]>>;
 };
-export type IArticleModel = ModelCtor<IArticleEntity>;
+type IArticleModel = ModelCtor<IArticleEntity>;
 
-export const defineArticle = (sequelize: Sequelize): IArticleModel =>
+const defineArticle = (sequelize: Sequelize): IArticleModel =>
   sequelize.define<IArticleEntity>(
     `Article`,
     {
@@ -49,3 +51,9 @@ export const defineArticle = (sequelize: Sequelize): IArticleModel =>
       tableName: TableName.ARTICLES,
     },
   );
+
+export {
+  IArticleEntity,
+  IArticleModel,
+  defineArticle,
+};

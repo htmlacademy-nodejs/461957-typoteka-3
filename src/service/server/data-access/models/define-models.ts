@@ -1,15 +1,17 @@
 import {Sequelize} from "sequelize";
-import {defineCategory, ICategoryModel} from "./category";
+
+import {ArticleCategoryProperty, ArticleProperty, CommentProperty, UserProperty} from "../constants/property-name";
+import {TableName} from "../constants/table-name";
+
 import {defineArticle, IArticleModel} from "./article";
+import {defineCategory, ICategoryModel} from "./category";
 import {defineComment, ICommentModel} from "./comment";
 import {defineIntermediateModel} from "./intermediate";
-import {TableName} from "../constants/table-name";
-import {ArticleCategoryProperty, ArticleProperty, CommentProperty, UserProperty} from "../constants/property-name";
-import {defineUser, IUserModel} from "./user";
-import {defineRole, IRoleModel} from "./role";
 import {defineRefreshToken, IRefreshTokenModel} from "./refresh-tokens";
+import {defineRole, IRoleModel} from "./role";
+import {defineUser, IUserModel} from "./user";
 
-export interface DatabaseModels {
+interface DatabaseModels {
   CategoryModel: ICategoryModel;
   ArticleModel: IArticleModel;
   CommentModel: ICommentModel;
@@ -18,7 +20,7 @@ export interface DatabaseModels {
   RefreshTokenModel: IRefreshTokenModel;
 }
 
-export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
+function defineDatabaseModels(connection: Sequelize): DatabaseModels {
   const CategoryModel = defineCategory(connection);
   const ArticleModel = defineArticle(connection);
   const CommentModel = defineComment(connection);
@@ -58,3 +60,8 @@ export function defineDatabaseModels(connection: Sequelize): DatabaseModels {
     RefreshTokenModel,
   };
 }
+
+export {
+  DatabaseModels,
+  defineDatabaseModels,
+};

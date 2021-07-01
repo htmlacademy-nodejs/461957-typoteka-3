@@ -1,15 +1,17 @@
 import {DataTypes, Model, ModelCtor, Sequelize} from "sequelize";
-import {TableName} from "../constants/table-name";
+
 import {ArticleComment} from "../../../../types/article-comment";
-import {modelOptions} from "./constants/model-options";
 import {ICommentCreating} from "../../../../types/interfaces/comment-creating";
+import {TableName} from "../constants/table-name";
+
+import {modelOptions} from "./constants/model-options";
 
 type PredefinedCommentAttributes = ArticleComment;
 type CommentCreationAttributes = ICommentCreating;
-export type ICommentEntity = Model<PredefinedCommentAttributes, CommentCreationAttributes>;
-export type ICommentModel = ModelCtor<ICommentEntity>;
+type ICommentEntity = Model<PredefinedCommentAttributes, CommentCreationAttributes>;
+type ICommentModel = ModelCtor<ICommentEntity>;
 
-export const defineComment = (sequelize: Sequelize): ICommentModel =>
+const defineComment = (sequelize: Sequelize): ICommentModel =>
   sequelize.define<ICommentEntity>(
     `Comment`,
     {
@@ -41,3 +43,9 @@ export const defineComment = (sequelize: Sequelize): ICommentModel =>
       tableName: TableName.COMMENTS,
     },
   );
+
+export {
+  ICommentEntity,
+  ICommentModel,
+  defineComment,
+};

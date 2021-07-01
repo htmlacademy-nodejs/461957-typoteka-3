@@ -1,4 +1,4 @@
-export const ENV = {
+const ENV = {
   PORT: process.env.PORT,
   API_HOST: process.env.API_HOST,
   SSR_PORT: process.env.SSR_PORT,
@@ -12,4 +12,8 @@ export const ENV = {
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
   JWT_ACCESS_EXPIRATION: process.env.JWT_ACCESS_EXPIRATION,
   JWT_REFRESH_EXPIRATION: process.env.JWT_REFRESH_EXPIRATION,
+};
+
+export {
+  ENV,
 };
