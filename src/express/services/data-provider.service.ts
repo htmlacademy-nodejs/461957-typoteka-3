@@ -260,7 +260,7 @@ class DataProviderService {
   public async getArticleComments(articleId: ArticleId): Promise<ICommentPreview[]> {
     try {
       const response = await this.requestService.get<ICommentPreview[]>(
-        `${this.apiEndPoint + APIRoute.ARTICLES}/${articleId}${APIRoute.COMMENTS}`,
+        `${this.apiEndPoint + APIRoute.ARTICLE_COMMENTS}/${articleId}`,
         {},
       );
       return response.data.map(transformDate);
@@ -274,7 +274,7 @@ class DataProviderService {
     let response: AxiosResponse<void | CommentValidationResponse>;
     try {
       response = await this.requestService.post<CommentValidationResponse>(
-        `${this.apiEndPoint + APIRoute.ARTICLES}/${comment.articleId}/comments`,
+        `${this.apiEndPoint + APIRoute.COMMENTS}`,
         comment,
         getAuthHeader(authToken),
       );
@@ -356,6 +356,4 @@ function getAuthHeader(token: string): Record<string, Record<string, string>> {
   return {headers};
 }
 
-export {
-  DataProviderService,
-};
+export {DataProviderService};

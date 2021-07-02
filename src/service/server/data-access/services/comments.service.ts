@@ -95,7 +95,6 @@ class CommentsService {
         ],
         order: [[`createdDate`, `ASC`]],
       });
-      console.log(comments);
       return comments
         .map<unknown>(item => item.get({plain: true}))
         .map((item: ICommentPreview & {users: IUserPreview; articles: {title: string}}) => {
@@ -148,6 +147,4 @@ function assignAuthorToComment(item: ICommentPreview & {users: IUserPreview}): I
   };
 }
 
-export {
-  CommentsService,
-};
+export {CommentsService};

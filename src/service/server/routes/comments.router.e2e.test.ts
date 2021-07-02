@@ -45,16 +45,16 @@ describe(`Comments router`, () => {
 
   describe(`GET comments by article id`, () => {
     test(`Should return code 200 when request valid id`, async () => {
-      const res = await request(app).get(`/api/articles/${validArticleId}/comments/`);
+      const res = await request(app).get(`/api/comments/article/${validArticleId}/`);
       expect(res.status).toBe(200);
     });
     test(`Should return an array`, async () => {
-      const res = await request(app).get(`/api/articles/${validArticleId}/comments/`);
+      const res = await request(app).get(`/api/comments/article/${validArticleId}/`);
       console.log(res.body);
       expect(Array.isArray(res.body)).toBe(true);
     });
     test(`Should return an empty array when request invalid id`, async () => {
-      const res = await request(app).get(`/api/articles/${invalidArticleId}/comments/`);
+      const res = await request(app).get(`/api/comments/article/${invalidArticleId}/`);
       expect((res.body as any[]).length).toBe(0);
     });
   });
@@ -62,19 +62,19 @@ describe(`Comments router`, () => {
   describe(`GET comment by id`, () => {
     beforeEach(async () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const {body: comments} = await request(app).get(`/api/articles/${articleWithCommentsId}/comments/`);
+      const {body: comments} = await request(app).get(`/api/comments/article/${articleWithCommentsId}/`);
       validCommentId = (comments as ArticleComment[])[0].id;
     });
     test(`Should return code 404 when request invalid id`, async () => {
-      const res = await request(app).get(`/api/articles/${articleWithCommentsId}/comments/${invalidCommentId}`);
+      const res = await request(app).get(`/api/comments/article/${articleWithCommentsId}/${invalidCommentId}`);
       expect(res.status).toBe(404);
     });
     test(`Should return code 200 when request valid id`, async () => {
-      const res = await request(app).get(`/api/articles/${articleWithCommentsId}/comments/${validCommentId}`);
+      const res = await request(app).get(`/api/comments/article/${articleWithCommentsId}/${validCommentId}`);
       expect(res.status).toBe(200);
     });
     test(`Should return valid structure`, async () => {
-      const res = await request(app).get(`/api/articles/${articleWithCommentsId}/comments/${validCommentId}`);
+      const res = await request(app).get(`/api/comments/article/${articleWithCommentsId}/${validCommentId}`);
       const responseKeys = Object.keys(res.body as Article);
       expect(responseKeys).toContain(`id`);
       expect(responseKeys).toContain(`text`);
@@ -83,11 +83,11 @@ describe(`Comments router`, () => {
 
   describe(`POST Create comment`, () => {
     test(`Should return code 400 when pass invalid content`, async () => {
-      const res = await request(app).post(`/api/articles/${validArticleId}/comments/`).send(invalidNewComment);
+      const res = await request(app).post(`/api/comments/`).send(invalidNewComment);
       expect(res.status).toBe(400);
     });
     test(`Should return code 201 when pass valid params`, async () => {
-      const res = await request(app).post(`/api/articles/${validArticleId}/comments/`).send(validNewComment);
+      const res = await request(app).post(`/api/comments/`).send(validNewComment);
       expect(res.status).toBe(201);
     });
   });
@@ -95,15 +95,15 @@ describe(`Comments router`, () => {
   describe(`DELETE comment by id`, () => {
     beforeAll(async () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const {body: comments} = await request(app).get(`/api/articles/${validArticleId}/comments/`);
+      const {body: comments} = await request(app).get(`/api/comments/article/${validArticleId}/`);
       validCommentId = (comments as ArticleComment[])[0].id;
     });
     test(`Should return code 404 when pass invalid id`, async () => {
-      const res = await request(app).delete(`/api/articles/${validArticleId}/comments/${invalidCommentId}`);
+      const res = await request(app).delete(`/api/comments/article/${validArticleId}/${invalidCommentId}`);
       expect(res.status).toBe(404);
     });
     test(`Should return code 200 when pass valid id`, async () => {
-      const res = await request(app).delete(`/api/articles/${validArticleId}/comments/${validCommentId}`);
+      const res = await request(app).delete(`/api/comments/article/${validArticleId}/${validCommentId}`);
       expect(res.status).toBe(200);
     });
   });
