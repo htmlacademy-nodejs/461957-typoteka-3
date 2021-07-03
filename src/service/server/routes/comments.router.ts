@@ -33,6 +33,12 @@ const commentsRouter = (commentsController: CommentsController): Router => {
     const {status = HttpCode.OK, payload} = await commentsController.deleteCommentById(articleId, commentId);
     res.status(status).send(payload);
   });
+  router.get(`/recent`, async (req, res) => {
+    console.log(`params`, req.query?.limit as string);
+    const limit = req.query?.limit ? parseInt(req.query.limit as string, 10) : undefined;
+    const {status = HttpCode.OK, payload} = await commentsController.getRecent({limit});
+    res.status(status).send(payload);
+  });
 
   return router;
 };

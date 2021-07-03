@@ -1,3 +1,4 @@
+/* eslint-disable max-nested-callbacks */
 import * as http from "http";
 
 import {Application} from "express";
@@ -7,6 +8,7 @@ import {Article, IArticleId, ICommentsCount} from "../../../types/article";
 import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {ArticleId} from "../../../types/article-id";
 import {ICommentCreating} from "../../../types/interfaces/comment-creating";
+import {ICommentPreview} from "../../../types/interfaces/comment-preview";
 
 import {initApp} from "./tests-boilerplate/init-app";
 
@@ -105,6 +107,45 @@ describe(`Comments router`, () => {
     test(`Should return code 200 when pass valid id`, async () => {
       const res = await request(app).delete(`/api/comments/article/${validArticleId}/${validCommentId}`);
       expect(res.status).toBe(200);
+    });
+  });
+
+  describe(`GET recent comments`, () => {
+    test(`Should return code 200`, async () => {
+      const res = await request(app).get(`/api/comments/recent`);
+      expect(res.status).toBe(200);
+    });
+    test(`Should return an array`, async () => {
+      const res = await request(app).get(`/api/comments/recent`);
+      expect(Array.isArray(res.body)).toBe(true);
+    });
+    test(`Should return an array of default length`, async () => {
+      const res = await request(app).get(`/api/comments/recent`);
+      const comments = res.body as ICommentPreview[];
+      expect(comments.length).toBe(3);
+    });
+    test(`Should return an array of given length`, async () => {
+      const res = await request(app).get(`/api/comments/recent?limit=7`);
+      const comments = res.body as ICommentPreview[];
+      expect(comments.length).toBe(7);
+    });
+    test(`If pass huge limit should return an array of max length`, async () => {
+      const res = await request(app).get(`/api/comments/recent?limit=99`);
+      const comments = res.body as ICommentPreview[];
+      expect(comments.length).toBe(20);
+    });
+
+    test(`Should contains defined fields`, async () => {
+      const res = await request(app).get(`/api/comments/recent`);
+      const comments = res.body as ICommentPreview[];
+      comments.every(comment => {
+        expect(comment.hasOwnProperty(`id`)).toBeTruthy();
+        expect(comment.hasOwnProperty(`user`)).toBeTruthy();
+        expect(comment.hasOwnProperty(`text`)).toBeTruthy();
+        expect(comment.hasOwnProperty(`articleId`)).toBeTruthy();
+        expect(comment.hasOwnProperty(`authorId`)).toBeTruthy();
+        expect(comment.hasOwnProperty(`createdDate`)).toBeTruthy();
+      });
     });
   });
 });
