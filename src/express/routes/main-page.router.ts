@@ -11,6 +11,7 @@ import {dataProviderService} from "../services";
 import {resolveCategoriesLinks} from "../utils/resolve-categories-links";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
 import {streamPage} from "../utils/stream-page";
+import {LastProps} from "../views/components/Last/Last";
 import {MainPage} from "../views/pages/MainPage";
 
 const mainPageRouter = Router();
@@ -19,13 +20,21 @@ mainPageRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextF
   const page = getPageFromReqQuery(req);
   const offset = getOffsetFromPage(page);
   try {
-    const [{items: articles, totalCount}, categories] = await Promise.all([
+    const [{items: articles, totalCount}, categories, recentComments] = await Promise.all([
       dataProviderService.getArticles({offset}),
       dataProviderService.getCategoriesWithNumbers(),
+      dataProviderService.getRecentComments(),
     ]);
     const categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(
       categories,
     );
+    const lastComments: LastProps[] = recentComments.map(comment => ({
+      title: comment.text,
+      link: getArticleLink(comment.id),
+      avatar: comment.user.avatar,
+      firstName: comment.user.firstName,
+      lastName: comment.user.lastName,
+    }));
     const categoriesWithLinks: CategoryWithLink[] = resolveCategoriesLinks(categories);
     return streamPage(res, MainPage, {
       articles: articles.map(item => ({...item, link: getArticleLink(item.id)})),
@@ -35,6 +44,7 @@ mainPageRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextF
       page: getCurrentPage(offset),
       prefix: `?`,
       currentUser: res.locals.currentUser,
+      lastComments,
     });
   } catch (e) {
     return next(
@@ -46,6 +56,4 @@ mainPageRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextF
   }
 });
 
-export {
-  mainPageRouter,
-};
+export {mainPageRouter};

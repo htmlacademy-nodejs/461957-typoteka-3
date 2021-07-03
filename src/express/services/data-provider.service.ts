@@ -27,10 +27,12 @@ import {IUserPreview} from "../../types/interfaces/user-preview";
 import {SignInValidationResponse} from "../../types/sign-in-validation-response";
 import {UserId} from "../../types/user-id";
 import {UserValidationResponse} from "../../types/user-validation-response";
+import {getLogger} from "../logger";
 
 class DataProviderService {
   private readonly requestService: AxiosStatic;
   private readonly apiEndPoint = ENV.API_HOST + `:` + ENV.PORT + APIRoute.API;
+  private readonly logger = getLogger();
 
   constructor() {
     this.requestService = axios;
@@ -227,6 +229,19 @@ class DataProviderService {
     } catch (e) {
       console.error(`Failed to load categories`);
       return Promise.reject(e);
+    }
+  }
+
+  public async getRecentComments(): Promise<ICommentPreview[]> {
+    try {
+      const response = await this.requestService.get<ICommentPreview[]>(
+        this.apiEndPoint + APIRoute.COMMENTS_RECENT,
+        {},
+      );
+      return response.data;
+    } catch (e) {
+      this.logger.error(`Failed to get recent comments`, e);
+      return Promise.reject(`Failed to get recent comments`);
     }
   }
 

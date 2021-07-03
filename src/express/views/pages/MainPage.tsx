@@ -7,6 +7,7 @@ import {IArticlePreview} from "../../../types/interfaces/article-preview";
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {Greeting} from "../components/Greeting/Greeting";
 import {HotList} from "../components/HotList/HotList";
+import {LastProps} from "../components/Last/Last";
 import {LastList} from "../components/LastList/LastList";
 import {LayoutFilled} from "../components/Layout/LayoutFilled";
 import {IPaginationProps, PaginationController} from "../components/Pagination/PaginationController";
@@ -18,6 +19,7 @@ interface MainPageProps extends IPaginationProps, ICurrentUser {
   categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[];
   categoriesWithLinks: CategoryWithLink[];
   prefix: string;
+  lastComments: LastProps[];
 }
 
 const MainPage: FunctionComponent<MainPageProps> = ({
@@ -28,6 +30,7 @@ const MainPage: FunctionComponent<MainPageProps> = ({
   total,
   prefix,
   currentUser,
+  lastComments,
 }) => {
   const hotList = [
     {
@@ -51,26 +54,6 @@ const MainPage: FunctionComponent<MainPageProps> = ({
       link: `#`,
     },
   ];
-  const lastList = [
-    {
-      title: `Сервис аренды жилья Airbnb стал глобальным партнером Международного олимпийского комитета (МОК) на девять лет, в течение которых пройдет пять Олимпиад, в том числе в Токио в 2020 году`,
-      link: `#`,
-      authorName: `Анна Артамонова`,
-      authorAvatar: `🦡`,
-    },
-    {
-      title: `Главреды «Дождя», Forbes и других СМИ попросили Роскомнадзор разъяснить штрафы за ссылки на сайты с матом`,
-      link: `#`,
-      authorName: `Александр Петров`,
-      authorAvatar: `🐻`,
-    },
-    {
-      title: `Что-то все электрокары в последнее время все на одно лицо делаются))`,
-      link: `#`,
-      authorName: `Игорь Шманский`,
-      authorAvatar: `🦇`,
-    },
-  ];
 
   return (
     <LayoutFilled currentUser={currentUser}>
@@ -84,7 +67,7 @@ const MainPage: FunctionComponent<MainPageProps> = ({
         </section>
         <div className="main-page__section-flex">
           <HotList listOfHot={hotList} />
-          <LastList listOfLast={lastList} />
+          <LastList listOfLast={lastComments} />
         </div>
         <PreviewList previews={articles} categories={categoriesWithLinks}>
           <PaginationController page={page} total={total} prefix={prefix} />
