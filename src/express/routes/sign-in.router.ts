@@ -10,7 +10,7 @@ import {ILogin} from "../../types/interfaces/login";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
 import {setAuthCookie} from "../helpers/cookie.helper";
-import {signInValidationResponseMapper} from "../models/dto/sign-in-validation-responce";
+import {signInValidationResponseMapper} from "../models/dto";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {SignInPage} from "../views/pages/SignInPage";
@@ -59,6 +59,4 @@ signInRouter.post(
   },
 );
 
-export {
-  signInRouter,
-};
+export {signInRouter};

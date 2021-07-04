@@ -16,7 +16,7 @@ import {getCurrentPage, getOffsetFromPage, getPageFromReqQuery} from "../helpers
 import {prepareArticlePage} from "../helpers/prepare-article-page";
 import {getLogger} from "../logger";
 import {isAuthorUserMiddleware} from "../middlewares";
-import {articleValidationResponseMapper} from "../models/dto/article-validation-responce";
+import {articleValidationResponseMapper} from "../models/dto";
 import {dataProviderService} from "../services";
 import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
@@ -243,6 +243,4 @@ function parseDateFromFrontend(date: unknown): Date {
   return new Date(Date.parse(date as string));
 }
 
-export {
-  articlesRouter,
-};
+export {articlesRouter};
