@@ -4,6 +4,8 @@ const APIRoute = {
   ARTICLES_BY_AUTHOR: `/articles/author`,
   EDIT_ARTICLE: `/articles`,
   COMMENTS: `/comments`,
+  ARTICLE_COMMENTS: `/comments/article`,
+  COMMENTS_RECENT: `/comments/recent`,
   CATEGORIES: `/categories`,
   CATEGORIES_STATISTICS: `/categories-statistics`,
   SEARCH: `/search`,
@@ -16,6 +18,4 @@ const APIRoute = {
   LOGOUT: `/auth/sign-out`,
 };
 
-export {
-  APIRoute,
-};
+export {APIRoute};

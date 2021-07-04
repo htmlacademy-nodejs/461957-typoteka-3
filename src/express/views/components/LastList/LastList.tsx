@@ -9,7 +9,13 @@ interface LastListProps {
 const LastList: FunctionComponent<LastListProps> = ({listOfLast}) => {
   const lastList = listOfLast.map(last => (
     <li className="last__list-item" key={last.title}>
-      <Last title={last.title} link={last.link} authorAvatar={last.authorAvatar} authorName={last.authorName} />
+      <Last
+        title={last.title}
+        link={last.link}
+        avatar={last.avatar}
+        firstName={last.firstName}
+        lastName={last.lastName}
+      />
     </li>
   ));
 
@@ -23,6 +29,4 @@ const LastList: FunctionComponent<LastListProps> = ({listOfLast}) => {
   );
 };
 
-export {
-  LastList,
-};
+export {LastList};

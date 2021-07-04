@@ -1,25 +1,29 @@
 import React, {FunctionComponent} from "react";
 
+import {Avatar} from "../Avatar/Avatar";
+
 interface LastProps {
   title: string;
   link: string;
-  authorName: string;
-  authorAvatar: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
 }
 
-const Last: FunctionComponent<LastProps> = ({title, link, authorName, authorAvatar}) => {
+const Last: FunctionComponent<LastProps> = ({title, link, firstName, avatar, lastName}) => {
   return (
-    <>
-      <img className="last__list-image" src={authorAvatar} width="20" height="20" alt="Аватар пользователя" />
-      <b className="last__list-name">{authorName}</b>
-      <a className="last__list-link" href={link}>
+    <div className="last-comment">
+      <div className="last-comment__header">
+        <Avatar avatar={avatar} size="small" cssClass="comments__avatar" />
+        <b className="last-comment__author-name">
+          {firstName} {lastName}
+        </b>
+      </div>
+      <a className="last-comment__text" href={link}>
         {title}
       </a>
-    </>
+    </div>
   );
 };
 
-export {
-  Last,
-  LastProps,
-};
+export {Last, LastProps};

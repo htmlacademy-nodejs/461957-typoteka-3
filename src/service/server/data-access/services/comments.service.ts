@@ -95,7 +95,6 @@ class CommentsService {
         ],
         order: [[`createdDate`, `ASC`]],
       });
-      console.log(comments);
       return comments
         .map<unknown>(item => item.get({plain: true}))
         .map((item: ICommentPreview & {users: IUserPreview; articles: {title: string}}) => {
@@ -135,6 +134,28 @@ class CommentsService {
     });
     return !!deletedComment;
   }
+
+  public async findRecent({limit}: {limit: number}): Promise<ICommentPreview[]> {
+    try {
+      const comments = await this.CommentsModel.findAll<Model<ICommentPreview>>({
+        attributes: commentPreviewAttributes,
+        include: [
+          {
+            association: TableName.USERS,
+            attributes: userPreviewAttributes,
+          },
+        ],
+        order: [[`createdDate`, `DESC`]],
+        limit,
+      });
+      return comments
+        .map<ICommentPreview>(item => item.get({plain: true}))
+        .map((item: ICommentPreview & {users: IUserPreview}) => assignAuthorToComment(item));
+    } catch (e) {
+      this.logger.error(`Failed to find recent ${limit} comments, ${(e as Error).toString()}`);
+      return Promise.reject(`Failed to find recent ${limit} comments, ${(e as Error).toString()}`);
+    }
+  }
 }
 
 function assignAuthorToComment(item: ICommentPreview & {users: IUserPreview}): ICommentPreview {
@@ -148,6 +169,4 @@ function assignAuthorToComment(item: ICommentPreview & {users: IUserPreview}): I
   };
 }
 
-export {
-  CommentsService,
-};
+export {CommentsService};

@@ -27,10 +27,12 @@ import {IUserPreview} from "../../types/interfaces/user-preview";
 import {SignInValidationResponse} from "../../types/sign-in-validation-response";
 import {UserId} from "../../types/user-id";
 import {UserValidationResponse} from "../../types/user-validation-response";
+import {getLogger} from "../logger";
 
 class DataProviderService {
   private readonly requestService: AxiosStatic;
   private readonly apiEndPoint = ENV.API_HOST + `:` + ENV.PORT + APIRoute.API;
+  private readonly logger = getLogger();
 
   constructor() {
     this.requestService = axios;
@@ -230,6 +232,19 @@ class DataProviderService {
     }
   }
 
+  public async getRecentComments(): Promise<ICommentPreview[]> {
+    try {
+      const response = await this.requestService.get<ICommentPreview[]>(
+        this.apiEndPoint + APIRoute.COMMENTS_RECENT,
+        {},
+      );
+      return response.data;
+    } catch (e) {
+      this.logger.error(`Failed to get recent comments`, e);
+      return Promise.reject(`Failed to get recent comments`);
+    }
+  }
+
   public async getCategoriesWithNumbers(): Promise<CategoryWithNumbers[]> {
     try {
       const response = await this.requestService.get<CategoryWithNumbers[]>(
@@ -260,7 +275,7 @@ class DataProviderService {
   public async getArticleComments(articleId: ArticleId): Promise<ICommentPreview[]> {
     try {
       const response = await this.requestService.get<ICommentPreview[]>(
-        `${this.apiEndPoint + APIRoute.ARTICLES}/${articleId}${APIRoute.COMMENTS}`,
+        `${this.apiEndPoint + APIRoute.ARTICLE_COMMENTS}/${articleId}`,
         {},
       );
       return response.data.map(transformDate);
@@ -274,7 +289,7 @@ class DataProviderService {
     let response: AxiosResponse<void | CommentValidationResponse>;
     try {
       response = await this.requestService.post<CommentValidationResponse>(
-        `${this.apiEndPoint + APIRoute.ARTICLES}/${comment.articleId}/comments`,
+        `${this.apiEndPoint + APIRoute.COMMENTS}`,
         comment,
         getAuthHeader(authToken),
       );
@@ -356,6 +371,4 @@ function getAuthHeader(token: string): Record<string, Record<string, string>> {
   return {headers};
 }
 
-export {
-  DataProviderService,
-};
+export {DataProviderService};

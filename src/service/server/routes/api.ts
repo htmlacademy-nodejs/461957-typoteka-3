@@ -19,6 +19,7 @@ import {articleRouter} from "./articles.router";
 import {authRouter} from "./auth.router";
 import {categoriesStatisticsRouter} from "./categories-statistics.router";
 import {categoriesRouter} from "./categories.router";
+import {commentsRouter} from "./comments.router";
 import {searchRouter} from "./search.router";
 import {usersRouter} from "./users.router";
 
@@ -47,7 +48,8 @@ const apiRouter = ({
   const usersController = usersControllerFactory({UserModel, CommentModel});
   const authController = authControllerFactory({UserModel, RefreshTokenModel});
 
-  router.use(APIRoute.ARTICLES, articleRouter(articlesController, commentsController));
+  router.use(APIRoute.ARTICLES, articleRouter(articlesController));
+  router.use(APIRoute.COMMENTS, commentsRouter(commentsController));
   router.use(APIRoute.CATEGORIES, categoriesRouter(articlesController, categoriesController));
   router.use(APIRoute.CATEGORIES_STATISTICS, categoriesStatisticsRouter(categoriesController));
   router.use(APIRoute.SEARCH, searchRouter(searchController));
@@ -57,6 +59,4 @@ const apiRouter = ({
   return router;
 };
 
-export {
-  apiRouter,
-};
+export {apiRouter};
