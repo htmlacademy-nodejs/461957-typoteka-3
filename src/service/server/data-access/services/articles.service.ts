@@ -5,6 +5,7 @@ import {ArticleId} from "../../../../types/article-id";
 import {CategoryId} from "../../../../types/category-id";
 import {IArticleCreating} from "../../../../types/interfaces/article-creating";
 import {IArticlePlain} from "../../../../types/interfaces/article-plain";
+import {IArticleTitleAndCommentsCount} from "../../../../types/interfaces/article-title-and-comments-count";
 import {IArticleTitleAndDate} from "../../../../types/interfaces/article-title-and-date";
 import {ICollection} from "../../../../types/interfaces/collection";
 import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
@@ -49,7 +50,29 @@ class ArticlesService {
     };
   }
 
-  // public async findPage({limit, offset}: {limit: number; offset: number}): Promise<Article[]> {}
+  public async findTheMostDiscussed({limit}: {limit: number}): Promise<IArticleTitleAndCommentsCount[]> {
+    const attributes: FindAttributeOptions = [
+      `title`,
+      `id`,
+      [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
+    ];
+    const articles = await this.ArticleModel.findAll<Model<IArticleTitleAndCommentsCount>>({
+      attributes,
+      include: [
+        {
+          association: TableName.COMMENTS,
+          attributes: [],
+          duplicating: false,
+        },
+      ],
+      group: [`Article.id`],
+      limit,
+      order: [[`createdDate`, `DESC`]],
+    });
+    return articles
+      .map(item => item.get({plain: true}))
+      .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)}));
+  }
 
   public async findOneById(articleId: ArticleId): Promise<IArticlePlain> {
     const attributes: FindAttributeOptions = [
@@ -223,6 +246,4 @@ class ArticlesService {
   }
 }
 
-export {
-  ArticlesService,
-};
+export {ArticlesService};

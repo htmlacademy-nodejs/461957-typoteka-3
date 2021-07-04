@@ -3,6 +3,7 @@ import {Article, ICategories, IComments} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
+import {IArticleTitleAndCommentsCount} from "../../../types/interfaces/article-title-and-comments-count";
 import {ArticlesService} from "../data-access/services/articles.service";
 import {CategoriesService} from "../data-access/services/categories.service";
 import {CommentsService} from "../data-access/services/comments.service";
@@ -15,6 +16,8 @@ import {UserId} from "../../../types/user-id";
 import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-date";
 
 const DEFAULT_LIMIT = 8;
+const THE_MOST_DISCUSSED_DEFAULT_LENGTH = 4;
+const THE_MOST_DISCUSSED_MAX_LENGTH = 20;
 
 class ArticlesController {
   constructor(
@@ -133,6 +136,22 @@ class ArticlesController {
     };
   }
 
+  public async getDiscussed({
+    limit = THE_MOST_DISCUSSED_DEFAULT_LENGTH,
+  }: {
+    limit?: number;
+  }): Promise<ControllerResponse<IArticleTitleAndCommentsCount[]>> {
+    try {
+      if (limit > THE_MOST_DISCUSSED_MAX_LENGTH) {
+        limit = THE_MOST_DISCUSSED_MAX_LENGTH;
+      }
+      const articles = await this.articlesService.findTheMostDiscussed({limit});
+      return {payload: articles};
+    } catch (e) {
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
+    }
+  }
+
   public async createNewArticle(newArticle: IArticleCreating): Promise<ControllerResponse<void>> {
     try {
       await this.articlesService.create(newArticle);
@@ -163,6 +182,4 @@ class ArticlesController {
   }
 }
 
-export {
-  ArticlesController,
-};
+export {ArticlesController};

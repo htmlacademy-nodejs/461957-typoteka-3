@@ -26,6 +26,11 @@ const articleRouter = (articlesController: ArticlesController): Router => {
     const {status = HttpCode.OK, payload} = await articlesController.getArticlesByAuthorId({limit, offset, authorId});
     return res.status(status).send(payload);
   });
+  router.get(`/discussed`, async (req: Request, res: Response) => {
+    const {limit} = getPaginationFromReqQuery(req);
+    const {status = HttpCode.OK, payload} = await articlesController.getDiscussed({limit});
+    return res.status(status).send(payload);
+  });
   router.get(`/:id`, async (req: Request, res: Response) => {
     const id = parseInt(req.params.id, 10);
     const {status = HttpCode.OK, payload} = await articlesController.getArticleById(id);
