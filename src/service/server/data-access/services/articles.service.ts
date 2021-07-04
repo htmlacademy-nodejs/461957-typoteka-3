@@ -51,27 +51,34 @@ class ArticlesService {
   }
 
   public async findTheMostDiscussed({limit}: {limit: number}): Promise<IArticleTitleAndCommentsCount[]> {
-    const attributes: FindAttributeOptions = [
-      `title`,
-      `id`,
-      [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
-    ];
-    const articles = await this.ArticleModel.findAll<Model<IArticleTitleAndCommentsCount>>({
-      attributes,
-      include: [
-        {
-          association: TableName.COMMENTS,
-          attributes: [],
-          duplicating: false,
-        },
-      ],
-      group: [`Article.id`],
-      limit,
-      order: [[`createdDate`, `DESC`]],
-    });
-    return articles
-      .map(item => item.get({plain: true}))
-      .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)}));
+    try {
+      const attributes: FindAttributeOptions = [
+        `title`,
+        `id`,
+        [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
+      ];
+      const articles = await this.ArticleModel.findAll<Model<IArticleTitleAndCommentsCount>>({
+        attributes,
+        include: [
+          {
+            association: TableName.COMMENTS,
+            attributes: [],
+            duplicating: false,
+          },
+        ],
+        group: [`Article.id`],
+        limit,
+        order: [[Sequelize.col(`commentsCount`), `DESC`]],
+      });
+      return articles
+        .map(item => item.get({plain: true}))
+        .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)}));
+    } catch (e) {
+      const errorMessage = `Failed to resolve the most discussed comments`;
+      this.logger.error(errorMessage);
+      this.logger.error(e);
+      return Promise.reject(errorMessage);
+    }
   }
 
   public async findOneById(articleId: ArticleId): Promise<IArticlePlain> {

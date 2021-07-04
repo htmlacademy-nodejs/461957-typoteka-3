@@ -60,7 +60,6 @@ describe(`Articles router`, () => {
       expect((res.body as ICollection<any>).items.length).toBe(3);
     });
   });
-
   describe(`GET articles by author id`, () => {
     let accessToken: string;
     let currentUser: IUserPreview;
@@ -217,10 +216,11 @@ describe(`Articles router`, () => {
     test(`Should be sorted from the most discussed`, async () => {
       const res = await request(app).get(`/api/articles/discussed`);
       const comments = res.body as IArticleTitleAndCommentsCount[];
-      const isSortedDescending = comments.every((comment, index, array) =>
-        index ? comment.commentsCount >= array[index - 1].commentsCount : true,
-      );
-      expect(isSortedDescending).toBeTruthy();
+      comments.forEach((comment, index, array) => {
+        if (index) {
+          expect(comment.commentsCount).toBeLessThanOrEqual(array[index - 1].commentsCount);
+        }
+      });
     });
   });
 });
