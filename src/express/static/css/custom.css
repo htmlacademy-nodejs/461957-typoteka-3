@@ -273,3 +273,7 @@
 .last-comment__text:hover {
   color:#2f80ed
 }
+
+.main-page__section-flex {
+  min-height: auto;
+}

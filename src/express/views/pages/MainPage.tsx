@@ -6,6 +6,7 @@ import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-an
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
 import {CategoriesList} from "../components/CategoriesList/CategoriesList";
 import {Greeting} from "../components/Greeting/Greeting";
+import {HotProps} from "../components/Hot/Hot";
 import {HotList} from "../components/HotList/HotList";
 import {LastProps} from "../components/Last/Last";
 import {LastList} from "../components/LastList/LastList";
@@ -20,6 +21,7 @@ interface MainPageProps extends IPaginationProps, ICurrentUser {
   categoriesWithLinks: CategoryWithLink[];
   prefix: string;
   lastComments: LastProps[];
+  discussedArticles: HotProps[];
 }
 
 const MainPage: FunctionComponent<MainPageProps> = ({
@@ -31,30 +33,8 @@ const MainPage: FunctionComponent<MainPageProps> = ({
   prefix,
   currentUser,
   lastComments,
+  discussedArticles,
 }) => {
-  const hotList = [
-    {
-      title: `Билл Гейтс впервые за два года возглавил рейтинг самых богатых людей мира по версии Bloomberg`,
-      count: 12,
-      link: `#`,
-    },
-    {
-      title: `Tesla получила 146 тысяч предзаказов на электрический пикап Cybertruck за двое суток`,
-      count: 153,
-      link: `#`,
-    },
-    {
-      title: `Билл Гейтс впервые за два года возглавил рейтинг самых богатых людей мира по версии Bloomberg`,
-      count: 12,
-      link: `#`,
-    },
-    {
-      title: `Tesla получила 146 тысяч предзаказов на электрический пикап Cybertruck за двое суток`,
-      count: 153,
-      link: `#`,
-    },
-  ];
-
   return (
     <LayoutFilled currentUser={currentUser}>
       <main className="main-page">
@@ -66,7 +46,7 @@ const MainPage: FunctionComponent<MainPageProps> = ({
           </ul>
         </section>
         <div className="main-page__section-flex">
-          <HotList listOfHot={hotList} />
+          <HotList listOfHot={discussedArticles} />
           <LastList listOfLast={lastComments} />
         </div>
         <PreviewList previews={articles} categories={categoriesWithLinks}>

@@ -2,6 +2,7 @@ const APIRoute = {
   API: `/api`,
   ARTICLES: `/articles`,
   ARTICLES_BY_AUTHOR: `/articles/author`,
+  ARTICLES_DISCUSSED: `/articles/discussed`,
   EDIT_ARTICLE: `/articles`,
   COMMENTS: `/comments`,
   ARTICLE_COMMENTS: `/comments/article`,
