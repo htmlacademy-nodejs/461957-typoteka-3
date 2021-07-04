@@ -5,7 +5,7 @@ import {LastProps} from "../../views/components/Last/Last";
 function mapRecentComments(items: ICommentPreview[]): LastProps[] {
   return items.map(comment => ({
     title: comment.text,
-    link: getArticleLink(comment.id),
+    link: getArticleLink(comment.articleId),
     avatar: comment.user.avatar,
     firstName: comment.user.firstName,
     lastName: comment.user.lastName,
