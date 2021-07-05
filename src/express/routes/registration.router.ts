@@ -3,6 +3,7 @@ import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
 import {HttpCode} from "../../constants";
+import {avatars} from "../../shared/constants/avatars";
 import {RoleId} from "../../shared/constants/role-id";
 import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
@@ -23,6 +24,7 @@ registrationRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExten
     endPoint: ClientRoute.REGISTRATION,
     csrf: req.csrfToken(),
     userValidationResponse: {},
+    avatars,
   });
 });
 
@@ -49,6 +51,7 @@ registrationRouter.post(
         userValidationResponse: registrationValidationResponseMapper(newUserValidationResponse),
         user: newUser,
         csrf: req.csrfToken(),
+        avatars,
       });
     } catch (e) {
       return next(

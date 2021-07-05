@@ -15,9 +15,10 @@ interface Props extends ICsrfInput {
   user?: Partial<UserCreatingFromForm>;
   endPoint: string;
   userValidationResponse: RegistrationFormValidation;
+  avatars: string[];
 }
 
-const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user, csrf}) => {
+const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationResponse = {}, user, csrf, avatars}) => {
   const userFields =
     user === undefined
       ? {
@@ -47,62 +48,68 @@ const RegistrationPage: FunctionComponent<Props> = ({endPoint, userValidationRes
         <form action={endPoint} method="POST" encType="multipart/form-data">
           <Stack tokens={{childrenGap: 32}}>
             <Stack tokens={{childrenGap: 16}}>
-              <TextField
-                type="email"
-                label={NewUserFormField.EMAIL.label}
-                name={NewUserFormField.EMAIL.name}
-                defaultValue={userFields.email}
-                required
-              />
-              <ValidationMessage message={userValidationResponse.EMAIL} />
-              <TextField
-                label={NewUserFormField.FIRST_NAME.label}
-                name={NewUserFormField.FIRST_NAME.name}
-                defaultValue={userFields.firstName}
-                required
-              />
-              <ValidationMessage message={userValidationResponse.FIRST_NAME} />
-              <TextField
-                label={NewUserFormField.LAST_NAME.label}
-                name={NewUserFormField.LAST_NAME.name}
-                defaultValue={userFields.lastName}
-                required
-              />
-              <ValidationMessage message={userValidationResponse.LAST_NAME} />
-              <TextField
-                type="password"
-                label={NewUserFormField.PASSWORD.label}
-                name={NewUserFormField.PASSWORD.name}
-                defaultValue={userFields.password}
-                required
-                autoComplete="new-password"
-              />
-              <ValidationMessage message={userValidationResponse.PASSWORD} />
-              <TextField
-                type="password"
-                label={NewUserFormField.PASSWORD_REPEATED.label}
-                name={NewUserFormField.PASSWORD_REPEATED.name}
-                defaultValue={userFields.passwordRepeated}
-                required
-              />
-              <ValidationMessage message={userValidationResponse.PASSWORD_REPEATED} />
+              <div className="form__field">
+                <TextField
+                  type="email"
+                  label={NewUserFormField.EMAIL.label}
+                  name={NewUserFormField.EMAIL.name}
+                  defaultValue={userFields.email}
+                  required
+                />
+                <ValidationMessage message={userValidationResponse.EMAIL} />
+              </div>
+              <div className="form__field">
+                <TextField
+                  label={NewUserFormField.FIRST_NAME.label}
+                  name={NewUserFormField.FIRST_NAME.name}
+                  defaultValue={userFields.firstName}
+                  required
+                />
+                <ValidationMessage message={userValidationResponse.FIRST_NAME} />
+              </div>
+              <div className="form__field">
+                <TextField
+                  label={NewUserFormField.LAST_NAME.label}
+                  name={NewUserFormField.LAST_NAME.name}
+                  defaultValue={userFields.lastName}
+                  required
+                />
+                <ValidationMessage message={userValidationResponse.LAST_NAME} />
+              </div>
+              <div className="form__field">
+                <TextField
+                  type="password"
+                  label={NewUserFormField.PASSWORD.label}
+                  name={NewUserFormField.PASSWORD.name}
+                  defaultValue={userFields.password}
+                  required
+                  autoComplete="new-password"
+                />
+                <ValidationMessage message={userValidationResponse.PASSWORD} />
+              </div>
+              <div className="form__field">
+                <TextField
+                  type="password"
+                  label={NewUserFormField.PASSWORD_REPEATED.label}
+                  name={NewUserFormField.PASSWORD_REPEATED.name}
+                  defaultValue={userFields.passwordRepeated}
+                  required
+                />
+                <ValidationMessage message={userValidationResponse.PASSWORD_REPEATED} />
+              </div>
             </Stack>
             <Stack.Item>
-              <div className="form__image-loader">
-                <a className="form__avatar avatar">
-                  <img src="img/icons/smile.svg" alt={NewUserFormField.AVATAR.label} />
-                </a>
-                <label>
-                  <input
-                    type="file"
-                    name={NewUserFormField.AVATAR.name}
-                    defaultValue={userFields.avatar}
-                    className="visually-hidden"
-                  />
-                  Загрузить фото профиля
-                </label>
+              <div className="form__field">
+                <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">{NewUserFormField.AVATAR.label}</div>
+                <select style={{fontSize: "24px"}} name={NewUserFormField.AVATAR.name} defaultValue={userFields.avatar}>
+                  {avatars.map(item => (
+                    <option key={item} style={{fontSize: "24px"}}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+                <ValidationMessage message={userValidationResponse.AVATAR} />
               </div>
-              <ValidationMessage message={userValidationResponse.AVATAR} />
             </Stack.Item>
             <Stack.Item align="end">
               <PrimaryButton type="submit">Зарегистироваться</PrimaryButton>
@@ -122,6 +129,4 @@ function resolveValidationMessages(validationResponse: Record<string, string>): 
   ]);
 }
 
-export {
-  RegistrationPage,
-};
+export {RegistrationPage};
