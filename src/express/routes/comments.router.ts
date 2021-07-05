@@ -9,7 +9,7 @@ import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 import {prepareArticlePage} from "../helpers/prepare-article-page";
-import {commentValidationResponseMapper} from "../models/dto/comment-validation-responce";
+import {commentValidationResponseMapper} from "../models/dto";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 

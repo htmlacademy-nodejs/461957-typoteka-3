@@ -4,6 +4,8 @@ import {HttpCode} from "../../../constants";
 import {CommentsController} from "../controllers/comments.controller";
 import {validateNewComment} from "../validators";
 
+import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
+
 const commentsRouter = (commentsController: CommentsController): Router => {
   const router = Router({mergeParams: true});
 
@@ -34,8 +36,7 @@ const commentsRouter = (commentsController: CommentsController): Router => {
     res.status(status).send(payload);
   });
   router.get(`/recent`, async (req, res) => {
-    console.log(`params`, req.query?.limit as string);
-    const limit = req.query?.limit ? parseInt(req.query.limit as string, 10) : undefined;
+    const {limit} = getPaginationFromReqQuery(req);
     const {status = HttpCode.OK, payload} = await commentsController.getRecent({limit});
     res.status(status).send(payload);
   });

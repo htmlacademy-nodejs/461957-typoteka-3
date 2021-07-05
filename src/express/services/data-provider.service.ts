@@ -14,6 +14,7 @@ import {CategoryWithNumbers} from "../../types/category-with-numbers";
 import {CommentValidationResponse} from "../../types/comment-validation-response";
 import {IArticleCreating} from "../../types/interfaces/article-creating";
 import {IArticlePreview} from "../../types/interfaces/article-preview";
+import {IArticleTitleAndCommentsCount} from "../../types/interfaces/article-title-and-comments-count";
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
 import {IAuthorsComment} from "../../types/interfaces/authors-comment";
@@ -74,6 +75,18 @@ class DataProviderService {
       };
     } catch (e) {
       console.error(`Failed to load articles for user`);
+      return Promise.reject(e);
+    }
+  }
+
+  public async getDiscussedArticles(): Promise<IArticleTitleAndCommentsCount[]> {
+    try {
+      const response = await this.requestService.get<IArticleTitleAndCommentsCount[]>(
+        `${this.apiEndPoint + APIRoute.ARTICLES_DISCUSSED}`,
+      );
+      return response.data;
+    } catch (e) {
+      this.logger.error(`Failed to load the most discussed articles`, e);
       return Promise.reject(e);
     }
   }

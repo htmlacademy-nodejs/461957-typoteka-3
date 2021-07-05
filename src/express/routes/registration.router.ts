@@ -9,7 +9,7 @@ import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {IUserCreatingDoublePasswords, UserCreatingFromForm} from "../../types/interfaces/user-creating";
 import {UserValidationResponse} from "../../types/user-validation-response";
 import {SSRError} from "../errors/ssr-error";
-import {registrationValidationResponseMapper} from "../models/dto/registration-validation-responce";
+import {registrationValidationResponseMapper} from "../models/dto";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {RegistrationPage} from "../views/pages/RegistrationPage";
@@ -62,6 +62,4 @@ registrationRouter.post(
   },
 );
 
-export {
-  registrationRouter,
-};
+export {registrationRouter};
