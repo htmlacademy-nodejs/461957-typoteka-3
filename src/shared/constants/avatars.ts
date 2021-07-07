@@ -1,4 +1,4 @@
-const avatars = [
+const AVATARS = [
   `😺`,
   `😸`,
   `😹`,
@@ -110,4 +110,4 @@ const avatars = [
   `🦠`,
 ];
 
-export {avatars};
+export {AVATARS};
