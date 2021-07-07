@@ -7,7 +7,7 @@ import {agent as request} from "supertest";
 import {Article} from "../../../types/article";
 import {ArticleId} from "../../../types/article-id";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
-import {IArticleTitleAndCommentsCount} from "../../../types/interfaces/article-title-and-comments-count";
+import {IArticleAnnounceAndCommentsCount} from "../../../types/interfaces/article-announce-and-comments-count";
 import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-date";
 import {ICollection} from "../../../types/interfaces/collection";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
@@ -189,23 +189,23 @@ describe(`Articles router`, () => {
     });
     test(`Should return an array of default length`, async () => {
       const res = await request(app).get(`/api/articles/discussed`);
-      const comments = res.body as IArticleTitleAndCommentsCount[];
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
       expect(comments.length).toBe(4);
     });
     test(`Should return an array of given length`, async () => {
       const res = await request(app).get(`/api/articles/discussed?limit=7`);
-      const comments = res.body as IArticleTitleAndCommentsCount[];
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
       expect(comments.length).toBe(7);
     });
     test(`If pass huge limit should return an array of max length`, async () => {
       const res = await request(app).get(`/api/articles/discussed?limit=99`);
-      const comments = res.body as IArticleTitleAndCommentsCount[];
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
       expect(comments.length).toBeLessThanOrEqual(20);
     });
 
     test(`Should contains defined fields`, async () => {
       const res = await request(app).get(`/api/articles/discussed`);
-      const comments = res.body as IArticleTitleAndCommentsCount[];
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
       comments.every(comment => {
         expect(comment.hasOwnProperty(`id`)).toBeTruthy();
         expect(comment.hasOwnProperty(`title`)).toBeTruthy();
@@ -215,7 +215,7 @@ describe(`Articles router`, () => {
 
     test(`Should be sorted from the most discussed`, async () => {
       const res = await request(app).get(`/api/articles/discussed`);
-      const comments = res.body as IArticleTitleAndCommentsCount[];
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
       comments.forEach((comment, index, array) => {
         if (index) {
           expect(comment.commentsCount).toBeLessThanOrEqual(array[index - 1].commentsCount);

@@ -8,8 +8,8 @@ interface HotListProps {
 
 const HotList: FunctionComponent<HotListProps> = ({listOfHot}) => {
   const hotList = listOfHot.map(hot => (
-    <li className="hot__list-item" key={hot.title}>
-      <Hot title={hot.title} link={hot.link} count={hot.count} />
+    <li className="hot__list-item" key={hot.announce}>
+      <Hot announce={hot.announce} link={hot.link} count={hot.count} />
     </li>
   ));
 
@@ -23,6 +23,4 @@ const HotList: FunctionComponent<HotListProps> = ({listOfHot}) => {
   );
 };
 
-export {
-  HotList,
-};
+export {HotList};
