@@ -208,7 +208,7 @@ describe(`Articles router`, () => {
       const comments = res.body as IArticleAnnounceAndCommentsCount[];
       comments.every(comment => {
         expect(comment.hasOwnProperty(`id`)).toBeTruthy();
-        expect(comment.hasOwnProperty(`title`)).toBeTruthy();
+        expect(comment.hasOwnProperty(`announce`)).toBeTruthy();
         expect(comment.hasOwnProperty(`commentsCount`)).toBeTruthy();
       });
     });
