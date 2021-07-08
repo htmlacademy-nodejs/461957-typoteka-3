@@ -10,7 +10,7 @@ import {dataProviderService} from "../services";
 import {resolveCategoriesLinks} from "../utils/resolve-categories-links";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
 import {streamPage} from "../utils/stream-page";
-import {MainPage} from "../views/pages/MainPage";
+import {MainPage} from "../views/pages/main-page";
 
 const mainPageRouter = Router();
 
