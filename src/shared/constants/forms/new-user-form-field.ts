@@ -21,10 +21,8 @@ const NewUserFormField = {
   },
   AVATAR: {
     name: `avatar`,
-    label: `Фото профиля`,
+    label: `Аватар профиля`,
   },
 } as const;
 
-export {
-  NewUserFormField,
-};
+export {NewUserFormField};

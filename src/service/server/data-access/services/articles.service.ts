@@ -5,7 +5,7 @@ import {ArticleId} from "../../../../types/article-id";
 import {CategoryId} from "../../../../types/category-id";
 import {IArticleCreating} from "../../../../types/interfaces/article-creating";
 import {IArticlePlain} from "../../../../types/interfaces/article-plain";
-import {IArticleTitleAndCommentsCount} from "../../../../types/interfaces/article-title-and-comments-count";
+import {IArticleAnnounceAndCommentsCount} from "../../../../types/interfaces/article-announce-and-comments-count";
 import {IArticleTitleAndDate} from "../../../../types/interfaces/article-title-and-date";
 import {ICollection} from "../../../../types/interfaces/collection";
 import {IPaginationOptions} from "../../../../types/interfaces/pagination-options";
@@ -13,6 +13,8 @@ import {UserId} from "../../../../types/user-id";
 import {getLogger} from "../../../logger";
 import {TableName} from "../constants/table-name";
 import {IArticleModel} from "../models/article";
+
+const ANNOUNCE_TRUNCATED_MAX_LENGTH = 100;
 
 class ArticlesService {
   private readonly logger: Logger = getLogger(); // TODO: [DI] Move to constructor
@@ -50,14 +52,14 @@ class ArticlesService {
     };
   }
 
-  public async findTheMostDiscussed({limit}: {limit: number}): Promise<IArticleTitleAndCommentsCount[]> {
+  public async findTheMostDiscussed({limit}: {limit: number}): Promise<IArticleAnnounceAndCommentsCount[]> {
     try {
       const attributes: FindAttributeOptions = [
-        `title`,
+        `announce`,
         `id`,
         [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
       ];
-      const articles = await this.ArticleModel.findAll<Model<IArticleTitleAndCommentsCount>>({
+      const articles = await this.ArticleModel.findAll<Model<IArticleAnnounceAndCommentsCount>>({
         attributes,
         include: [
           {
@@ -72,7 +74,11 @@ class ArticlesService {
       });
       return articles
         .map(item => item.get({plain: true}))
-        .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)}));
+        .map(item => ({
+          id: item.id,
+          announce: truncateText(item.announce, ANNOUNCE_TRUNCATED_MAX_LENGTH),
+          commentsCount: parseInt(`${item.commentsCount}`, 10),
+        }));
     } catch (e) {
       const errorMessage = `Failed to resolve the most discussed comments`;
       this.logger.error(errorMessage);
@@ -251,6 +257,18 @@ class ArticlesService {
       return Promise.reject(`Not found`);
     }
   }
+}
+
+function truncateText(text: string, maxLength: number): string {
+  if (text.length > maxLength) {
+    const textOfGivenLength = text.slice(0, maxLength);
+    const words = textOfGivenLength.substr(0, textOfGivenLength.lastIndexOf(` `));
+    if (/[.,?!]$/.test(words)) {
+      return words.substr(0, words.length - 1) + `...`;
+    }
+    return words + `...`;
+  }
+  return text;
 }
 
 export {ArticlesService};

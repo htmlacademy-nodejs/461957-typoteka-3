@@ -3,7 +3,7 @@ import {Article, ICategories, IComments} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
 import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
-import {IArticleTitleAndCommentsCount} from "../../../types/interfaces/article-title-and-comments-count";
+import {IArticleAnnounceAndCommentsCount} from "../../../types/interfaces/article-announce-and-comments-count";
 import {ArticlesService} from "../data-access/services/articles.service";
 import {CategoriesService} from "../data-access/services/categories.service";
 import {CommentsService} from "../data-access/services/comments.service";
@@ -140,7 +140,7 @@ class ArticlesController {
     limit = THE_MOST_DISCUSSED_DEFAULT_LENGTH,
   }: {
     limit?: number;
-  }): Promise<ControllerResponse<IArticleTitleAndCommentsCount[]>> {
+  }): Promise<ControllerResponse<IArticleAnnounceAndCommentsCount[]>> {
     try {
       if (limit > THE_MOST_DISCUSSED_MAX_LENGTH) {
         limit = THE_MOST_DISCUSSED_MAX_LENGTH;
