@@ -14,6 +14,8 @@ import {getLogger} from "../../../logger";
 import {TableName} from "../constants/table-name";
 import {IArticleModel} from "../models/article";
 
+const ANNOUNCE_TRUNCATED_MAX_LENGTH = 100;
+
 class ArticlesService {
   private readonly logger: Logger = getLogger(); // TODO: [DI] Move to constructor
   constructor(private readonly ArticleModel: IArticleModel) {}
@@ -51,7 +53,6 @@ class ArticlesService {
   }
 
   public async findTheMostDiscussed({limit}: {limit: number}): Promise<IArticleAnnounceAndCommentsCount[]> {
-    const ANNOUNCE_MAX_LENGTH = 100;
     try {
       const attributes: FindAttributeOptions = [
         `announce`,
@@ -75,7 +76,7 @@ class ArticlesService {
         .map(item => item.get({plain: true}))
         .map(item => ({
           id: item.id,
-          announce: truncateText(item.announce, ANNOUNCE_MAX_LENGTH),
+          announce: truncateText(item.announce, ANNOUNCE_TRUNCATED_MAX_LENGTH),
           commentsCount: parseInt(`${item.commentsCount}`, 10),
         }));
     } catch (e) {
