@@ -7,8 +7,8 @@ import {SSRError} from "../errors/ssr-error";
 import {isAuthorUserMiddleware} from "../middlewares";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
-import {CategoryEditableProps} from "../views/components/CategoryEditable/CategoryEditable";
-import {CategoriesPage} from "../views/pages/CategoriesPage";
+import {CategoryEditableProps} from "../views/components/category-editable/category-editable";
+import {CategoriesPage} from "../views/pages/categories-page";
 
 const csrfProtection = csrf({cookie: true});
 const categoriesRouter = Router();
@@ -43,6 +43,4 @@ categoriesRouter.get(
   },
 );
 
-export {
-  categoriesRouter,
-};
+export {categoriesRouter};

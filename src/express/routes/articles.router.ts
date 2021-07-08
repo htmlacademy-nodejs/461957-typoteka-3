@@ -21,8 +21,8 @@ import {dataProviderService} from "../services";
 import {convertCategoriesToArray} from "../utils/convert-categories-to-array";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
 import {streamPage} from "../utils/stream-page";
-import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
-import {EditArticlePage} from "../views/pages/EditArticlePage";
+import {ArticlesByCategoryPage} from "../views/pages/articles-by-category-page";
+import {EditArticlePage} from "../views/pages/edit-article-page";
 import {createArticle, getArticlesByCategory} from "../data-providers";
 import {ArticleFormField} from "../../shared/constants/forms/article-form-field";
 
