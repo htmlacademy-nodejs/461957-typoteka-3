@@ -10,8 +10,8 @@ import {isAuthorUserMiddleware} from "../middlewares";
 import {ICommentByAuthor} from "../models/interfaces/comment-by-author";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
-import {AdminCommentsPage} from "../views/pages/AdminCommentsPage";
-import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
+import {AdminCommentsPage} from "../views/pages/admin-comments-page";
+import {AdminPublicationsPage} from "../views/pages/admin-publications-page";
 
 const adminPublicationsRouter = Router();
 
@@ -65,6 +65,4 @@ adminPublicationsRouter.get(
   },
 );
 
-export {
-  adminPublicationsRouter,
-};
+export {adminPublicationsRouter};

@@ -13,7 +13,7 @@ import {SSRError} from "../errors/ssr-error";
 import {registrationValidationResponseMapper} from "../models/dto";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
-import {RegistrationPage} from "../views/pages/RegistrationPage";
+import {RegistrationPage} from "../views/pages/registration-page";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();

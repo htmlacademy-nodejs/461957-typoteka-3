@@ -13,7 +13,7 @@ import {setAuthCookie} from "../helpers/cookie.helper";
 import {signInValidationResponseMapper} from "../models/dto";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
-import {SignInPage} from "../views/pages/SignInPage";
+import {SignInPage} from "../views/pages/sign-in-page";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
