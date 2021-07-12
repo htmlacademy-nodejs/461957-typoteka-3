@@ -6,6 +6,7 @@ const MockFilePath = {
 } as const;
 const DEFAULT_SSR_PORT = 8080;
 const STATIC_DIR = `static`;
+const IMAGES_DIR = `static`;
 const HttpCode = {
   OK: 200,
   CREATED: 201,
@@ -62,6 +63,7 @@ export {
   DEFAULT_SSR_PORT,
   ExitCode,
   HttpCode,
+  IMAGES_DIR,
   LogLevel,
   LoginStatus,
   MockFilePath,
