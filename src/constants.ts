@@ -38,6 +38,7 @@ const MockTextsFilePath = {
   LAST_NAMES: `data/last-names.txt`,
   EMAILS: `data/emails.txt`,
   AVATARS: `data/avatars.txt`,
+  PICTURE_NAMES: `data/picture-names.txt`,
 } as const;
 const DEFAULT_COMMAND = `--help`;
 const USER_ARGV_INDEX = 2;
