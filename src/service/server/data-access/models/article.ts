@@ -4,12 +4,13 @@ import {IAnnounce, IArticleId, ICreatedDate, IFullText, ITitle} from "../../../.
 import {CategoryId} from "../../../../types/category-id";
 import {IAuthorId} from "../../../../types/interfaces/author-id";
 import {TableName} from "../constants/table-name";
+import {IPictureName} from "../../../../types/interfaces/picture-name";
 
 import {ICategoryEntity} from "./category";
 import {modelOptions} from "./constants/model-options";
 
-type PredefinedArticle = IArticleId & ITitle & ICreatedDate & IAnnounce & IFullText & IAuthorId;
-type ArticleCreationAttributes = ITitle & ICreatedDate & IAnnounce & IFullText & IAuthorId;
+type PredefinedArticle = IArticleId & ITitle & ICreatedDate & IAnnounce & IFullText & IAuthorId & IPictureName;
+type ArticleCreationAttributes = ITitle & ICreatedDate & IAnnounce & IFullText & IAuthorId & IPictureName;
 type IArticleEntity = Model<PredefinedArticle, ArticleCreationAttributes> & {
   setCategories(categoryIds: CategoryId[]): Promise<HasManyAddAssociationMixin<ICategoryEntity, CategoryId[]>>;
 };
@@ -44,6 +45,10 @@ const defineArticle = (sequelize: Sequelize): IArticleModel =>
       authorId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      pictureName: {
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
     },
     {

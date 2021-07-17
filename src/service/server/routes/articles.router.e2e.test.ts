@@ -26,6 +26,7 @@ const validNewArticle: IArticleCreating = {
   fullText: `Освоить вёрстку несложно.`,
   title: `Как собрать камни бесконечности`,
   authorId: 2,
+  pictureName: null,
 };
 const invalidNewArticle = {...validNewArticle, categories: 10};
 

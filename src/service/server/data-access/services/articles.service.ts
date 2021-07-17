@@ -1,5 +1,5 @@
 import {Logger} from "pino";
-import Sequelize, {FindAttributeOptions, Model} from "sequelize";
+import Sequelize, {FindAttributeOptions, Model, ProjectionAlias} from "sequelize";
 
 import {ArticleId} from "../../../../types/article-id";
 import {CategoryId} from "../../../../types/category-id";
@@ -15,20 +15,22 @@ import {TableName} from "../constants/table-name";
 import {IArticleModel} from "../models/article";
 
 const ANNOUNCE_TRUNCATED_MAX_LENGTH = 100;
+const articlePlainAttributes: (string | [string, string] | ProjectionAlias)[] = [
+  `announce`,
+  [`full_text`, `fullText`],
+  [`picture_name`, `pictureName`],
+  `title`,
+  `id`,
+  [`created_date`, `createdDate`],
+  [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
+];
 
 class ArticlesService {
   private readonly logger: Logger = getLogger(); // TODO: [DI] Move to constructor
   constructor(private readonly ArticleModel: IArticleModel) {}
 
   public async findAll({limit, offset}: IPaginationOptions): Promise<ICollection<IArticlePlain>> {
-    const attributes: FindAttributeOptions = [
-      `announce`,
-      [`full_text`, `fullText`],
-      `title`,
-      `id`,
-      [`created_date`, `createdDate`],
-      [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
-    ];
+    const attributes: FindAttributeOptions = articlePlainAttributes;
     const articles = await this.ArticleModel.findAll<Model<IArticlePlain>>({
       attributes,
       include: [
@@ -88,14 +90,7 @@ class ArticlesService {
   }
 
   public async findOneById(articleId: ArticleId): Promise<IArticlePlain> {
-    const attributes: FindAttributeOptions = [
-      `announce`,
-      [`full_text`, `fullText`],
-      `title`,
-      `id`,
-      [`created_date`, `createdDate`],
-      [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
-    ];
+    const attributes: FindAttributeOptions = articlePlainAttributes;
     const article = await this.ArticleModel.findOne<Model<IArticlePlain>>({
       attributes,
       include: [
@@ -119,14 +114,7 @@ class ArticlesService {
     offset,
     categoryId,
   }: IPaginationOptions & {categoryId: CategoryId}): Promise<ICollection<IArticlePlain>> {
-    const attributes: FindAttributeOptions = [
-      `announce`,
-      [`full_text`, `fullText`],
-      `title`,
-      `id`,
-      [`created_date`, `createdDate`],
-      [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `commentsCount`],
-    ];
+    const attributes: FindAttributeOptions = articlePlainAttributes;
     const articles = await this.ArticleModel.findAll<Model<IArticlePlain>>({
       attributes,
       include: [
@@ -195,7 +183,15 @@ class ArticlesService {
     };
   }
 
-  public async create({announce, createdDate, fullText, title, categories, authorId}: IArticleCreating): Promise<void> {
+  public async create({
+    announce,
+    createdDate,
+    fullText,
+    title,
+    categories,
+    authorId,
+    pictureName,
+  }: IArticleCreating): Promise<void> {
     const errorMessage = `Failed to create new article`;
     try {
       const createdArticle = await this.ArticleModel.create({
@@ -204,6 +200,7 @@ class ArticlesService {
         fullText,
         title,
         authorId,
+        pictureName,
       });
       await createdArticle.setCategories(categories.map(item => item.id));
       if (createdArticle) {
@@ -229,7 +226,7 @@ class ArticlesService {
 
   public async update(
     id: ArticleId,
-    {announce, createdDate, fullText, title, categories}: IArticleCreating,
+    {announce, createdDate, fullText, title, categories, pictureName}: IArticleCreating,
   ): Promise<boolean> {
     try {
       await this.ArticleModel.update(
@@ -238,6 +235,7 @@ class ArticlesService {
           announce,
           fullText,
           title,
+          pictureName,
         },
         {
           where: {
