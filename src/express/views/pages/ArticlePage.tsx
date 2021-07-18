@@ -24,6 +24,7 @@ interface ArticlePageProps
   commentValidationResponse: CommentFormValidation;
   comments: ICommentPreview[];
   newComment?: string;
+  imageSrc: string;
 }
 
 const ArticlePage: FunctionComponent<ArticlePageProps> = ({
@@ -38,6 +39,7 @@ const ArticlePage: FunctionComponent<ArticlePageProps> = ({
   currentUser,
   csrf,
   newComment,
+  imageSrc,
 }) => {
   const validationMessages = resolveValidationMessages(commentValidationResponse);
   return (
@@ -61,9 +63,13 @@ const ArticlePage: FunctionComponent<ArticlePageProps> = ({
                   <CategoriesList categories={categories} />
                 </ul>
               </div>
-              <div className="post__picture">
-                <img src="https://via.placeholder.com/940x490.webp" alt="пейзаж море, скалы, пляж" />
-              </div>
+              {imageSrc ?
+                <div className="post__picture">
+                  <img src={imageSrc} alt="Обложка статьи" />
+                </div>
+                :
+                null
+              }
               <div className="post__text">
                 <p>{fullText}</p>
               </div>
