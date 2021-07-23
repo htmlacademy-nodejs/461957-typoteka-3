@@ -3,7 +3,14 @@ import React, {FunctionComponent} from "react";
 import {IAnnounce, ICategoriesWithLinks, ICommentsCount, ICreatedDate, ILink, ITitle} from "../../../../types/article";
 import {IImageSrc} from "../../../../types/interfaces/image-src";
 
-interface PreviewProps extends ICommentsCount, ITitle, IAnnounce, ICreatedDate, ILink, ICategoriesWithLinks, IImageSrc {}
+interface PreviewProps
+  extends ICommentsCount,
+    ITitle,
+    IAnnounce,
+    ICreatedDate,
+    ILink,
+    ICategoriesWithLinks,
+    IImageSrc {}
 
 const Preview: FunctionComponent<PreviewProps> = ({
   categories,
@@ -41,7 +48,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
         </a>
       </h3>
       <p className="preview__text">{announce}</p>
-      <a className="preview__comment" href="#">
+      <a className="preview__comment" href={link + "#comments"}>
         Комментарии <span className="preview__cloud" />
         <b className="preview__comment-count">{commentsCount}</b>
       </a>

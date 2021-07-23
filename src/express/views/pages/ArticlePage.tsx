@@ -63,37 +63,37 @@ const ArticlePage: FunctionComponent<ArticlePageProps> = ({
                   <CategoriesList categories={categories} />
                 </ul>
               </div>
-              {imageSrc ?
+              {imageSrc ? (
                 <div className="post__picture">
                   <img src={imageSrc} alt="Обложка статьи" />
                 </div>
-                :
-                null
-              }
+              ) : null}
               <div className="post__text">
                 <p>{fullText}</p>
               </div>
             </div>
-            <div className="post__wrapper post__wrapper--comments">
-              <CommentsList parentCssClass={"post"} comments={comments}>
-                {currentUser ? (
-                  <>
-                    <CommentForm
-                      text={newComment}
-                      endPoint={newCommentEndPoint}
-                      csrf={csrf}
-                      avatar={currentUser.avatar}
-                    />
-                    {validationMessages.length ? (
-                      <FormValidationBlock
-                        title="При сохранении комментария произошли ошибки:"
-                        messages={validationMessages}
+            {comments.length ? (
+              <div className="post__wrapper post__wrapper--comments">
+                <CommentsList parentCssClass={"post"} comments={comments}>
+                  {currentUser ? (
+                    <>
+                      <CommentForm
+                        text={newComment}
+                        endPoint={newCommentEndPoint}
+                        csrf={csrf}
+                        avatar={currentUser.avatar}
                       />
-                    ) : null}
-                  </>
-                ) : null}
-              </CommentsList>
-            </div>
+                      {validationMessages.length ? (
+                        <FormValidationBlock
+                          title="При сохранении комментария произошли ошибки:"
+                          messages={validationMessages}
+                        />
+                      ) : null}
+                    </>
+                  ) : null}
+                </CommentsList>
+              </div>
+            ) : null}
           </section>
         </section>
       </main>
