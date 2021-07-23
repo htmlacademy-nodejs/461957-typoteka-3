@@ -13,6 +13,7 @@ import {UserId} from "../../../../types/user-id";
 import {getLogger} from "../../../logger";
 import {TableName} from "../constants/table-name";
 import {IArticleModel} from "../models/article";
+import {IArticleCreatingServer} from "../../models/interfaces/article-creating-server";
 
 const ANNOUNCE_TRUNCATED_MAX_LENGTH = 100;
 const articlePlainAttributes: (string | [string, string] | ProjectionAlias)[] = [
@@ -191,7 +192,7 @@ class ArticlesService {
     categories,
     authorId,
     pictureName,
-  }: IArticleCreating): Promise<void> {
+  }: IArticleCreatingServer): Promise<void> {
     const errorMessage = `Failed to create new article`;
     try {
       const createdArticle = await this.ArticleModel.create({
@@ -226,7 +227,7 @@ class ArticlesService {
 
   public async update(
     id: ArticleId,
-    {announce, createdDate, fullText, title, categories, pictureName}: IArticleCreating,
+    {announce, createdDate, fullText, title, categories, pictureName}: IArticleCreatingServer,
   ): Promise<boolean> {
     try {
       await this.ArticleModel.update(
