@@ -4,7 +4,6 @@ import {registrationValidationResponseMapper} from "./registration-validation-re
 import {signInValidationResponseMapper} from "./sign-in-validation-responce";
 import {commentValidationResponseMapper} from "./comment-validation-responce";
 import {articleValidationResponseMapper} from "./article-validation-responce";
-import {transformDate} from "./transform-date";
 
 export {
   articleValidationResponseMapper,
@@ -13,5 +12,4 @@ export {
   mapRecentComments,
   registrationValidationResponseMapper,
   signInValidationResponseMapper,
-  transformDate,
 };
