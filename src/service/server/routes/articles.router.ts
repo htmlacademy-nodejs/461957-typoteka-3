@@ -42,6 +42,7 @@ const articleRouter = (articlesController: ArticlesController): Router => {
       const {status = HttpCode.OK, payload} = await articlesController.createNewArticle(newArticle);
       res.status(status).send(payload);
     } catch (e) {
+      console.error(e);
       res.status(HttpCode.BAD_REQUEST).send(e);
     }
   });

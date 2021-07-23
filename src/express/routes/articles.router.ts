@@ -23,6 +23,7 @@ import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-cat
 import {streamPage} from "../utils/stream-page";
 import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
 import {EditArticlePage} from "../views/pages/EditArticlePage";
+import {createArticle} from "../data-providers";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
@@ -66,7 +67,7 @@ articlesRouter.post(
       authorId: res.locals.currentUser.id,
     };
     try {
-      const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.createArticle(
+      const articleValidationResponse: ArticleValidationResponse | void = await createArticle(
         newArticle,
         getAccessTokenFromCookies(req),
       );
