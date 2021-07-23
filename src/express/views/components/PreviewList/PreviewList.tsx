@@ -11,9 +11,10 @@ import {
 } from "../../../../types/article";
 import {CategoryWithLink} from "../../../../types/category-with-link";
 import {Preview} from "../Preview/Preview";
+import {IImageSrc} from "../../../../types/interfaces/image-src";
 
 interface PreviewListProps {
-  previews: (ICommentsCount & ITitle & IAnnounce & ICreatedDate & ILink & ICategories & IArticleId)[];
+  previews: (ICommentsCount & ITitle & IAnnounce & ICreatedDate & ILink & ICategories & IArticleId & IImageSrc)[];
   categories: CategoryWithLink[];
 }
 
@@ -31,6 +32,7 @@ const PreviewList: FunctionComponent<PreviewListProps> = ({categories, previews,
               createdDate={preview.createdDate}
               title={preview.title}
               link={preview.link}
+              imageSrc={preview.imageSrc}
             />
           </li>
         ))}
