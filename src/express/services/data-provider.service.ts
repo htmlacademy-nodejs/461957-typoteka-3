@@ -39,24 +39,6 @@ class DataProviderService {
     this.requestService = axios;
   }
 
-  public async getArticles({offset, limit}: Partial<IPaginationOptions>): Promise<ICollection<IArticlePreview>> {
-    try {
-      const response = await this.requestService.get<ICollection<IArticlePreview>>(
-        this.apiEndPoint + APIRoute.ARTICLES,
-        {
-          params: {offset, limit},
-        },
-      );
-      return {
-        items: response.data.items.map(transformDate),
-        totalCount: response.data.totalCount,
-      };
-    } catch (e) {
-      console.error(`Failed to load articles`);
-      return Promise.reject(e);
-    }
-  }
-
   public async getArticlesByUser({
     offset,
     limit,
