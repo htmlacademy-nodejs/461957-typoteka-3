@@ -24,11 +24,13 @@ import {streamPage} from "../utils/stream-page";
 import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
 import {EditArticlePage} from "../views/pages/EditArticlePage";
 import {createArticle} from "../data-providers";
+import {ArticleFormField} from "../../shared/constants/forms/article-form-field";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
 const articlesRouter = Router();
 const logger = getLogger();
+const imageUploader = multerMiddleware.single(ArticleFormField.IMAGE.name);
 
 articlesRouter.get(
   `/add`,
@@ -56,7 +58,7 @@ articlesRouter.get(
 
 articlesRouter.post(
   `/add`,
-  [isAuthorUserMiddleware, multerMiddleware.none(), csrfProtection],
+  [isAuthorUserMiddleware, imageUploader, csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const newArticle: IArticleCreating = {
       title: (req.body as ArticleFromBrowser).title,
