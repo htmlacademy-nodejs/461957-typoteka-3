@@ -9,6 +9,6 @@ interface IArticleCreatingServer
     IFullText,
     ICategoriesIds,
     IAuthorId,
-    IPictureName {}
+    Partial<IPictureName> {}
 
 export {IArticleCreatingServer};

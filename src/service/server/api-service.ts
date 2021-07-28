@@ -24,7 +24,7 @@ class ApiService {
   constructor() {
     this.app = express();
     this.initializeMiddleware([
-      bodyParser.json(),
+      bodyParser.json({limit: `50mb`}),
       assignLogFieldsMiddleware,
       responseStatusCodeMiddleware,
       logRouteMiddleware,

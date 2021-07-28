@@ -7,6 +7,7 @@ const MockFilePath = {
 const DEFAULT_SSR_PORT = 8080;
 const STATIC_DIR = `static`;
 const IMAGES_DIR = `static`;
+const SERVER_FOLDER_NAME = `server`;
 const HttpCode = {
   OK: 200,
   CREATED: 201,
@@ -71,6 +72,7 @@ export {
   MockTextsFilePath,
   PAGE_QUERY_PARAM,
   PAGE_SIZE,
+  SERVER_FOLDER_NAME,
   STATIC_DIR,
   Time,
   USER_ARGV_INDEX,

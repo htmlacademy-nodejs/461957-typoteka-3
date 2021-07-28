@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import {NewArticle} from "../../../../types/article";
+import {IArticleCreating} from "../../../../types/interfaces/article-creating";
 
 import {categoryIdsSchema} from "./category";
 
@@ -8,7 +8,7 @@ const TITLE_RESTRICTIONS = [30, 250];
 const ANNOUNCE_RESTRICTIONS = [30, 250];
 const MAX_FULLTEXT_LENGTH = 1000;
 
-const newArticleSchema = Joi.object<NewArticle>({
+const newArticleSchema = Joi.object<IArticleCreating>({
   fullText: Joi.string()
     .max(MAX_FULLTEXT_LENGTH)
     .required()
@@ -46,8 +46,8 @@ const newArticleSchema = Joi.object<NewArticle>({
   authorId: Joi.number().required().messages({
     "any.required": `Обязательное поле`,
   }),
+  pictureContent: Joi.any(),
+  pictureMimeType: Joi.string(),
 });
 
-export {
-  newArticleSchema,
-};
+export {newArticleSchema};

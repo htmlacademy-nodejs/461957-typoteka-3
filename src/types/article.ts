@@ -63,6 +63,14 @@ interface ICategoriesWithLinksAndNumbers {
   categories: CategoryWithLinksAndNumbers[];
 }
 
+interface IPictureContent {
+  pictureContent: Buffer;
+}
+
+interface IPictureMimeType {
+  pictureMimeType: string;
+}
+
 interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategories, IAuthorId {}
 
 interface Article extends Omit<NewArticle, `authorId`>, IArticleId, IPictureName {
@@ -84,6 +92,8 @@ export {
   ICsrf,
   IFullText,
   ILink,
+  IPictureContent,
+  IPictureMimeType,
   ITitle,
   NewArticle,
 };

@@ -67,6 +67,8 @@ articlesRouter.post(
       createdDate: (req.body as ArticleFromBrowser).createdDate,
       categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
       authorId: res.locals.currentUser.id,
+      pictureContent: req.file?.buffer,
+      pictureMimeType: req.file?.mimetype,
     };
     try {
       const articleValidationResponse: ArticleValidationResponse | void = await createArticle(
