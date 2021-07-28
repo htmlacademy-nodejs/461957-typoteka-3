@@ -1,5 +1,6 @@
-import {ICreatedDate, ILink} from "../../../types/article";
-import {IUserPresentation} from "../../../types/interfaces/user-presentation";
+import {ICreatedDate, ILink} from "../article";
+
+import {IUserPresentation} from "./user-presentation";
 
 interface ICommentByAuthor extends ICreatedDate, ILink {
   text: string;
@@ -7,6 +8,4 @@ interface ICommentByAuthor extends ICreatedDate, ILink {
   user: IUserPresentation;
 }
 
-export {
-  ICommentByAuthor,
-};
+export {ICommentByAuthor};

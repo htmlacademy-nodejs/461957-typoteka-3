@@ -1,15 +1,9 @@
 import React, {FunctionComponent} from "react";
 
-import {ICommentByAuthor} from "../../../models/interfaces/comment-by-author";
+import {ICommentByAuthor} from "../../../../types/interfaces/comment-by-author";
 import {Avatar} from "../Avatar/Avatar";
 
-const PublicationComment: FunctionComponent<ICommentByAuthor> = ({
-  text,
-  link,
-  user,
-  createdDate,
-  articleTitle,
-}) => (
+const PublicationComment: FunctionComponent<ICommentByAuthor> = ({text, link, user, createdDate, articleTitle}) => (
   <div className="authors-comment">
     <div className="authors-comment__content">
       <div className="publication__header">
@@ -32,6 +26,4 @@ const PublicationComment: FunctionComponent<ICommentByAuthor> = ({
   </div>
 );
 
-export {
-  PublicationComment,
-};
+export {PublicationComment};

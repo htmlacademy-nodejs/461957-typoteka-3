@@ -7,7 +7,7 @@ import {SSRError} from "../errors/ssr-error";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 import {getArticleLink} from "../helpers/link-resolver";
 import {isAuthorUserMiddleware} from "../middlewares";
-import {ICommentByAuthor} from "../models/interfaces/comment-by-author";
+import {ICommentByAuthor} from "../../types/interfaces/comment-by-author";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {AdminCommentsPage} from "../views/pages/AdminCommentsPage";
@@ -65,6 +65,4 @@ adminPublicationsRouter.get(
   },
 );
 
-export {
-  adminPublicationsRouter,
-};
+export {adminPublicationsRouter};
