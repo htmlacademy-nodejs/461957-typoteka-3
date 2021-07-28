@@ -11,20 +11,16 @@ import {Category} from "../../types/category";
 import {CategoryWithNumbers} from "../../types/category-with-numbers";
 import {CommentValidationResponse} from "../../types/comment-validation-response";
 import {IArticleCreating} from "../../types/interfaces/article-creating";
-import {IArticlePreview} from "../../types/interfaces/article-preview";
 import {IArticleAnnounceAndCommentsCount} from "../../types/interfaces/article-announce-and-comments-count";
 import {IAuthTokens} from "../../types/interfaces/auth-tokens";
 import {IAuthorizationFailed, IAuthorizationSuccess} from "../../types/interfaces/authorization-result";
 import {IAuthorsComment} from "../../types/interfaces/authors-comment";
-import {ICollection} from "../../types/interfaces/collection";
 import {ICommentCreating} from "../../types/interfaces/comment-creating";
 import {ICommentPreview} from "../../types/interfaces/comment-preview";
 import {ILogin} from "../../types/interfaces/login";
-import {IPaginationOptions} from "../../types/interfaces/pagination-options";
 import {IUserCreatingDoublePasswords} from "../../types/interfaces/user-creating";
 import {IUserPreview} from "../../types/interfaces/user-preview";
 import {SignInValidationResponse} from "../../types/sign-in-validation-response";
-import {UserId} from "../../types/user-id";
 import {UserValidationResponse} from "../../types/user-validation-response";
 import {getLogger} from "../logger";
 
@@ -35,28 +31,6 @@ class DataProviderService {
 
   constructor() {
     this.requestService = axios;
-  }
-
-  public async getArticlesByUser({
-    offset,
-    limit,
-    authorId,
-  }: Partial<IPaginationOptions> & {authorId: UserId}): Promise<ICollection<IArticlePreview>> {
-    try {
-      const response = await this.requestService.get<ICollection<IArticlePreview>>(
-        `${this.apiEndPoint + APIRoute.ARTICLES_BY_AUTHOR}/${authorId}`,
-        {
-          params: {offset, limit},
-        },
-      );
-      return {
-        items: response.data.items.map(transformDate),
-        totalCount: response.data.totalCount,
-      };
-    } catch (e) {
-      console.error(`Failed to load articles for user`);
-      return Promise.reject(e);
-    }
   }
 
   public async getDiscussedArticles(): Promise<IArticleAnnounceAndCommentsCount[]> {

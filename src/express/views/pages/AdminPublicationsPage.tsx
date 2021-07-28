@@ -1,22 +1,20 @@
 import React, {FunctionComponent} from "react";
 
-import type {IArticleId, ICreatedDate, ITitle} from "../../../types/article";
+import type {IArticleId, ICreatedDate, ILink, ITitle} from "../../../types/article";
 import {LayoutAdmin} from "../components/Layout/LayoutAdmin";
 import {Note} from "../components/Note/Note";
 import {ICurrentUser} from "../interfaces/current-user";
 
 interface AdminPublicationsPageProps extends ICurrentUser {
-  articles: (ITitle & ICreatedDate & IArticleId)[];
+  articles: (ITitle & ICreatedDate & IArticleId & ILink)[];
 }
 
-const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps> = (
-  props: AdminPublicationsPageProps,
-) => {
+const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps> = (props: AdminPublicationsPageProps) => {
   const notesList = props.articles.map((article, index, articlesList) => {
     const isLastElement = index === articlesList.length - 1;
     return (
       <li className={"notes__list-item" + (isLastElement ? "  notes__list-item--last" : "")} key={article.id}>
-        <Note title={article.title} createdDate={article.createdDate} link={`/articles/${article.id}`} />
+        <Note title={article.title} createdDate={article.createdDate} link={article.link} />
       </li>
     );
   });
@@ -33,6 +31,4 @@ const AdminPublicationsPage: FunctionComponent<AdminPublicationsPageProps> = (
   );
 };
 
-export {
-  AdminPublicationsPage,
-};
+export {AdminPublicationsPage};

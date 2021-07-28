@@ -12,6 +12,7 @@ import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {AdminCommentsPage} from "../views/pages/AdminCommentsPage";
 import {AdminPublicationsPage} from "../views/pages/AdminPublicationsPage";
+import {getArticlesByUser} from "../data-providers";
 
 const adminPublicationsRouter = Router();
 
@@ -20,7 +21,7 @@ adminPublicationsRouter.get(
   [isAuthorUserMiddleware],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     try {
-      const {items: articles} = await dataProviderService.getArticlesByUser({
+      const {items: articles} = await getArticlesByUser({
         limit: undefined,
         offset: undefined,
         authorId: res.locals.currentUser.id,

@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from "react";
 
-import {ILink} from "../../../types/article";
 import {CategoryWithLink} from "../../../types/category-with-link";
 import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
@@ -16,7 +15,7 @@ import {PreviewList} from "../components/PreviewList/PreviewList";
 import {ICurrentUser} from "../interfaces/current-user";
 
 interface MainPageProps extends IPaginationProps, ICurrentUser {
-  articles?: (IArticlePreview & ILink)[];
+  articles?: IArticlePreview[];
   categoriesWithLinksAndNumbers: CategoryWithLinksAndNumbers[];
   categoriesWithLinks: CategoryWithLink[];
   prefix: string;

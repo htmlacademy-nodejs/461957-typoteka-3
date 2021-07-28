@@ -1,7 +1,6 @@
 import {HttpCode} from "../../../constants";
 import {Article, ICategories, IComments} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
-import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
 import {IArticleAnnounceAndCommentsCount} from "../../../types/interfaces/article-announce-and-comments-count";
 import {ArticlesService} from "../data-access/services/articles.service";
@@ -17,6 +16,7 @@ import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-
 import {getId} from "../../../shared/get-id";
 import {saveImage} from "../data-access/static-managers";
 import {mimeTypes} from "../../../shared/constants/mime-types";
+import {ICategory} from "../../../types/interfaces/category";
 
 const DEFAULT_LIMIT = 8;
 const THE_MOST_DISCUSSED_DEFAULT_LENGTH = 4;
@@ -118,7 +118,9 @@ class ArticlesController {
     offset = 0,
     limit = DEFAULT_LIMIT,
     categoryId,
-  }: IPaginationOptions & {categoryId: CategoryId}): Promise<ControllerResponse<ArticlesByCategory>> {
+  }: IPaginationOptions & {categoryId: CategoryId}): Promise<
+    ControllerResponse<ICategory & ICollection<IArticlePlain>>
+  > {
     const [{items: plainArticles, totalCount}, category] = await Promise.all([
       this.articlesService.findByCategoryId({offset, limit, categoryId}),
       this.categoriesService.findOneById(categoryId),
