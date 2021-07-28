@@ -7,9 +7,7 @@ import type {Article, ICreatedDate} from "../../types/article";
 import {ArticleId} from "../../types/article-id";
 import type {ArticleSearchCollection} from "../../types/article-search-collection";
 import type {ArticleValidationResponse} from "../../types/article-validation-response";
-import {ArticlesByCategory} from "../../types/articles-by-category";
 import {Category} from "../../types/category";
-import {CategoryId} from "../../types/category-id";
 import {CategoryWithNumbers} from "../../types/category-with-numbers";
 import {CommentValidationResponse} from "../../types/comment-validation-response";
 import {IArticleCreating} from "../../types/interfaces/article-creating";
@@ -150,29 +148,6 @@ class DataProviderService {
       return transformDate(response.data);
     } catch (e) {
       console.error(`Failed to load article by id "${id}"`);
-      return Promise.reject(e);
-    }
-  }
-
-  public async getArticlesByCategoryId({
-    offset,
-    limit,
-    categoryId,
-  }: Partial<IPaginationOptions> & {categoryId: CategoryId}): Promise<ArticlesByCategory> {
-    try {
-      const response = await this.requestService.get<ArticlesByCategory>(
-        `${this.apiEndPoint + APIRoute.CATEGORIES}/${categoryId}`,
-        {
-          params: {offset, limit},
-        },
-      );
-      return {
-        category: response.data.category,
-        items: response.data.items.map(transformDate),
-        totalCount: response.data.totalCount,
-      };
-    } catch (e) {
-      console.error(`Failed to load articles by categoryId "${categoryId}"`);
       return Promise.reject(e);
     }
   }

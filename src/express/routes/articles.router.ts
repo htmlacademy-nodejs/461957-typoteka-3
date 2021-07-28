@@ -23,7 +23,7 @@ import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-cat
 import {streamPage} from "../utils/stream-page";
 import {ArticlesByCategoryPage} from "../views/pages/ArticlesByCategoryPage";
 import {EditArticlePage} from "../views/pages/EditArticlePage";
-import {createArticle} from "../data-providers";
+import {createArticle, getArticlesByCategory} from "../data-providers";
 import {ArticleFormField} from "../../shared/constants/forms/article-form-field";
 
 const csrfProtection = csrf({cookie: true});
@@ -167,7 +167,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: IResponseExtended,
   const categoryId = parseInt(req.params.id, 10);
   try {
     const [{items: articles, totalCount, category}, categories] = await Promise.all([
-      dataProviderService.getArticlesByCategoryId({offset, categoryId}),
+      getArticlesByCategory({offset, categoryId}),
       dataProviderService.getCategoriesWithNumbers(),
     ]);
     const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);
