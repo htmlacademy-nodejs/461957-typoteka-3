@@ -2,7 +2,7 @@ import React, {FunctionComponent} from "react";
 
 import type {ICommentId} from "../../../types/interfaces/comment-id";
 import {ICommentByAuthor} from "../../../types/interfaces/comment-by-author";
-import {LayoutAdmin} from "../components/Layout/layout-admin";
+import {LayoutAdmin} from "../components/layout/layout-admin";
 import {PublicationComment} from "../components/publication-comment/publication-comment";
 import {ICurrentUser} from "../interfaces/current-user";
 
