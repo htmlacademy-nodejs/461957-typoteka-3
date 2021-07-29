@@ -77,7 +77,7 @@ const EditArticlePage: FunctionComponent<EditArticleProps> = ({
             </Stack>
           </div>
           <div className="new-publication__form form">
-            <div className="form__wrapper form__wrapper--intro">
+            <div className="form__wrapper">
               {validationMessages.length ? (
                 <FormValidationBlock title="При сохранении статьи произошли ошибки:" messages={validationMessages} />
               ) : null}
@@ -93,20 +93,22 @@ const EditArticlePage: FunctionComponent<EditArticleProps> = ({
 
               <div className="form__field">
                 <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">{ArticleFormField.UPLOAD.label}</div>
-                <div className="form__image-loader form__image-loader--publication">
-                  <label>
+                <div className="file-uploader">
+                  <span className="file-uploader__label" id="file-name" />
+                  <label className="file-uploader__button">
                     <input
                       className="visually-hidden"
                       style={{width: "1px"}}
                       name={ArticleFormField.IMAGE.name}
                       type="file"
+                      id="file-uploader"
                     />
                     Обзор
                   </label>
+                  <button className="button button--transparent file-uploader__button" type="button" id="file-clear">
+                    Удалить
+                  </button>
                 </div>
-                {/* TODO: remove image button
-               <button className="button button--transparent">Удалить</button>
-               */}
               </div>
               <div className="form__field">
                 <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">
