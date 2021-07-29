@@ -1,10 +1,11 @@
 import * as http from "http";
+import path from "path";
 
 import * as bodyParser from "body-parser";
 import express, {Application, RequestHandler, Response} from "express";
 import {Sequelize} from "sequelize";
 
-import {DEFAULT_PORT, HttpCode} from "../../constants";
+import {DEFAULT_PORT, HttpCode, IMAGES_DIR} from "../../constants";
 import {APIRoute} from "../../shared/constants/routes/api-route";
 import {getLogger} from "../logger";
 import {messageConstructor} from "../logger/message-constructor";
@@ -23,7 +24,7 @@ class ApiService {
   constructor() {
     this.app = express();
     this.initializeMiddleware([
-      bodyParser.json(),
+      bodyParser.json({limit: `50mb`}),
       assignLogFieldsMiddleware,
       responseStatusCodeMiddleware,
       logRouteMiddleware,
@@ -62,6 +63,7 @@ class ApiService {
     UserModel,
     RefreshTokenModel,
   }: DatabaseModels): void {
+    this.app.use(APIRoute.STATIC, express.static(path.join(__dirname, IMAGES_DIR)));
     this.app.use(APIRoute.API, apiRouter({CategoryModel, ArticleModel, CommentModel, UserModel, RefreshTokenModel}));
     this.app.use((req: RequestExtended, res: Response) => {
       res.status(HttpCode.NOT_FOUND).send(`Page not found`);

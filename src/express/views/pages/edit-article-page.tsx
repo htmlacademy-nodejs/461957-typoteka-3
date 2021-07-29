@@ -100,7 +100,6 @@ const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                       style={{width: "1px"}}
                       name={ArticleFormField.IMAGE.name}
                       type="file"
-                      disabled
                     />
                     Обзор
                   </label>

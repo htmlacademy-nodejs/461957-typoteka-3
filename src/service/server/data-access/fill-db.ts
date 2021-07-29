@@ -47,6 +47,7 @@ async function fillDb(
     comments,
     titles,
     avatars,
+    pictureNames,
   ] = await loadSources([
     MockTextsFilePath.FIRST_NAMES,
     MockTextsFilePath.LAST_NAMES,
@@ -57,6 +58,7 @@ async function fillDb(
     MockTextsFilePath.COMMENTS,
     MockTextsFilePath.TITLES,
     MockTextsFilePath.AVATARS,
+    MockTextsFilePath.PICTURE_NAMES,
   ]);
 
   const createdCategories = await createCategories(CategoryModel, categories);
@@ -66,6 +68,7 @@ async function fillDb(
     titles,
     comments,
     sentences,
+    pictureNames,
   });
   await assignCategoriesToArticles(createdArticles, createdCategories, {categories});
 }
@@ -91,7 +94,7 @@ async function createArticles(
   ArticleModel: IArticleModel,
   articlesCount: number,
   users: IUserEntity[],
-  payload: {titles: string[]; sentences: string[]; comments: string[]},
+  payload: {titles: string[]; sentences: string[]; comments: string[], pictureNames: string[]},
 ): Promise<IArticleEntity[]> {
   const articles = new Array(articlesCount).fill(undefined);
   const authors = selectAuthorsOnly(users);
@@ -105,6 +108,7 @@ async function createArticles(
       categories: undefined,
       comments: getComments(payload.comments, commentatorsIds),
       authorId: getAuthorId(authors),
+      pictureName: getRandomItem(payload.pictureNames),
     })),
     {include: [TableName.COMMENTS]},
   );

@@ -283,3 +283,8 @@
 .preview__text {
   letter-spacing: unset;
 }
+
+.preview__background-image {
+  object-fit: cover;
+  height: 240px;
+}

@@ -9,6 +9,8 @@ import {IPreparedPage} from "../../types/interfaces/prepared-page";
 import {ICurrentUser} from "../views/interfaces/current-user";
 import {ICsrfInput} from "../views/interfaces/csrf-input";
 
+import {getPictureSrc} from "./picture-src-resolver";
+
 interface Props extends ICurrentUser, ICsrfInput {
   articleId: ArticleId;
   newComment?: string;
@@ -35,6 +37,7 @@ async function prepareArticlePage({
       previousPageUrl: undefined,
       fullText: article.fullText,
       newCommentEndPoint: `${ClientRoute.COMMENTS}/${articleId}`,
+      imageSrc: article.pictureName ? getPictureSrc(article.pictureName) : ``,
       commentValidationResponse: {},
       comments,
       currentUser,

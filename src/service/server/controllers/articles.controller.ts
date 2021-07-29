@@ -1,7 +1,6 @@
 import {HttpCode} from "../../../constants";
 import {Article, ICategories, IComments} from "../../../types/article";
 import {ControllerResponse} from "../../../types/controller-response";
-import {ArticlesByCategory} from "../../../types/articles-by-category";
 import {CategoryId} from "../../../types/category-id";
 import {IArticleAnnounceAndCommentsCount} from "../../../types/interfaces/article-announce-and-comments-count";
 import {ArticlesService} from "../data-access/services/articles.service";
@@ -14,10 +13,16 @@ import {ICollection} from "../../../types/interfaces/collection";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
 import {UserId} from "../../../types/user-id";
 import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-date";
+import {getId} from "../../../shared/get-id";
+import {saveImage} from "../data-access/static-managers";
+import {mimeTypes} from "../../../shared/constants/mime-types";
+import {ICategory} from "../../../types/interfaces/category";
 
 const DEFAULT_LIMIT = 8;
 const THE_MOST_DISCUSSED_DEFAULT_LENGTH = 4;
 const THE_MOST_DISCUSSED_MAX_LENGTH = 20;
+
+const defaultImageExtension = `jpeg`;
 
 class ArticlesController {
   constructor(
@@ -113,7 +118,9 @@ class ArticlesController {
     offset = 0,
     limit = DEFAULT_LIMIT,
     categoryId,
-  }: IPaginationOptions & {categoryId: CategoryId}): Promise<ControllerResponse<ArticlesByCategory>> {
+  }: IPaginationOptions & {categoryId: CategoryId}): Promise<
+    ControllerResponse<ICategory & ICollection<IArticlePlain>>
+  > {
     const [{items: plainArticles, totalCount}, category] = await Promise.all([
       this.articlesService.findByCategoryId({offset, limit, categoryId}),
       this.categoriesService.findOneById(categoryId),
@@ -154,7 +161,13 @@ class ArticlesController {
 
   public async createNewArticle(newArticle: IArticleCreating): Promise<ControllerResponse<void>> {
     try {
-      await this.articlesService.create(newArticle);
+      if (newArticle.pictureContent && newArticle.pictureMimeType) {
+        const pictureName = resolvePictureName(newArticle.pictureMimeType);
+        await saveImage(pictureName, Buffer.from(newArticle.pictureContent));
+        await this.articlesService.create({...newArticle, pictureName});
+      } else {
+        await this.articlesService.create(newArticle);
+      }
       return {status: HttpCode.CREATED};
     } catch (e) {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
@@ -180,6 +193,10 @@ class ArticlesController {
     }
     return {status: HttpCode.OK};
   }
+}
+
+function resolvePictureName(mimeType: string): string {
+  return getId() + `.` + (mimeTypes[mimeType] ?? defaultImageExtension);
 }
 
 export {ArticlesController};

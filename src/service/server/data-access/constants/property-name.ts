@@ -11,6 +11,7 @@ const ArticleProperty: Record<Uppercase<keyof Article>, string> & Record<Upperca
   FULLTEXT: `full_text`,
   TITLE: `title`,
   AUTHORID: `author_id`,
+  PICTURENAME: `picture_name`,
 };
 
 const CategoryProperty: Record<Uppercase<keyof Category>, string> = {

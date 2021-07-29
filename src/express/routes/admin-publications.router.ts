@@ -7,11 +7,12 @@ import {SSRError} from "../errors/ssr-error";
 import {getAccessTokenFromCookies} from "../helpers/cookie.helper";
 import {getArticleLink} from "../helpers/link-resolver";
 import {isAuthorUserMiddleware} from "../middlewares";
-import {ICommentByAuthor} from "../models/interfaces/comment-by-author";
+import {ICommentByAuthor} from "../../types/interfaces/comment-by-author";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
 import {AdminCommentsPage} from "../views/pages/admin-comments-page";
 import {AdminPublicationsPage} from "../views/pages/admin-publications-page";
+import {getArticlesByUser} from "../data-providers";
 
 const adminPublicationsRouter = Router();
 
@@ -20,7 +21,7 @@ adminPublicationsRouter.get(
   [isAuthorUserMiddleware],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     try {
-      const {items: articles} = await dataProviderService.getArticlesByUser({
+      const {items: articles} = await getArticlesByUser({
         limit: undefined,
         offset: undefined,
         authorId: res.locals.currentUser.id,

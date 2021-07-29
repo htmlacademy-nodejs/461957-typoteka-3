@@ -11,6 +11,7 @@ import {resolveCategoriesLinks} from "../utils/resolve-categories-links";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
 import {streamPage} from "../utils/stream-page";
 import {MainPage} from "../views/pages/main-page";
+import {getArticles} from "../data-providers";
 
 const mainPageRouter = Router();
 
@@ -19,7 +20,7 @@ mainPageRouter.get(`/`, async (req: Request, res: IResponseExtended, next: NextF
   const offset = getOffsetFromPage(page);
   try {
     const [{items: articles, totalCount}, categories, recentComments, discussedArticles] = await Promise.all([
-      dataProviderService.getArticles({offset}),
+      getArticles({offset}),
       dataProviderService.getCategoriesWithNumbers(),
       dataProviderService.getRecentComments(),
       dataProviderService.getDiscussedArticles(),

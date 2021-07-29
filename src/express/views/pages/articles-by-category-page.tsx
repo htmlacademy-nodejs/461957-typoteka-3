@@ -1,7 +1,6 @@
 import {Text} from "@fluentui/react";
 import React, {FunctionComponent} from "react";
 
-import {ILink} from "../../../types/article";
 import {CategoryId} from "../../../types/category-id";
 import {CategoryWithLinksAndNumbers} from "../../../types/category-with-links-and-numbers";
 import {IArticlePreview} from "../../../types/interfaces/article-preview";
@@ -14,7 +13,7 @@ import {ICurrentUser} from "../interfaces/current-user";
 interface Props extends IPaginationProps, ICurrentUser {
   pageTitle: string;
   categories: CategoryWithLinksAndNumbers[];
-  articles: (IArticlePreview & ILink)[];
+  articles: IArticlePreview[];
   selectedCategoryId?: CategoryId;
   prefix: string;
 }
