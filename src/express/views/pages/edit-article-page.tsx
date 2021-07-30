@@ -97,7 +97,7 @@ const EditArticlePage: FunctionComponent<EditArticleProps> = ({
               <div className="form__field">
                 <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">{ArticleFormField.UPLOAD.label}</div>
                 <div className="file-uploader">
-                  <span className="file-uploader__label" id="file-name" />
+                  <label className="file-uploader__label" id="file-name" htmlFor="file-uploader" />
                   <label className="file-uploader__button">
                     <input
                       className="visually-hidden"
