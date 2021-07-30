@@ -326,3 +326,42 @@
   -webkit-transition: all .3s;
   transition: all .3s;
 }
+
+.datepicker {
+  margin-right: 80px;
+}
+
+.datepicker__title {
+  display: block;
+}
+
+.datepicker__input-filed {
+  width: 160px;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid #605e5c;
+  border-radius: 2px;
+  padding: 0 4px;
+}
+
+.datepicker__icon {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: -30px;
+  top: -13px;
+}
+
+.datepicker__icon::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: url(../img/icons/calendar.svg) center no-repeat;
+  cursor: pointer;
+}
+
+.datepicker__wrapper {
+  position: relative;
+}
