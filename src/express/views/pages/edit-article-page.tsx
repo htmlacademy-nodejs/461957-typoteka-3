@@ -104,6 +104,7 @@ const EditArticlePage: FunctionComponent<EditArticleProps> = ({
                       style={{width: "1px"}}
                       name={ArticleFormField.IMAGE.name}
                       type="file"
+                      accept="image/png, image/jpeg"
                       id="file-uploader"
                     />
                     Обзор
