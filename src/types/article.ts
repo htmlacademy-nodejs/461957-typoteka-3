@@ -5,6 +5,7 @@ import {CategoryWithLink} from "./category-with-link";
 import {CategoryWithLinksAndNumbers} from "./category-with-links-and-numbers";
 import {IAuthorId} from "./interfaces/author-id";
 import {ICommentPreview} from "./interfaces/comment-preview";
+import {IPictureName} from "./interfaces/picture-name";
 
 interface IArticleId {
   id: ArticleId;
@@ -62,9 +63,17 @@ interface ICategoriesWithLinksAndNumbers {
   categories: CategoryWithLinksAndNumbers[];
 }
 
+interface IPictureContent {
+  pictureContent: Buffer;
+}
+
+interface IPictureMimeType {
+  pictureMimeType: string;
+}
+
 interface NewArticle extends ITitle, ICreatedDate, IAnnounce, IFullText, ICategories, IAuthorId {}
 
-interface Article extends Omit<NewArticle, `authorId`>, IArticleId {
+interface Article extends Omit<NewArticle, `authorId`>, IArticleId, IPictureName {
   comments: ICommentPreview[];
 }
 
@@ -83,6 +92,8 @@ export {
   ICsrf,
   IFullText,
   ILink,
+  IPictureContent,
+  IPictureMimeType,
   ITitle,
   NewArticle,
 };

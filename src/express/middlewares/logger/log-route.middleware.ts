@@ -8,6 +8,4 @@ function logRouteMiddleware(req: IRequestExtended, res: Response, next: NextFunc
   next();
 }
 
-export {
-  logRouteMiddleware,
-};
+export {logRouteMiddleware};

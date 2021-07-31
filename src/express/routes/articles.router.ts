@@ -23,11 +23,14 @@ import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-cat
 import {streamPage} from "../utils/stream-page";
 import {ArticlesByCategoryPage} from "../views/pages/articles-by-category-page";
 import {EditArticlePage} from "../views/pages/edit-article-page";
+import {createArticle, getArticlesByCategory} from "../data-providers";
+import {ArticleFormField} from "../../shared/constants/forms/article-form-field";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
 const articlesRouter = Router();
 const logger = getLogger();
+const imageUploader = multerMiddleware.single(ArticleFormField.IMAGE.name);
 
 articlesRouter.get(
   `/add`,
@@ -55,7 +58,7 @@ articlesRouter.get(
 
 articlesRouter.post(
   `/add`,
-  [isAuthorUserMiddleware, multerMiddleware.none(), csrfProtection],
+  [isAuthorUserMiddleware, imageUploader, csrfProtection],
   async (req: Request, res: IResponseExtended, next: NextFunction) => {
     const newArticle: IArticleCreating = {
       title: (req.body as ArticleFromBrowser).title,
@@ -64,9 +67,11 @@ articlesRouter.post(
       createdDate: (req.body as ArticleFromBrowser).createdDate,
       categories: convertCategoriesToArray((req.body as ArticleFromBrowser)?.categories),
       authorId: res.locals.currentUser.id,
+      pictureContent: req.file?.buffer,
+      pictureMimeType: req.file?.mimetype,
     };
     try {
-      const articleValidationResponse: ArticleValidationResponse | void = await dataProviderService.createArticle(
+      const articleValidationResponse: ArticleValidationResponse | void = await createArticle(
         newArticle,
         getAccessTokenFromCookies(req),
       );
@@ -162,7 +167,7 @@ articlesRouter.get(`/category/:id`, async (req: Request, res: IResponseExtended,
   const categoryId = parseInt(req.params.id, 10);
   try {
     const [{items: articles, totalCount, category}, categories] = await Promise.all([
-      dataProviderService.getArticlesByCategoryId({offset, categoryId}),
+      getArticlesByCategory({offset, categoryId}),
       dataProviderService.getCategoriesWithNumbers(),
     ]);
     const preparedCategories: CategoryWithLinksAndNumbers[] = resolveLinksToCategoriesWithNumbers(categories);

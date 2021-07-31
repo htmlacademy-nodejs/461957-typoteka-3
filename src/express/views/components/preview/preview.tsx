@@ -1,8 +1,16 @@
 import React, {FunctionComponent} from "react";
 
 import {IAnnounce, ICategoriesWithLinks, ICommentsCount, ICreatedDate, ILink, ITitle} from "../../../../types/article";
+import {IImageSrc} from "../../../../types/interfaces/image-src";
 
-interface PreviewProps extends ICommentsCount, ITitle, IAnnounce, ICreatedDate, ILink, ICategoriesWithLinks {}
+interface PreviewProps
+  extends ICommentsCount,
+    ITitle,
+    IAnnounce,
+    ICreatedDate,
+    ILink,
+    ICategoriesWithLinks,
+    IImageSrc {}
 
 const Preview: FunctionComponent<PreviewProps> = ({
   categories,
@@ -11,6 +19,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
   announce,
   commentsCount,
   link,
+  imageSrc,
 }) => {
   const categoriesList = categories.map(categoryItem => (
     <li className="preview__breadcrumbs-item" key={categoryItem.id}>
@@ -25,19 +34,11 @@ const Preview: FunctionComponent<PreviewProps> = ({
       <ul className="preview__breadcrumbs" style={{flexWrap: "wrap"}}>
         {categoriesList}
       </ul>
-      {/* TODO: show picture*/}
-      {false && (
+      {imageSrc ? (
         <div className="preview__background">
-          <img
-            className="preview__background-image"
-            src={`img/@1x.jpg`}
-            width="460"
-            height="240"
-            srcSet={`img/@1x.jpg 1x, img/@2x.jpg 2x`}
-            alt=""
-          />
+          <img className="preview__background-image" src={imageSrc} width="460" height="240" alt="Обложка статьи" />
         </div>
-      )}
+      ) : null}
       <time className="preview__time" dateTime={createdDate.toISOString()}>
         {createdDate.toLocaleString()}
       </time>
@@ -47,7 +48,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
         </a>
       </h3>
       <p className="preview__text">{announce}</p>
-      <a className="preview__comment" href="#">
+      <a className="preview__comment" href={link + "#comments"}>
         Комментарии <span className="preview__cloud" />
         <b className="preview__comment-count">{commentsCount}</b>
       </a>
@@ -55,6 +56,4 @@ const Preview: FunctionComponent<PreviewProps> = ({
   );
 };
 
-export {
-  Preview,
-};
+export {Preview};

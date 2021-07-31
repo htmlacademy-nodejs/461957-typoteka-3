@@ -6,6 +6,8 @@ const MockFilePath = {
 } as const;
 const DEFAULT_SSR_PORT = 8080;
 const STATIC_DIR = `static`;
+const IMAGES_DIR = `static`;
+const SERVER_FOLDER_NAME = `server`;
 const HttpCode = {
   OK: 200,
   CREATED: 201,
@@ -37,6 +39,7 @@ const MockTextsFilePath = {
   LAST_NAMES: `data/last-names.txt`,
   EMAILS: `data/emails.txt`,
   AVATARS: `data/avatars.txt`,
+  PICTURE_NAMES: `data/picture-names.txt`,
 } as const;
 const DEFAULT_COMMAND = `--help`;
 const USER_ARGV_INDEX = 2;
@@ -62,12 +65,14 @@ export {
   DEFAULT_SSR_PORT,
   ExitCode,
   HttpCode,
+  IMAGES_DIR,
   LogLevel,
   LoginStatus,
   MockFilePath,
   MockTextsFilePath,
   PAGE_QUERY_PARAM,
   PAGE_SIZE,
+  SERVER_FOLDER_NAME,
   STATIC_DIR,
   Time,
   USER_ARGV_INDEX,

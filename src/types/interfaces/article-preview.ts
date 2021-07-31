@@ -1,7 +1,15 @@
-import {IAnnounce, IArticleId, ICategories, ICommentsCount, ICreatedDate, ITitle} from "../article";
+import {IAnnounce, IArticleId, ICategories, ICommentsCount, ICreatedDate, ILink, ITitle} from "../article";
 
-interface IArticlePreview extends IArticleId, ICommentsCount, ICreatedDate, ITitle, IAnnounce, ICategories {}
+import {IImageSrc} from "./image-src";
 
-export {
-  IArticlePreview,
-};
+interface IArticlePreview
+  extends IArticleId,
+    ICommentsCount,
+    ICreatedDate,
+    ITitle,
+    IAnnounce,
+    ICategories,
+    IImageSrc,
+    ILink {}
+
+export {IArticlePreview};

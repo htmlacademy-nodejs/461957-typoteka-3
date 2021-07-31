@@ -51,19 +51,22 @@ const EditArticlePage: FunctionComponent<EditArticleProps> = ({
             <Text variant="xxLarge" block className="new-publication__page-title">
               {isUpdating ? `Редактирование публикации` : `Новая публикация`}
             </Text>
-            <div className="new-publication__date-form">
-              <h3>Дата публикации</h3>
-              <div className="new-publication__date-form-division">
-                <div className="new-publication__date-block" style={{position: "relative"}}>
-                  <label htmlFor="new-publication-date" aria-label={ArticleFormField.CREATED_DATE.label} />
-                  <input
-                    type="text"
-                    defaultValue={getInitialDate(articleProps.createdDate)}
-                    name={ArticleFormField.CREATED_DATE.name}
-                    id="new-publication-date"
-                    placeholder={getInitialDate(articleProps.createdDate)}
-                  />
-                </div>
+            <div className="datepicker">
+              <span className="datepicker__title ms-fontSize-14 ms-fontWeight-semibold">Дата публикации</span>
+              <div className="datepicker__wrapper">
+                <label
+                  className="datepicker__icon"
+                  htmlFor="new-publication-date"
+                  aria-label={ArticleFormField.CREATED_DATE.label}
+                />
+                <input
+                  className="datepicker__input-filed"
+                  type="date"
+                  defaultValue={getInitialDate(articleProps.createdDate)}
+                  name={ArticleFormField.CREATED_DATE.name}
+                  id="new-publication-date"
+                  placeholder={getInitialDate(articleProps.createdDate)}
+                />
               </div>
             </div>
             <Stack tokens={{childrenGap: 16}} horizontal>
@@ -77,7 +80,7 @@ const EditArticlePage: FunctionComponent<EditArticleProps> = ({
             </Stack>
           </div>
           <div className="new-publication__form form">
-            <div className="form__wrapper form__wrapper--intro">
+            <div className="form__wrapper">
               {validationMessages.length ? (
                 <FormValidationBlock title="При сохранении статьи произошли ошибки:" messages={validationMessages} />
               ) : null}
@@ -93,21 +96,23 @@ const EditArticlePage: FunctionComponent<EditArticleProps> = ({
 
               <div className="form__field">
                 <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">{ArticleFormField.UPLOAD.label}</div>
-                <div className="form__image-loader form__image-loader--publication">
-                  <label>
+                <div className="file-uploader">
+                  <label className="file-uploader__label" id="file-name" htmlFor="file-uploader" />
+                  <label className="file-uploader__button">
                     <input
                       className="visually-hidden"
                       style={{width: "1px"}}
                       name={ArticleFormField.IMAGE.name}
                       type="file"
-                      disabled
+                      accept="image/png, image/jpeg"
+                      id="file-uploader"
                     />
                     Обзор
                   </label>
+                  <button className="button button--transparent file-uploader__button" type="button" id="file-clear">
+                    Удалить
+                  </button>
                 </div>
-                {/* TODO: remove image button
-               <button className="button button--transparent">Удалить</button>
-               */}
               </div>
               <div className="form__field">
                 <div className="field-label ms-fontSize-14 ms-fontWeight-semibold">
