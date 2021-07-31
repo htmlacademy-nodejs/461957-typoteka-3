@@ -7,8 +7,8 @@ import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {SSRError} from "../errors/ssr-error";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
-import {SearchResultProps} from "../views/components/SearchResult/SearchResult";
-import {SearchPage} from "../views/pages/SearchPage";
+import {SearchResultProps} from "../views/components/search-result/search-result";
+import {SearchPage} from "../views/pages/search-page";
 
 const csrfProtection = csrf({cookie: true});
 const searchRouter = Router();
@@ -53,6 +53,4 @@ searchRouter.get(`/`, [csrfProtection], async (req: Request, res: IResponseExten
   }
 });
 
-export {
-  searchRouter,
-};
+export {searchRouter};

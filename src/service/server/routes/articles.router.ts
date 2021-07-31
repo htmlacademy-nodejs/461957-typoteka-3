@@ -1,19 +1,13 @@
 import {Request, Response, Router} from "express";
 
 import {HttpCode} from "../../../constants";
-import {APIRoute} from "../../../shared/constants/routes/api-route";
 import {ArticlesController} from "../controllers/articles.controller";
-import {CommentsController} from "../controllers/comments.controller";
 import {authMiddleware} from "../middlewares/";
 import {validateNewArticle} from "../validators";
 
-import {commentsRouter} from "./comments.router";
 import {getPaginationFromReqQuery} from "./utilities/get-pagination-from-req-query";
 
-const articleRouter = (
-  articlesController: ArticlesController,
-  commentsController: CommentsController,
-): Router => {
+const articleRouter = (articlesController: ArticlesController): Router => {
   const router = Router();
 
   router.get(`/`, async (req: Request, res: Response) => {
@@ -30,6 +24,11 @@ const articleRouter = (
     const {limit, offset} = getPaginationFromReqQuery(req);
     const authorId = parseInt(req.params.authorId, 10);
     const {status = HttpCode.OK, payload} = await articlesController.getArticlesByAuthorId({limit, offset, authorId});
+    return res.status(status).send(payload);
+  });
+  router.get(`/discussed`, async (req: Request, res: Response) => {
+    const {limit} = getPaginationFromReqQuery(req);
+    const {status = HttpCode.OK, payload} = await articlesController.getDiscussed({limit});
     return res.status(status).send(payload);
   });
   router.get(`/:id`, async (req: Request, res: Response) => {
@@ -62,11 +61,7 @@ const articleRouter = (
     res.status(status).send(payload);
   });
 
-  router.use(`/:id` + APIRoute.COMMENTS, commentsRouter(commentsController));
-
   return router;
 };
 
-export {
-  articleRouter,
-};
+export {articleRouter};

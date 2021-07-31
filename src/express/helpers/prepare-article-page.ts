@@ -2,7 +2,7 @@ import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {dataProviderService} from "../services";
 import {CategoryWithLinksAndNumbers} from "../../types/category-with-links-and-numbers";
 import {resolveLinksToCategoriesWithNumbers} from "../utils/resolve-links-to-categories-with-numbers";
-import {ArticlePage, ArticlePageProps} from "../views/pages/ArticlePage";
+import {ArticlePage, ArticlePageProps} from "../views/pages/article-page";
 import {filterSelectedCategories} from "../utils/filter-selected-categories";
 import {ArticleId} from "../../types/article-id";
 import {IPreparedPage} from "../../types/interfaces/prepared-page";

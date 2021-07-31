@@ -3,16 +3,17 @@ import {NextFunction, Request, Router} from "express";
 import multer from "multer";
 
 import {HttpCode} from "../../constants";
+import {AVATARS} from "../../shared/constants/avatars";
 import {RoleId} from "../../shared/constants/role-id";
 import {ClientRoute} from "../../shared/constants/routes/client-route";
 import {IResponseExtended} from "../../types/interfaces/response-extended";
 import {IUserCreatingDoublePasswords, UserCreatingFromForm} from "../../types/interfaces/user-creating";
 import {UserValidationResponse} from "../../types/user-validation-response";
 import {SSRError} from "../errors/ssr-error";
-import {registrationValidationResponseMapper} from "../models/dto/registration-validation-responce";
+import {registrationValidationResponseMapper} from "../models/dto";
 import {dataProviderService} from "../services";
 import {streamPage} from "../utils/stream-page";
-import {RegistrationPage} from "../views/pages/RegistrationPage";
+import {RegistrationPage} from "../views/pages/registration-page";
 
 const csrfProtection = csrf({cookie: true});
 const multerMiddleware = multer();
@@ -23,6 +24,7 @@ registrationRouter.get(`/`, [csrfProtection], (req: Request, res: IResponseExten
     endPoint: ClientRoute.REGISTRATION,
     csrf: req.csrfToken(),
     userValidationResponse: {},
+    avatars: AVATARS,
   });
 });
 
@@ -49,6 +51,7 @@ registrationRouter.post(
         userValidationResponse: registrationValidationResponseMapper(newUserValidationResponse),
         user: newUser,
         csrf: req.csrfToken(),
+        avatars: AVATARS,
       });
     } catch (e) {
       return next(
@@ -62,6 +65,4 @@ registrationRouter.post(
   },
 );
 
-export {
-  registrationRouter,
-};
+export {registrationRouter};

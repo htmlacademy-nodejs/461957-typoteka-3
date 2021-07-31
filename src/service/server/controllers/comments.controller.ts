@@ -6,6 +6,9 @@ import {ArticleComment, CommentId} from "../../../types/article-comment";
 import {ICommentCreating} from "../../../types/interfaces/comment-creating";
 import {ICommentPreview} from "../../../types/interfaces/comment-preview";
 
+const RECENT_DEFAULT_LENGTH = 3;
+const RECENT_MAX_LENGTH = 20;
+
 class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
@@ -46,8 +49,22 @@ class CommentsController {
       return {status: HttpCode.INTERNAL_SERVER_ERROR};
     }
   }
+
+  public async getRecent({
+    limit = RECENT_DEFAULT_LENGTH,
+  }: {
+    limit?: number;
+  }): Promise<ControllerResponse<ICommentPreview[]>> {
+    try {
+      if (limit > RECENT_MAX_LENGTH) {
+        limit = RECENT_MAX_LENGTH;
+      }
+      const comments = await this.commentsService.findRecent({limit});
+      return {payload: comments};
+    } catch (e) {
+      return {status: HttpCode.INTERNAL_SERVER_ERROR};
+    }
+  }
 }
 
-export {
-  CommentsController,
-};
+export {CommentsController};

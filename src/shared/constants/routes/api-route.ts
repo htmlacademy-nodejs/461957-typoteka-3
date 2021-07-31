@@ -2,8 +2,11 @@ const APIRoute = {
   API: `/api`,
   ARTICLES: `/articles`,
   ARTICLES_BY_AUTHOR: `/articles/author`,
+  ARTICLES_DISCUSSED: `/articles/discussed`,
   EDIT_ARTICLE: `/articles`,
   COMMENTS: `/comments`,
+  ARTICLE_COMMENTS: `/comments/article`,
+  COMMENTS_RECENT: `/comments/recent`,
   CATEGORIES: `/categories`,
   CATEGORIES_STATISTICS: `/categories-statistics`,
   SEARCH: `/search`,
@@ -16,6 +19,4 @@ const APIRoute = {
   LOGOUT: `/auth/sign-out`,
 };
 
-export {
-  APIRoute,
-};
+export {APIRoute};

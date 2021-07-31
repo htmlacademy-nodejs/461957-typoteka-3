@@ -7,6 +7,7 @@ import {agent as request} from "supertest";
 import {Article} from "../../../types/article";
 import {ArticleId} from "../../../types/article-id";
 import {IArticleCreating} from "../../../types/interfaces/article-creating";
+import {IArticleAnnounceAndCommentsCount} from "../../../types/interfaces/article-announce-and-comments-count";
 import {IArticleTitleAndDate} from "../../../types/interfaces/article-title-and-date";
 import {ICollection} from "../../../types/interfaces/collection";
 import {IUserPreview} from "../../../types/interfaces/user-preview";
@@ -59,7 +60,6 @@ describe(`Articles router`, () => {
       expect((res.body as ICollection<any>).items.length).toBe(3);
     });
   });
-
   describe(`GET articles by author id`, () => {
     let accessToken: string;
     let currentUser: IUserPreview;
@@ -175,6 +175,52 @@ describe(`Articles router`, () => {
         .set(resolveAuthHeader(accessToken))
         .send();
       expect(res.status).toBe(200);
+    });
+  });
+
+  describe(`GET the most discussed articles`, () => {
+    test(`Should return code 200`, async () => {
+      const res = await request(app).get(`/api/articles/discussed`);
+      expect(res.status).toBe(200);
+    });
+    test(`Should return an array`, async () => {
+      const res = await request(app).get(`/api/articles/discussed`);
+      expect(Array.isArray(res.body)).toBe(true);
+    });
+    test(`Should return an array of default length`, async () => {
+      const res = await request(app).get(`/api/articles/discussed`);
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
+      expect(comments.length).toBe(4);
+    });
+    test(`Should return an array of given length`, async () => {
+      const res = await request(app).get(`/api/articles/discussed?limit=7`);
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
+      expect(comments.length).toBe(7);
+    });
+    test(`If pass huge limit should return an array of max length`, async () => {
+      const res = await request(app).get(`/api/articles/discussed?limit=99`);
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
+      expect(comments.length).toBeLessThanOrEqual(20);
+    });
+
+    test(`Should contains defined fields`, async () => {
+      const res = await request(app).get(`/api/articles/discussed`);
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
+      comments.every(comment => {
+        expect(comment.hasOwnProperty(`id`)).toBeTruthy();
+        expect(comment.hasOwnProperty(`announce`)).toBeTruthy();
+        expect(comment.hasOwnProperty(`commentsCount`)).toBeTruthy();
+      });
+    });
+
+    test(`Should be sorted from the most discussed`, async () => {
+      const res = await request(app).get(`/api/articles/discussed`);
+      const comments = res.body as IArticleAnnounceAndCommentsCount[];
+      comments.forEach((comment, index, array) => {
+        if (index) {
+          expect(comment.commentsCount).toBeLessThanOrEqual(array[index - 1].commentsCount);
+        }
+      });
     });
   });
 });

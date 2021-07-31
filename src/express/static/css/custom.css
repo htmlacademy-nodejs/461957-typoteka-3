@@ -251,3 +251,35 @@
 .comments__button {
   align-self: center;
 }
+
+.last-comment {
+
+}
+
+.last-comment__header {
+  display: flex;
+  align-items: center;
+}
+
+.last-comment__author-name {
+  font-size: 13px;
+}
+
+.last-comment__text {
+  display: block;
+  margin-top: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.last-comment__text:hover {
+  color:#2f80ed
+}
+
+.main-page__section-flex {
+  min-height: auto;
+}
+
+.preview__text {
+  letter-spacing: unset;
+}
