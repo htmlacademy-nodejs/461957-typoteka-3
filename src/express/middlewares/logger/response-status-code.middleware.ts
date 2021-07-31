@@ -13,6 +13,4 @@ function onResFinished(req: IRequestExtended, res: Response): void {
   getLogger().info(messageConstructor(req.context.id, `Response sent, code: ${res.statusCode}`));
 }
 
-export {
-  responseStatusCodeMiddleware,
-};
+export {responseStatusCodeMiddleware};

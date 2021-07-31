@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-import {ICommentByAuthor} from "../../../models/interfaces/comment-by-author";
+import {ICommentByAuthor} from "../../../../types/interfaces/comment-by-author";
 import {Avatar} from "../avatar/avatar";
 
 const PublicationComment: FunctionComponent<ICommentByAuthor> = ({text, link, user, createdDate, articleTitle}) => (

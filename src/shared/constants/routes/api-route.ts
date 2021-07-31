@@ -1,5 +1,6 @@
 const APIRoute = {
   API: `/api`,
+  STATIC: `/static`,
   ARTICLES: `/articles`,
   ARTICLES_BY_AUTHOR: `/articles/author`,
   ARTICLES_DISCUSSED: `/articles/discussed`,

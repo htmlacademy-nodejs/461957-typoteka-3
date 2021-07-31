@@ -9,7 +9,7 @@ interface Props extends IComments {
 
 const CommentsList: FunctionComponent<Props> = ({parentCssClass, comments, children}) => {
   return (
-    <section className={`${parentCssClass}__comments comments`}>
+    <section className={`${parentCssClass}__comments comments`} id="comments">
       <h2 className="comments__title title title--middle">Комментарии</h2>
       <ul className="comments__list">
         {comments.map(item => (
