@@ -67,9 +67,10 @@ class CommentsService {
         ],
         order: [[`createdDate`, `ASC`]],
       });
-      return comments
-        .map<ICommentPreview>(item => item.get({plain: true}))
-        .map((item: ICommentPreview & {users: IUserPreview}) => assignAuthorToComment(item));
+      return comments.map(model => {
+        const item = (model.get({plain: true}) as unknown) as ICommentPreview & {users: IUserPreview};
+        return assignAuthorToComment(item);
+      });
     } catch (e) {
       this.logger.error(`Failed to find comments by article id, ${(e as Error).toString()}`);
       return Promise.reject(`Failed to find comments by article id, ${(e as Error).toString()}`);
@@ -95,11 +96,13 @@ class CommentsService {
         ],
         order: [[`createdDate`, `ASC`]],
       });
-      return comments
-        .map<unknown>(item => item.get({plain: true}))
-        .map((item: ICommentPreview & {users: IUserPreview; articles: {title: string}}) => {
-          return {...assignAuthorToComment(item), articleTitle: item.articles.title};
-        });
+      return comments.map(model => {
+        const item = (model.get({plain: true}) as unknown) as ICommentPreview & {
+          users: IUserPreview;
+          articles: {title: string};
+        };
+        return {...assignAuthorToComment(item), articleTitle: item.articles.title};
+      });
     } catch (e) {
       this.logger.error(`Failed to find comments by author id, ${(e as Error).toString()}`);
       return Promise.reject(`Failed to find comments by author id, ${(e as Error).toString()}`);
@@ -148,9 +151,10 @@ class CommentsService {
         order: [[`createdDate`, `DESC`]],
         limit,
       });
-      return comments
-        .map<ICommentPreview>(item => item.get({plain: true}))
-        .map((item: ICommentPreview & {users: IUserPreview}) => assignAuthorToComment(item));
+      return comments.map(model => {
+        const item = (model.get({plain: true}) as unknown) as ICommentPreview & {users: IUserPreview};
+        return assignAuthorToComment(item);
+      });
     } catch (e) {
       this.logger.error(`Failed to find recent ${limit} comments, ${(e as Error).toString()}`);
       return Promise.reject(`Failed to find recent ${limit} comments, ${(e as Error).toString()}`);

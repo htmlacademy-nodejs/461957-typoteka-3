@@ -3,7 +3,6 @@ import Sequelize, {FindAttributeOptions, Model, ProjectionAlias} from "sequelize
 
 import {ArticleId} from "../../../../types/article-id";
 import {CategoryId} from "../../../../types/category-id";
-import {IArticleCreating} from "../../../../types/interfaces/article-creating";
 import {IArticlePlain} from "../../../../types/interfaces/article-plain";
 import {IArticleAnnounceAndCommentsCount} from "../../../../types/interfaces/article-announce-and-comments-count";
 import {IArticleTitleAndDate} from "../../../../types/interfaces/article-title-and-date";
@@ -154,9 +153,10 @@ class ArticlesService {
         },
       },
     });
-    const preparedArticles = articles
-      .map(item => item.get({plain: true}))
-      .map(item => ({...item, commentsCount: parseInt(`${item.commentsCount}`, 10)}));
+    const preparedArticles = articles.map(model => {
+      const item = model.get({plain: true});
+      return {...item, commentsCount: parseInt(`${item.commentsCount}`, 10)};
+    });
     return {
       totalCount: count,
       items: preparedArticles,
