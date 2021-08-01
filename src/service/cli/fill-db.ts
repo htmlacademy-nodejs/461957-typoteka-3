@@ -3,9 +3,9 @@ import chalk from "chalk";
 import {ExitCode} from "../../constants";
 import {CliAction} from "../../types/cli-action";
 import {getLogger} from "../logger";
-import {connectToDatabase} from "../server/data-access/database-connector";
 import {fillDb} from "../server/data-access/fill-db";
 import {defineDatabaseModels} from "../server/data-access/models";
+import {connectToDatabase} from "../server/data-access/connectors";
 
 const DEFAULT_COUNT = 3;
 const logger = getLogger();
@@ -20,7 +20,10 @@ const cliAction: CliAction = {
       process.exit(ExitCode.SUCCESS);
     }
     try {
-      const connection = await connectToDatabase();
+      const connection = await connectToDatabase().catch(e => {
+        logger.error(`Failed to establish a database connection,\n${(e as Error).toString()}`);
+        process.exit(ExitCode.ERROR);
+      });
       const {CategoryModel, ArticleModel, CommentModel, UserModel, RoleModel} = defineDatabaseModels(connection);
       await connection.sync({force: true});
       await fillDb(mockCount, {ArticleModel, CategoryModel, CommentModel, UserModel, RoleModel});
@@ -32,6 +35,4 @@ const cliAction: CliAction = {
   },
 };
 
-export {
-  cliAction,
-};
+export {cliAction};
