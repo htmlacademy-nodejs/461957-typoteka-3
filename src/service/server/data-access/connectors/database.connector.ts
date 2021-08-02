@@ -34,14 +34,10 @@ function openConnection(): Sequelize {
     password: ENV.DATABASE_PASSWORD,
     host: ENV.DATABASE_HOST,
     dialect: `postgres`,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    logging: logger.debug.bind(logger),
+    logging: (message => logger.debug(message)) as (message: string) => void,
   });
 }
 
 const databaseConnector = new DatabaseConnector();
 
-export {
-  DatabaseConnector,
-  databaseConnector,
-};
+export {DatabaseConnector, databaseConnector};
