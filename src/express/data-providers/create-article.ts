@@ -1,4 +1,4 @@
-import {AxiosResponse} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 
 import {IArticleCreating} from "../../types/interfaces/article-creating";
 import {ArticleValidationResponse} from "../../types/article-validation-response";
@@ -24,10 +24,9 @@ async function createArticle(
     return Promise.reject(`Error during creation the new article`);
   } catch (e) {
     console.error(`Error during creation the new article`);
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-    if (e?.response?.status === HttpCode.BAD_REQUEST) {
+    if ((e as AxiosError).response.status === HttpCode.BAD_REQUEST) {
       console.error(`Invalid article`);
-      return e?.response?.data as ArticleValidationResponse;
+      return (e as AxiosError).response?.data as ArticleValidationResponse;
     }
     console.error(`Error during creation the new article`);
     return Promise.reject(`Error during creation the new article`);

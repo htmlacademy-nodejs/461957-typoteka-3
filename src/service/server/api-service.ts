@@ -28,7 +28,6 @@ class ApiService {
       assignLogFieldsMiddleware,
       responseStatusCodeMiddleware,
       logRouteMiddleware,
-      // TODO: Error handling
     ]);
   }
 
@@ -70,14 +69,6 @@ class ApiService {
       this.logger.error(messageConstructor(req.context.id, `'${req.url}' not found`));
     });
   }
-
-  private globalErrorHandler(err: Error, req: RequestExtended, res: Response): void {
-    res.status(HttpCode.INTERNAL_SERVER_ERROR).send();
-    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    this.logger.error(messageConstructor(req.context.id, `Error: ,` + err));
-  }
 }
 
-export {
-  ApiService,
-};
+export {ApiService};

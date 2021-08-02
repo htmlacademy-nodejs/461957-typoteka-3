@@ -1,4 +1,4 @@
-import axios, {AxiosResponse, AxiosStatic} from "axios";
+import axios, {AxiosError, AxiosResponse, AxiosStatic} from "axios";
 
 import {HttpCode} from "../../constants";
 import {APIRoute} from "../../shared/constants/routes/api-route";
@@ -54,10 +54,9 @@ class DataProviderService {
       }
       return Promise.reject(`Error during creation the new user`);
     } catch (e) {
-      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+      if ((e as AxiosError).response.status === HttpCode.BAD_REQUEST) {
         console.error(`Invalid user`);
-        return e?.response?.data as UserValidationResponse;
+        return (e as AxiosError).response.data as UserValidationResponse;
       }
       return Promise.reject(`Error during creation the new article`);
     }
@@ -78,12 +77,11 @@ class DataProviderService {
       }
       return Promise.reject(`Error during sign in`);
     } catch (e) {
-      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-      if (e?.response?.status === HttpCode.FORBIDDEN) {
+      if ((e as AxiosError).response.status === HttpCode.FORBIDDEN) {
         console.error(`Invalid user`);
         return {
           isSuccess: false,
-          payload: e?.response?.data as SignInValidationResponse,
+          payload: (e as AxiosError).response.data as SignInValidationResponse,
         };
       }
       return Promise.reject(`Error during sign in`);
@@ -106,10 +104,9 @@ class DataProviderService {
       }
       return Promise.reject(`Error during updating the article #${articleId}`);
     } catch (e) {
-      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+      if ((e as AxiosError).response.status === HttpCode.BAD_REQUEST) {
         console.error(`Invalid article`);
-        return e?.response?.data as ArticleValidationResponse;
+        return (e as AxiosError).response.data as ArticleValidationResponse;
       }
       console.error(`Error during updating the article #${articleId}`);
       return Promise.reject(`Error during updating the article #${articleId}`);
@@ -215,10 +212,9 @@ class DataProviderService {
       }
       return Promise.reject(`Error during creation the new comment`);
     } catch (e) {
-      /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-      if (e?.response?.status === HttpCode.BAD_REQUEST) {
+      if ((e as AxiosError).response.status === HttpCode.BAD_REQUEST) {
         console.error(`Invalid comment`);
-        return e?.response?.data as CommentValidationResponse;
+        return (e as AxiosError).response.data as CommentValidationResponse;
       }
       console.error(`Error during creation the new comment`);
       return Promise.reject(`Error during creation the new comment`);

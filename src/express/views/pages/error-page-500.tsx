@@ -1,11 +1,11 @@
 import React, {FunctionComponent} from "react";
 
 import {Footer} from "../components/footer/footer";
-import {Header500} from "../components/header/header-500";
 import {Layout} from "../components/layout/layout";
+import {HeaderError} from "../components/header/header-error";
 
-const ErrorPage500: FunctionComponent = ({}) => (
-  <Layout pageTitle={`Ошибка`} header={<Header500 />} wrapperMode={"error"} footer={<Footer />}>
+const ErrorPage500: FunctionComponent = () => (
+  <Layout pageTitle={`Ошибка`} header={<HeaderError type="500" />} wrapperMode={"error"} footer={<Footer />}>
     <h1 className="visually-hidden">Ошибка 500</h1>
     <section className="error error--500">
       <h2 className="error__title title title--big">Что-то пошло не так</h2>
